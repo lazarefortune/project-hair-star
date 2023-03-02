@@ -28,3 +28,6 @@ yarn-error.log
 
 .idea
 .vscode
+
+# public uploads files
+/public/uploads/
