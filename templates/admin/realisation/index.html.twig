@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Realisation index{% endblock %}
+
+{% block body %}
+    <h1>Realisation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>IsPublic</th>
+                <th>Tarif</th>
+                <th>IsTarifPublic</th>
+                <th>DateRealisation</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for realisation in realisations %}
+            <tr>
+                <td>{{ realisation.id }}</td>
+                <td>{{ realisation.isPublic ? 'Yes' : 'No' }}</td>
+                <td>{{ realisation.tarif }}</td>
+                <td>{{ realisation.isTarifPublic ? 'Yes' : 'No' }}</td>
+                <td>{{ realisation.dateRealisation ? realisation.dateRealisation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ realisation.createdAt ? realisation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}">show</a>
+                    <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_realisation_new') }}">Create new</a>
+{% endblock %}

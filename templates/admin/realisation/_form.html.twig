@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+        <h2>Image actuelle</h2>
+        <div class="row">
+            {% for image in realisation.images %}
+                <div class="col-4" id="image-realisation-{{ image.id }}">
+                    <img src="{{ asset('uploads/images/' ~ image.name) }}" alt="" class="img-fluid" width="200">
+                    <a class="" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                       data-delete-image-realisation
+                       data-token={{ csrf_token('delete' ~ image.id) }}
+                       data-id="{{ image.id }}"
+                    >Supprimer</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

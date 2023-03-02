@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Realisation{% endblock %}
+
+{% block body %}
+    <h1>Realisation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ realisation.id }}</td>
+            </tr>
+            <tr>
+                <th>IsPublic</th>
+                <td>{{ realisation.isPublic ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Tarif</th>
+                <td>{{ realisation.tarif }}</td>
+            </tr>
+            <tr>
+                <th>IsTarifPublic</th>
+                <td>{{ realisation.isTarifPublic ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DateRealisation</th>
+                <td>{{ realisation.dateRealisation ? realisation.dateRealisation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ realisation.createdAt ? realisation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_realisation_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}">edit</a>
+
+    {{ include('admin/realisation/_delete_form.html.twig') }}
+{% endblock %}

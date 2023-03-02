@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Realisation{% endblock %}
+
+{% block body %}
+    <h1>Edit Realisation</h1>
+
+    {{ include('admin/realisation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_realisation_index') }}">back to list</a>
+
+    {{ include('admin/realisation/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts__footer %}
+    <script src="{{ asset('js/realisation.js') }}"></script>
+{% endblock %}
