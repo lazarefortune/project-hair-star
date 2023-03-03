@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RealisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RealisationRepository::class)]
@@ -25,13 +26,19 @@ class Realisation
     private ?bool $isTarifPublic = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $dateRealisation = null;
+    private ?\DateTime $dateRealisation = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'realisation', targetEntity: ImageRealisation::class, orphanRemoval: true)]
     private Collection $images;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $heureDebut = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $heureFin = null;
 
     public function __construct()
     {
@@ -55,13 +62,14 @@ class Realisation
         return $this;
     }
 
-    public function getTarif(): ?int
+    public function getTarif(): ?float
     {
-        return $this->tarif;
+        return $this->tarif / 100;
     }
 
-    public function setTarif(?int $tarif): self
+    public function setTarif(?float $tarif): self
     {
+        $tarif = (int) ($tarif * 100);
         $this->tarif = $tarif;
 
         return $this;
@@ -79,12 +87,12 @@ class Realisation
         return $this;
     }
 
-    public function getDateRealisation(): ?\DateTimeImmutable
+    public function getDateRealisation(): ?\DateTime
     {
         return $this->dateRealisation;
     }
 
-    public function setDateRealisation(?\DateTimeImmutable $dateRealisation): self
+    public function setDateRealisation(?\DateTime $dateRealisation): self
     {
         $this->dateRealisation = $dateRealisation;
 
@@ -129,6 +137,30 @@ class Realisation
                 $image->setRealisation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHeureDebut(): ?\DateTimeInterface
+    {
+        return $this->heureDebut;
+    }
+
+    public function setHeureDebut(?\DateTimeInterface $heureDebut): self
+    {
+        $this->heureDebut = $heureDebut;
+
+        return $this;
+    }
+
+    public function getHeureFin(): ?\DateTimeInterface
+    {
+        return $this->heureFin;
+    }
+
+    public function setHeureFin(?\DateTimeInterface $heureFin): self
+    {
+        $this->heureFin = $heureFin;
 
         return $this;
     }

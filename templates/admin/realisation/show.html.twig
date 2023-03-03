@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Realisation{% endblock %}
 
@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Tarif</th>
-                <td>{{ realisation.tarif }}</td>
+                <td>{{ realisation.tarif|price }}</td>
             </tr>
             <tr>
                 <th>IsTarifPublic</th>
@@ -25,12 +25,20 @@
             </tr>
             <tr>
                 <th>DateRealisation</th>
-                <td>{{ realisation.dateRealisation ? realisation.dateRealisation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ realisation.dateRealisation ? realisation.dateRealisation|date_format : '' }}
+                </td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
-                <td>{{ realisation.createdAt ? realisation.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ realisation.createdAt ? realisation.createdAt|date_format : '' }}</td>
             </tr>
+
+            {% for image in realisation.images %}
+                <tr>
+                    <th>Image</th>
+                    <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="200px"></td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
