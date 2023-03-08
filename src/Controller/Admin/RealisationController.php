@@ -65,11 +65,9 @@ class RealisationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
-
             $realisationRepository->save($realisation, true);
 
-            // redirect to show page
-            return $this->redirectToRoute('app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_realisation_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/realisation/edit.html.twig', [
@@ -104,6 +102,15 @@ class RealisationController extends AbstractController
         } else {
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
+    }
+
+    #[Route('/{id}/delete-images', name: 'app_admin_realisation_delete_images', methods: ['POST'])]
+    public function deleteImagesForRealisation( Realisation $realisation, EntityManagerInterface $entityManager ) : void
+    {
+        // si le formulaire est soumis
+        // on supprime les images
+        // on supprime les entités ImageRealisation
+
     }
 
     /**

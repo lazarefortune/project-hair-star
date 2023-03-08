@@ -1,0 +1,101 @@
+//@import "bootstrap/dist/css/bootstrap.min.css";
+@import "custom";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+// ------------------------------ FONTS ------------------------------
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('../../fonts/Josefin_Sans/static/JosefinSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Pacifico';
+  src: url('../../fonts/Pacifico/Pacifico-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('../../fonts/Lato/Lato-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../../fonts/Poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../fonts/Inter/static/Inter-Regular.ttf');
+}
+// ------------------------------ BASE STYLE ------------------------------
+body {
+  font-family: 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  /*background-color: #d4c2f6;*/
+  font-size: 16px;
+  color: var(--color);
+  line-height: 1.6;
+  /*background: var(--background);*/
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+}
+// ------------------------------ COMPONENTS ------------------------------
+.card-body .media i{
+  padding: 5px;
+  font-size: 1.7rem;
+  color: #44a0ff;
+  border-radius: 50%;
+  background-color: rgba(230, 242, 255, 0.5);
+}
+
+.media{
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.media-body{
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+.card-body .media .media-body .media-info-heading{
+  font-size: 11px;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+.media-info-heading{
+  opacity: .7;
+}
+
+.card-body .media .media-body .media-info-text{
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color);
+}
+.section-subtitle{
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: var(--color);
+}
+.carousel-inner{
+  width: 100%;
+  height: 100%;
+}
+.carousel-item{
+  max-width: 100%;
+  height: 250px;
+}
+.carousel-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3%;
+}

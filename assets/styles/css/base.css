@@ -1,21 +1,26 @@
 @font-face {
     font-family: 'Josefin Sans';
-    src: url('../fonts/Josefin_Sans/static/JosefinSans-Regular.ttf');
+    src: url('../../fonts/Josefin_Sans/static/JosefinSans-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Pacifico';
-    src: url('../fonts/Pacifico/Pacifico-Regular.ttf');
+    src: url('../../fonts/Pacifico/Pacifico-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Lato';
-    src: url('../fonts/Lato/Lato-Regular.ttf');
+    src: url('../../fonts/Lato/Lato-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Poppins';
-    src: url('../fonts/Poppins/Poppins-Regular.ttf');
+    src: url('../../fonts/Poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../../fonts/Inter/static/Inter-Regular.ttf');
 }
 
 :root {
@@ -67,12 +72,12 @@
 }
 
 body {
-    font-family: 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
-    background-color: #d4c2f6;
+    font-family: 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+    /*background-color: #d4c2f6;*/
     font-size: 16px;
     color: var(--color);
     line-height: 1.6;
-    background: var(--background);
+    /*background: var(--background);*/
     scroll-margin: 100px 0 0 0;
     word-break: break-word;
 }

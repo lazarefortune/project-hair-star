@@ -22,3 +22,7 @@ body .my5 {
     border-radius: 0.25rem;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
+
+.btn-outline-secondary{
+    border: 2px solid #FF5C39 !important;
+}

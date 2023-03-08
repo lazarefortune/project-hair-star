@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class RealisationType extends AbstractType
 {
@@ -18,7 +19,7 @@ class RealisationType extends AbstractType
     {
         $builder
             ->add('isPublic', CheckboxType::class, [
-                'label' => 'Visible sur le site',
+                'label' => 'Rendre la réalisation publique',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input',
@@ -27,12 +28,12 @@ class RealisationType extends AbstractType
             ->add('tarif', NumberType::class, [
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Tarif',
+                    'class' => 'form-control form-control-tarif',
                 ],
                 'scale' => 2,
             ])
             ->add('isTarifPublic', CheckboxType::class, [
+                'label' => 'Rendre le tarif publique',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input',
@@ -41,29 +42,29 @@ class RealisationType extends AbstractType
             ->add('dateRealisation', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
+                'label' => 'Date de la réalisation',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Date de réalisation',
                 ],
             ])
             ->add('heureDebut', TimeType::class, [
+                'label' => 'Heure de début',
                 'required' => false,
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Heure de début',
                 ],
             ])
             ->add('heureFin', TimeType::class, [
+                'label' => 'Heure de fin',
                 'required' => false,
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Heure de fin',
                 ],
             ])
             ->add('images', FileType::class, [
-                'label' => 'false',
+                'label' => 'Ajoutez des images',
                 'mapped' => false,
                 'multiple' => true,
                 'required' => false,

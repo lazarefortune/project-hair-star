@@ -6,76 +6,29 @@
 
     <div class="container">
 
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12 col-md-12">
-                <div class="mb-5">
-                    <h2 class="section-title">
-                        Réalisations
-                    </h2>
-                    <p class="section-subtitle">
-                        Liste des réalisations effectuées par {{ app_name }}
-                    </p>
+                <h2 class="section-title">
+                    Réalisations
+                </h2>
+{#                    <p class="section-subtitle">#}
+{#                        Liste des réalisations effectuées par {{ app_name }}#}
+{#                    </p>#}
+                <div class="d-none d-md-block">
+                    <a href="{{ path('app_admin_realisation_new') }}" class="btn btn-primary">
+                        <i class="las la-plus"></i>
+                        Ajouter une réalisation
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            {% for realisation in realisations %}
-                <div class="col-md-4 col-12">
-                    <div class="card {{ realisation.isPublic ? 'card-active' : 'card-inactive' }}">
-                        <div class="active-icon"></div>
-
-                        <div class="card-body">
-                            <h5 class="card-title text-center">
-                                Réalisation du {{ realisation.dateRealisation|date_format }}
-                            </h5>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-clock align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Durée de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                                2h30
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% if realisation.isTarifPublic %}
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-euro-sign align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Tarif de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                                {{ realisation.tarif }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                <div class="col-12"></div>
-                            </div>
-
-                        </div>
-                        <div class="card-footer d-flex justify-content-between">
-                            <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}" class="btn btn-landing">
-                                <i class="las la-eye"></i>
-                            </a>
-                            <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}" class="btn btn-primary">
-                                <i class="las la-edit"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            {% with {'realisations': realisations} %}
+                {% include 'layouts/realisations/_list.html.twig' %}
+            {% endwith %}
         </div>
     </div>
 
 
-    <a href="{{ path('app_admin_realisation_new') }}">Create new</a>
 {% endblock %}

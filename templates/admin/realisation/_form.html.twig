@@ -1,21 +1,153 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
+<div class="col-md-10 mx-auto">
+    {{ form_start(form) }}
+    <div class="card mb-3">
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="form-check form-switch">
+                        {{ form_widget(form.isPublic) }}
+                        {{ form_label(form.isPublic) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 col-12">
+                    {{ form_row(form.dateRealisation) }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.heureDebut) }}
+                        {{ form_widget(form.heureDebut) }}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.heureFin) }}
+                        {{ form_widget(form.heureFin) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {{ form_label(form.tarif) }}
+                        <div class="input-group mb-3">
+                            {{ form_widget(form.tarif, {'attr': {'aria-describedby': 'input-group-realisation-price'}}) }}
+                            <span class="input-group-text" id="input-group-realisation-price">€</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                        <div class="form-check form-switch">
+                            {{ form_widget(form.isTarifPublic) }}
+                            {{ form_label(form.isTarifPublic) }}
+                        </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ form_row(form.images) }}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <button class="btn btn-primary">
+                    <i class="las la-save"></i>
+                    {{ button_label|default('Save') }}
+                </button>
+
+                {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRealisationModal">
+                        <i class="las la-trash"></i>
+                        Supprimer
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
 
     {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-        <h2>Image actuelle</h2>
-        <div class="row">
-            {% for image in realisation.images %}
-                <div class="col-4" id="image-realisation-{{ image.id }}">
-                    <img src="{{ asset('uploads/images/' ~ image.name) }}" alt="" class="img-fluid" width="200">
-                    <a class="" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
-                       data-delete-image-realisation
-                       data-token={{ csrf_token('delete' ~ image.id) }}
-                       data-id="{{ image.id }}"
-                    >Supprimer</a>
+        <div class="col-md-10 mx-auto mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+
+                            <table class="table sortable">
+                                <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>
+                                        <input type="checkbox" name="image[delete]" value="delete" id="checkAllImage">
+                                    </th>
+                                    <th>Ordre</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}" method="post">
+                                    {% for image in realisation.images %}
+                                        {#                        <tr>#}
+                                        <tr draggable="true" rel="{{ realisation.id }}" id="image-realisation-{{ image.id }}">
+                                            <td>
+                                                <i class="las la-arrows-alt"></i>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}" class="checkImage">
+                                            </td>
+                                            <td>
+                                                {{ image.id }}
+                                                {#                                <input type="number" name="image[{{ image.id }}][ordre]" value="{{ image.id }}">#}
+                                            </td>
+                                            <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td>
+                                            <td>
+                                                <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                                   data-delete-image-realisation
+                                                   data-token={{ csrf_token('delete' ~ image.id) }}
+                                                   data-id="{{ image.id }}"
+                                                >
+                                                    <i class="las la-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </form>
+                                {#                {% for image in realisation.images %}#}
+                                {#                    <tr>#}
+                                {#                        <td>#}
+                                {#                            <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}">#}
+                                {#                        </td>#}
+                                {#                        <td>{{ image.id }}</td>#}
+                                {#                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td>#}
+                                {#                        <td>#}
+                                {#                            <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"#}
+                                {#                               data-delete-image-realisation#}
+                                {#                               data-token={{ csrf_token('delete' ~ image.id) }}#}
+                                {#                               data-id="{{ image.id }}"#}
+                                {#                            >#}
+                                {#                                <i class="las la-trash"></i>#}
+                                {#                            </a>#}
+                                {#                        </td>#}
+                                {#                    </tr>#}
+                                {#                {% endfor %}#}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
     {% endif %}
 
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+

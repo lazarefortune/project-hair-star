@@ -31,3 +31,6 @@ yarn-error.log
 
 # public uploads files
 /public/uploads/*
+
+.DS_Store
+assets/.DS_Store

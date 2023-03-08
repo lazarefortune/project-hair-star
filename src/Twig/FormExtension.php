@@ -3,6 +3,7 @@ namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class FormExtension extends AbstractExtension
 {
@@ -11,6 +12,13 @@ class FormExtension extends AbstractExtension
         return [
             new TwigFilter('date_format', [$this, 'dateFormat']),
             new TwigFilter('price', [$this, 'formatPrice']),
+        ];
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('calculate_duration', [$this, 'calculateDuration']),
         ];
     }
 
@@ -23,5 +31,26 @@ class FormExtension extends AbstractExtension
     public function dateFormat(\DateTimeInterface $date, string $format = 'd/m/Y'): string
     {
         return $date->format($format);
+    }
+
+    public function calculateDuration(\DateTimeInterface $start, \DateTimeInterface $end): string
+    {
+        $duration = $start->diff($end);
+        $hours = $duration->h;
+        $minutes = $duration->i;
+
+        if ($hours > 0) {
+            $hours = $hours . ' h ';
+        } else {
+            $hours = '';
+        }
+
+        if ($minutes > 0) {
+            $minutes = $minutes . ' min';
+        } else {
+            $minutes = '';
+        }
+
+        return $hours . $minutes;
     }
 }

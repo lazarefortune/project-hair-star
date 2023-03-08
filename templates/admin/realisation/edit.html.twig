@@ -1,17 +1,38 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'admin/layouts/card.html.twig' %}
 
-{% block title %}Edit Realisation{% endblock %}
+{% block actions %}
+    <a href="{{ path('app_admin_realisation_index') }}" class="btn btn-primary">{{ icon('arrow-left') }} Retour</a>
+{% endblock %}
 
-{% block body %}
-    <h1>Edit Realisation</h1>
+{% block card_title %}
+    {{ icon('pen') }}
+    Editer la réalisation
+{% endblock %}
 
-    {{ include('admin/realisation/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_admin_realisation_index') }}">back to list</a>
-
-    {{ include('admin/realisation/_delete_form.html.twig') }}
+{% block content %}
+    {{ include('admin/realisation/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 {% endblock %}
 
 {% block javascripts__footer %}
     <script src="{{ asset('js/realisation.js') }}"></script>
+    <script>
+        const checkAllImage = document.getElementById('checkAllImage');
+
+        checkAllImage.addEventListener('click', function () {
+            const images = document.querySelectorAll('.checkImage');
+            images.forEach(image => {
+                image.checked = checkAllImage.checked;
+            })
+        })
+
+        // Traitement de l'heure de début et de fin
+        const heureDebut = document.getElementById('realisation_heureDebut');
+        const heureFin = document.getElementById('realisation_heureFin');
+
+        heureFin.min = heureDebut.value;
+
+        heureDebut.addEventListener('change', function () {
+            heureFin.min = heureDebut.value;
+        })
+    </script>
 {% endblock %}

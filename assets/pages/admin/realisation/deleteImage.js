@@ -11,6 +11,7 @@ window.onload = () => {
 
             let imageId = link.dataset.id;
             let image = document.querySelector('#image-realisation-' + imageId);
+
             let url = link.href;
             let token = link.dataset.token;
 
@@ -24,7 +25,6 @@ window.onload = () => {
                 body: JSON.stringify({"_token": token})
             }).then(
                 response => response.json()
-                // response => console.log(response.json())
             ).then((data) => {
                 if (data.success) {
                     image.remove();
