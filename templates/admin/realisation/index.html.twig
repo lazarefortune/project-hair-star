@@ -1,4 +1,4 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Realisation index{% endblock %}
 
@@ -11,9 +11,6 @@
                 <h2 class="section-title">
                     Réalisations
                 </h2>
-{#                    <p class="section-subtitle">#}
-{#                        Liste des réalisations effectuées par {{ app_name }}#}
-{#                    </p>#}
                 <div class="d-none d-md-block">
                     <a href="{{ path('app_admin_realisation_new') }}" class="btn btn-primary">
                         <i class="las la-plus"></i>

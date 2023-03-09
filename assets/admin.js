@@ -1,5 +1,5 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import './styles/scss/app_admin.scss'
+import './styles/scss/admin.scss'
 
 import './pages/index.js'
 
