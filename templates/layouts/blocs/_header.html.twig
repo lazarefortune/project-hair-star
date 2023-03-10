@@ -1,31 +1,45 @@
-<header class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand navbar-logo" href="{{ path('app_home') }}"> {{ app_name }} </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Prestations</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Tarifs</a>
-        </li>
-      </ul>
-    </div>
+{#<header class="navbar navbar-expand-lg navbar-light bg-light">#}
+{#  <div class="container-fluid">#}
+{#    <a class="navbar-brand navbar-logo" href="{{ path('app_home') }}"> {{ app_name }} </a>#}
+{#    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{#      <span class="navbar-toggler-icon"></span>#}
+{#    </button>#}
+{#    <div class="collapse navbar-collapse" id="navbarNav">#}
+{#      <ul class="navbar-nav">#}
+{#        <li class="nav-item">#}
+{#          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>#}
+{#        </li>#}
+{#        <li class="nav-item">#}
+{#          <a class="nav-link" href="">Prestations</a>#}
+{#        </li>#}
+{#        <li class="nav-item">#}
+{#          <a class="nav-link" href="">Tarifs</a>#}
+{#        </li>#}
+{#      </ul>#}
+{#    </div>#}
 
-    <div class="d-flex">
-      {% if app.user %}
-        <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</a>
-      {% else %}
-        <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Connexion</a>
-        <a class="btn btn-primary ms-2" href="{{ path('app_register') }}">Inscription</a>
-      {% endif %}
-    </div>
+{#    <div class="d-flex">#}
+{#      {% if app.user %}#}
+{#        <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Déconnexion</a>#}
+{#      {% else %}#}
+{#        <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Connexion</a>#}
+{#        <a class="btn btn-primary ms-2" href="{{ path('app_register') }}">Inscription</a>#}
+{#      {% endif %}#}
+{#    </div>#}
 
-  </div>
-</header>
+{#  </div>#}
+{#</header>#}
+
+<nav class="navbar">
+  <div class="navbar-overlay" onclick="toggleMenuOpen()"></div>
+
+  <button type="button" class="navbar-burger" onclick="toggleMenuOpen()">
+    <span class="material-icons">menu</span>
+  </button>
+  <h1 class="navbar-title">Awards</h1>
+  <nav class="navbar-menu">
+    <button type="button">Skills</button>
+    <button type="button" class="active">Awards</button>
+    <button type="button">Projects</button>
+  </nav>
+</nav>
