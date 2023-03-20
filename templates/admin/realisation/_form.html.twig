@@ -1,39 +1,65 @@
 <div class="col-md-10 mx-auto">
     {{ form_start(form) }}
-    <div class="card mb-3">
+    <div class="card p-0 p-md-5 p-lg-4 mb-3">
 
         <div class="card-body">
 
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <div class="form-check form-switch">
-                        {{ form_widget(form.isPublic) }}
+                    <div class="form-group">
                         {{ form_label(form.isPublic) }}
+                        {{ form_widget(form.isPublic) }}
                     </div>
                 </div>
             </div>
-
             <div class="row mb-3">
-                <div class="col-md-4 col-12">
-                    {{ form_row(form.dateRealisation) }}
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        {{ form_label(form.dateRealisation) }}
+                        <div class="flatpickr-date-wrap flatpickr-wrap">
+                            {{ form_widget(form.dateRealisation, {'attr': {'placeholder': 'Choisir une date...', 'data-input': 'true'}}) }}
+                            <a class="input-button" title="toggle" data-toggle>
+                                <i class="las la-calendar"></i>
+                            </a>
+                            <a class="input-button-clear" title="clear" data-clear>
+                                <i class="las la-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-4">
+            <div class="row mb-0 mb-md-3 mb-lg-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         {{ form_label(form.heureDebut) }}
-                        {{ form_widget(form.heureDebut) }}
+                        <div class="flatpickr-time-wrap flatpickr-wrap">
+                            {{ form_widget(form.heureDebut, {'attr': {'placeholder': '', 'data-input': 'true'}}) }}
+                            <a class="input-button" title="toggle" data-toggle>
+                                <i class="las la-clock"></i>
+                            </a>
+                            <a class="input-button-clear" title="clear" data-clear>
+                                <i class="las la-times-circle"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 mb-lg-0">
                     <div class="form-group">
                         {{ form_label(form.heureFin) }}
-                        {{ form_widget(form.heureFin) }}
+                        <div class="flatpickr-time-wrap flatpickr-wrap">
+                            {{ form_widget(form.heureFin, {'attr': {'placeholder': '', 'data-input': 'true'}}) }}
+                            <a class="input-button" title="toggle" data-toggle>
+                                <i class="las la-clock"></i>
+                            </a>
+                            <a class="input-button-clear" title="clear" data-clear>
+                                <i class="las la-times-circle"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         {{ form_label(form.tarif) }}
                         <div class="input-group mb-3">
@@ -44,29 +70,34 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-4">
-                        <div class="form-check form-switch">
-                            {{ form_widget(form.isTarifPublic) }}
-                            {{ form_label(form.isTarifPublic) }}
-                        </div>
+                <div class="col-md-12">
+                    <div class="form-check form-switch form-group">
+                        {{ form_label(form.isTarifPublic) }}
+                        {{ form_widget(form.isTarifPublic) }}
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-12">
-                    {{ form_row(form.images) }}
+                    <div class="form-group">
+                        {{ form_row(form.images) }}
+                    </div>
                 </div>
             </div>
 
             <div class="d-flex justify-content-between mb-2">
                 <button class="btn btn-primary">
-                    <i class="las la-save"></i>
-                    {{ button_label|default('Save') }}
+                    {{ icon('save', 'lg') }}
+                    <span class="d-none d-sm-inline">
+                        Enregistrer
+                    </span>
                 </button>
 
                 {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRealisationModal">
-                        <i class="las la-trash"></i>
-                        Supprimer
+                    <button type="button" class="btn btn-danger-alt" data-bs-toggle="modal"
+                            data-bs-target="#deleteRealisationModal">
+                        <i class="las la-trash la-lg"></i>
+                        <span class="d-none d-sm-inline">Supprimer</span>
                     </button>
                 {% endif %}
             </div>
@@ -75,79 +106,106 @@
     {{ form_end(form) }}
 </div>
 
-    {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-        <div class="col-md-10 mx-auto mt-4">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-12">
+{% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+<!-- Modal delete realisation -->
+<div class="modal fade" id="deleteRealisationModal" tabindex="-1" aria-labelledby="deleteRealisationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer la réalisation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer cette réalisation ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Annuler</button>
+                {{ include('admin/realisation/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
-                            <table class="table sortable">
-                                <thead>
-                                <tr>
-                                    <th>&nbsp;</th>
-                                    <th>
-                                        <input type="checkbox" name="image[delete]" value="delete" id="checkAllImage">
-                                    </th>
-                                    <th>Ordre</th>
-                                    <th>Image</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}" method="post">
-                                    {% for image in realisation.images %}
-                                        {#                        <tr>#}
-                                        <tr draggable="true" rel="{{ realisation.id }}" id="image-realisation-{{ image.id }}">
-                                            <td>
-                                                <i class="las la-arrows-alt"></i>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}" class="checkImage">
-                                            </td>
-                                            <td>
-                                                {{ image.id }}
-                                                {#                                <input type="number" name="image[{{ image.id }}][ordre]" value="{{ image.id }}">#}
-                                            </td>
-                                            <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td>
-                                            <td>
-                                                <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
-                                                   data-delete-image-realisation
-                                                   data-token={{ csrf_token('delete' ~ image.id) }}
-                                                   data-id="{{ image.id }}"
-                                                >
-                                                    <i class="las la-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </form>
-                                {#                {% for image in realisation.images %}#}
-                                {#                    <tr>#}
-                                {#                        <td>#}
-                                {#                            <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}">#}
-                                {#                        </td>#}
-                                {#                        <td>{{ image.id }}</td>#}
-                                {#                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td>#}
-                                {#                        <td>#}
-                                {#                            <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"#}
-                                {#                               data-delete-image-realisation#}
-                                {#                               data-token={{ csrf_token('delete' ~ image.id) }}#}
-                                {#                               data-id="{{ image.id }}"#}
-                                {#                            >#}
-                                {#                                <i class="las la-trash"></i>#}
-                                {#                            </a>#}
-                                {#                        </td>#}
-                                {#                    </tr>#}
-                                {#                {% endfor %}#}
-                                </tbody>
+{% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+    <div class="col-md-10 mx-auto mt-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-12">
 
-                            </table>
-                        </div>
+                        <table class="table sortable">
+                            <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>
+                                    <input type="checkbox" name="image[delete]" value="delete" id="checkAllImage">
+                                </th>
+                                <th>Ordre</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}"
+                                  method="post">
+                                {% for image in realisation.images %}
+                                    {#                        <tr> #}
+                                    <tr draggable="true" rel="{{ realisation.id }}"
+                                        id="image-realisation-{{ image.id }}">
+                                        <td>
+                                            <i class="las la-arrows-alt"></i>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="image[{{ image.id }}][delete]"
+                                                   value="{{ image.id }}" class="checkImage">
+                                        </td>
+                                        <td>
+                                            {{ image.id }}
+                                            {#                                <input type="number" name="image[{{ image.id }}][ordre]" value="{{ image.id }}"> #}
+                                        </td>
+                                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}"
+                                                 alt="{{ image.name }}" width="50"></td>
+                                        <td>
+                                            <a class="btn btn-danger"
+                                               href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                               data-delete-image-realisation
+                                               data-token={{ csrf_token('delete' ~ image.id) }}
+                                               data-id="{{ image.id }}"
+                                            >
+                                                <i class="las la-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </form>
+                            {#                {% for image in realisation.images %} #}
+                            {#                    <tr> #}
+                            {#                        <td> #}
+                            {#                            <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}"> #}
+                            {#                        </td> #}
+                            {#                        <td>{{ image.id }}</td> #}
+                            {#                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td> #}
+                            {#                        <td> #}
+                            {#                            <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}" #}
+                            {#                               data-delete-image-realisation #}
+                            {#                               data-token={{ csrf_token('delete' ~ image.id) }} #}
+                            {#                               data-id="{{ image.id }}" #}
+                            {#                            > #}
+                            {#                                <i class="las la-trash"></i> #}
+                            {#                            </a> #}
+                            {#                        </td> #}
+                            {#                    </tr> #}
+                            {#                {% endfor %} #}
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    {% endif %}
+    </div>
+{% endif %}
 
 

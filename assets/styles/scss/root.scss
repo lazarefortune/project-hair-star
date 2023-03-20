@@ -1,6 +1,10 @@
 //@import "bootstrap/dist/css/bootstrap.min.css";
 @import "custom";
 @import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "custom-bootstrap";
+/*==================== DATE PICKER ====================*/
+@import "libs/datepicker";
+@import "libs/flatpickr";
 // ------------------------------ FONTS ------------------------------
 @font-face {
   font-family: 'Josefin Sans';
@@ -30,10 +34,10 @@
 body {
   font-family: 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
   /*background-color: #d4c2f6;*/
+  background-color: #ffffff;
   font-size: 16px;
   color: var(--color);
   line-height: 1.6;
-  /*background: var(--background);*/
   scroll-margin: 100px 0 0 0;
   word-break: break-word;
 }
@@ -44,10 +48,10 @@ body {
 // ------------------------------ COMPONENTS ------------------------------
 .card-body .media i{
   padding: 5px;
-  font-size: 1.7rem;
-  color: #44a0ff;
+  font-size: 1.5rem;
+  color: var(--color-primary);
   border-radius: 50%;
-  background-color: rgba(230, 242, 255, 0.5);
+  background-color: var(--color-primary-ghost);
 }
 
 .media{
@@ -73,12 +77,32 @@ body {
   font-weight: 400;
   margin-bottom: 0;
 }
+/*==================== SECTIONS ====================*/
 .section-title {
-  font-size: 1.5rem;
+  font-size: var(--h2-font-size);
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--color);
 }
+.section-title span {
+  color: var(--color-primary);
+}
+.section-title .section-title-underline {
+  width: 4rem;
+  height: 0.25rem;
+  background-color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 0.25rem;
+  background-color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+
 .section-subtitle{
   font-size: 1rem;
   font-weight: 400;
@@ -99,3 +123,4 @@ body {
   object-fit: cover;
   border-radius: 3%;
 }
+

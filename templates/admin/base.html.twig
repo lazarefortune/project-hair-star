@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - {{ app_name }}</title>
+    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
 
@@ -29,21 +29,31 @@
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('admin') }}
+        {{ encore_entry_link_tags('js-datepicker') }}
     {% endblock %}
 
     {% block javascripts %}
         {{ encore_entry_script_tags('admin') }}
+        {{ encore_entry_script_tags('js-datepicker') }}
     {% endblock %}
 </head>
 <body>
 
 
+{% include 'layouts/blocs/_header.html.twig' %}
 <div class="page-wrapper">
-    {% include 'layouts/blocs/_header.html.twig' %}
-
-    {% block body %}{% endblock %}
+{#    {% include 'admin/partials/_sidebar.html.twig' %}#}
+    <div class="page-content">
+        <div class="container-fluid mt-5">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
 </div>
 
 {% block javascripts__footer %}{% endblock %}
+
+<script type="text/javascript">
+    const toggleMenuOpen = () => document.body.classList.toggle("open");
+</script>
 </body>
 </html>

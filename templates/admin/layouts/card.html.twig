@@ -2,23 +2,21 @@
 
 {% block body %}
 
-    <div class="stack" style="--gap:1">
-
-        <div class="d-flex mb1">
-            <h1 class="dashboard-title">
+    <div class="dashboard-card">
+        <div class="dashboard-header">
+            <h1 class="dashboard-header-title">
                 {% block card_title '' %}
             </h1>
-            <aside class="hstack" style="--gap:1;">
+            <aside class="dashboard-header-actions">
                 {% block actions '' %}
             </aside>
         </div>
 
         {% include 'partials/flash.html.twig' %}
 
-        <div class="dashboard-card stack-large">
+        <div class="dashboard-card-body">
             {% block content '' %}
         </div>
-
     </div>
 
 {% endblock %}

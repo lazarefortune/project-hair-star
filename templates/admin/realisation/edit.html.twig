@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block javascripts__footer %}
-    <script src="{{ asset('js/realisation.js') }}"></script>
+    {{ parent() }}
     <script>
         const checkAllImage = document.getElementById('checkAllImage');
 

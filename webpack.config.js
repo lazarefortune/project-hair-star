@@ -24,6 +24,8 @@ Encore
 
     .addEntry('admin', './assets/admin.js')
 
+    .addEntry('js-datepicker', './assets/js/js-datepicker.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

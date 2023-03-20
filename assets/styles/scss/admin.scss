@@ -1,4 +1,49 @@
 @import "root";
 // blocs
 @import "admin/blocs/_header.scss";
+@import "admin/blocs/_container.scss";
 
+@import "admin/index.scss";
+
+.accordion-header {
+  background: #f2f2f2;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.accordion-header:hover {
+  background-color: #ddd;
+}
+
+.accordion-header i {
+  margin-right: 10px;
+  font-weight: 900;
+  border-radius: 10%;
+  padding: 2px;
+  color: #44a0ff;
+  background-color: rgba(230, 242, 255, 0.5);
+}
+
+.accordion-content {
+    padding: 0 18px;
+    background-color: #f1f1f1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.accordion-list {
+  display: inline-block;
+  font-size: 15px;
+}
+
+.accordion-header.active {
+  background-color: #b4e5f4;
+}
