@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="`fr`">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
@@ -39,21 +41,129 @@
 </head>
 <body>
 
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow shadow-md fixed-top">
+    <div class="container-fluid">
+        <!-- Offcanvas button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+                aria-controls="offcanvasExample">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- End of Offcanvas button -->
+        <!-- Navbar brand -->
+        <a class="navbar-brand fw-bold text-uppercase me-auto ms-2" href="#">CDiscovery</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex ms-auto" role="search">
+                <div class="input-group my-3 my-lg-0">
+                    <input type="text" name="search" id="researchBar" class="form-control" placeholder="Rechercher"
+                           aria-label="Rechercher" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i
+                                class="fas fa-search"></i></button>
+                </div>
+            </form>
 
-{% include 'layouts/blocs/_header.html.twig' %}
-<div class="page-wrapper">
-{#    {% include 'admin/partials/_sidebar.html.twig' %}#}
-    <div class="page-content">
-        <div class="container-fluid mt-5">
-            {% block body %}{% endblock %}
+            <ul class="navbar-nav ms-2 mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="las la-bell"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Mon compte</a></li>
+                        <li><a class="dropdown-item" href="#">Paramètres</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="offcanvasExample"
+     aria-labelledby="offcanvasExampleLabel">
+    <!--        <div class="offcanvas-header">-->
+    <!--            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>-->
+    <!--            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
+    <!--        </div>-->
+    <div class="offcanvas-body p-0">
+        <div class="navbar">
+            <div class="navbar-nav">
+                <li>
+                    <div class="text-muted small fw-bold text-uppercase px-3">
+                        Core
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-3 active">
+                        <span class="me-2"><i class="fas fa-tachometer-alt"></i></span>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-3">
+                        <span class="me-2"><i class="fas fa-users"></i></span>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-3">
+                        <span class="me-2"><i class="fas fa-cog"></i></span>
+                        <span>Paramètres</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="text-muted small fw-bold text-uppercase px-3 mt-4">
+                        Addons
+                    </div>
+                </li>
+            </div>
         </div>
     </div>
 </div>
+<!-- End Offcanvas -->
+
+<!-- Main -->
+<main class="mt-5 pt-3">
+    <div class="container-fluid">
+
+        <!-- Breadcrumbs -->
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Tableau de bord</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Utilisateurs</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- End of Breadcrumbs -->
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-12">
+                <h1>Tableau de bord</h1>
+                <p class="text-gray-500">Bienvenue sur le tableau de bord</p>
+            </div>
+        </div>
+        <!-- End of Page Heading -->
+
+        <!-- Content -->
+        {% block body %}{% endblock %}
+        <!-- End Content -->
+    </div>
+</main>
+<!-- End Main -->
 
 {% block javascripts__footer %}{% endblock %}
-
-<script type="text/javascript">
-    const toggleMenuOpen = () => document.body.classList.toggle("open");
-</script>
 </body>
 </html>
