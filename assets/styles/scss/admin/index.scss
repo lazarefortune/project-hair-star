@@ -101,15 +101,23 @@
   --topNavbar-height: 56px;
 }
 
+.header-navbar{
+  height: var(--topNavbar-height);
+}
+
 .sidebar-nav{
   width: var(--offcanvas-width) !important;
 }
 
+//
 @media (min-width: 992px) {
   body{
     overflow: auto !important;
   }
   main{
+    margin-left: var(--offcanvas-width) !important;
+  }
+  .app-footer{
     margin-left: var(--offcanvas-width) !important;
   }
   .offcanvas-backdrop::before{
