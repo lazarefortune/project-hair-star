@@ -14,7 +14,7 @@
 {% block content %}
     <div class="row">
         {% for realisation in realisations %}
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                 <div class="card {{ realisation.isPublic ? 'card-active' : 'card-inactive' }}">
                     <div class="card-images">
                         <div id="carouselIndicators{{ realisation.id }}" class="carousel slide" data-bs-ride="carousel">
@@ -67,7 +67,7 @@
                                                 Tarif de la prestation
                                             </p>
                                             <p class="media-info-text mb-0">
-                                                {{ realisation.tarif }}
+                                                {{ realisation.tarif }} €
                                             </p>
                                         </div>
                                     </div>
@@ -109,60 +109,7 @@
 {#            {{ knp_pagination_render(realisations) }}#}
         </div>
     </div>
-
-    <div class="row col-12">
-        <div class="col-12">
-            <div class="accordion-container">
-                <div class="accordion-header">
-                    <span class="accordion-icon">{{ icon("lock") }}</span>
-                    Qu'est-ce qu'un régime alimentaire ?
-                </div>
-                <div class="accordion-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget tellus eget ex gravida fringilla.
-                    Pellentesque semper augue ac nunc viverra, sit amet aliquam odio hendrerit. Mauris tempus at risus.
-                </div>
-
-                <div class="accordion-header">
-                    {{ icon("lock") }}
-                    Pourquoi suivre un régime alimentaire ?
-                </div>
-                <div class="accordion-content">Duis scelerisque lectus ipsum, in laoreet diam feugiat id. Integer dapibus mauris
-                    justo, vel feugiat elit facilisis non. Maecenas ac eros eu arcu volutpat congue vel ut massa. Pellentesque
-                    habitant.
-                </div>
-
-            </div>
-        </div>
-    </div>
 {% endblock %}
-
-{#{% block body %}#}
-
-{#    <div class="container">#}
-
-{#        <div class="row mb-4">#}
-{#            <div class="col-12 col-md-12">#}
-{#                <h2 class="section-title">#}
-{#                    Réalisations#}
-{#                </h2>#}
-{#                <div class="d-none d-md-block">#}
-{#                    <a href="{{ path('app_admin_realisation_new') }}" class="btn btn-primary">#}
-{#                        {{ icon('cut', 20) }}#}
-{#                        Nouvelle réalisation#}
-{#                    </a>#}
-{#                    <a href="" class="btn btn-primary-alt">#}
-{#                        Voir sur le site#}
-{#                    </a>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <div class="row">#}
-{#            {% with {'realisations': realisations} %}#}
-{#                {% include 'layouts/realisations/_list.html.twig' %}#}
-{#            {% endwith %}#}
-{#        </div>#}
-{#    </div>#}
 
 
 {#{% endblock %}#}
