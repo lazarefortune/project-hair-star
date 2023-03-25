@@ -30,7 +30,7 @@
 .offcanvas-body .navbar-nav .nav-item{
   padding: 0.5rem 1rem !important;
   border-radius: 0.25rem !important;
-  font-size: 1.1rem !important;
+  font-size: 1rem !important;
   font-weight: 800 !important;
 }
 
@@ -49,9 +49,18 @@
   color: var(--color-base-100) !important;
 }
 
-.offcanvas-body .navbar-nav .nav-item .nav-link .nav-icon{
-  font-size: 1.5rem !important;
-  margin-right: 1rem !important;
+.offcanvas-body .navbar-nav .nav-item .nav-link .nav-icon i{
+  padding: 5px;
+  font-size: 1.5rem;
+  align-self: center;
+  color: var(--color-primary);
+  border-radius: 50%;
+  background-color: var(--color-primary-ghost);
+}
+
+.offcanvas-body .navbar-nav .nav-item.active .nav-link .nav-icon i{
+  color: var(--color-base-100);
+  background-color: var(--color-primary);
 }
 
 @media (min-width: 992px) {
