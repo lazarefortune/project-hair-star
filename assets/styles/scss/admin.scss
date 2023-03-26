@@ -1,99 +1,103 @@
 @import "root";
 
-/* ========== Template CSS ========== */
-:root{
-  --offcanvas-width: 270px;
-  --topNavbar-height: 56px;
-  --footerNavbar-height: 56px;
-}
+/* ========== Template SCSS ========== */
+$offcanvas-width: 270px;
+$topNavbar-height: 56px;
+$footerNavbar-height: 56px;
 
-body{
+body {
   background-color: #f5f5f5 !important;
 }
 
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-.sidebar-nav{
-  width: var(--offcanvas-width) !important;
-  top: var(--topNavbar-height) !important;
+.sidebar-nav {
+  width: $offcanvas-width !important;
+    top: 0 !important;
 }
 
-.app-navbar{
+.app-navbar {
   //z-index: 10 !important;
 }
 
-.app-main{
-  margin-top: var(--topNavbar-height) !important;
+.app-main {
+  margin-top: $topNavbar-height !important;
   padding: .5rem .5rem 0 .5rem !important;
-  min-height: calc(100vh - var(--topNavbar-height) - var(--footerNavbar-height)) !important;
+  min-height: calc(100vh - #{$topNavbar-height} - #{$footerNavbar-height}) !important;
 }
 
-.app-footer{
+.app-footer {
   padding: 1rem !important;
-  height: var(--footerNavbar-height) !important;
+  height: $footerNavbar-height !important;
 }
 
-.offcanvas-body .navbar-nav .nav-item{
-  padding: 0.5rem 1rem !important;
-  border-radius: 0.25rem !important;
-  font-size: 1rem !important;
-}
+.offcanvas-body {
+  .navbar-nav {
+    .nav-item {
+      padding: 0.5rem 1rem !important;
+      border-radius: 0.25rem !important;
+      font-size: 1rem !important;
+      &:hover {
+        background-color: var(--color-primary) !important;
+        color: var(--color-base-100) !important;
+      }
 
-.offcanvas-body .navbar-nav .nav-item:hover{
-  background-color: var(--color-primary) !important;
-  color: var(--color-base-100) !important;
-}
+      &.active {
+        color: var(--color-primary) !important;
+        background-color: var(--color-primary-ghost) !important;
 
-.offcanvas-body .navbar-nav .nav-item.active{
-  color: var(--color-primary) !important;
-  background-color: var(--color-primary-ghost) !important;
-}
+        &:hover {
+          background-color: var(--color-primary) !important;
+          color: var(--color-base-100) !important;
+        }
+      }
 
-.offcanvas-body .navbar-nav .nav-item.active:hover{
-  background-color: var(--color-primary) !important;
-  color: var(--color-base-100) !important;
-}
+      .nav-link {
+        .nav-icon {
+          i {
+            padding: 5px;
+            font-size: 1.5rem;
+            align-self: center;
+            color: var(--color-primary);
+            border-radius: 50%;
+            background-color: var(--color-primary-ghost);
+          }
+        }
 
-.offcanvas-body .navbar-nav .nav-item .nav-link .nav-icon i{
-  padding: 5px;
-  font-size: 1.5rem;
-  align-self: center;
-  color: var(--color-primary);
-  border-radius: 50%;
-  background-color: var(--color-primary-ghost);
-}
-
-.offcanvas-body .navbar-nav .nav-item.active .nav-link .nav-icon i{
-  color: var(--color-base-100);
-  background-color: var(--color-primary);
-}
-
-.offcanvas-body .navbar-nav .nav-item .nav-link .nav-text{
-  font-size: 1rem;
-  font-weight: 500;
+        .nav-text {
+          font-size: 1rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
 }
 
 @media (min-width: 992px) {
-  body{
+  body {
     overflow: auto !important;
   }
-  .app-main{
-    margin-left: var(--offcanvas-width) !important;
+
+  .app-main {
+    margin-left: $offcanvas-width !important;
     padding: 1rem 1rem 0 1rem !important;
   }
-  .app-footer{
-    margin-left: var(--offcanvas-width) !important;
+
+  .app-footer {
+    margin-left: $offcanvas-width !important;
   }
-  .offcanvas-backdrop::before{
+
+  .offcanvas-backdrop::before {
     display: none !important;
   }
-  .sidebar-nav{
+
+  .sidebar-nav {
     transform: none !important;
     visibility: visible !important;
-    top: var(--topNavbar-height) !important;
-    height: calc(100% - var(--topNavbar-height)) !important;
+    top: $topNavbar-height !important;
+    height: calc(100% - #{$topNavbar-height}) !important;
     z-index: 1 !important;
   }
 }
