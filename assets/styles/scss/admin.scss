@@ -7,13 +7,21 @@
   --footerNavbar-height: 56px;
 }
 
+body{
+  background-color: #f5f5f5 !important;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-weight: 700;
+}
+
 .sidebar-nav{
   width: var(--offcanvas-width) !important;
   top: var(--topNavbar-height) !important;
 }
 
 .app-navbar{
-  z-index: 10000 !important;
+  //z-index: 10 !important;
 }
 
 .app-main{
@@ -31,7 +39,6 @@
   padding: 0.5rem 1rem !important;
   border-radius: 0.25rem !important;
   font-size: 1rem !important;
-  font-weight: 800 !important;
 }
 
 .offcanvas-body .navbar-nav .nav-item:hover{
@@ -63,6 +70,11 @@
   background-color: var(--color-primary);
 }
 
+.offcanvas-body .navbar-nav .nav-item .nav-link .nav-text{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 @media (min-width: 992px) {
   body{
     overflow: auto !important;
@@ -82,5 +94,6 @@
     visibility: visible !important;
     top: var(--topNavbar-height) !important;
     height: calc(100% - var(--topNavbar-height)) !important;
+    z-index: 1 !important;
   }
 }

@@ -3,13 +3,23 @@
 {% block body %}
 
     <div class="dashboard-card">
-        <div class="dashboard-header">
-            <h1 class="dashboard-header-title">
-                {% block card_title '' %}
-            </h1>
-            <aside class="dashboard-header-actions">
-                {% block actions '' %}
-            </aside>
+{#        <div class="dashboard-header">#}
+{#            <h1 class="dashboard-header-title">#}
+{#                {% block card_title '' %}#}
+{#            </h1>#}
+{#            <aside class="dashboard-header-actions">#}
+{#                {% block actions '' %}#}
+{#            </aside>#}
+{#        </div>#}
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between mb-4">
+                <h1 class="dashboard-header-title">
+                    {% block card_title '' %}
+                </h1>
+                <aside class="dashboard-header-actions">
+                    {% block actions '' %}
+                </aside>
+            </div>
         </div>
 
         {% include 'partials/flash.html.twig' %}

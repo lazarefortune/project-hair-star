@@ -1,12 +1,11 @@
 {% extends 'admin/layouts/card.html.twig' %}
 
 {% block actions %}
-    <a href="{{ path('app_admin_realisation_index') }}" class="btn btn-primary">{{ icon('arrow-left') }} Retour</a>
+    <a href="{{ path('app_admin_realisation_index') }}" class="btn btn-secondary">Annuler</a>
 {% endblock %}
 
 {% block card_title %}
-    {{ icon('pen') }}
-    Editer la réalisation
+    Réalisation : {{ realisation.dateRealisation|date('d/m/Y') }}
 {% endblock %}
 
 {% block content %}

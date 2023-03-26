@@ -38,7 +38,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light shadow shadow-sm fixed-top app-navbar">
+    <nav class="navbar navbar-expand-lg bg-light shadow shadow-md fixed-top app-navbar">
         <div class="container-fluid">
             <!-- Offcanvas button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#appOffcanvas"
@@ -104,13 +104,13 @@
     <!-- End of Navbar -->
 
     <!-- Offcanvas -->
-    <div class="offcanvas offcanvas-start bg-light border-end-0 sidebar-nav" tabindex="-1" id="appOffcanvas" aria-labelledby="appOffcanvasLabel">
+    <div class="offcanvas offcanvas-start border-end-0 sidebar-nav" tabindex="-1" id="appOffcanvas" aria-labelledby="appOffcanvasLabel">
 
         <div class="offcanvas-body">
             <nav class="navbar-light offcanvas-nav">
                 <ul class="navbar-nav">
                     <li class="nav-item {{ menu_active('app_admin_home') }}">
-                        <a class="nav-link " href="{{ path('app_admin_home') }}">
+                        <a class="nav-link d-flex align-items-center justify-content-start" href="{{ path('app_admin_home') }}">
                             <span class="nav-icon me-2">
                                 {{ icon('home', '2x') }}
                             </span>
@@ -118,7 +118,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link d-flex align-items-center justify-content-start" href="#">
                             <span class="nav-icon me-2">
                                 {{ icon('users', '2x') }}
                             </span>
@@ -126,7 +126,7 @@
                         </a>
                     </li>
                     <li class="nav-item {{ menu_active('app_admin_realisation_index') }}">
-                        <a class="nav-link" href="{{ path('app_admin_realisation_index') }}">
+                        <a class="nav-link d-flex align-items-center justify-content-start" href="{{ path('app_admin_realisation_index') }}">
                             <span class="nav-icon me-2">
                                 {{ icon('cut', '2x') }}
                             </span>
@@ -157,12 +157,12 @@
             <!-- End of Breadcrumbs -->
 
             <!-- Page Heading -->
-            <div class="row">
-                <div class="col-12">
-                    <h1>Tableau de bord</h1>
-                    <p class="text-gray-500">Bienvenue sur le tableau de bord</p>
-                </div>
-            </div>
+{#            <div class="row">#}
+{#                <div class="col-12">#}
+{#                    <h1>Tableau de bord</h1>#}
+{#                    <p>Bienvenue sur le tableau de bord</p>#}
+{#                </div>#}
+{#            </div>#}
             <!-- End of Page Heading -->
 
             <!-- Content -->
