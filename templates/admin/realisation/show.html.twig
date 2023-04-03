@@ -1,50 +1,60 @@
-{% extends 'admin/base.html.twig' %}
+{% extends 'admin/layouts/card.html.twig' %}
 
-{% block title %}Realisation{% endblock %}
+{% block card_title %}Realisation{% endblock %}
 
-{% block body %}
-    <h1>Realisation</h1>
+{% block content %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ realisation.id }}</td>
-            </tr>
-            <tr>
-                <th>IsPublic</th>
-                <td>{{ realisation.isPublic ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Tarif</th>
-                <td>{{ realisation.tarif|price }}</td>
-            </tr>
-            <tr>
-                <th>IsTarifPublic</th>
-                <td>{{ realisation.isTarifPublic ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>DateRealisation</th>
-                <td>{{ realisation.dateRealisation ? realisation.dateRealisation|date_format : '' }}
-                </td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ realisation.createdAt ? realisation.createdAt|date_format : '' }}</td>
-            </tr>
+{#    <div class="col-6 ">#}
+{#        <div id="carouselRealisationIndicators" class="carousel slide" data-bs-ride="true">#}
+{#            <div class="carousel-indicators">#}
+{#                {% for image in realisation.images %}#}
+{#                    <button type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ loop.index0 }}"></button>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#            <div class="carousel-inner">#}
+{#                {% for image in realisation.images %}#}
+{#                    <div class="carousel-item {% if loop.first %}active{% endif %}">#}
+{#                        <img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-100" alt="{{ image.name }}">#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide="prev">#}
+{#                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#                <span class="visually-hidden">Previous</span>#}
+{#            </button>#}
+{#            <button class="carousel-control-next" type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide="next">#}
+{#                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#                <span class="visually-hidden">Next</span>#}
+{#            </button>#}
+{#        </div>#}
+{#    </div>#}
 
-            {% for image in realisation.images %}
-                <tr>
-                    <th>Image</th>
-                    <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="200px"></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <h4 class="col-12">
+            Informations
+        </h4>
 
-    <a href="{{ path('app_admin_realisation_index') }}">back to list</a>
+        <div class="col-12">
+            <p class="mb-0">
+                <strong>Date :</strong> {{ realisation.dateRealisation|date('d/m/Y') }}
+            </p>
+        </div>
 
-    <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}">edit</a>
+        <div class="col-12">
+            <p class="mb-0">
+                <strong>Client :</strong> {{ realisation.tarif }} €
+            </p>
+        </div>
 
-    {{ include('admin/realisation/_delete_form.html.twig') }}
+        <h5 class="col-12 text-center">
+            Images
+        </h5>
+        {% for image in realisation.images %}
+            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex justify-content-center align-items-center">
+                <img src="{{ asset('uploads/images/' ~ image.name) }}" class="img-fluid border border-2 border-primary" alt="{{ image.name }}" width="100">
+            </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock %}
