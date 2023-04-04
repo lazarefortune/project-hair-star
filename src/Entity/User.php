@@ -43,6 +43,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_of_birthday = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+        $this->avatar = 'default.jpg';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +166,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateOfBirthday(?\DateTimeInterface $date_of_birthday): self
     {
         $this->date_of_birthday = $date_of_birthday;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

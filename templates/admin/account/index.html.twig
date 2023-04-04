@@ -1,0 +1,44 @@
+{% extends 'admin/account/card-profile.html.twig' %}
+
+{% block title 'Mon compte' %}
+
+{% block card_title 'Mon compte' %}
+
+{% block card_body %}
+    {{ form_start(formUser) }}
+    <div class="row">
+        <div class="col-12 col-md-6 mb-2">
+            {{ form_row(formUser.fullname) }}
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            {{ form_row(formUser.email) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 mb-2">
+            {{ form_row(formUser.phone) }}
+        </div>
+        <div class="col-12 col-md-6 mb-2">
+            {{ form_row(formUser.dateOfBirthday) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 mb-2">
+            {{ form_row(formUser.avatar) }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(formUser) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // $(document).ready(function() {
+        //     $('.profile-image').on('click', function() {
+        //         $('#profile-image-upload').click();
+        //     });
+        // });
+    </script>
+{% endblock %}

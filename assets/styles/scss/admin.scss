@@ -102,3 +102,35 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1 !important;
   }
 }
+
+/*====== Avatar =====*/
+.avatar {
+  height: 35px;
+  width: 35px;
+  background: $white;
+}
+
+.avatar-large {
+  height: 60px;
+  width: 60px;
+  float: left;
+  margin: 4%;
+}
+
+.profile-image {
+  width: 10rem;
+  height: 10rem !important;
+  border: 1px solid #c5c7cc;
+  padding: 0.5rem;
+  display: inline-block !important;
+  border-radius: 50%;
+}
+
+.profile-image.active {
+  height: auto !important;
+}
+
+.profile-image.active {
+  border-radius: unset;
+  border: 0px;
+}

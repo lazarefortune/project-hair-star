@@ -91,7 +91,7 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Mon compte</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_admin_account_index') }}">Mon compte</a></li>
                     <li><a class="dropdown-item" href="#">Paramètres</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Déconnexion</a></li>
@@ -192,7 +192,7 @@
     <footer class="bg-light mt-auto app-footer">
         <div class="container-fluid">
             <div class="d-flex align-items-center justify-content-between small">
-                <div class="">{{ app_name }} &copy; 2023</div>
+                <div class="">{{ app_name }} &copy; {{ 'now'|date('Y') }}</div>
             </div>
         </div>
     </footer>
