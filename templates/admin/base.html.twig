@@ -94,7 +94,7 @@
                     <li><a class="dropdown-item" href="{{ path('app_admin_account_index') }}">Mon compte</a></li>
                     <li><a class="dropdown-item" href="#">Paramètres</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                    <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Déconnexion</a></li>
                 </ul>
             </div>
             <!-- end of user profile desktop -->
@@ -171,15 +171,6 @@
                 </div>
             </div>
             <!-- End of Breadcrumbs -->
-
-            <!-- Page Heading -->
-{#            <div class="row">#}
-{#                <div class="col-12">#}
-{#                    <h1>Tableau de bord</h1>#}
-{#                    <p>Bienvenue sur le tableau de bord</p>#}
-{#                </div>#}
-{#            </div>#}
-            <!-- End of Page Heading -->
 
             <!-- Content -->
             {% block body %}{% endblock %}
