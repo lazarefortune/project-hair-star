@@ -9,6 +9,8 @@ import flatpickr from "flatpickr";
 // import 'flatpickr/dist/themes/light.css';
 
 import 'flatpickr/dist/themes/airbnb.css';
+// custom style
+import './flatpickr.scss';
 
 $('.flatpickr-date-input').each(function() {
     console.log($(this));

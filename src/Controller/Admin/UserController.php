@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -36,7 +37,7 @@ class UserController extends AbstractController
 
     #[Route('/mot-de-passe', name: 'password')]
     #[isGranted('IS_AUTHENTICATED_FULLY')]
-    public function password( Request $request , EntityManagerInterface $entityManager, PasswordHasherInterface $passwordHasher ): Response
+    public function password( Request $request , EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ): Response
     {
         $formPassword = $this->createForm(UserPasswordType::class);
         $formPassword->handleRequest($request);
