@@ -1,51 +1,200 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_simple.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 
-{#    <div class="row">#}
-{#        <div class="col-md-4 col-md-offset-4 mx-auto">#}
-        <div class="auth-form-box">
-            <form method="post" class="auth-form my5">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+{#    <div class="vh-100">#}
+{#        <div class="row">#}
+{#            <div class="col-md-6 mx-auto">#}
+{#                <!-- Pills navs -->#}
+{#                <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">#}
+{#                    <li class="nav-item" role="presentation">#}
+{#                        <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"#}
+{#                           aria-controls="pills-login" aria-selected="true">Login</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item" role="presentation">#}
+{#                        <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"#}
+{#                           aria-controls="pills-register" aria-selected="false">Register</a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#                <!-- Pills navs -->#}
 
-                {% if app.user %}
-                    <div class="mb-3">
-                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                    </div>
-                {% endif %}
+{#                <!-- Pills content -->#}
+{#                <div class="tab-content">#}
+{#                    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">#}
+{#                        <form>#}
+{#                            <div class="text-center mb-3">#}
+{#                                <p>Sign in with:</p>#}
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="fab fa-facebook-f"></i>#}
+{#                                </button>#}
 
-                <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="fab fa-google"></i>#}
+{#                                </button>#}
 
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="fab fa-twitter"></i>#}
+{#                                </button>#}
 
-                {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="fab fa-github"></i>#}
+{#                                </button>#}
+{#                            </div>#}
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-                #}
+{#                            <p class="text-center">or:</p>#}
 
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Sign in
-                </button>
-            </form>
-        </div>
+{#                            <!-- Email input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="email" id="loginName" class="form-control" />#}
+{#                                <label class="form-label" for="loginName">Email or username</label>#}
+{#                            </div>#}
 
+{#                            <!-- Password input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="password" id="loginPassword" class="form-control" />#}
+{#                                <label class="form-label" for="loginPassword">Password</label>#}
+{#                            </div>#}
+
+{#                            <!-- 2 column grid layout -->#}
+{#                            <div class="row mb-4">#}
+{#                                <div class="col-md-6 d-flex justify-content-center">#}
+{#                                    <!-- Checkbox -->#}
+{#                                    <div class="form-check mb-3 mb-md-0">#}
+{#                                        <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />#}
+{#                                        <label class="form-check-label" for="loginCheck"> Remember me </label>#}
+{#                                    </div>#}
+{#                                </div>#}
+
+{#                                <div class="col-md-6 d-flex justify-content-center">#}
+{#                                    <!-- Simple link -->#}
+{#                                    <a href="#!">Forgot password?</a>#}
+{#                                </div>#}
+{#                            </div>#}
+
+{#                            <!-- Submit button -->#}
+{#                            <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>#}
+
+{#                            <!-- Register buttons -->#}
+{#                            <div class="text-center">#}
+{#                                <p>Not a member? <a href="#!">Register</a></p>#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">#}
+{#                        <form>#}
+{#                            <div class="text-center mb-3">#}
+{#                                <p>Sign up with:</p>#}
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="las la-facebook-f"></i>#}
+{#                                </button>#}
+
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="las la-google"></i>#}
+{#                                </button>#}
+
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="las la-twitter"></i>#}
+{#                                </button>#}
+
+{#                                <button type="button" class="btn btn-link btn-floating mx-1">#}
+{#                                    <i class="las la-github"></i>#}
+{#                                </button>#}
+{#                            </div>#}
+
+{#                            <p class="text-center">or:</p>#}
+
+{#                            <!-- Name input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="text" id="registerName" class="form-control" />#}
+{#                                <label class="form-label" for="registerName">Name</label>#}
+{#                            </div>#}
+
+{#                            <!-- Username input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="text" id="registerUsername" class="form-control" />#}
+{#                                <label class="form-label" for="registerUsername">Username</label>#}
+{#                            </div>#}
+
+{#                            <!-- Email input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="email" id="registerEmail" class="form-control" />#}
+{#                                <label class="form-label" for="registerEmail">Email</label>#}
+{#                            </div>#}
+
+{#                            <!-- Password input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="password" id="registerPassword" class="form-control" />#}
+{#                                <label class="form-label" for="registerPassword">Password</label>#}
+{#                            </div>#}
+
+{#                            <!-- Repeat Password input -->#}
+{#                            <div class="form-outline mb-4">#}
+{#                                <input type="password" id="registerRepeatPassword" class="form-control" />#}
+{#                                <label class="form-label" for="registerRepeatPassword">Repeat password</label>#}
+{#                            </div>#}
+
+{#                            <!-- Checkbox -->#}
+{#                            <div class="form-check d-flex justify-content-center mb-4">#}
+{#                                <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked#}
+{#                                       aria-describedby="registerCheckHelpText" />#}
+{#                                <label class="form-check-label" for="registerCheck">#}
+{#                                    I have read and agree to the terms#}
+{#                                </label>#}
+{#                            </div>#}
+
+{#                            <!-- Submit button -->#}
+{#                            <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <!-- Pills content -->#}
+{#            </div>#}
 {#        </div>#}
 {#    </div>#}
+
+    <div class="page-auth">
+                    <form method="post" class="auth-form my5">
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        {% endif %}
+
+                        <h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
+
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <div class="form-group mb-3">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                            </label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary mb-2 me-2" type="submit">
+                            Se connecter
+                        </button>
+
+                        <a href="{{ path('app_register') }}" class="btn btn-lg btn-outline-primary mb-2">S'inscrire</a>
+                    </form>
+
+    </div>
 
 {% endblock %}

@@ -2,9 +2,11 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %} - {{ app_name }}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
+        <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
 
         <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
         <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -23,13 +25,12 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
         <meta name="theme-color" content="#ffffff">
+        <!-- jquery-->
+        <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
-        <!-- jquery-->
-        <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

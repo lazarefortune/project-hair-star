@@ -1,0 +1,25 @@
+// center auth form in page auth with page auth take 100% of screen
+.page-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .auth-form {
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+// media query for mobile
+@media (max-width: 768px) {
+  .page-auth {
+    .auth-form {
+      padding: 1rem;
+    }
+  }
+}
