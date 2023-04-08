@@ -1,24 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_simple.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <div class="auth-form-box">
+    <div class="page-auth">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
         <div class="auth-form">
-            <h1>Register</h1>
+            <h1 class="h3 mb-3 font-weight-normal text-center">
+                Créer un compte
+            </h1>
 
             {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.email,
                 {
                     label: 'Email',
                     attr: {
-                        placeholder: 'john@doe.com',
-                        class: 'form-control'
-                    }
+                    placeholder: 'john@doe.com',
+                    class: 'form-control'
+                }
                 }
             ) }}
             {{ form_row(registrationForm.plainPassword, {
@@ -30,11 +33,16 @@
             }) }}
             {{ form_row(registrationForm.agreeTerms) }}
 
-            <button type="submit" class="btn btn-primary">
-                Register
+            <button type="submit" class="btn btn-lg btn-primary mb-2 me-2">
+                Je m'inscris
             </button>
+
+            <a href="{{ path('app_login') }}" class="btn btn-lg btn-outline-primary mb-2">
+                J'ai déjà un compte
+            </a>
+
+            {{ form_end(registrationForm) }}
         </div>
     </div>
 
-    {{ form_end(registrationForm) }}
 {% endblock %}
