@@ -98,7 +98,6 @@ input[type="checkbox"] {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
   position: relative;
-  top: 0.2rem;
 }
 input[type="checkbox"]:focus {
     border-color: var(--color-primary);
