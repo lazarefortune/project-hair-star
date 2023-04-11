@@ -41,6 +41,11 @@ class BreadcrumbService
                 $addBreadcrumb('Accueil', 'app_admin_home');
                 $addBreadcrumb('Mon compte', 'app_admin_account_index');
                 break;
+            case 'app_admin_account_password':
+                $addBreadcrumb('Accueil', 'app_admin_home');
+                $addBreadcrumb('Mon compte', 'app_admin_account_index');
+                $addBreadcrumb('Mot de passe', 'app_admin_account_password');
+                break;
             case 'app_admin_realisation_new':
                 $addBreadcrumb('Accueil', 'app_admin_home');
                 $addBreadcrumb('Réalisations', 'app_admin_realisation_index');
