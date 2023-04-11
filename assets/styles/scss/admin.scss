@@ -1,12 +1,12 @@
 @import "root";
 
 /* ========== Template SCSS ========== */
-$offcanvas-width: 270px;
+$offcanvas-width: 170px;
 $topNavbar-height: 56px;
 $footerNavbar-height: 56px;
 
 body {
-  background-color: #f5f5f5 !important;
+  background-color: #fff !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -15,11 +15,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .sidebar-nav {
   width: $offcanvas-width !important;
-    top: 0 !important;
+  top: 0 !important;
+  background-color: var(--color-neutral-ghost) !important;
 }
 
 .app-navbar {
-  //z-index: 10 !important;
+  background-color: var(--color-primary-outline) !important;
+  color: var(--color-base-100) !important;
 }
 
 .app-main {
@@ -29,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app-footer {
-  background-color: var(--color-primary-ghost) !important;
+  background-color: var(--color-neutral-ghost) !important;
   padding: 1rem !important;
   height: $footerNavbar-height !important;
 }
@@ -40,6 +42,8 @@ h1, h2, h3, h4, h5, h6 {
       padding: 0.5rem 1rem !important;
       border-radius: 0.25rem !important;
       font-size: 1rem !important;
+      color: var(--color-base-content-light) !important;
+
       &:hover {
         background-color: var(--color-primary) !important;
         color: var(--color-base-100) !important;
@@ -56,6 +60,11 @@ h1, h2, h3, h4, h5, h6 {
       }
 
       .nav-link {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
         .nav-icon {
           i {
             padding: 5px;
@@ -68,7 +77,7 @@ h1, h2, h3, h4, h5, h6 {
         }
 
         .nav-text {
-          font-size: 1rem;
+          font-size: .9rem;
           font-weight: 500;
         }
       }
@@ -133,4 +142,55 @@ h1, h2, h3, h4, h5, h6 {
 .profile-image.active {
   border-radius: unset;
   border: 0px;
+}
+
+/*====== Avatar =====*/
+.navbar_avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  background-size: cover;
+  background-position: center;
+}
+
+.dropdown-menu {
+  border-radius: 6px;
+  min-width: 260px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 0;
+  padding: 8px 0;
+  top: $topNavbar-height !important;
+
+  .dropdown-item {
+    padding: .7rem 1.3rem;
+    font-size: 0.9rem;
+    color: var(--color-base-content-light);
+    font-weight: 400;
+    line-height: 1.5;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+
+    &:hover {
+      background-color: var(--color-primary-ghost);
+    }
+
+    &.active {
+      background-color: var(--color-primary-ghost);
+      color: var(--color-primary);
+    }
+  }
+
+  .dropdown-item-danger {
+    color: var(--color-error);
+
+    &:hover {
+      background-color: var(--color-error-ghost);
+    }
+  }
+
+  .dropdown-divider {
+    margin: 0;
+  }
 }

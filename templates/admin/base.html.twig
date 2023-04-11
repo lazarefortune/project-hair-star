@@ -38,7 +38,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light shadow shadow-md fixed-top app-navbar">
+    <nav class="navbar navbar-expand-lg shadow shadow-md fixed-top app-navbar">
         <div class="container-fluid">
             <!-- Offcanvas button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#appOffcanvas"
@@ -57,18 +57,8 @@
             </button>
 
             <!-- user profile mobile -->
-            <div class="dropdown ms-2 d-lg-none">
-                <a class="text-dark text-decoration-none dropdown-toggle d-flex align-items-center hidden-arrow" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar avatar-sm">
-                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff" alt="..." class="avatar-img rounded-circle border border-2 border-primary" height="40px" width="40px">
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Mon compte</a></li>
-                    <li><a class="dropdown-item" href="#">Paramètres</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Déconnexion</a></li>
-                </ul>
+            <div class="d-lg-none">
+                {{ include('admin/partials/_profile_navbar_dropdown.html.twig') }}
             </div>
             <!-- end of user profile mobile -->
 
@@ -84,18 +74,8 @@
             </div>
 
             <!-- user profile desktop -->
-            <div class="dropdown ms-2 d-lg-block d-none">
-                <a class="text-dark text-decoration-none dropdown-toggle d-flex align-items-center hidden-arrow" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar avatar-sm">
-                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff" alt="..." class="avatar-img rounded-circle border border-2 border-primary" height="40px" width="40px">
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="{{ path('app_admin_account_index') }}">Mon compte</a></li>
-                    <li><a class="dropdown-item" href="#">Paramètres</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Déconnexion</a></li>
-                </ul>
+            <div class="d-lg-block d-none">
+                {{ include('admin/partials/_profile_navbar_dropdown.html.twig') }}
             </div>
             <!-- end of user profile desktop -->
 
@@ -110,43 +90,51 @@
             <nav class="navbar-light offcanvas-nav">
                 <ul class="navbar-nav">
                     <li class="nav-item {{ menu_active('app_admin_home') }}">
-                        <a class="nav-link d-flex align-items-center justify-content-start" href="{{ path('app_admin_home') }}">
-                            <span class="nav-icon me-2">
-                                {{ icon('home', '2x') }}
-                            </span>
-                            <span class="nav-text">Tableau de bord</span>
+                        <a class="nav-link" href="{{ path('app_admin_home') }}">
+                            {{ icon('home', '2x') }}
+                            <span class="nav-text">Accueil</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-start" href="">
-                            <span class="nav-icon me-2">
-                                {{ icon('briefcase', '2x') }}
-                            </span>
+                        <a class="nav-link" href="">
+                            {{ icon('briefcase', '2x') }}
                             <span class="nav-text">Services</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-start" href="">
-                            <span class="nav-icon me-2">
-                                {{ icon('calendar', '2x') }}
-                            </span>
+                        <a class="nav-link" href="">
+                            {{ icon('calendar', '2x') }}
                             <span class="nav-text">Réservations</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-start" href="">
-                            <span class="nav-icon me-2">
-                                {{ icon('users', '2x') }}
-                            </span>
+                        <a class="nav-link" href="">
+                            {{ icon('users', '2x') }}
                             <span class="nav-text">Clients</span>
                         </a>
                     </li>
                     <li class="nav-item {{ menu_active('app_admin_realisation_index') }}">
-                        <a class="nav-link d-flex align-items-center justify-content-start" href="{{ path('app_admin_realisation_index') }}">
-                            <span class="nav-icon me-2">
-                                {{ icon('cut', '2x') }}
-                            </span>
+                        <a class="nav-link" href="{{ path('app_admin_realisation_index') }}">
+                            {{ icon('cut', '2x') }}
                             <span class="nav-text">Réalisations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            {{ icon('comment', '2x') }}
+                            <span class="nav-text">Avis</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            {{ icon('envelope', '2x') }}
+                            <span class="nav-text">Messages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            {{ icon('cog', '2x') }}
+                            <span class="nav-text">Paramètres</span>
                         </a>
                     </li>
                 </ul>
