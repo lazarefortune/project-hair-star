@@ -2,41 +2,22 @@
 
 {% block body %}
 
-    <div class="dashboard-card">
-{#        <div class="dashboard-header">#}
-{#            <h1 class="dashboard-header-title">#}
-{#                {% block card_title '' %}#}
-{#            </h1>#}
-{#            <aside class="dashboard-header-actions">#}
-{#                {% block actions '' %}#}
-{#            </aside>#}
-{#        </div>#}
-
-        <div class="card">
-            <div class="card-header">
-                {% block card_title '' %}
-            </div>
-            <div class="card-body">
-                {% block content '' %}
+    <div class="main-layout-card">
+        <div class="main-layout-card-header-with-button">
+            <div class="main-layout-card-content-wrapper">
+                <div class="main-layout-card-header-contents">
+                    <h5 class="bluish-text m-0">
+                        {% block card_title '' %}
+                    </h5>
+                </div>
+                <div class="main-layout-card-header-contents text-right  ">
+                    {% block card_actions '' %}
+                </div>
             </div>
         </div>
-
-{#        <div class="row">#}
-{#            <div class="col-12 d-flex justify-content-between mb-2">#}
-{#                <h1 class="dashboard-header-title">#}
-{#                    {% block card_title '' %}#}
-{#                </h1>#}
-{#                <aside class="dashboard-header-actions">#}
-{#                    {% block actions '' %}#}
-{#                </aside>#}
-{#            </div>#}
-{#        </div>#}
-
-        {% include 'partials/flash.html.twig' %}
-
-{#        <div class="dashboard-card-body">#}
-{#            {% block content '' %}#}
-{#        </div>#}
+        <div class="main-layout-card-content">
+            {% block content '' %}
+        </div>
     </div>
 
 {% endblock %}

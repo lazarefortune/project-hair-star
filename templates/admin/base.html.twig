@@ -145,16 +145,13 @@
 
     <!-- Main -->
     <main class="app-main pt-3">
-        <div class="container-fluid">
+        <!-- Breadcrumbs -->
+        {{ include('admin/partials/_breadcrumb.html.twig') }}
+        <!-- End of Breadcrumbs -->
 
-            <!-- Breadcrumbs -->
-            {{ include('admin/partials/_breadcrumb.html.twig') }}
-            <!-- End of Breadcrumbs -->
-
-            <!-- Content -->
-            {% block body %}{% endblock %}
-            <!-- End Content -->
-        </div>
+        <!-- Content -->
+        {% block body %}{% endblock %}
+        <!-- End Content -->
     </main>
     <!-- End Main -->
 

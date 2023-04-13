@@ -194,3 +194,38 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
   }
 }
+
+
+/* ===== main layout card ===== */
+.main-layout-card{
+  background: #fff;
+  box-shadow: 0 1px 15px 1px rgba(60, 55, 68, .15);
+  border-radius: .25rem;
+  margin-bottom: 20px;
+  // main layout card header
+  .main-layout-card-header-with-button{
+    padding: 17px 27px;
+    border-bottom: 1px solid #ebedf2;
+
+    .main-layout-card-content-wrapper{
+      display: table;
+      width: 100%;
+
+      .main-layout-card-header-contents{
+        display: table-cell;
+        vertical-align: middle;
+
+        // text right
+        &.text-right{
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  // main layout card content
+  .main-layout-card-content{
+    padding: 27px;
+    background: var(--color-neutral-ghost);
+  }
+}
