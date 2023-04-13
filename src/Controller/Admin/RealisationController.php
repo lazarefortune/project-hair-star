@@ -21,8 +21,13 @@ class RealisationController extends AbstractController
     #[Route('/', name: 'app_admin_realisation_index', methods: ['GET'])]
     public function index(RealisationRepository $realisationRepository): Response
     {
+        $realisations = $realisationRepository->findBy(
+            [],
+            ['dateRealisation' => 'DESC']
+        );
+
         return $this->render('admin/realisation/index.html.twig', [
-            'realisations' => $realisationRepository->findAll(),
+            'realisations' => $realisations,
         ]);
     }
 
