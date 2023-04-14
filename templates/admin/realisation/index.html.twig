@@ -2,20 +2,29 @@
 
 {% block title %}Toutes les réalisations{% endblock %}
 
-{% block card_title %}Les réalisations{% endblock %}
+{% block card_title %}Réalisations{% endblock %}
 
-{% block actions %}
+{% block card_actions %}
     <a href="{{ path('app_admin_realisation_new') }}" class="btn btn-primary">
-        {{ icon('cut', 20) }}
         Ajouter
     </a>
 {% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="row px-2">
         {% for realisation in realisations %}
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <div class="card {{ realisation.isPublic ? 'card-active' : 'card-inactive' }}">
+                <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
+                    {% if realisation.isPublic %}
+                        <div class="position-absolute end-0 me-3 mt-2">
+                            <span class="badge badge-green">
+                                <i class="badge-circle-fill"></i>
+                                En ligne
+                            </span>
+                        </div>
+                    {% endif %}
+
+                    {% if realisation.images.count() > 0 %}
                     <div class="card-images">
                         <div id="carouselIndicators{{ realisation.id }}" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-indicators">
@@ -32,18 +41,17 @@
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
+                                <span class="visually-hidden">Précédent</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
+                                <span class="visually-hidden">Suivant</span>
                             </button>
                         </div>
                     </div>
-
+                    {% endif %}
                     <div class="card-body">
                         <div class="row">
-                            {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
                                 <div class="col-12">
                                     <div class="media mb-3">
                                         <i class="las la-clock align-self-center me-2"></i>
@@ -52,13 +60,15 @@
                                                 Durée de la prestation
                                             </p>
                                             <p class="media-info-text mb-0">
+                                            {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
                                                 {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
+                                            {% else %}
+                                                <span class="text-secondary">Indisponible</span>
+                                            {% endif %}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
-                            {% if realisation.isTarifPublic and (realisation.tarif is not null) %}
                                 <div class="col-12">
                                     <div class="media mb-3">
                                         <i class="las la-euro-sign align-self-center me-2"></i>
@@ -67,13 +77,15 @@
                                                 Tarif de la prestation
                                             </p>
                                             <p class="media-info-text mb-0">
+                                            {% if realisation.isTarifPublic and (realisation.tarif is not null) and realisation.tarif != 0 %}
                                                 {{ realisation.tarif }} €
+                                            {% else %}
+                                                <span class="text-secondary">Indisponible</span>
+                                            {% endif %}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
-                            {% if realisation.dateRealisation %}
                                 <div class="col-12">
                                     <div class="media mb-3">
                                         <i class="las la-calendar-alt align-self-center me-2"></i>
@@ -82,18 +94,21 @@
                                                 Faite le
                                             </p>
                                             <p class="media-info-text mb-0">
+                                            {% if realisation.dateRealisation %}
                                                 {{ realisation.dateRealisation|date_format }}
+                                            {% else %}
+                                                <span class="text-secondary">Indisponible</span>
+                                            {% endif %}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
                         </div>
 
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}" class="btn btn-primary">
-                            Consulter
+                            Voir
                         </a>
                         <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}" class="btn btn-outline-primary">
                             {{ icon('pen', 'lg') }}

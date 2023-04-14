@@ -18,21 +18,22 @@ function formater_numero_francais(numero) {
 }
 
 const phoneInputs = document.getElementsByClassName('phone-input');
+if(phoneInputs.length > 0) {
+    phoneInputs.forEach((phoneInput) => {
+    phoneInput.addEventListener('input', (event) => {
+            const value = event.target.value;
 
-phoneInputs.forEach((phoneInput) => {
-phoneInput.addEventListener('input', (event) => {
-        const value = event.target.value;
+            // Supprimez les espaces et les tirets pour faciliter la correspondance
+            const cleanedValue = value.replace(/[-\s]/g, '');
 
-        // Supprimez les espaces et les tirets pour faciliter la correspondance
-        const cleanedValue = value.replace(/[-\s]/g, '');
-
-        if (cleanedValue.match(/^(?:\+33|0)\d{9}$/)) {
-            // Si le numéro correspond au format français, mettez à jour le champ
-            const formattedValue = formater_numero_francais(cleanedValue);
-            event.target.value = formattedValue;
-        }
+            if (cleanedValue.match(/^(?:\+33|0)\d{9}$/)) {
+                // Si le numéro correspond au format français, mettez à jour le champ
+                const formattedValue = formater_numero_francais(cleanedValue);
+                event.target.value = formattedValue;
+            }
+        });
     });
-});
+}
 
 // phoneInput.addEventListener('input', (event) => {
 //     const value = event.target.value;
