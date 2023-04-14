@@ -225,7 +225,58 @@ h1, h2, h3, h4, h5, h6 {
 
   // main layout card content
   .main-layout-card-content{
-    padding: 27px;
-    background: var(--color-neutral-ghost);
+    padding: 10px 0;
+    background: #fff;
   }
 }
+
+.card-realisation {
+  position: relative;
+
+  .pill{
+    position: absolute;
+    right: calc(30px);
+    top: 0;
+    transform: translateY(-50%);
+  }
+  .pill-success{
+    color: #00D68F;
+    background-color: rgb(0,129,0, 0.2);
+  }
+}
+:root{
+  --space: 8px;
+  --contrast: #4869ee;
+}
+.pill{
+  flex: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: calc(1 * var(--space)) calc(2 * var(--space));
+  color: var(--contrast);
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.badge{
+  .badge-circle-fill{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    background: #fff;
+  }
+
+  &.badge-green{
+      background: #0cbc87;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+}
+
