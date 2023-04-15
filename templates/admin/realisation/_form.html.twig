@@ -1,8 +1,8 @@
 <div class="col-12">
     {{ form_start(form) }}
-    <div class="card p-0 p-md-5 p-lg-4 mb-3">
+{#    <div class="card">#}
 
-        <div class="card-body">
+{#        <div class="card-body">#}
 
             <div class="row mb-3">
                 <div class="col-md-12">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-0 mb-md-3 mb-lg-3">
+            <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
                         {{ form_label(form.heureDebut) }}
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mb-lg-0">
+                <div class="col-md-6">
                     <div class="form-group">
                         {{ form_label(form.heureFin) }}
                         <div class="flatpickr-time-wrap flatpickr-wrap">
@@ -62,7 +62,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         {{ form_label(form.tarif) }}
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             {{ form_widget(form.tarif, {'attr': {'aria-describedby': 'input-group-realisation-price'}}) }}
                             <span class="input-group-text" id="input-group-realisation-price">€</span>
                         </div>
@@ -101,8 +101,8 @@
                     </button>
                 {% endif %}
             </div>
-        </div>
-    </div>
+{#        </div>#}
+{#    </div>#}
     {{ form_end(form) }}
 </div>
 
