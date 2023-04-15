@@ -29,7 +29,6 @@ class RealisationType extends AbstractType
                     'class' => 'form-control-radio',
                 ],
                 'expanded' => true,
-                'data' => 1,
             ])
             ->add('tarif', NumberType::class, [
                 'attr' => [
@@ -47,7 +46,6 @@ class RealisationType extends AbstractType
                     'class' => 'form-control-radio',
                 ],
                 'expanded' => true,
-                'data' => 1,
             ])
             ->add('dateRealisation', DateType::class, [
                 'required' => false,
