@@ -30,7 +30,9 @@ yarn-error.log
 .vscode
 
 # public uploads files
-/public/uploads/*
+/public/uploads/avatars/*
+!/public/uploads/avatars/default.jpg
+public/uploads/images
 
 .DS_Store
 assets/.DS_Store
