@@ -32,7 +32,7 @@ yarn-error.log
 # public uploads files
 /public/uploads/avatars/*
 !/public/uploads/avatars/default.jpg
-public/uploads/images
+public/uploads/images/realisations/*
 !/public/uploads/images/realisations/default.jpg
 
 .DS_Store
