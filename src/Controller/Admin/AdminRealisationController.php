@@ -131,7 +131,7 @@ class AdminRealisationController extends AbstractController
         foreach ( $uploadImages as $uploadImage ) {
             $fileName = md5( uniqid() ) . '.' . $uploadImage->guessExtension();
             $uploadImage->move(
-                $this->getParameter( 'upload_images_directory' ),
+                $this->getParameter( 'realisation_img_dir' ),
                 $fileName
             );
 

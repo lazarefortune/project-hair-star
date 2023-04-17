@@ -32,9 +32,13 @@ yarn-error.log
 # public uploads files
 /public/uploads/avatars/*
 !/public/uploads/avatars/default.jpg
-public/uploads/images
+public/uploads/images/realisations/*
+!/public/uploads/images/realisations/default.jpg
 
 .DS_Store
 assets/.DS_Store
 
 .htaccess
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

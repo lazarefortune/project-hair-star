@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row px-2">
+    <div class="row">
         {% for realisation in realisations %}
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                 <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
                     {% if realisation.isPublic %}
-                        <div class="position-absolute end-0 me-3 mt-2">
+                        <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
                             <span class="badge badge-green">
                                 <i class="badge-circle-fill"></i>
                                 En ligne
@@ -25,86 +25,94 @@
                     {% endif %}
 
                     {% if realisation.images.count() > 0 %}
-                    <div class="card-images">
-                        <div id="carouselIndicators{{ realisation.id }}" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                {% for image in realisation.images %}
-                                    <button type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide-to="{{ loop.index - 1 }}" aria-label="Slide {{ loop.index }}" class="{% if loop.first %}active{% endif %}"></button>
-                                {% endfor %}
-                            </div>
-                            <div class="carousel-inner">
-                                {% for image in realisation.images %}
-                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                        <img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block"  alt="...">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Précédent</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Suivant</span>
-                            </button>
+                    <div id="carouselIndicators{{ realisation.id }}" class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            {% for image in realisation.images %}
+                                <button type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide-to="{{ loop.index - 1 }}" aria-label="Slide {{ loop.index }}" class="{% if loop.first %}active{% endif %}"></button>
+                            {% endfor %}
                         </div>
+                        <div class="carousel-inner">
+                            {% for image in realisation.images %}
+                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                    <img src="{{ asset('uploads/images/realisations/' ~ image.name)|imagine_filter('my_thumb') }}" class="d-block"  alt="...">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Précédent</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Suivant</span>
+                        </button>
                     </div>
+                    {% else %}
+                        <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}" class="d-block" alt="...">
                     {% endif %}
+
                     <div class="card-body">
                         <div class="row">
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-clock align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Durée de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                            {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
-                                                {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
-                                            {% else %}
-                                                <span class="text-secondary">Indisponible</span>
-                                            {% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-euro-sign align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Tarif de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                            {% if realisation.isTarifPublic and (realisation.tarif is not null) and realisation.tarif != 0 %}
-                                                {{ realisation.tarif }} €
-                                            {% else %}
-                                                <span class="text-secondary">Indisponible</span>
-                                            {% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-calendar-alt align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Faite le
-                                            </p>
-                                            <p class="media-info-text mb-0">
+                            <!-- date de la prestation -->
+                            <div class="col-12">
+                                <div class="media mb-3">
+                                    <i class="las la-calendar-alt align-self-center me-2"></i>
+                                    <div class="media-body">
+                                        <p class="media-info-heading">
+                                            Faite le
+                                        </p>
+                                        <p class="media-info-text mb-0">
                                             {% if realisation.dateRealisation %}
                                                 {{ realisation.dateRealisation|date_format }}
                                             {% else %}
-                                                <span class="text-secondary">Indisponible</span>
+                                                <span class="text-secondary">--</span>
                                             {% endif %}
-                                            </p>
-                                        </div>
+                                        </p>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
+                            <!-- fin date de la prestation -->
 
+                            <!-- tarif de la prestation -->
+                            <div class="col-12">
+                                <div class="media mb-3">
+                                    <i class="las la-euro-sign align-self-center me-2"></i>
+                                    <div class="media-body">
+                                        <p class="media-info-heading">
+                                            Tarif de la prestation
+                                        </p>
+                                        <p class="media-info-text mb-0">
+                                            {% if (realisation.tarif is not null) and realisation.tarif != 0 %}
+                                                {{ realisation.tarif }} € {% if not realisation.isTarifPublic %} (privée) {% endif %}
+                                            {% else %}
+                                                <span class="text-secondary">--</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fin tarif de la prestation -->
+
+                            <!-- durée de la prestation -->
+                            <div class="col-12">
+                                <div class="media mb-3">
+                                    <i class="las la-clock align-self-center me-2"></i>
+                                    <div class="media-body">
+                                        <p class="media-info-heading">
+                                            Durée de la prestation
+                                        </p>
+                                        <p class="media-info-text mb-0">
+                                        {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
+                                            {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
+                                        {% else %}
+                                            <span class="text-secondary">--</span>
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fin durée de la prestation -->
+                        </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}" class="btn btn-primary">
