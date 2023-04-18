@@ -15,16 +15,21 @@
         {% for realisation in realisations %}
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                 <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
+                    <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
                     {% if realisation.isPublic %}
-                        <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
-                            <span class="badge badge-green">
-                                <i class="badge-circle-fill"></i>
-                                En ligne
-                            </span>
-                        </div>
+                        <span class="badge badge-green">
+                            <i class="badge-circle-fill"></i>
+                            Publiée
+                        </span>
+                        {% else %}
+                        <span class="badge badge-warning">
+                            <i class="badge-circle-fill"></i>
+                            Non publiée
+                        </span>
                     {% endif %}
+                    </div>
 
-                    {% if realisation.images.count() > 0 %}
+                    {% if realisation.images.count() > 1 %}
                     <div id="carouselIndicators{{ realisation.id }}" class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             {% for image in realisation.images %}
@@ -34,7 +39,7 @@
                         <div class="carousel-inner">
                             {% for image in realisation.images %}
                                 <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                    <img src="{{ asset('uploads/images/realisations/' ~ image.name)|imagine_filter('my_thumb') }}" class="d-block"  alt="...">
+                                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}" class="card-realisation-carousel-image"  alt="...">
                                 </div>
                             {% endfor %}
                         </div>
@@ -47,8 +52,24 @@
                             <span class="visually-hidden">Suivant</span>
                         </button>
                     </div>
+                    {% elseif realisation.images.count() == 1 %}
+                        <div id="carouselIndicators{{ realisation.id }}" class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in realisation.images %}
+                                    <div class="carousel-item active">
+                                        <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}" class="card-realisation-carousel-image"  alt="...">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     {% else %}
-                        <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}" class="d-block" alt="...">
+                        <div id="carouselIndicators{{ realisation.id }}" class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}" class="card-realisation-carousel-image" alt="...">
+                                </div>
+                            </div>
+                        </div>
                     {% endif %}
 
                     <div class="card-body">

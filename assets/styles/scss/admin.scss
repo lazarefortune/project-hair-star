@@ -251,6 +251,12 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
+.card-realisation-carousel-image {
+  width: 378px;
+  height: 250px;
+  object-fit: cover;
+}
+
 .card-realisation-online{
   z-index: 10;
 }
@@ -276,6 +282,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge {
+  color: #fff;
+  letter-spacing: 0.5px;
+
   .badge-circle-fill {
     width: 10px;
     height: 10px;
@@ -287,8 +296,10 @@ h1, h2, h3, h4, h5, h6 {
 
   &.badge-green {
     background: #0cbc87;
-    color: #fff;
-    letter-spacing: 0.5px;
+  }
+
+  &.badge-warning{
+    background: #f7b500;
   }
 }
 
