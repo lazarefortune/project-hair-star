@@ -77,7 +77,7 @@
                             <!-- date de la prestation -->
                             <div class="col-12">
                                 <div class="media mb-3">
-                                    <i class="las la-calendar-alt align-self-center me-2"></i>
+                                    <i class="las la-calendar-alt media-icon align-self-center me-2"></i>
                                     <div class="media-body">
                                         <p class="media-info-heading">
                                             Faite le
@@ -97,14 +97,20 @@
                             <!-- tarif de la prestation -->
                             <div class="col-12">
                                 <div class="media mb-3">
-                                    <i class="las la-euro-sign align-self-center me-2"></i>
+                                    <i class="las la-euro-sign media-icon align-self-center me-2"></i>
                                     <div class="media-body">
                                         <p class="media-info-heading">
                                             Tarif de la prestation
                                         </p>
                                         <p class="media-info-text mb-0">
                                             {% if (realisation.tarif is not null) and realisation.tarif != 0 %}
-                                                {{ realisation.tarif }} € {% if not realisation.isTarifPublic %} (privée) {% endif %}
+                                                {{ realisation.tarif }} €
+                                                {% if not realisation.isTarifPublic %}
+                                                    <span class="badge badge-warning">
+                                                        <i class="badge-circle-fill"></i>
+                                                        Non publié
+                                                    </span>
+                                                {% endif %}
                                             {% else %}
                                                 <span class="text-secondary">--</span>
                                             {% endif %}
@@ -117,7 +123,7 @@
                             <!-- durée de la prestation -->
                             <div class="col-12">
                                 <div class="media mb-3">
-                                    <i class="las la-clock align-self-center me-2"></i>
+                                    <i class="las la-clock media-icon align-self-center me-2"></i>
                                     <div class="media-body">
                                         <p class="media-info-heading">
                                             Durée de la prestation
