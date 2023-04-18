@@ -98,7 +98,7 @@ class AdminRealisationController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete'.$imageRealisation->getId(), $data['_token'])) {
             $name = $imageRealisation->getName();
-            unlink($this->getParameter('upload_images_directory').'/'.$name);
+            unlink($this->getParameter('realisation_img_dir').'/'.$name);
 
             $entityManager->remove($imageRealisation);
             $entityManager->flush();

@@ -15,7 +15,15 @@ liip_imagine:
         my_thumb:
             quality: 100
             filters:
-                thumbnail: { size: [ 378, 250 ], mode: outbound }
+                thumbnail:
+                    size: [ 378, 250 ]
+                    mode: outbound
         my_custom_filter:
             filters:
                 relative_resize: { widen: 1024 }
+        small_thumb:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [ 50, 50 ]
+                    mode: outbound

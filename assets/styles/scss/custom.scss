@@ -7,7 +7,7 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 input[type="number"],
-//input[type="date"],
+input[type="date"],
 input[type="datetime"],
 input[type="datetime-local"],
 input[type="month"],
@@ -28,7 +28,7 @@ textarea{
   line-height: 1.5;
   margin: 0;
   outline: 0;
-  padding: 1.175rem 0.95rem;
+  //padding: 1.175rem 0.95rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   width: 100%;
   cursor: text;
@@ -41,7 +41,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="number"]:focus,
-//input[type="date"]:focus,
+input[type="date"]:focus,
 input[type="datetime"]:focus,
 input[type="datetime-local"]:focus,
 input[type="month"]:focus,
