@@ -129,83 +129,33 @@
 {% endif %}
 
 {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-    <div class="col-md-10 mx-auto mt-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-12">
-
-                        <table class="table sortable">
-                            <thead>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <th>
-                                    <input type="checkbox" name="image[delete]" value="delete" id="checkAllImage">
-                                </th>
-                                <th>Ordre</th>
-                                <th>Image</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}"
-                                  method="post">
-                                {% for image in realisation.images %}
-                                    {#                        <tr> #}
-                                    <tr draggable="true" rel="{{ realisation.id }}"
-                                        id="image-realisation-{{ image.id }}">
-                                        <td>
-                                            <i class="las la-arrows-alt"></i>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="image[{{ image.id }}][delete]"
-                                                   value="{{ image.id }}" class="checkImage">
-                                        </td>
-                                        <td>
-                                            {{ image.id }}
-                                            {#                                <input type="number" name="image[{{ image.id }}][ordre]" value="{{ image.id }}"> #}
-                                        </td>
-                                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}"
-                                                 alt="{{ image.name }}" width="50"></td>
-                                        <td>
-                                            <a class="btn btn-danger"
-                                               href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
-                                               data-delete-image-realisation
-                                               data-token={{ csrf_token('delete' ~ image.id) }}
-                                               data-id="{{ image.id }}"
-                                            >
-                                                <i class="las la-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </form>
-                            {#                {% for image in realisation.images %} #}
-                            {#                    <tr> #}
-                            {#                        <td> #}
-                            {#                            <input type="checkbox" name="image[{{ image.id }}][delete]" value="{{ image.id }}"> #}
-                            {#                        </td> #}
-                            {#                        <td>{{ image.id }}</td> #}
-                            {#                        <td><img src="{{ asset('uploads/images/' ~ image.name) }}" alt="{{ image.name }}" width="50"></td> #}
-                            {#                        <td> #}
-                            {#                            <a class="btn btn-danger" href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}" #}
-                            {#                               data-delete-image-realisation #}
-                            {#                               data-token={{ csrf_token('delete' ~ image.id) }} #}
-                            {#                               data-id="{{ image.id }}" #}
-                            {#                            > #}
-                            {#                                <i class="las la-trash"></i> #}
-                            {#                            </a> #}
-                            {#                        </td> #}
-                            {#                    </tr> #}
-                            {#                {% endfor %} #}
-                            </tbody>
-
-                        </table>
+    <h4 class="text-center mt-5">Les images</h4>
+    <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}"  method="post">
+    <div class="row">
+        {% for image in realisation.images %}
+        <div class="col-12 col-md-6 col-lg-4" id="image-realisation-{{ image.id }}">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-image">
+                        <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
+                             alt="{{ image.name }}" class="img-fluid">
                     </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-danger"
+                       href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                       data-delete-image-realisation
+                       data-token={{ csrf_token('delete' ~ image.id) }}
+                       data-id="{{ image.id }}"
+                    >
+                        <i class="las la-trash"></i>
+                    </a>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
+    </form>
 {% endif %}
 
 
