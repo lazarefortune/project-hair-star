@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/mon-compte', name: 'app_admin_account_')]
-class UserController extends AbstractController
+class AdminUserController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index( Request $request , EntityManagerInterface $entityManager ): Response
@@ -26,7 +26,8 @@ class UserController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
-
+//            dd($formUser);
+            $this->addFlash('success', 'Profil mis à jour avec succès');
             return $this->redirectToRoute('app_admin_account_index');
         }
 
@@ -54,6 +55,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Mot de passe mis à jour avec succès');
             return $this->redirectToRoute('app_admin_account_password');
         }
 

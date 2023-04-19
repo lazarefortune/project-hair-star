@@ -10,6 +10,7 @@ liip_imagine:
         default:
             filesystem:
                 data_root: '%kernel.project_dir%/public'
+
     filter_sets:
         cache: ~
         my_thumb:
@@ -17,6 +18,18 @@ liip_imagine:
             filters:
                 thumbnail:
                     size: [ 378, 250 ]
+                    mode: outbound
+        admin_avatar:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [142, 142]
+                    mode: outbound
+        navbar_avatar:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [ 40, 40 ]
                     mode: outbound
         my_custom_filter:
             filters:

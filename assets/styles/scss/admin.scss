@@ -113,11 +113,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*====== Avatar =====*/
-.avatar {
-  height: 35px;
-  width: 35px;
-  background: $white;
-}
 
 .avatar-large {
   height: 60px;
@@ -126,32 +121,30 @@ h1, h2, h3, h4, h5, h6 {
   margin: 4%;
 }
 
-.profile-image {
+.profile-avatar {
   width: 10rem;
-  height: 10rem !important;
+  height: 10rem;
   border: 1px solid #c5c7cc;
+  background: $white;
   padding: 0.5rem;
   display: inline-block !important;
   border-radius: 50%;
 }
 
-.profile-image.active {
+.profile-avatar.active {
   height: auto !important;
 }
 
-.profile-image.active {
+.profile-avatar.active {
   border-radius: unset;
   border: 0px;
 }
 
 /*====== Avatar =====*/
-.navbar_avatar {
+.navbar-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ccc;
-  background-size: cover;
-  background-position: center;
 }
 
 .dropdown-menu {
@@ -300,5 +293,37 @@ h1, h2, h3, h4, h5, h6 {
 
   &.badge-warning{
     background: #f7b500;
+  }
+}
+
+.vich-file{
+  .form-check{
+    margin-top: 20px;
+  }
+
+  a[download] {
+    border-radius: 0.375rem;
+    box-shadow: var(--shadow-md);
+    font-family: var(--base-font-family);
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 0.5rem 2rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    align-content: center;
+    color: var(--color-primary);
+    background-color: var(--color-white);
+    border-color: var(--color-primary);
+    &:hover{
+      color: var(--color-white);
+    }
   }
 }
