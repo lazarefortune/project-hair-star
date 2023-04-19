@@ -1,12 +1,17 @@
 <div class="dropdown ms-2">
     <a class="text-dark text-decoration-none dropdown-toggle d-flex align-items-center hidden-arrow" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-        <div class="navbar_avatar me-2"></div>
+        {% if app.user.avatar is null %}
+            <img src="{{ asset('build/images/avatars/default.jpg') | imagine_filter('admin_avatar') }}" alt="Avatar par défaut" class="img-fluid navbar-avatar">
+        {% else %}
+            <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) | imagine_filter('navbar_avatar') }}" class="img-fluid navbar-avatar" alt="Avatar de {{ app.user.fullname }}">
+        {% endif %}
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
         <li><a class="dropdown-item {{ menu_active('app_admin_account_index') }}" href="{{ path('app_admin_account_index') }}">
                 {{ icon('user-cog', 'lg') }}
                 Mon compte</a></li>
         <li><a class="dropdown-item" href="#">
+
                 {{ icon('cogs', 'lg') }}
                 Paramètres</a></li>
         <li><hr class="dropdown-divider"></li>

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserType extends AbstractType
 {
@@ -28,14 +29,22 @@ class UserType extends AbstractType
                     'class' => 'flatpickr-date-birthday',
                 ]
             ])
-            ->add('avatar', FileType::class, [
+            ->add('avatarFile' , VichFileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
-                'mapped' => false,
+//                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control-file',
                 ],
             ])
+//            ->add('avatar', VichFileType::class, [
+//                'label' => 'Avatar',
+//                'required' => false,
+//                'mapped' => false,
+//                'attr' => [
+//                    'class' => 'form-control-file',
+//                ],
+//            ])
             ->add('email')
         ;
     }
