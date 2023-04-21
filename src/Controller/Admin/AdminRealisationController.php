@@ -45,6 +45,7 @@ class AdminRealisationController extends AbstractController
 
             $realisationRepository->save($realisation, true);
 
+            $this->addFlash('success', 'La réalisation a bien été ajoutée');
             return $this->redirectToRoute('app_admin_realisation_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -72,7 +73,8 @@ class AdminRealisationController extends AbstractController
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
             $realisationRepository->save($realisation, true);
 
-            return $this->redirectToRoute('app_admin_realisation_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée');
+            return $this->redirectToRoute('app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/realisation/edit.html.twig', [
