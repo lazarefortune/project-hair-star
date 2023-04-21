@@ -1,60 +1,37 @@
 {% extends 'admin/layouts/card.html.twig' %}
 
-{% block card_title %}Realisation{% endblock %}
+{% block card_title %}
+    Realisation #{{ realisation.id }}
+{% endblock %}
+
+{% block card_actions %}
+    <a href="{{ path('app_admin_realisation_edit', {id: realisation.id}) }}" class="btn btn-primary">
+        Éditer
+    </a>
+{% endblock %}
 
 {% block content %}
 
-{#    <div class="col-6 ">#}
-{#        <div id="carouselRealisationIndicators" class="carousel slide" data-bs-ride="true">#}
-{#            <div class="carousel-indicators">#}
-{#                {% for image in realisation.images %}#}
-{#                    <button type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ loop.index0 }}"></button>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#            <div class="carousel-inner">#}
-{#                {% for image in realisation.images %}#}
-{#                    <div class="carousel-item {% if loop.first %}active{% endif %}">#}
-{#                        <img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-100" alt="{{ image.name }}">#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide="prev">#}
-{#                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#                <span class="visually-hidden">Previous</span>#}
-{#            </button>#}
-{#            <button class="carousel-control-next" type="button" data-bs-target="#carouselRealisationIndicators" data-bs-slide="next">#}
-{#                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#                <span class="visually-hidden">Next</span>#}
-{#            </button>#}
-{#        </div>#}
-{#    </div>#}
+    <!-- Informations -->
+    <section id="realisation_informations mb-5">
+        <h4 class="text-center mb-4">Informations générales</h4>
+        <p class="text-center">
+            Le tarif de la réalisation est de <strong>{{ realisation.tarif }} €</strong>
+        </p>
+    </section>
+    <!-- Fin Informations -->
 
-    <div class="row">
-        <h4 class="col-12">
-            Informations
-        </h4>
-
-        <div class="col-12">
-            <p class="mb-0">
-                <strong>Date :</strong> {{ realisation.dateRealisation|date('d/m/Y') }}
-            </p>
+    <!-- Galerie -->
+    <section id="realisation_gallery mb-5">
+        <h4 class="text-center mb-4">Galerie de la réalisation</h4>
+        <div class="realisation_gallery row d-flex justify-content-center">
+            {% for image in realisation.images %}
+                <div class="realisation_gallery_item col-md-3">
+                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" alt="{{ image.name }}" width="100" class="js-image-modal realisation_gallery_item_image" id="myImg{{ loop.index }}">
+                </div>
+            {% endfor %}
         </div>
-
-        <div class="col-12">
-            <p class="mb-0">
-                <strong>Client :</strong> {{ realisation.tarif }} €
-            </p>
-        </div>
-
-        <h5 class="col-12 text-center">
-            Images
-        </h5>
-        {% for image in realisation.images %}
-            <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex justify-content-center align-items-center">
-                <img src="{{ asset('uploads/images/' ~ image.name) }}" class="img-fluid border border-2 border-primary" alt="{{ image.name }}" width="100">
-            </div>
-        {% endfor %}
-    </div>
-
+    </section>
+    <!-- Fin Galerie -->
 
 {% endblock %}

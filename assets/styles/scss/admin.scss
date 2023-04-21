@@ -327,3 +327,15 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 }
+
+.realisation_gallery{
+  .realisation_gallery_item{
+    margin-bottom: 20px;
+    .realisation_gallery_item_image{
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  }
+}
