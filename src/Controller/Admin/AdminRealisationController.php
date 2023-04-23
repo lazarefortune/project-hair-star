@@ -117,7 +117,6 @@ class AdminRealisationController extends AbstractController
         // si le formulaire est soumis
         // on supprime les images
         // on supprime les entités ImageRealisation
-
     }
 
     /**
