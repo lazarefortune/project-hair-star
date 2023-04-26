@@ -339,3 +339,17 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 }
+
+/* ===== Dashboard ===== */
+.dashboard__card{
+  .card-header{
+    text-align: center;
+    background: var(--color-primary-ghost);
+    color: var(--color-primary)
+  }
+  .card__number-stats{
+    display: block;
+    font-size: 3.2rem;
+    text-align: center;
+  }
+}

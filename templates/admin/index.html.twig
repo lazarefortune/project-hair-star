@@ -5,32 +5,32 @@
 {% block body %}
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card dashboard__card">
                 <div class="card-header">
                     Utilisateurs
                 </div>
                 <div class="card-body">
-
+                    <a href="{{ path('app_admin_clients_index') }}" class="card__number-stats">{{ nbUsers }}</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card dashboard__card">
                 <div class="card-header">
                     Réalisations
                 </div>
                 <div class="card-body">
-
+                    <a href="" class="card__number-stats">{{ nbRealisations }}</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card dashboard__card">
                 <div class="card-header">
                     Réservations
                 </div>
                 <div class="card-body">
-
+                    <a href="" class="card__number-stats">0</a>
                 </div>
             </div>
         </div>

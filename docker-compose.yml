@@ -10,7 +10,7 @@ services:
       - .:/var/www/symfony:delegated
       - /var/www/symfony/var
     ports:
-      - "8000:8000"
+      - "8000:80"
     depends_on:
       - db
     environment:
@@ -43,3 +43,4 @@ services:
 
 volumes:
   db_data: {}
+  nginx_logs: {}

@@ -107,8 +107,8 @@
                             <span class="nav-text">Réservations</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">
+                    <li class="nav-item {{ menu_active('app_admin_clients_index') }}">
+                        <a class="nav-link" href="{{ path('app_admin_clients_index') }}">
                             {{ icon('users', '2x') }}
                             <span class="nav-text">Clients</span>
                         </a>
