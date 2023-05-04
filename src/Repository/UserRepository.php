@@ -80,4 +80,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByRole( string $string )
+    {
+        return $this->createQueryBuilder( 'u' )
+            ->andWhere( 'u.roles LIKE :role' )
+            ->setParameter( 'role', '%' . $string . '%' )
+            ->getQuery()
+            ->getResult();
+    }
 }

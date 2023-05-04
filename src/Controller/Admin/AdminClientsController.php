@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\ClientService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +19,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminClientsController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index( UserRepository $userRepository ): Response
+    public function index( ClientService $clientService ): Response
     {
-        $clients = $userRepository->findBy(
-            // find by 'role_user' (to retrieve clients)
-            [],
-            ['createdAt' => 'DESC']
-        );
-
+        $clients = $clientService->getClients();
 
         return $this->render( 'admin/clients/index.html.twig', [
             'clients' => $clients,

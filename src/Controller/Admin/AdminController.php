@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Repository\RealisationRepository;
 use App\Repository\UserRepository;
+use App\Service\BookingService;
+use App\Service\ClientService;
+use App\Service\RealisationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,26 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
-    public function index( UserRepository $userRepository, RealisationRepository $realisationRepository ): Response
+    public function index( ClientService $clientService, RealisationService $realisationService, BookingService $bookingService ): Response
     {
-        $allUsers = $userRepository->findBy(
-            [],
-            [ 'createdAt' => 'DESC' ]
-        );
-        $nbUsers = count( $allUsers );
-
-        $allRealisations = $realisationRepository->findBy(
-            [],
-            [
-                'createdAt' => 'DESC',
-                'dateRealisation' => 'DESC'
-            ]
-        );
-        $nbRealisations = count( $allRealisations );
-
         return $this->render('admin/index.html.twig', [
-            'nbUsers' => $nbUsers,
-            'nbRealisations' => $nbRealisations
+            'nbClients'      => count( $clientService->getClients() ),
+            'nbRealisations' => count( $realisationService->getRealisations() ),
+            'nbBookings'     => count( $bookingService->getBookings() ),
         ]);
     }
 }
