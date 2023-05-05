@@ -1,2 +1,10 @@
 @import "root";
 @import "pages/auth";
+
+/* ========== Template SCSS ========== */
+
+/* ====== Header ====== */
+.header {
+  background-color: var(--color-primary-outline);
+  color: var(--color-base-100);
+}
