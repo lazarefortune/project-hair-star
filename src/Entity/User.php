@@ -11,10 +11,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Entity( repositoryClass: UserRepository::class )]
+#[ORM\Table( name: '`user`' )]
 #[Vich\Uploadable]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity( fields: ['email'], message: 'There is already an account with this email' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column( length: 180, unique: true )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -34,48 +34,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column( length: 255, nullable: true )]
     private ?string $fullname = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column( type: 'boolean' )]
     private $isVerified = false;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column( length: 255, nullable: true )]
     private ?string $phone = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column( type: Types::DATE_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $date_of_birthday = null;
 
-    #[Vich\UploadableField(mapping: 'avatar_images', fileNameProperty: 'avatar')]
+    #[Vich\UploadableField( mapping: 'avatar_images', fileNameProperty: 'avatar' )]
     private ?File $avatarFile = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column( length: 255, nullable: true )]
     private ?string $avatar = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn( nullable: false )]
+    private ?Role $role = null;
 
     public function __construct()
     {
-        $this->roles = ['ROLE_USER'];
+        $this->roles = [Role::ROLE_USER];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail() : ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail( string $email ) : self
     {
         $this->email = $email;
 
@@ -87,24 +91,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
+    public function getUserIdentifier() : string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles() : array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles = $this->role === null ? [Role::ROLE_USER] : [$this->role->getName()];
 
-        return array_unique($roles);
+        if ( $this->role === null ) {
+            return $roles;
+        }
+
+        $permissions = $this->role->getPermissions()->map( function ( $permission ) {
+            return $permission->getName();
+        } )->toArray();
+
+        return array_merge( $roles, $permissions );
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles( array $roles ) : self
     {
         $this->roles = $roles;
 
@@ -114,12 +124,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword() : string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword( string $password ) : self
     {
         $this->password = $password;
 
@@ -135,87 +145,99 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFullname(): ?string
+    public function getFullname() : ?string
     {
         return $this->fullname;
     }
 
-    public function setFullname(?string $fullname): self
+    public function setFullname( ?string $fullname ) : self
     {
         $this->fullname = $fullname;
 
         return $this;
     }
 
-    public function isVerified(): bool
+    public function isVerified() : bool
     {
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    public function setIsVerified( bool $isVerified ) : self
     {
         $this->isVerified = $isVerified;
 
         return $this;
     }
 
-    public function getPhone(): ?string
+    public function getPhone() : ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone( ?string $phone ) : self
     {
         $this->phone = $phone;
 
         return $this;
     }
 
-    public function getDateOfBirthday(): ?\DateTimeInterface
+    public function getDateOfBirthday() : ?\DateTimeInterface
     {
         return $this->date_of_birthday;
     }
 
-    public function setDateOfBirthday(?\DateTimeInterface $date_of_birthday): self
+    public function setDateOfBirthday( ?\DateTimeInterface $date_of_birthday ) : self
     {
         $this->date_of_birthday = $date_of_birthday;
 
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getAvatar() : ?string
     {
         return $this->avatar;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setAvatar( ?string $avatar ) : self
     {
         $this->avatar = $avatar;
 
         return $this;
     }
 
-    public function getAvatarFile(): ?File
+    public function getAvatarFile() : ?File
     {
         return $this->avatarFile;
     }
 
-    public function setAvatarFile(?File $avatarFile): self
+    public function setAvatarFile( ?File $avatarFile ) : self
     {
         $this->avatarFile = $avatarFile;
 
         // update updatedAt only if file is not null
-        if ($avatarFile) {
+        if ( $avatarFile ) {
             $this->updatedAt = new \DateTimeImmutable();
         }
 
         return $this;
     }
 
-    public function __sleep(): array
+    public function __sleep() : array
     {
         // Exclure l'attribut avatarFile de la sérialisation
-        return array_diff(array_keys(get_object_vars($this)), ['avatarFile']);
+        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile'] );
+    }
+
+    public function getRole() : ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole( ?Role $role ) : self
+    {
+        $this->role = $role;
+
+        return $this;
     }
 
 }

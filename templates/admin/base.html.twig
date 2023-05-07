@@ -110,13 +110,13 @@
                         <span class="nav-text">Réservations</span>
                     </a>
                 </li>
-                <li class="nav-item {{ menu_active('app_admin_clients_index') }}">
+                <li class="nav-item {{ menu_active('app_admin_clients') }}">
                     <a class="nav-link" href="{{ path('app_admin_clients_index') }}">
                         {{ icon('users', '2x') }}
                         <span class="nav-text">Clients</span>
                     </a>
                 </li>
-                <li class="nav-item {{ menu_active('app_admin_realisation_index') }}">
+                <li class="nav-item {{ menu_active('app_admin_realisation') }}">
                     <a class="nav-link" href="{{ path('app_admin_realisation_index') }}">
                         {{ icon('cut', '2x') }}
                         <span class="nav-text">Réalisations</span>
@@ -134,8 +134,8 @@
                         <span class="nav-text">Messages</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
+                <li class="nav-item {{ menu_active('app_admin_settings') }}">
+                    <a class="nav-link" href="{{ path('app_admin_settings_index') }}">
                         {{ icon('cog', '2x') }}
                         <span class="nav-text">Paramètres</span>
                     </a>
