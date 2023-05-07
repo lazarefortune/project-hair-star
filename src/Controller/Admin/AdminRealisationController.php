@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ImageRealisation;
+use App\Entity\Permission;
 use App\Entity\Realisation;
 use App\Form\RealisationType;
 use App\Repository\RealisationRepository;
@@ -14,104 +15,107 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin/realisations')]
-#[IsGranted('ROLE_ADMIN')]
+#[Route( '/admin/realisations' )]
+#[IsGranted( 'ROLE_ADMIN' )]
 class AdminRealisationController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_realisation_index', methods: ['GET'])]
-    public function index(RealisationRepository $realisationRepository): Response
+    #[Route( '/', name: 'app_admin_realisation_index', methods: ['GET'] )]
+    public function index( RealisationRepository $realisationRepository ) : Response
     {
+
+        $this->denyAccessUnlessGranted( 'can_manage_roles' );
+
         $realisations = $realisationRepository->findBy(
             [],
             ['dateRealisation' => 'DESC']
         );
 
-        return $this->render('admin/realisation/index.html.twig', [
+        return $this->render( 'admin/realisation/index.html.twig', [
             'realisations' => $realisations,
-        ]);
+        ] );
     }
 
-    #[Route('/new', name: 'app_admin_realisation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager): Response
+    #[Route( '/new', name: 'app_admin_realisation_new', methods: ['GET', 'POST'] )]
+    public function new( Request $request, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager ) : Response
     {
         $realisation = new Realisation();
-        $form = $this->createForm(RealisationType::class, $realisation);
-        $form->handleRequest($request);
+        $form = $this->createForm( RealisationType::class, $realisation );
+        $form->handleRequest( $request );
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
 
-            $realisation->setCreatedAt(new \DateTimeImmutable());
+            $realisation->setCreatedAt( new \DateTimeImmutable() );
 
-            $realisationRepository->save($realisation, true);
+            $realisationRepository->save( $realisation, true );
 
-            $this->addFlash('success', 'La réalisation a bien été ajoutée');
-            return $this->redirectToRoute('app_admin_realisation_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash( 'success', 'La réalisation a bien été ajoutée' );
+            return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->renderForm('admin/realisation/new.html.twig', [
+        return $this->renderForm( 'admin/realisation/new.html.twig', [
             'realisation' => $realisation,
             'form' => $form,
-        ]);
+        ] );
     }
 
-    #[Route('/{id}', name: 'app_admin_realisation_show', methods: ['GET'])]
-    public function show(Realisation $realisation): Response
+    #[Route( '/{id}', name: 'app_admin_realisation_show', methods: ['GET'] )]
+    public function show( Realisation $realisation ) : Response
     {
-        return $this->render('admin/realisation/show.html.twig', [
+        return $this->render( 'admin/realisation/show.html.twig', [
             'realisation' => $realisation,
-        ]);
+        ] );
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_realisation_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Realisation $realisation, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager): Response
+    #[Route( '/{id}/edit', name: 'app_admin_realisation_edit', methods: ['GET', 'POST'] )]
+    public function edit( Request $request, Realisation $realisation, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager ) : Response
     {
-        $form = $this->createForm(RealisationType::class, $realisation);
-        $form->handleRequest($request);
+        $form = $this->createForm( RealisationType::class, $realisation );
+        $form->handleRequest( $request );
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
-            $realisationRepository->save($realisation, true);
+            $realisationRepository->save( $realisation, true );
 
-            $this->addFlash('success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée');
-            return $this->redirectToRoute('app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER);
+            $this->addFlash( 'success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée' );
+            return $this->redirectToRoute( 'app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->renderForm('admin/realisation/edit.html.twig', [
+        return $this->renderForm( 'admin/realisation/edit.html.twig', [
             'realisation' => $realisation,
             'form' => $form,
-        ]);
+        ] );
     }
 
-    #[Route('/{id}', name: 'app_admin_realisation_delete', methods: ['POST'])]
-    public function delete(Request $request, Realisation $realisation, RealisationRepository $realisationRepository): Response
+    #[Route( '/{id}', name: 'app_admin_realisation_delete', methods: ['POST'] )]
+    public function delete( Request $request, Realisation $realisation, RealisationRepository $realisationRepository ) : Response
     {
-        if ($this->isCsrfTokenValid('delete'.$realisation->getId(), $request->request->get('_token'))) {
-            $realisationRepository->remove($realisation, true);
+        if ( $this->isCsrfTokenValid( 'delete' . $realisation->getId(), $request->request->get( '_token' ) ) ) {
+            $realisationRepository->remove( $realisation, true );
         }
 
-        return $this->redirectToRoute('app_admin_realisation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
     }
 
-    #[Route('/{id}/delete-image', name: 'app_admin_realisation_delete_image', methods: ['DELETE'])]
-    public function deleteImage( ImageRealisation $imageRealisation, Request $request , EntityManagerInterface $entityManager) : JsonResponse
+    #[Route( '/{id}/delete-image', name: 'app_admin_realisation_delete_image', methods: ['DELETE'] )]
+    public function deleteImage( ImageRealisation $imageRealisation, Request $request, EntityManagerInterface $entityManager ) : JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode( $request->getContent(), true );
 
-        if ($this->isCsrfTokenValid('delete'.$imageRealisation->getId(), $data['_token'])) {
+        if ( $this->isCsrfTokenValid( 'delete' . $imageRealisation->getId(), $data['_token'] ) ) {
             $name = $imageRealisation->getName();
-            unlink($this->getParameter('realisation_img_dir').'/'.$name);
+            unlink( $this->getParameter( 'realisation_img_dir' ) . '/' . $name );
 
-            $entityManager->remove($imageRealisation);
+            $entityManager->remove( $imageRealisation );
             $entityManager->flush();
 
-            return new JsonResponse(['success' => 1]);
+            return new JsonResponse( ['success' => 1] );
         } else {
-            return new JsonResponse(['error' => 'Token Invalide'], 400);
+            return new JsonResponse( ['error' => 'Token Invalide'], 400 );
         }
     }
 
-    #[Route('/{id}/delete-images', name: 'app_admin_realisation_delete_images', methods: ['POST'])]
+    #[Route( '/{id}/delete-images', name: 'app_admin_realisation_delete_images', methods: ['POST'] )]
     public function deleteImagesForRealisation( Realisation $realisation, EntityManagerInterface $entityManager ) : void
     {
         // si le formulaire est soumis

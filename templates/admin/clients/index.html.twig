@@ -1,0 +1,46 @@
+{% extends 'admin/layouts/card.html.twig' %}
+
+{% block title %}Toutes les clients{% endblock %}
+
+{% block card_title %}Clients{% endblock %}
+
+{% block card_actions %}
+    <a href="" class="btn btn-primary">
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block card_body %}
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Nom complet</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Numéro</th>
+            <th scope="col">Vérifié</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.fullname }}</td>
+                <td> {{ client.email }} </td>
+                <td> {{ client.phone }} </td>
+                <td>
+                <span class="badge bg-{% if client.verified %}success{% else %}secondary{% endif %}">
+                    {% if client.verified %}
+                        {{ icon('check') }}
+                    {% else %}
+                        {{ icon('times') }}
+                    {% endif %}
+                </span>
+                </td>
+                <td>
+                    {# TODO: actions-clients #}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

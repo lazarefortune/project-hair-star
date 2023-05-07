@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -23,37 +24,46 @@ class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct( EmailVerifier $emailVerifier )
     {
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route( '/inscription', name: 'app_register' )]
+    public function register( Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager ) : Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm( RegistrationFormType::class, $user );
+        $form->handleRequest( $request );
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get( 'plainPassword' )->getData()
                 )
             );
 
-            $entityManager->persist($user);
+            // Retrieve the default role from the database
+            $defaultRole = $entityManager->getRepository( Role::class )->findOneBy( ['name' => 'ROLE_USER'] );
+
+            if ( !$defaultRole ) {
+                throw $this->createNotFoundException( 'The default role does not exist' );
+            }
+
+            $user->setRole( $defaultRole );
+
+            $entityManager->persist( $user );
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('contact@my-space.fr', 'Jessy Hair'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            $this->emailVerifier->sendEmailConfirmation( 'app_verify_email', $user,
+                ( new TemplatedEmail() )
+                    ->from( new Address( 'contact@my-space.fr', 'Jessy Hair' ) )
+                    ->to( $user->getEmail() )
+                    ->subject( 'Please Confirm your Email' )
+                    ->htmlTemplate( 'registration/confirmation_email.html.twig' )
             );
             // do anything else you need here, like send an email
 
@@ -64,38 +74,38 @@ class RegistrationController extends AbstractController
             );
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render( 'registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-        ]);
+        ] );
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
+    #[Route( '/verify/email', name: 'app_verify_email' )]
+    public function verifyUserEmail( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
     {
-        $id = $request->get('id');
+        $id = $request->get( 'id' );
 
-        if (null === $id) {
-            return $this->redirectToRoute('app_register');
+        if ( null === $id ) {
+            return $this->redirectToRoute( 'app_register' );
         }
 
-        $user = $userRepository->find($id);
+        $user = $userRepository->find( $id );
 
-        if (null === $user) {
-            return $this->redirectToRoute('app_register');
+        if ( null === $user ) {
+            return $this->redirectToRoute( 'app_register' );
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->emailVerifier->handleEmailConfirmation( $request, $user );
+        } catch ( VerifyEmailExceptionInterface $exception ) {
+            $this->addFlash( 'verify_email_error', $translator->trans( $exception->getReason(), [], 'VerifyEmailBundle' ) );
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute( 'app_register' );
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash( 'success', 'Your email address has been verified.' );
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute( 'app_register' );
     }
 }

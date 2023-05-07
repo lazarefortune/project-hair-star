@@ -10,7 +10,7 @@
     </a>
 {% endblock %}
 
-{% block content %}
+{% block card_body %}
 
     <!-- Informations -->
     <section id="realisation_informations mb-5">
@@ -27,7 +27,8 @@
         <div class="realisation_gallery row d-flex justify-content-center">
             {% for image in realisation.images %}
                 <div class="realisation_gallery_item col-md-3">
-                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" alt="{{ image.name }}" width="100" class="js-image-modal realisation_gallery_item_image" id="myImg{{ loop.index }}">
+                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" alt="{{ image.name }}"
+                         width="100" class="js-image-modal realisation_gallery_item_image" id="myImg{{ loop.index }}">
                 </div>
             {% endfor %}
         </div>

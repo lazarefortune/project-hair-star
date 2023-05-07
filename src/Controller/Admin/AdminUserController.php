@@ -26,7 +26,7 @@ class AdminUserController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
-//            dd($formUser);
+
             $this->addFlash('success', 'Profil mis à jour avec succès');
             return $this->redirectToRoute('app_admin_account_index');
         }

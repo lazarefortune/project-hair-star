@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Twig;
 
 use Symfony\Component\Routing\RouterInterface;
@@ -8,22 +9,22 @@ use Twig\TwigFunction;
 
 class TwigExtension extends AbstractExtension
 {
-    public function getFunctions(): array
+    public function getFunctions() : array
     {
         return [
-            new TwigFunction('icon' , $this->showIcon(...), ['is_safe' => ['html']]),
-            new TwigFunction('menu_active', $this->menuActive(...), ['is_safe' => ['html'], 'needs_context' => true]),
+            new TwigFunction( 'icon', $this->showIcon( ... ), ['is_safe' => ['html']] ),
+            new TwigFunction( 'menu_active', $this->menuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
         ];
     }
 
-    public function showIcon(string $icon, ?string $size = null, ?string $attrs = null): string
+    public function showIcon( string $icon, ?string $size = null, ?string $attrs = null ) : string
     {
         $attributes = '';
-        if ($size) {
-            $attributes = 'la-'. $size;
+        if ( $size ) {
+            $attributes = 'la-' . $size;
         }
 
-        if ($attrs) {
+        if ( $attrs ) {
             $attributes .= ' ' . $attrs;
         }
 
@@ -36,13 +37,13 @@ class TwigExtension extends AbstractExtension
      * Ajout une class active pour les éléments actifs du menu.
      *
      */
-    public function menuActive(array $context, string $route): string
+    public function menuActive( array $context, string $route ) : string
     {
         $active = '';
         $request = $context['app']->getRequest();
-        $currentRoute = $request->get('_route');
+        $currentRoute = $request->get( '_route' );
 
-        if ($currentRoute === $route) {
+        if ( str_starts_with( $currentRoute, $route ) ) {
             $active = 'active';
         }
 

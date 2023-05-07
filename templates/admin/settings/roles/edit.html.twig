@@ -1,0 +1,18 @@
+{% extends 'admin/layouts/card_settings.html.twig' %}
+
+{% block card_title %}
+    Role édition
+{% endblock %}
+
+{% block card_actions %}
+    <a href="{{ path('app_admin_settings_roles_index') }}" class="btn btn-outline-secondary">
+        Retour
+    </a>
+{% endblock %}
+
+{% block card_body %}
+    {% include 'admin/settings/roles/_form.html.twig' %}
+{% endblock %}
+
+
+
