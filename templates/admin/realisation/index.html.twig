@@ -12,158 +12,161 @@
 
 {% block card_body %}
     <div class="row">
-        {% for realisation in realisations %}
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
-                    <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
-                        {% if realisation.isPublic %}
-                            <span class="badge badge-green">
-                            <i class="badge-circle-fill"></i>
-                            Publiée
-                        </span>
+        {% if realisations is empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    {{ icon('info-circle', 'lg') }}
+                    Aucune réalisation pour le moment.
+                </div>
+            </div>
+        {% else %}
+            {% for realisation in realisations %}
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                    <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
+                        <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
+                            <span class="badge badge-{% if realisation.isPublic %}green{% else %}warning{% endif %}">
+                                <i class="badge-circle-fill"></i>
+                                {% if realisation.isPublic %}Publiée{% else %}Non publiée{% endif %}
+                            </span>
+                        </div>
+
+                        {% if realisation.images.count() > 1 %}
+                            <div id="carouselIndicators{{ realisation.id }}"
+                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    {% for image in realisation.images %}
+                                        <button type="button" data-bs-target="#carouselIndicators{{ realisation.id }}"
+                                                data-bs-slide-to="{{ loop.index - 1 }}"
+                                                aria-label="Slide {{ loop.index }}"
+                                                class="{% if loop.first %}active{% endif %}"></button>
+                                    {% endfor %}
+                                </div>
+                                <div class="carousel-inner">
+                                    {% for image in realisation.images %}
+                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                            <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
+                                                 class="card-realisation-carousel-image" alt="...">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Précédent</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Suivant</span>
+                                </button>
+                            </div>
+                        {% elseif realisation.images.count() == 1 %}
+                            <div id="carouselIndicators{{ realisation.id }}"
+                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for image in realisation.images %}
+                                        <div class="carousel-item active">
+                                            <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
+                                                 class="card-realisation-carousel-image" alt="...">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         {% else %}
-                            <span class="badge badge-warning">
-                            <i class="badge-circle-fill"></i>
-                            Non publiée
-                        </span>
-                        {% endif %}
-                    </div>
-
-                    {% if realisation.images.count() > 1 %}
-                        <div id="carouselIndicators{{ realisation.id }}"
-                             class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                {% for image in realisation.images %}
-                                    <button type="button" data-bs-target="#carouselIndicators{{ realisation.id }}"
-                                            data-bs-slide-to="{{ loop.index - 1 }}" aria-label="Slide {{ loop.index }}"
-                                            class="{% if loop.first %}active{% endif %}"></button>
-                                {% endfor %}
-                            </div>
-                            <div class="carousel-inner">
-                                {% for image in realisation.images %}
-                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                        <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
-                                             class="card-realisation-carousel-image" alt="...">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Précédent</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Suivant</span>
-                            </button>
-                        </div>
-                    {% elseif realisation.images.count() == 1 %}
-                        <div id="carouselIndicators{{ realisation.id }}"
-                             class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                {% for image in realisation.images %}
+                            <div id="carouselIndicators{{ realisation.id }}"
+                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
+                                <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
+                                        <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}"
                                              class="card-realisation-carousel-image" alt="...">
                                     </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div id="carouselIndicators{{ realisation.id }}"
-                             class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}"
-                                         class="card-realisation-carousel-image" alt="...">
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
 
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- date de la prestation -->
-                            <div class="col-12">
-                                <div class="media mb-3">
-                                    <i class="las la-calendar-alt media-icon align-self-center me-2"></i>
-                                    <div class="media-body">
-                                        <p class="media-info-heading">
-                                            Faite le
-                                        </p>
-                                        <p class="media-info-text mb-0">
-                                            {% if realisation.dateRealisation %}
-                                                {{ realisation.dateRealisation|date_format }}
-                                            {% else %}
-                                                <span class="text-secondary">--</span>
-                                            {% endif %}
-                                        </p>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- date de la prestation -->
+                                <div class="col-12">
+                                    <div class="media mb-3">
+                                        <i class="las la-calendar-alt media-icon align-self-center me-2"></i>
+                                        <div class="media-body">
+                                            <p class="media-info-heading">
+                                                Faite le
+                                            </p>
+                                            <p class="media-info-text mb-0">
+                                                {% if realisation.dateRealisation %}
+                                                    {{ realisation.dateRealisation|date_format }}
+                                                {% else %}
+                                                    <span class="text-secondary">--</span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- fin date de la prestation -->
+                                <!-- fin date de la prestation -->
 
-                            <!-- tarif de la prestation -->
-                            <div class="col-12">
-                                <div class="media mb-3">
-                                    <i class="las la-euro-sign media-icon align-self-center me-2"></i>
-                                    <div class="media-body">
-                                        <p class="media-info-heading">
-                                            Tarif de la prestation
-                                        </p>
-                                        <p class="media-info-text mb-0">
-                                            {% if (realisation.tarif is not null) and realisation.tarif != 0 %}
-                                                {{ realisation.tarif }} €
-                                                {% if not realisation.isTarifPublic %}
-                                                    <span class="badge badge-warning">
+                                <!-- tarif de la prestation -->
+                                <div class="col-12">
+                                    <div class="media mb-3">
+                                        <i class="las la-euro-sign media-icon align-self-center me-2"></i>
+                                        <div class="media-body">
+                                            <p class="media-info-heading">
+                                                Tarif de la prestation
+                                            </p>
+                                            <p class="media-info-text mb-0">
+                                                {% if (realisation.tarif is not null) and realisation.tarif != 0 %}
+                                                    {{ realisation.tarif }} €
+                                                    {% if not realisation.isTarifPublic %}
+                                                        <span class="badge badge-warning">
                                                         <i class="badge-circle-fill"></i>
                                                         Non publié
                                                     </span>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="text-secondary">--</span>
                                                 {% endif %}
-                                            {% else %}
-                                                <span class="text-secondary">--</span>
-                                            {% endif %}
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- fin tarif de la prestation -->
+                                <!-- fin tarif de la prestation -->
 
-                            <!-- durée de la prestation -->
-                            <div class="col-12">
-                                <div class="media mb-3">
-                                    <i class="las la-clock media-icon align-self-center me-2"></i>
-                                    <div class="media-body">
-                                        <p class="media-info-heading">
-                                            Durée de la prestation
-                                        </p>
-                                        <p class="media-info-text mb-0">
-                                            {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
-                                                {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
-                                            {% else %}
-                                                <span class="text-secondary">--</span>
-                                            {% endif %}
-                                        </p>
+                                <!-- durée de la prestation -->
+                                <div class="col-12">
+                                    <div class="media mb-3">
+                                        <i class="las la-clock media-icon align-self-center me-2"></i>
+                                        <div class="media-body">
+                                            <p class="media-info-heading">
+                                                Durée de la prestation
+                                            </p>
+                                            <p class="media-info-text mb-0">
+                                                {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
+                                                    {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
+                                                {% else %}
+                                                    <span class="text-secondary">--</span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- fin durée de la prestation -->
                             </div>
-                            <!-- fin durée de la prestation -->
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
+                               class="btn btn-primary">
+                                Voir
+                            </a>
+                            <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}"
+                               class="btn btn-outline-primary">
+                                {{ icon('pen', 'lg') }}
+                            </a>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
-                           class="btn btn-primary">
-                            Voir
-                        </a>
-                        <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}"
-                           class="btn btn-outline-primary">
-                            {{ icon('pen', 'lg') }}
-                        </a>
-                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
 
     <div class="row">
@@ -172,6 +175,3 @@
         </div>
     </div>
 {% endblock %}
-
-
-{# {% endblock %} #}
