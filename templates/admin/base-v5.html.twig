@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
+    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicons/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('favicons/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('favicons/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('favicons/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('favicons/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('favicons/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicons/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('admin') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('admin') }}
+    {% endblock %}
+</head>
+<body>
+
+<div class="min-h-screen flex flex-col">
+
+    <header class="bg-indigo-900 text-white h-14 flex justify-between items-center px-4 sticky top-0 z-50 dark:bg-gray-800">
+        <div class="flex items-center space-x-4">
+
+            <button id="menuBtn" class="lg:hidden">
+                <span id="open-icon" class="">
+                    {{ icon('bars', 'lg') }}
+                </span>
+                <span id="close-icon" class="hidden">
+                    {{ icon('times', 'lg') }}
+                </span>
+            </button>
+
+
+            <!-- Logo -->
+            <img src="{{ asset('images/jessy_hair_logo.png') }}" alt="logo" class="h-8 w-auto">
+        </div>
+
+        <!-- User dropdown -->
+        <div class="relative">
+            <button id="userBtn" class="cursor-pointer">
+                <img class="h-8 w-8 rounded-full" src="{{ asset('images/jessy_hair_logo.png') }}" alt="Your avatar">
+            </button>
+
+            <div id="userDropdown"
+                 class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl hidden dark:bg-gray-800 dark:border dark:border-gray-200">
+                <a href="#"
+                   class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-indigo-200 hover:text-indigo-700 dark:text-white dark:hover:text-indigo-700 dark:hover:bg-gray-100">
+                    {{ icon('user', 'lg') }}
+                    Mon profil
+                </a>
+                <a href="{{ path('app_logout') }}"
+                   class="block px-4 py-2 text-sm capitalize text-red-700 hover:bg-red-200 hover:text-red-700 dark:text-gray-300 dark:hover:text-gray-200">
+                    {{ icon('sign-out-alt', 'lg') }}
+                    Se déconnecter
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-row flex-1">
+        <aside id="sidebar"
+                {#               class="bg-red-200 w-64 overflow-auto transition-all duration-300 transform -translate-x-full lg:translate-x-0 fixed lg:sticky top-0 h-screen lg:h-auto lg:shadow-none z-40 overflow-y-auto"> #}
+               class="bg-red-200 w-64 overflow-auto transition-all duration-300 transform -translate-x-full lg:translate-x-0 fixed h-screen lg:h-auto lg:shadow-none z-40 overflow-y-auto">
+            <!-- Sidebar content -->
+            sidebar
+        </aside>
+
+        <div class="flex flex-col flex-1 pl-0 lg:pl-64 w-full h-screen">
+            <main class="bg-gray-50 flex-1 overflow-auto w-full overflow-y-auto">
+                <!-- Main content -->
+                {% block body %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+
+</div>
+
+{% block javascripts__footer %}
+{% endblock %}
+<script>
+    // Toggle sidebar on menu button click
+    document.getElementById('menuBtn').addEventListener('click', function () {
+        document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        document.getElementById('open-icon').classList.toggle('hidden');
+        document.getElementById('close-icon').classList.toggle('hidden');
+        document.getElementById('sidebar').classList.toggle('shadow-2xl');
+        document.getElementById('sidebar').classList.toggle('shadow-gray-500');
+    });
+
+    // Show dropdown menu on user button click
+    document.getElementById('userBtn').addEventListener('click', function () {
+        document.getElementById('userDropdown').classList.toggle('hidden');
+    });
+
+    // Close sidebar and dropdown menu when click outside
+    window.addEventListener('click', function (e) {
+        if (!document.getElementById('sidebar').contains(e.target) && !document.getElementById('menuBtn').contains(e.target)) {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('open-icon').classList.remove('hidden');
+            document.getElementById('close-icon').classList.add('hidden');
+            document.getElementById('sidebar').classList.toggle('shadow-2xl');
+            document.getElementById('sidebar').classList.toggle('shadow-gray-500');
+        }
+
+        if (!document.getElementById('userBtn').contains(e.target)) {
+            document.getElementById('userDropdown').classList.add('hidden');
+        }
+    });
+
+</script>
+</body>

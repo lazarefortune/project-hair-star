@@ -15,16 +15,18 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin/clients', name: 'app_admin_clients_')]
+#[Route( '/admin/clients', name: 'app_admin_clients_' )]
 class AdminClientsController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index( ClientService $clientService ): Response
+    #[Route( '/', name: 'index' )]
+    public function index( ClientService $clientService ) : Response
     {
         $clients = $clientService->getClients();
 
-        return $this->render( 'admin/clients/index.html.twig', [
-            'clients' => $clients,
-        ] );
+//        return $this->render( 'admin/clients/index.html.twig', [
+//            'clients' => $clients,
+//        ] );
+
+        return $this->render( 'admin/layouts/maintenance.html.twig' );
     }
 }

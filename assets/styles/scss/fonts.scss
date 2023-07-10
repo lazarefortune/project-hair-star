@@ -13,6 +13,7 @@
   font-family: 'Lato';
   src: url('../../fonts/Lato/Lato-Regular.ttf');
 }
+
 /*===== ALL Poppins FONTS =====*/
 @font-face {
   font-family: 'Poppins';
@@ -84,4 +85,49 @@
   font-family: 'Inter';
   src: url('../../fonts/Inter/static/Inter-Black.ttf');
   font-weight: 900;
+}
+
+// ------------------------------ CircularStd font ------------------------------
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-Book.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-Black.ttf');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-BookItalic.ttf');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-MediumItalic.ttf');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-BoldItalic.ttf');
+  font-weight: 700;
+  font-style: italic;
 }

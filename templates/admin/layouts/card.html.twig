@@ -2,22 +2,14 @@
 
 {% block body %}
 
-    <div class="main-layout-card">
-        <div class="main-layout-card-header-with-button">
-            <div class="main-layout-card-content-wrapper">
-                <div class="main-layout-card-header-contents">
-                    <h5 class="bluish-text m-0">
-                        {% block card_title '' %}
-                    </h5>
-                </div>
-                <div class="main-layout-card-header-contents text-right  ">
-                    {% block card_actions '' %}
-                </div>
-            </div>
-        </div>
-        <div class="main-layout-card-content">
-            {% block card_body '' %}
-        </div>
+    {% include 'partials/flash.html.twig' %}
+
+    <div class="bg-white p-4 lg:p-8 mb-4 rounded-lg shadow-md">
+        {% if block('card_title') is not empty %}
+            <h1 class="text-lg font-bold mb-4">{% block card_title '' %}</h1>
+        {% endif %}
+
+        {% block card_body '' %}
     </div>
 
 {% endblock %}

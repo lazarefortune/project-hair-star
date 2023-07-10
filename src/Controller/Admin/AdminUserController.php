@@ -13,54 +13,54 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin/mon-compte', name: 'app_admin_account_')]
+#[Route( '/admin/mon-compte', name: 'app_admin_account_' )]
 class AdminUserController extends AbstractController
 {
-    #[Route('/', name: 'index')]
-    public function index( Request $request , EntityManagerInterface $entityManager ): Response
+    #[Route( '/', name: 'index' )]
+    public function index( Request $request, EntityManagerInterface $entityManager ) : Response
     {
         $user = $this->getUser();
-        $formUser = $this->createForm(UserType::class, $user);
-        $formUser->handleRequest($request);
+        $formUser = $this->createForm( UserType::class, $user );
+        $formUser->handleRequest( $request );
 
-        if ($formUser->isSubmitted() && $formUser->isValid()) {
-            $entityManager->persist($user);
+        if ( $formUser->isSubmitted() && $formUser->isValid() ) {
+            $entityManager->persist( $user );
             $entityManager->flush();
 
-            $this->addFlash('success', 'Profil mis à jour avec succès');
-            return $this->redirectToRoute('app_admin_account_index');
+            $this->addFlash( 'success', 'Informations mises à jour avec succès' );
+            return $this->redirectToRoute( 'app_admin_account_index' );
         }
 
-        return $this->render('admin/account/index.html.twig', [
+        return $this->render( 'admin/account/index.html.twig', [
             'formUser' => $formUser->createView(),
-        ]);
+        ] );
     }
 
-    #[Route('/mot-de-passe', name: 'password')]
-    #[isGranted('IS_AUTHENTICATED_FULLY')]
-    public function password( Request $request , EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ): Response
+    #[Route( '/mot-de-passe', name: 'password' )]
+    #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
+    public function password( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ) : Response
     {
-        $formPassword = $this->createForm(UserPasswordType::class);
-        $formPassword->handleRequest($request);
+        $formPassword = $this->createForm( UserPasswordType::class );
+        $formPassword->handleRequest( $request );
 
-        if ($formPassword->isSubmitted() && $formPassword->isValid()) {
+        if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
             $user = $this->getUser();
             // hash the plain password
             $user->setPassword(
                 $passwordHasher->hashPassword(
                     $user,
-                    $formPassword->get('password')->getData()
+                    $formPassword->get( 'password' )->getData()
                 )
             );
-            $entityManager->persist($user);
+            $entityManager->persist( $user );
             $entityManager->flush();
 
-            $this->addFlash('success', 'Mot de passe mis à jour avec succès');
-            return $this->redirectToRoute('app_admin_account_password');
+            $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
+            return $this->redirectToRoute( 'app_admin_account_password' );
         }
 
-        return $this->render('admin/account/password.html.twig', [
+        return $this->render( 'admin/account/password.html.twig', [
             'form' => $formPassword->createView(),
-        ]);
+        ] );
     }
 }

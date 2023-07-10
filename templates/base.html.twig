@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -38,18 +37,14 @@
 </head>
 <body>
 
-<!-- header bootstrap -->
-<header class="header">
-    <ul class="nav">
-        <li class="nav-item"><a href="" class="nav-link">Link 1</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 2</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 3</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 4</a></li>
-    </ul>
-</header>
+{{ include('layouts/blocs/_header.html.twig') }}
 
-{% block body %}{% endblock %}
+<section class="bg-white">
+    <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:py-16 lg:pt-24">
+        {% block body %}{% endblock %}
+    </div>
+</section>
 
-{% block javascripts__footer %}{% endblock %}
+{% block javascripts__footer %}
+{% endblock %}
 </body>
-</html>

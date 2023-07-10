@@ -1,23 +1,68 @@
-<nav class="navbar">
-  <div class="navbar-overlay" onclick="toggleMenuOpen()"></div>
+<header class="w-full bg-white shadow-sm z-50 fixed top-0">
+    <nav id="main-nav" class="bg-white max-w-7xl mx-auto p-6 flex items-center justify-between">
+        <a href="{{ path('app_admin_home') }}" class="flex items-center" aria-label="Page d'accueil de Jessy Hair">
+            <img src="{{ asset('images/jessy_hair_logo.png') }}" alt="" class="hidden md:w-7 md:inline md:mr-4">
+            <span class="font-pacifico text-lg lg:text-xl" aria-hidden="true">
+                        Jessy
+                        <strong class="text-indigo-500">Hair</strong>
+                    </span>
+        </a>
 
-  <button type="button" class="navbar-burger" onclick="toggleMenuOpen()">
-{#    <span class="material-icons">menu</span>#}
-    <span class="burger-icon">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-  </button>
-  <h1 class="navbar-title">Awards</h1>
-  <nav class="navbar-menu">
-    <button type="button" class="navbar-link">Skills</button>
-    <button type="button" class="navbar-link">Awards</button>
-    <a href="{{ path('app_admin_realisation_index') }}"
-       class="navbar-link {{ menu_active('app_admin_realisation_index') }}"
-    >
-      Réalisations
-    </a>
-    <button type="button" class="navbar-link">Projects</button>
-  </nav>
-</nav>
+        <button id="menu-btn" class="cursor-pointer w-7 md:hidden" aria-label="toggle button" aria-expanded="false">
+            {{ icon('bars', '2xl') }}
+        </button>
+
+        <ul id="toggled-menu"
+            class="flex flex-col bg-white w-full items-center absolute top-full left-0 -translate-y-full -z-10 text-gray-800 border-b border-gray-200
+                md:static md:z-10 md:transform-none md:border-none md:flex-row md:w-auto md:items-center md:bg-transparent md:space-x-6">
+            <li class="py-4 md:py-0 md:mr-6">
+                <a href="" class="font-inter font-medium leading-4 w-full hover:text-indigo-700">
+                    Accueil
+                </a>
+            </li>
+            <li class="py-4 md:py-0 md:mr-6 relative">
+                <a href="" class="font-inter font-medium leading-4 w-full hover:text-indigo-700">
+                    Services
+                </a>
+            </li>
+            <li class=" py-4 md:py-0 md:mr-6">
+                <a href="" class="font-inter font-medium leading-4 w-full hover:text-indigo-700">
+                    Prestations
+                </a>
+            </li>
+            <!-- check if user is connected -->
+            {% if app.user %}
+                <!-- tailwindcss dropdown -->
+                <li class="relative py-4 md:py-0 md:mr-6">
+                    <button class="font-inter font-medium leading-4 w-full hover:text-indigo-700 focus:outline-none"
+                            id="user-menu-button" aria-label="user menu" aria-haspopup="true">
+                        Mon compte
+                        <span class="text-indigo-700">
+                            {{ icon('user', 'lg') }}
+                        </span>
+                    </button>
+                    <div class="absolute top-full -left-16 w-56 bg-white shadow-md rounded-md py-2 z-10 hidden text-center md:text-left"
+                         id="user-menu-items">
+                        <a href="{{ path('app_admin_home') }}"
+                           class="block px-4 py-2 hover:bg-indigo-700 hover:text-white transition duration-300 ease-in-out">
+                            Tableau de bord
+                        </a>
+                        <a href="{{ path('app_logout') }}"
+                           class="block px-4 py-2 hover:bg-indigo-700 hover:text-white transition duration-300 ease-in-out">
+                            Se déconnecter
+                        </a>
+                    </div>
+                </li>
+
+            {% else %}
+                <li class="py-4 md:mr-6 md:py-0">
+                    <a href="{{ path('app_login') }}"
+                       class="font-inter font-medium leading-4 w-full border border-indigo-700 text-indigo-700 px-4 py-2 rounded-md
+                            hover:bg-indigo-700 hover:text-white transition duration-300 ease-in-out">
+                        Se connecter
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

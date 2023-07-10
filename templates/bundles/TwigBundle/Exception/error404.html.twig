@@ -1,10 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'bundles/TwigBundle/Exception/base_error.html.twig' %}
 
-{% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('app_home') }}">return to the homepage</a>.
-    </p>
+{% block error_image %}
+    <img src="{{ asset('images/illustrations/404.svg') }}" alt="astronaut image">
 {% endblock %}
+
+{% block error_title 'Page non trouvée' %}
+
+{% block error_message %}
+    Oops! La page que tu cherches n'existe pas. Si tu penses qu'il s'agit d'une erreur, n'hésite pas à <a href="">nous
+    contacter</a>.
+{% endblock %}
+
+

@@ -3,36 +3,25 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Clients
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_admin_clients_index') }}" class="card__number-stats">{{ nbClients }}</a>
-                </div>
+
+    <div class="grid lg:grid-cols-3 gap-12 lg:gap-8 pb-10">
+
+        {% for dashboardCard in dashboardCards %}
+            <div class="border-0 w-full rounded-xl p-8 relative shadow-md bg-green-50">
+                {{ icon('arrow-up', '', 'absolute top-0 right-0 transform -translate-x-3 translate-y-3 text-green-700 rotate-45 text-xl') }}
+
+                <p class="text-5xl font-medium tracking-tight text-center mb-3">
+                    {{ dashboardCard.number }}
+                </p>
+                <p class="font-bold tracking-wide text-center text-slate-600 text-sm">
+                    {{ dashboardCard.title }}
+                </p>
+                <p class="font-medium tracking-tight text-center text-slate-400 text-sm">
+                    10% increase from last month
+                </p>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Réalisations
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_admin_realisation_index') }}" class="card__number-stats">{{ nbRealisations }}</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Réservations
-                </div>
-                <div class="card-body">
-                    <a href="" class="card__number-stats">{{ nbBookings }}</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
+
     </div>
+
 {% endblock %}

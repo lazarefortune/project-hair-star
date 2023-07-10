@@ -1,8 +1,27 @@
 {% for type, messages in app.session.flashbag.all() %}
     {% for message in messages %}
-        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{ type }} flex flex-row items-center" role="alert">
+            {% if type == 'danger' %}
+                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-red-600">
+                    {{ icon('times', 'xs', 'text-white') }}
+                </div>
+            {% endif %}
+            {% if type == 'warning' %}
+                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-yellow-600">
+                    {{ icon('exclamation', 'xs', 'text-white') }}
+                </div>
+            {% endif %}
+            {% if type == 'info' %}
+                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-blue-600">
+                    {{ icon('info', 'xs', 'text-white') }}
+                </div>
+            {% endif %}
+            {% if type == 'success' %}
+                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-green-600">
+                    {{ icon('check', 'xs', 'text-white') }}
+                </div>
+            {% endif %}
             {{ message | raw }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 {% endfor %}

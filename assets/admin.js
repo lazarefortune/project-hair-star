@@ -1,12 +1,13 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 /* ===== Styles ===== */
 import './styles/scss/admin.scss'
 /* ===== Libs ===== */
 import './libs/flatpickr/index.js'
+import './libs/flatpickr/flatpickr.scss';
 import ImageModal from "./libs/lf/image-modal"
-document.addEventListener('DOMContentLoaded', () => {
-    ImageModal.init();
-});
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     ImageModal.init();
+// });
 /* ===== Pages ===== */
 import './pages/index.js'
 /* ===== Components ===== */
@@ -15,6 +16,7 @@ import './components/index.js'
 // start the Stimulus application
 import './bootstrap'
 
+//-----------------//
 function formater_numero_francais(numero) {
     const regex = /^(?:\+33|0)(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})$/;
     const format = '+33 $1 $2 $3 $4 $5';
@@ -22,9 +24,9 @@ function formater_numero_francais(numero) {
 }
 
 const phoneInputs = document.getElementsByClassName('phone-input');
-if(phoneInputs.length > 0) {
+if (phoneInputs.length > 0) {
     phoneInputs.forEach((phoneInput) => {
-    phoneInput.addEventListener('input', (event) => {
+        phoneInput.addEventListener('input', (event) => {
             const value = event.target.value;
 
             // Supprimez les espaces et les tirets pour faciliter la correspondance
@@ -53,7 +55,7 @@ if(phoneInputs.length > 0) {
 // });
 
 let imagesModals = document.querySelectorAll('.image-modal');
-if( imagesModals.length > 0 ) {
+if (imagesModals.length > 0) {
     imagesModals.forEach((imageModal) => {
         imageModal.addEventListener('click', (event) => {
             console.log('click');
@@ -68,10 +70,9 @@ if( imagesModals.length > 0 ) {
             // this modal by is attribute data-image-modal-container-id
             const modal = document.querySelector(`[data-image-modal-container-id="${id}"]`);
             //
-            if( modal === null ) return;
+            if (modal === null) return;
             modal.style.display = "block";
             const modalImg = modal.querySelector('img');
-
 
 
             modalImg.src = src;
@@ -80,7 +81,6 @@ if( imagesModals.length > 0 ) {
         });
     });
 }
-
 
 
 // modal img

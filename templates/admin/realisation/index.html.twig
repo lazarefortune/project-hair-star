@@ -4,174 +4,66 @@
 
 {% block card_title %}Réalisations{% endblock %}
 
-{% block card_actions %}
-    <a href="{{ path('app_admin_realisation_new') }}" class="btn btn-primary">
-        Ajouter
-    </a>
+{% block card_body %}
+
+    <div class="block sm:flex items-center md:divide-x md:divide-gray-100">
+        <form class="sm:pr-3 mb-4 sm:mb-0" action="" method="POST">
+            <label for="realisations-search" class="sr-only">Rechercher</label>
+            <div class="mt-1 relative sm:w-64 xl:w-96">
+                <input type="text" name="search" id="realisations-search"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
+                       placeholder="Rechercher des réalisations">
+            </div>
+        </form>
+        <div class="flex items-center sm:justify-end w-full">
+            <a href="{{ path('app_admin_realisation_new') }}"
+               class="text-white bg-indigo-600 hover:bg-indigo-700 hover:text-white focus:ring-4 focus:ring-indigo-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
+                {{ icon('plus', '', 'mr-2') }}
+                Ajouter une réalisation
+            </a>
+        </div>
+
+    </div>
+    <!-- list of realisations -->
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {% for realisation in realisations %}
+
+            {% include 'admin/realisation/_realisation_card.html.twig' %}
+
+        {% endfor %}
+    </div>
+
 {% endblock %}
 
-{% block card_body %}
-    <div class="row">
-        {% if realisations is empty %}
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    {{ icon('info-circle', 'lg') }}
-                    Aucune réalisation pour le moment.
-                </div>
-            </div>
-        {% else %}
-            {% for realisation in realisations %}
-                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                    <div class="card card-realisation {{ realisation.isPublic ? 'realisation_card_public' : '' }} bg-light">
-                        <div class="position-absolute end-0 me-3 mt-2 card-realisation-online">
-                            <span class="badge badge-{% if realisation.isPublic %}green{% else %}warning{% endif %}">
-                                <i class="badge-circle-fill"></i>
-                                {% if realisation.isPublic %}Publiée{% else %}Non publiée{% endif %}
-                            </span>
-                        </div>
+{% block javascripts_footer %}
+    {{ parent() }}
+    <script>
+        document.querySelectorAll('.realisation-images').forEach(carousel => {
+            const imageContainer = carousel.querySelector('.imageContainer');
+            console.log(imageContainer);
+            const images = Array.from(imageContainer.getElementsByTagName('img'));
+            const imageWidth = images[0].clientWidth;
+            let currentImageIndex = 0;
 
-                        {% if realisation.images.count() > 1 %}
-                            <div id="carouselIndicators{{ realisation.id }}"
-                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    {% for image in realisation.images %}
-                                        <button type="button" data-bs-target="#carouselIndicators{{ realisation.id }}"
-                                                data-bs-slide-to="{{ loop.index - 1 }}"
-                                                aria-label="Slide {{ loop.index }}"
-                                                class="{% if loop.first %}active{% endif %}"></button>
-                                    {% endfor %}
-                                </div>
-                                <div class="carousel-inner">
-                                    {% for image in realisation.images %}
-                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                            <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
-                                                 class="card-realisation-carousel-image" alt="...">
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Précédent</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                        data-bs-target="#carouselIndicators{{ realisation.id }}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Suivant</span>
-                                </button>
-                            </div>
-                        {% elseif realisation.images.count() == 1 %}
-                            <div id="carouselIndicators{{ realisation.id }}"
-                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    {% for image in realisation.images %}
-                                        <div class="carousel-item active">
-                                            <img src="{{ asset('uploads/images/realisations/' ~ image.name) | imagine_filter('my_thumb') }}"
-                                                 class="card-realisation-carousel-image" alt="...">
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% else %}
-                            <div id="carouselIndicators{{ realisation.id }}"
-                                 class="carousel card-realisation-carousel-images" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="{{ asset('uploads/images/realisations/default.jpg') | imagine_filter('my_thumb') }}"
-                                             class="card-realisation-carousel-image" alt="...">
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
+            const leftButton = carousel.querySelector('.slide-left');
+            const rightButton = carousel.querySelector('.slide-right');
 
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- date de la prestation -->
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-calendar-alt media-icon align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Faite le
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                                {% if realisation.dateRealisation %}
-                                                    {{ realisation.dateRealisation|date_format }}
-                                                {% else %}
-                                                    <span class="text-secondary">--</span>
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- fin date de la prestation -->
+            function checkButtons() {
+                leftButton.style.visibility = (currentImageIndex === 0) ? 'hidden' : 'visible';
+                rightButton.style.visibility = (currentImageIndex === images.length - 1) ? 'hidden' : 'visible';
+            }
 
-                                <!-- tarif de la prestation -->
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-euro-sign media-icon align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Tarif de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                                {% if (realisation.tarif is not null) and realisation.tarif != 0 %}
-                                                    {{ realisation.tarif }} €
-                                                    {% if not realisation.isTarifPublic %}
-                                                        <span class="badge badge-warning">
-                                                        <i class="badge-circle-fill"></i>
-                                                        Non publié
-                                                    </span>
-                                                    {% endif %}
-                                                {% else %}
-                                                    <span class="text-secondary">--</span>
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- fin tarif de la prestation -->
+            checkButtons();
 
-                                <!-- durée de la prestation -->
-                                <div class="col-12">
-                                    <div class="media mb-3">
-                                        <i class="las la-clock media-icon align-self-center me-2"></i>
-                                        <div class="media-body">
-                                            <p class="media-info-heading">
-                                                Durée de la prestation
-                                            </p>
-                                            <p class="media-info-text mb-0">
-                                                {% if (realisation.heureDebut is not null) and (realisation.heureFin is not null) %}
-                                                    {{ calculate_duration(realisation.heureDebut, realisation.heureFin) }}
-                                                {% else %}
-                                                    <span class="text-secondary">--</span>
-                                                {% endif %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- fin durée de la prestation -->
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between">
-                            <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
-                               class="btn btn-primary">
-                                Voir
-                            </a>
-                            <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}"
-                               class="btn btn-outline-primary">
-                                {{ icon('pen', 'lg') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+            function scrollImages(offset) {
+                currentImageIndex = Math.max(0, Math.min(images.length - 1, currentImageIndex + offset));
+                imageContainer.style.transform = `translateX(-${currentImageIndex * imageWidth}px)`;
+                checkButtons();
+            }
 
-    <div class="row">
-        <div class="col-12">
-            {#            {{ knp_pagination_render(realisations) }} #}
-        </div>
-    </div>
+            carousel.querySelector('.slide-left').addEventListener('click', () => scrollImages(-1));
+            carousel.querySelector('.slide-right').addEventListener('click', () => scrollImages(1));
+        });
+
+    </script>
 {% endblock %}

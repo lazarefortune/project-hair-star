@@ -1,161 +1,158 @@
-<div class="col-12">
+<div class="space-y-12">
     {{ form_start(form) }}
-{#    <div class="card">#}
 
-{#        <div class="card-body">#}
-
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{ form_label(form.isPublic) }}
-                        {{ form_widget(form.isPublic) }}
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        {{ form_label(form.dateRealisation) }}
-                        <div class="flatpickr-date-wrap flatpickr-wrap">
-                            {{ form_widget(form.dateRealisation, {'attr': {'placeholder': 'Choisir une date...', 'data-input': 'true'}}) }}
-                            <a class="input-button" title="toggle" data-toggle>
-                                <i class="las la-calendar"></i>
-                            </a>
-                            <a class="input-button-clear" title="clear" data-clear>
-                                <i class="las la-times-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.heureDebut) }}
-                        <div class="flatpickr-time-wrap flatpickr-wrap">
-                            {{ form_widget(form.heureDebut, {'attr': {'placeholder': '', 'data-input': 'true'}}) }}
-                            <a class="input-button" title="toggle" data-toggle>
-                                <i class="las la-clock"></i>
-                            </a>
-                            <a class="input-button-clear" title="clear" data-clear>
-                                <i class="las la-times-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.heureFin) }}
-                        <div class="flatpickr-time-wrap flatpickr-wrap">
-                            {{ form_widget(form.heureFin, {'attr': {'placeholder': '', 'data-input': 'true'}}) }}
-                            <a class="input-button" title="toggle" data-toggle>
-                                <i class="las la-clock"></i>
-                            </a>
-                            <a class="input-button-clear" title="clear" data-clear>
-                                <i class="las la-times-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.tarif) }}
-                        <div class="input-group">
-                            {{ form_widget(form.tarif, {'attr': {'aria-describedby': 'input-group-realisation-price'}}) }}
-                            <span class="input-group-text" id="input-group-realisation-price">€</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{ form_label(form.isTarifPublic) }}
-                        {{ form_widget(form.isTarifPublic) }}
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        {{ form_row(form.images) }}
-                    </div>
-                </div>
+    <div class="border-b border-gray-900/10 pb-12">
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+                {{ form_row(form.isPublic, {
+                    'attr': {
+                        'class': 'form-input-md',
+                    },
+                    'label': 'Visibilité de la réalisation',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
             </div>
 
-            <div class="d-flex justify-content-between mb-2">
-                <button class="btn btn-primary">
-                    {{ icon('save', 'lg') }}
-                    <span class="d-none d-sm-inline">
-                        Enregistrer
-                    </span>
-                </button>
-
-                {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-                    <button type="button" class="btn btn-danger-alt" data-bs-toggle="modal"
-                            data-bs-target="#deleteRealisationModal">
-                        <i class="las la-trash la-lg"></i>
-                        <span class="d-none d-sm-inline">Supprimer</span>
-                    </button>
-                {% endif %}
+            <div class="sm:col-span-4">
+                {{ form_row(form.dateRealisation, {
+                    'attr': {
+                        'class': 'flatpickr-date-realisation form-input-md',
+                        'data-input': 'true'
+                    },
+                    'label': 'Date de réalisation',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
             </div>
-{#        </div>#}
-{#    </div>#}
+
+            <div class="sm:col-span-4 sm:col-start-1">
+                {{ form_row(form.duration, {
+                    'attr': {
+                        'class': 'flatpickr-time-input form-input-md',
+                    },
+                    'label': 'Combien de temps a duré la réalisation ?',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
+            </div>
+
+            <div class="sm:col-span-4">
+                {{ form_row(form.tarif, {
+                    'attr': {
+                        'class': 'form-input-md',
+                    },
+                    'label': 'Coût de la réalisation',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
+            </div>
+
+            <div class="sm:col-span-4">
+                {{ form_row(form.isTarifPublic, {
+                    'attr': {
+                        'class': 'form-input-md',
+                    },
+                    'label': 'Souhaites-tu rendre public le coût de la réalisation ?',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
+            </div>
+
+            <div class="sm:col-span-4">
+                {{ form_row(form.images, {
+                    'attr': {
+                        'class': 'form-input-md',
+                    },
+                    'label': 'Montre-nous ton travail !',
+                    'label_attr': {
+                        'class': 'label'
+                    }
+                }) }}
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="submit"
+                class="rounded-md bg-indigo-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Enregistrer
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-between mb-2">
+
+
+        {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+            <button type="button" class="btn btn-danger-alt" data-bs-toggle="modal"
+                    data-bs-target="#deleteRealisationModal">
+                <i class="las la-trash la-lg"></i>
+                <span class="d-none d-sm-inline">Supprimer</span>
+            </button>
+        {% endif %}
+    </div>
+    {#        </div> #}
+    {#    </div> #}
     {{ form_end(form) }}
 </div>
 
 {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-<!-- Modal delete realisation -->
-<div class="modal fade" id="deleteRealisationModal" tabindex="-1" aria-labelledby="deleteRealisationModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer la réalisation</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Êtes-vous sûr de vouloir supprimer cette réalisation ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Annuler</button>
-                {{ include('admin/realisation/_delete_form.html.twig') }}
+    <!-- Modal delete realisation -->
+    <div class="modal fade" id="deleteRealisationModal" tabindex="-1" aria-labelledby="deleteRealisationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Supprimer la réalisation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer cette réalisation ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Annuler</button>
+                    {{ include('admin/realisation/_delete_form.html.twig') }}
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endif %}
 
-{% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-    <h4 class="text-center mt-5">Les images</h4>
-    <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}"  method="post">
-    <div class="row">
-        {% for image in realisation.images %}
-        <div class="col-12 col-md-6 col-lg-4" id="image-realisation-{{ image.id }}">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-image">
-                        <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
-                             alt="{{ image.name }}" class="img-fluid">
+    {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+        <h4 class="text-center mt-5">Les images</h4>
+        <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}" method="post">
+            <div class="row">
+                {% for image in realisation.images %}
+                    <div class="col-12 col-md-6 col-lg-4" id="image-realisation-{{ image.id }}">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-image">
+                                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
+                                         alt="{{ image.name }}" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a class="btn btn-danger"
+                                   href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                   data-delete-image-realisation
+                                   data-token={{ csrf_token('delete' ~ image.id) }}
+                                   data-id="{{ image.id }}"
+                                >
+                                    <i class="las la-trash"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn btn-danger"
-                       href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
-                       data-delete-image-realisation
-                       data-token={{ csrf_token('delete' ~ image.id) }}
-                       data-id="{{ image.id }}"
-                    >
-                        <i class="las la-trash"></i>
-                    </a>
-                </div>
+                {% endfor %}
             </div>
-        </div>
-        {% endfor %}
-    </div>
-    </form>
-{% endif %}
+        </form>
+    {% endif %}
 
 
