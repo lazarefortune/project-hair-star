@@ -8,3 +8,9 @@
   background-color: var(--color-primary-outline);
   color: var(--color-base-100);
 }
+
+.nav-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}

@@ -1,62 +1,55 @@
 {% extends 'admin/layouts/card.html.twig' %}
 
 {% block title %}CategoryService index{% endblock %}
-{% block card_title %}Toutes les catégories{% endblock %}
+{% block card_title %}Catégories{% endblock %}
+
+{% block card_actions %}
+    <a href="{{ path('app_admin_category_service_new') }}"
+       class="card-btn-action-primary">
+        {{ icon('plus') }}
+        <span class="ml-2">Ajouter</span>
+    </a>
+{% endblock %}
 
 {% block card_body %}
-    <div class="block sm:flex items-center md:divide-x md:divide-gray-100">
-        <form class="sm:pr-3 mb-4 sm:mb-0" action="" method="POST">
-            <label for="categories-services-search" class="sr-only">Rechercher</label>
-            <div class="mt-1 relative sm:w-64 xl:w-96">
-                <input type="text" name="search" id="categories-services-search"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
-                       placeholder="Rechercher des catégories">
-            </div>
-        </form>
-        <div class="flex items-center sm:justify-end w-full">
-            <a href="{{ path('app_admin_category_service_new') }}"
-               class="text-white bg-indigo-600 hover:bg-indigo-700 hover:text-white focus:ring-4 focus:ring-indigo-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
-                {{ icon('plus', '', 'mr-2') }}
-                Ajouter
-            </a>
-        </div>
+    <div class="overflow-auto">
+        <table class="table table-responsive mt-6 font-circularStd w-full">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Articles</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category_service in category_services %}
+                <tr>
+                    <td>{{ category_service.name }}</td>
+                    <td>12</td>
+                    <td>
+                        <span class="badge badge-success">Actif</span>
+                    </td>
+                    <td class="table-actions">
+                        <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}"
+                           class="card-btn-action">
+                            {{ icon('edit') }}
+                        </a>
+                        <a href="{{ path('app_admin_category_service_delete', {'id': category_service.id}) }}"
+                           class="card-btn-action">
+                            {{ icon('trash') }}
+                        </a>
 
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-    <p class="pt-5 font-circularStd">
-        Vous pouvez ajouter une catégorie de service en cliquant sur le bouton ci-dessus.
-    </p>
-
-    <table class="table table-responsive mt-6 font-circularStd">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for category_service in category_services %}
-            <tr>
-                <td>{{ category_service.name }}</td>
-                <td>
-                    {#                    <button class="table-btn table-btn-dropdown"> #}
-                    {#                        {{ icon('ellipsis-h') }} #}
-                    {#                    </button> #}
-
-
-                    <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}"
-                       class="btn-xs btn-primary-outline">Modifier</a>
-                    <a href="{{ path('app_admin_category_service_delete', {'id': category_service.id}) }}"
-                       class="btn-xs btn-danger">Supprimer</a>
-
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
 {% endblock %}

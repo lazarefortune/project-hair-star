@@ -16,7 +16,6 @@ class CategoryServiceType extends AbstractType
             ->add( 'name', TextType::class, [
                 'label' => 'Nom de la catégorie',
                 'attr' => [
-                    'placeholder' => 'Nom de la catégorie',
                     'class' => '',
                 ],
                 'label_attr' => [

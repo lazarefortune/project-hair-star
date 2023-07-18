@@ -6,7 +6,7 @@
 
 // ------------------------------ BASE STYLE ------------------------------
 body {
-  font-family: 'Inter', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-family: 'CircularStd', 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
   background-color: #ffffff;
   font-size: 16px;
   color: var(--color);
@@ -95,7 +95,7 @@ a {
 }
 
 .btn-danger {
-  @apply border-transparent bg-[#FDDAE6] text-gray-900 hover:bg-[#FDC7D8] focus:ring-[#FDC7D8] focus:border-[#FDC7D8] dark:bg-[#FDC7D8] dark:text-gray-900 dark:hover:bg-[#FDC7D8] dark:focus:ring-[#FDC7D8] dark:focus:border-[#FDC7D8];
+  @apply border-transparent bg-[#FDDAE6] hover:bg-[#FDC7D8] focus:ring-[#FDC7D8] focus:border-[#FDC7D8] dark:bg-[#FDC7D8] dark:hover:bg-[#FDC7D8] dark:focus:ring-[#FDC7D8] dark:focus:border-[#FDC7D8] text-[#C7204B] hover:text-[#C7204B] dark:text-[#C7204B] dark:hover:text-[#C7204B];
 }
 
 .btn-primary-outline {
@@ -126,11 +126,11 @@ a {
 }
 
 .badge {
-  @apply inline-block rounded-lg px-3 py-1 text-sm bg-gray-100 text-gray-800;
+  @apply inline-block rounded-sm px-3 py-1 text-sm bg-gray-100 text-gray-800;
 }
 
 .badge-success {
-  @apply bg-green-100 text-green-800;
+  @apply bg-green-200 text-green-800;
 }
 
 .badge-warning {
@@ -150,12 +150,13 @@ a {
 }
 
 .table {
-  @apply w-full border-collapse table-auto;
+  @apply w-full table-fixed;
 }
 
 .table th,
 .table td {
-  @apply border border-gray-300 px-3 py-2;
+  @apply px-3 py-2;
+  //@apply border border-gray-300 px-3 py-2;
 }
 
 .table th {
@@ -229,3 +230,16 @@ a {
 .table-btn-primary {
   @apply border-transparent bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500;
 }
+
+.table-actions {
+  @apply w-full;
+}
+
+.card-btn-action {
+  @apply text-gray-500 hover:text-gray-500 hover:bg-gray-100 px-4 py-1.5 shadow-sm border border-gray-200;
+}
+
+.card-btn-action-primary {
+  @apply hover:bg-indigo-200 hover:text-indigo-600 px-4 py-1.5 shadow-sm border border-indigo-200 bg-indigo-100 text-indigo-600;
+}
+

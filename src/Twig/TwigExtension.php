@@ -28,8 +28,11 @@ class TwigExtension extends AbstractExtension
             $attributes .= ' ' . $attrs;
         }
 
+//        return <<<HTML
+//            <i class="las la-{$icon}  {$attributes}"></i>
+//        HTML;
         return <<<HTML
-            <i class="las la-{$icon}  {$attributes}"></i>
+            <i class="fa-solid fa-{$icon}  {$attributes}"></i>
         HTML;
     }
 

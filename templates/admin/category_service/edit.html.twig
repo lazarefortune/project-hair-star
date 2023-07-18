@@ -1,18 +1,24 @@
 {% extends 'admin/layouts/card.html.twig' %}
 
 {% block title %}Edit CategoryService{% endblock %}
-{% block card_title %}Edit CategoryService{% endblock %}
+{% block card_title %}Édition Catégorie{% endblock %}
+
+{% block card_actions %}
+    <a href="{{ path('app_admin_category_service_index') }}" class="card-btn-action">
+        {{ icon('arrow-left') }}
+        Toutes les entrées
+    </a>
+
+
+{% endblock %}
 
 {% block card_body %}
 
     {{ include('admin/category_service/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    <div class="flex justify-between items-center mt-8">
-        <a href="{{ path('app_admin_category_service_index') }}" class="btn btn-primary-outline">
-            Retour à la liste
-        </a>
+    {#    <div class="flex justify-between items-center mt-8"> #}
 
-        {{ include('admin/category_service/_delete_form.html.twig') }}
-    </div>
+    {#        {{ include('admin/category_service/_delete_form.html.twig') }} #}
+    {#    </div> #}
 
 {% endblock %}

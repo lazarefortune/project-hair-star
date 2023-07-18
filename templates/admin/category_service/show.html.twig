@@ -1,26 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layouts/card.html.twig' %}
 
-{% block title %}CategoryService{% endblock %}
+{% block card_title %}Détails Catégorie{% endblock %}
 
-{% block body %}
-    <h1>CategoryService</h1>
+{% block card_actions %}
+    <a href="{{ path('app_admin_category_service_index') }}"
+       class="card-btn-action">
+        {{ icon('arrow-left') }}
+        <span class="ml-2 hidden md:inline-block">Toutes les catégories</span>
+    </a>
+    <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}"
+       class="card-btn-action">
+        {{ icon('pen') }}
+        <span class="ml-2 hidden md:inline-block">Modifier</span>
+    </a>
+    <form method="post" action="{{ path('app_admin_category_service_delete', {'id': category_service.id}) }}"
+          onsubmit="return confirm('Are you sure you want to delete this item?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category_service.id) }}">
 
+        <button class="card-btn-action">
+            {{ icon('trash') }}
+            <span class="ml-2 hidden md:inline-block">Supprimer</span>
+        </button>
+    </form>
+{% endblock %}
+
+{% block card_body %}
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category_service.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ category_service.name }}</td>
-            </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ category_service.name }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_category_service_index') }}">back to list</a>
-
-    <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}">edit</a>
 
     {{ include('admin/category_service/_delete_form.html.twig') }}
 {% endblock %}

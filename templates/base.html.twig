@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
+    {#    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}"> #}
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/brands.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/solid.css') }}">
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -35,16 +38,48 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
+
 <body>
 
 {{ include('layouts/blocs/_header.html.twig') }}
 
-<section class="bg-white">
-    <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:py-16 lg:pt-24">
+<main class="bg-white mt-14">
+    <section class="max-w-screen-xl mx-auto bg-white min-h-screen p-4 md:p-8">
         {% block body %}{% endblock %}
-    </div>
-</section>
+    </section>
+</main>
 
 {% block javascripts__footer %}
+    <script type="text/javascript">
+        window.onload = function () {
+            let toggleBtn = document.querySelector("#navbar-toggle");
+            let toggleBtnIcon = document.querySelector("#navbar-toggle-icon");
+            let collapse = document.querySelector("#navbar-collapse");
+            let navbar = document.querySelector("#navbar");
+
+            toggleBtn.onclick = () => {
+                collapse.classList.toggle("hidden");
+                collapse.classList.toggle("flex");
+                // collapse.classList.toggle("opacity-0");
+                // collapse.classList.toggle("opacity-100");
+                // collapse.classList.toggle("invisible");
+                // collapse.classList.toggle("visible");
+                // collapse.classList.toggle("h-0");
+                // collapse.classList.toggle("h-auto");
+
+                if (toggleBtnIcon.classList.contains("fa-bars")) {
+                    toggleBtnIcon.classList.remove("fa-bars");
+                    toggleBtnIcon.classList.add("fa-times");
+                    toggleBtnIcon.style.transform = "rotate(180deg)";
+                } else {
+                    toggleBtnIcon.classList.remove("fa-times");
+                    toggleBtnIcon.classList.add("fa-bars");
+                    toggleBtnIcon.style.transform = "rotate(0deg)";
+                }
+            };
+        }
+    </script>
+
+
 {% endblock %}
 </body>

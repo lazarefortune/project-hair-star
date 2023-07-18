@@ -1,15 +1,17 @@
 {% extends 'admin/layouts/card.html.twig' %}
 
 {% block title %}Nouvelle catégorie{% endblock %}
-{% block card_title %}Ajout d'une nouvelle catégorie{% endblock %}
+{% block card_title %}Ajout Catégorie{% endblock %}
+
+{% block card_actions %}
+    <a href="{{ path('app_admin_category_service_index') }}"
+       class="card-btn-action">
+        {{ icon('arrow-left') }}
+        <span class="ml-2">Toutes les catégories</span>
+    </a>
+{% endblock %}
 
 {% block card_body %}
-    <div class="text-right">
-        <a href="{{ path('app_admin_category_service_index') }}" class="btn btn-primary-outline mt-4">
-            {{ icon('arrow-left') }}
-            Retour à la liste
-        </a>
-    </div>
 
     {{ include('admin/category_service/_form.html.twig') }}
 
