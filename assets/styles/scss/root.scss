@@ -130,7 +130,7 @@ a {
 }
 
 .badge-success {
-  @apply bg-green-200 text-green-800;
+  @apply bg-green-200/50 text-green-800 rounded-md;
 }
 
 .badge-warning {

@@ -17,22 +17,47 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function showIcon( string $icon, ?string $size = null, ?string $attrs = null ) : string
+    public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 'regular' ) : string
     {
-        $attributes = '';
-        if ( $size ) {
-            $attributes = 'la-' . $size;
+        return $this->showIconWithLineAwesome( $iconName, $iconSize, $additionalClass );
+    }
+
+    private function showIconWithLineAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 's' ) : string
+    {
+        $classNames = '';
+
+        $lineAwesomeIconsSizes = ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x'];
+
+        if ( $iconSize and in_array( $iconSize, $lineAwesomeIconsSizes ) ) {
+            $classNames = 'la-' . $iconSize;
         }
 
-        if ( $attrs ) {
-            $attributes .= ' ' . $attrs;
+        if ( $additionalClass ) {
+            $classNames .= ' ' . $additionalClass;
         }
 
-//        return <<<HTML
-//            <i class="las la-{$icon}  {$attributes}"></i>
-//        HTML;
         return <<<HTML
-            <i class="fa-solid fa-{$icon}  {$attributes}"></i>
+           <i class="la{$iconType} la-{$iconName}  {$classNames}"></i>
+        HTML;
+    }
+
+
+    private function showIconWithFontAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 'regular' ) : string
+    {
+        $classNames = '';
+
+        $fontAwesomeIconsSizes = ['2xs', 'xs', 'sm', 'lg', 'xl', '2xl'];
+
+        if ( $iconSize and in_array( $iconSize, $fontAwesomeIconsSizes ) ) {
+            $classNames = 'fa-' . $iconSize;
+        }
+
+        if ( $additionalClass ) {
+            $classNames .= ' ' . $additionalClass;
+        }
+
+        return <<<HTML
+           <i class="fa-{$iconType} fa-{$iconName}  {$classNames}"></i>
         HTML;
     }
 

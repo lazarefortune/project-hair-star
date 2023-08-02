@@ -2,8 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\RealisationRepository;
-use App\Repository\UserRepository;
 use App\Service\BookingService;
 use App\Service\ClientService;
 use App\Service\RealisationService;
@@ -55,6 +53,4 @@ class AdminController extends AbstractController
     {
         return $this->render( 'admin/test.html.twig' );
     }
-
-
 }
