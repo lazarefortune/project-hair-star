@@ -6,26 +6,50 @@
 
 {% block card_body %}
 
-    <div class="block sm:flex items-center md:divide-x md:divide-gray-100">
-        <form class="sm:pr-3 mb-4 sm:mb-0" action="" method="POST">
-            <label for="realisations-search" class="sr-only">Rechercher</label>
-            <div class="mt-1 relative sm:w-64 xl:w-96">
-                <input type="text" name="search" id="realisations-search"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
-                       placeholder="Rechercher des réalisations">
-            </div>
-        </form>
-        <div class="flex items-center sm:justify-end w-full">
-            <a href="{{ path('app_admin_realisation_new') }}"
-               class="text-white bg-indigo-600 hover:bg-indigo-700 hover:text-white focus:ring-4 focus:ring-indigo-200 font-medium inline-flex items-center rounded-lg text-sm px-3 py-2 text-center sm:ml-auto">
-                {{ icon('plus', '', 'mr-2') }}
-                Ajouter une réalisation
-            </a>
-        </div>
+    <div class="hidden lg:block">
+        <table class="table table-responsive mt-6 font-circularStd w-full">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Durée</th>
+                <th>Montant</th>
+                <th>Visibilité</th>
+                <th>Statut</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for realisation in realisations %}
+                <tr>
+                    <td>{{ realisation.dateRealisation|date('d/m/Y') }}</td>
+                    <td>
+                        {{ realisation.duration|date('H') }}
+                        h {{ realisation.duration|date('i') }} min
+                    </td>
+                    <td>{{ realisation.tarif }} €</td>
+                    <td>
+                        <span class="badge badge-success">Terminé</span>
+                    </td>
+                    <td>
+                        {% if realisation.isPublic %}
+                            <span class="badge badge-success">Publié</span>
+                        {% else %}
+                            <span class="badge badge-danger">Non publié</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
+                           class="btn btn-primary btn-sm">Voir</a>
+                    </td>
+                </tr>
+            {% endfor %}
 
+        </table>
     </div>
+
+
     <!-- list of realisations -->
-    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid lg:hidden grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {% for realisation in realisations %}
 
             {% include 'admin/realisation/_realisation_card.html.twig' %}

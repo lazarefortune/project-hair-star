@@ -44,7 +44,7 @@ body {
 }
 
 .label {
-  @apply block mb-2 text-sm font-medium text-gray-500 dark:text-white;
+  @apply block mb-2 text-base text-gray-500 dark:text-white;
   //@apply block mb-1 leading-6 font-normal text-gray-500 dark:text-white;
 }
 
@@ -117,12 +117,12 @@ a {
 
 .form-input-sm {
   //@apply text-sm block w-full rounded-md border border-gray-300 py-1.5 text-gray-900 shadow-sm ring-0 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mt-2;
-  @apply border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply border border-gray-300 text-gray-900 sm:text-base rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 .form-input-md {
   //@apply text-sm block w-full rounded-md border border-gray-300 py-2.5 text-gray-900 shadow-sm ring-0 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mt-2;
-  @apply border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply border border-gray-300 text-gray-900 sm:text-base rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 .badge {

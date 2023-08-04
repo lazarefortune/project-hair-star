@@ -64,15 +64,35 @@
             <a href="{{ path('app_admin_realisation_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
                 {{ icon('cut', 'sm') }}
-                <span class="ml-1">Réalisations</span>
+                <span class="ml-1">Prestations</span>
+            </a>
+            <a href="{{ path('app_admin_clients_index') }}"
+               class="sidebar-nav-item">
+                {{ icon('group', 'sm') }}
+                <span class="ml-1">Clients</span>
+            </a>
+            <a href="{{ path('app_admin_clients_index') }}"
+               class="sidebar-nav-item">
+                {{ icon('calendar', 'sm') }}
+                <span class="ml-1">Rendez-vous</span>
             </a>
         </div>
 
         <div class="px-4 mb-2 mt-4 text-sm text-gray-400 dark:text-gray-400">
-            Gestion
+            Gestion du salon
         </div>
 
         <div class="space-y-2">
+            <a href="{{ path('app_admin_service_index') }}"
+               class="sidebar-nav-item {{ menu_active('app_admin_service') }}">
+                {{ icon('store-alt', 'sm') }}
+                <span class="ml-1">Services</span>
+            </a>
+            <a href="{{ path('app_admin_category_service_index') }}"
+               class="sidebar-nav-item {{ menu_active('app_admin_category_service') }}">
+                {{ icon('purchase-tag', 'sm') }}
+                <span class="ml-1">Type de services</span>
+            </a>
             <a href="" class="sidebar-nav-item">
                 {{ icon('cog', 'sm') }}
                 <span class="ml-1">Paramètres</span>
