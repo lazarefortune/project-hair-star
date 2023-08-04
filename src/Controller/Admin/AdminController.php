@@ -17,14 +17,14 @@ class AdminController extends AbstractController
     {
         $dashboardCards = [
             [
-                'icon' => 'users',
+                'icon' => 'user',
                 'title' => 'Clients',
                 'number' => count( $clientService->getClients() ),
                 'route' => 'app_admin_client_index',
                 'status' => 'increased',
             ],
             [
-                'icon' => 'images',
+                'icon' => 'cut',
                 'title' => 'Réalisations',
                 'number' => count( $realisationService->getRealisations() ),
                 'route' => 'app_admin_realisation_index',

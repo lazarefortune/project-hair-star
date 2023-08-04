@@ -17,9 +17,9 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 'regular' ) : string
+    public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
     {
-        return $this->showIconWithLineAwesome( $iconName, $iconSize, $additionalClass );
+        return $this->showIconWithBoxIcons( $iconName, $iconSize, $additionalClass, $iconType );
     }
 
     private function showIconWithLineAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 's' ) : string
@@ -38,6 +38,25 @@ class TwigExtension extends AbstractExtension
 
         return <<<HTML
            <i class="la{$iconType} la-{$iconName}  {$classNames}"></i>
+        HTML;
+    }
+
+    private function showIconWithBoxIcons( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
+    {
+        $classNames = '';
+
+        $boxIconsSizes = ['xs', 'sm', 'lg', 'xl'];
+
+        if ( $iconSize and in_array( $iconSize, $boxIconsSizes ) ) {
+            $classNames = 'bx-' . $iconSize;
+        }
+
+        if ( $additionalClass ) {
+            $classNames .= ' ' . $additionalClass;
+        }
+
+        return <<<HTML
+           <i class="bx bx{$iconType}-{$iconName}  {$classNames}"></i>
         HTML;
     }
 

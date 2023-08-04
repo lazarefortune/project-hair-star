@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
+    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/boxicons/css/boxicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/brands.css') }}">
+    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/solid.css') }}">
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('favicons/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('favicons/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('favicons/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('favicons/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('favicons/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('favicons/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicons/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('admin') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('admin') }}
+    {% endblock %}
+</head>
+<body>
+
+
+<aside id="sidebar"
+       class="fixed top-0 left-0 w-64 z-40 h-screen font-circularStd transition-transform -translate-x-full sm:translate-x-0">
+    <nav class="h-full pt-16 px-4 py-4 overflow-auto  dark:bg-gray-800 bg-gray-800">
+
+        <div class="px-4 mb-2 mt-4 text-sm text-gray-400 dark:text-gray-400">
+            Menu
+        </div>
+
+        <div class="space-y-2">
+            <a href="{{ path('app_home') }}" class="sidebar-nav-item">
+                {{ icon('chevrons-left', 'sm') }}
+                <span class="ml-1">Retour au site</span>
+            </a>
+            <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
+                {{ icon('home', 'sm') }}
+                <span class="ml-1">Accueil</span>
+            </a>
+            <a href="{{ path('app_admin_realisation_index') }}"
+               class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
+                {{ icon('cut', 'sm') }}
+                <span class="ml-1">Réalisations</span>
+            </a>
+        </div>
+
+        <div class="px-4 mb-2 mt-4 text-sm text-gray-400 dark:text-gray-400">
+            Gestion
+        </div>
+
+        <div class="space-y-2">
+            <a href="" class="sidebar-nav-item">
+                {{ icon('cog', 'sm') }}
+                <span class="ml-1">Paramètres</span>
+            </a>
+        </div>
+    </nav>
+</aside>
+
+<div class="bg-gray-900 opacity-50 fixed inset-0 z-10 hidden" id="sidebarBackdrop"></div>
+
+<div class="min-h-screen font-Gilroy">
+    <div class="w-full fixed z-50 py-2 px-3 flex justify-between items-center bg-white dark:bg-gray-800">
+        <div class="flex items-center">
+            <button id="btnSidebar" type="button" onClick="toggleSidebar"
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300
+                                    focus:ring-opacity-0 focus:ring-0 focus:ring-offset-0
+                                    ">
+                {{ icon('menu', 'sm') }}
+            </button>
+
+            <a href="{{ path('app_admin_home') }}"
+               class="flex items-center gap-2 text-orange-600 dark:text-orange-600 text-xl font-bold sm:ml-9">
+                <img src="{{ asset('images/hair-star-logo.svg') }}" alt="logo" class="w-12 h-12">
+            </a>
+        </div>
+
+        <div class="relative flex items-center">
+            <button id="userBtn" class="cursor-pointer">
+                <img class="h-10 w-10 rounded-full" src="{{ asset('images/coiffure.webp') }}"
+                     alt="Your avatar">
+            </button>
+
+            <div id="userDropdown"
+                 class="absolute top-11 right-0 mt-2 w-48 bg-white rounded-lg overflow-hidden shadow-xl z-10 transform scale-0 origin-top-right transition-all duration-100">
+                <a href="{{ path('app_admin_account_index') }}"
+                   class="flex justify-start items-center gap-2 px-4 py-3 text-sm text-gray-600 hover:text-indigo-600 hover:bg-indigo-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    {{ icon('user', 'xs') }}
+                    <span class="">Mon compte</span>
+                </a>
+                <a href="{{ path('app_logout') }}"
+                   class="flex justify-start items-center gap-2 px-4 py-3 text-sm text-gray-600 hover:text-indigo-600 hover:bg-indigo-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                    {{ icon('log-out', 'xs') }}
+                    Déconnexion
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <main class="min-h-screen pt-20 px-4 sm:px-9 sm:ml-64 bg-gray-50 dark:bg-gray-600 dark:text-gray-50">
+        {% block body %}{% endblock %}
+    </main>
+</div>
+
+
+<script type="text/javascript">
+    const sidebar = document.getElementById('sidebar');
+    const btnSidebar = document.getElementById('btnSidebar');
+
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    function toggleSidebar() {
+        btnSidebar.classList.toggle('-rotate-90');
+        btnSidebar.innerHTML = sidebar.classList.contains('-translate-x-full') ? '{{ icon('x', 'sm') }}' : '{{ icon('menu', 'sm') }}';
+
+        sidebarBackdrop.classList.toggle('hidden');
+
+        sidebar.classList.toggle('-translate-x-full');
+        sidebar.classList.toggle('translate-x-0');
+    }
+
+    btnSidebar.addEventListener('click', toggleSidebar);
+
+    sidebarBackdrop.addEventListener('click', toggleSidebar);
+
+    // Show dropdown menu on user button click
+    document.getElementById('userBtn').addEventListener('click', function () {
+        // show dropdown menu with animation
+        document.getElementById('userDropdown').classList.toggle('scale-100');
+    });
+</script>
+
+</body>
+</html>
