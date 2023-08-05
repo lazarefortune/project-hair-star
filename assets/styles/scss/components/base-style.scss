@@ -1,0 +1,7 @@
+body {
+  @apply font-family['CircularStd', 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif] bg-white text-base text-gray-800 leading-6 scroll-margin-top[100px] word-break[break-word];
+}
+
+a {
+  @apply text-indigo-600 hover:text-indigo-500 no-underline hover:no-underline;
+}

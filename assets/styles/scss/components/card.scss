@@ -1,0 +1,7 @@
+.card-btn-action {
+  @apply text-gray-500 hover:text-gray-500 hover:bg-gray-100 px-4 py-1.5 shadow-sm border border-gray-200;
+}
+
+.card-btn-action-primary {
+  @apply hover:bg-indigo-200 hover:text-indigo-600 px-4 py-1.5 shadow-sm border border-indigo-200 bg-indigo-100 text-indigo-600;
+}

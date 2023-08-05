@@ -78,7 +78,7 @@ a {
 
 .btn {
   //@apply px-3 py-2 inline-block text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
-  @apply inline-flex items-center justify-center px-6 py-1.5 border text-base rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+  @apply inline-flex items-center justify-center px-6 py-3 border text-base rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
 }
 
 .btn-sm {
@@ -91,7 +91,7 @@ a {
 
 .btn-primary {
   //@apply border-transparent bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500;
-  @apply hover:text-white border-transparent focus:ring-indigo-500 rounded-md bg-indigo-600 text-sm text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  @apply hover:text-white border-transparent focus:ring-indigo-500 rounded-md bg-indigo-600 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
 }
 
 .btn-danger {
@@ -99,7 +99,7 @@ a {
 }
 
 .btn-primary-outline {
-  @apply hover:text-indigo-600 border-transparent focus:ring-indigo-500 rounded-md bg-indigo-50 text-sm text-indigo-600 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  @apply hover:text-indigo-600 border-transparent focus:ring-indigo-500 rounded-md bg-indigo-50 text-indigo-600 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
   //@apply hover:text-indigo-600 border-transparent focus:ring-indigo-500 rounded-md bg-indigo-50 px-3 py-2 text-sm text-indigo-600 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
 }
 
@@ -123,6 +123,10 @@ a {
 .form-input-md {
   //@apply text-sm block w-full rounded-md border border-gray-300 py-2.5 text-gray-900 shadow-sm ring-0 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mt-2;
   @apply border border-gray-300 text-gray-900 sm:text-base rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
+.form-input-lg {
+  @apply border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 .badge {

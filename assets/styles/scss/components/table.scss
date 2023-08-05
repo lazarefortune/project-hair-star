@@ -1,0 +1,85 @@
+.table {
+  @apply w-full table-fixed;
+}
+
+.table th,
+.table td {
+  @apply px-3 py-2;
+  //@apply border border-gray-300 px-3 py-2;
+}
+
+.table th {
+  @apply bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.table td {
+  @apply text-sm text-gray-800;
+}
+
+.table tr {
+  @apply border-b border-gray-200;
+}
+
+.table tr:last-child {
+  @apply border-b-0;
+}
+
+.table tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+.table tr:hover {
+  @apply bg-gray-100;
+}
+
+.table-responsive {
+  @apply overflow-x-auto;
+}
+
+.table-responsive::-webkit-scrollbar {
+  @apply h-1 w-1;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  @apply bg-gray-300;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:active {
+  @apply bg-gray-500;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:vertical {
+  @apply h-2;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:horizontal {
+  @apply w-2;
+}
+
+.table-responsive::-webkit-scrollbar-corner {
+  @apply bg-gray-100;
+}
+
+.table-responsive::-webkit-scrollbar-corner:vertical {
+  @apply h-2;
+}
+
+.table-btn {
+  @apply inline-flex items-center justify-center px-2 py-0.5 border text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.table-btn-primary {
+  @apply border-transparent bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500;
+}
+
+.table-actions {
+  @apply w-full;
+}

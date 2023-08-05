@@ -1,0 +1,31 @@
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 border text-base rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-sm {
+  @apply inline-flex items-center justify-center px-4 py-1 border text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-xs {
+  @apply inline-flex items-center justify-center px-2 py-0.5 border text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply hover:text-white border-transparent focus:ring-indigo-500 rounded-md bg-indigo-600 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+}
+
+.btn-danger {
+  @apply border-transparent bg-[#FDDAE6] hover:bg-[#FDC7D8] focus:ring-[#FDC7D8] focus:border-[#FDC7D8] dark:bg-[#FDC7D8] dark:hover:bg-[#FDC7D8] dark:focus:ring-[#FDC7D8] dark:focus:border-[#FDC7D8] text-[#C7204B] hover:text-[#C7204B] dark:text-[#C7204B] dark:hover:text-[#C7204B];
+}
+
+.btn-primary-outline {
+  @apply hover:text-indigo-600 border-transparent focus:ring-indigo-500 rounded-md bg-indigo-50 text-indigo-600 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+}
+
+.btn-primary-old {
+  @apply text-white bg-indigo-600 border-transparent hover:bg-indigo-700 focus:ring-indigo-500;
+}
+
+.btn-primary-2 {
+  @apply text-white bg-indigo-500 border-transparent hover:bg-indigo-700 focus:ring-indigo-500;
+}
