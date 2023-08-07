@@ -97,6 +97,54 @@
                 {{ icon('cog', 'sm') }}
                 <span class="ml-1">Paramètres</span>
             </a>
+
+            <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_option_index') }}">
+                {{ icon('cog', 'sm') }}
+                <span class="ml-1">Gestion du salon</span>
+                <span class="sidebar-dropdown-toggle-icon float-right flex justify-center items-center">
+                        {{ icon('chevron-down', 'sm') }}
+                    </span>
+            </button>
+            <div class="sidebar-dropdown-menu  w-full bg-white origin-top-right hidden">
+                <a href="{{ path('app_admin_option_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_option_index') }}">
+                    Option 1
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    Option 2
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    Option 3
+                </a>
+            </div>
+
+            <a href="{{ path('app_admin_clients_index') }}"
+               class="sidebar-nav-item">
+                {{ icon('calendar', 'sm') }}
+                <span class="ml-1">Rendez-vous</span>
+            </a>
+
+            <button class="sidebar-nav-item sidebar-dropdown-toggle">
+                {{ icon('cog', 'sm') }}
+                <span class="ml-1">Gestion du salon</span>
+                <span class="sidebar-dropdown-toggle-icon float-right flex justify-center items-center">
+                        {{ icon('chevron-down', 'sm') }}
+                    </span>
+            </button>
+            <div class="sidebar-dropdown-menu  w-full bg-white origin-top-right hidden">
+                <a href="{{ path('app_admin_option_index') }}"
+                   class="sidebar-nav-item">
+                    Option 1
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    Option 2
+                </a>
+                <a href="#" class="sidebar-nav-item">
+                    Option 3
+                </a>
+            </div>
+
+
         </div>
     </nav>
 </aside>
@@ -173,6 +221,53 @@
         // show dropdown menu with animation
         document.getElementById('userDropdown').classList.toggle('scale-100');
     });
+
+
+    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(toggle => {
+
+        if (toggle.classList.contains('active')) {
+            toggle.nextElementSibling.classList.remove('hidden');
+        }
+
+        toggle.addEventListener('click', e => {
+            e.preventDefault();
+            const dropdownIcon = toggle.querySelector('.sidebar-dropdown-toggle-icon');
+            if (dropdownIcon) {
+                dropdownIcon.classList.toggle('-rotate-180');
+            }
+            const menu = toggle.nextElementSibling;
+            menu.classList.toggle('hidden');
+
+            // Si vous voulez que seul un menu s'affiche à la fois:
+            document.querySelectorAll('.sidebar-dropdown-menu').forEach(dropdown => {
+                if (dropdown !== menu) {
+                    dropdown.classList.add('hidden');
+
+                    // Si vous voulez que le dropdown-icon tourne à chaque fois qu'on clique sur un autre sidebar-dropdown-toggle:
+                    dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('-rotate-180');
+                }
+            });
+        });
+    });
+
+    // Si vous voulez cacher le dropdown lorsque vous cliquez en dehors:
+    // document.addEventListener('click', e => {
+    //     if (!e.target.closest('.sidebar-dropdown-toggle') && !e.target.closest('.sidebar-dropdown-menu')) {
+    //         document.querySelectorAll('.sidebar-dropdown-menu').forEach(dropdown => {
+    //             dropdown.classList.add('hidden');
+    //             dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('-rotate-180');
+    //         });
+    //     }
+    // });
+
+
+    // En cliquant en dehors du userDropdown on le cache
+    document.addEventListener('click', e => {
+        if (!e.target.closest('#userDropdown') && !e.target.closest('#userBtn')) {
+            document.getElementById('userDropdown').classList.remove('scale-100');
+        }
+    });
+
 </script>
 
 </body>

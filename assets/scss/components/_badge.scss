@@ -21,3 +21,7 @@
 .badge-primary {
   @apply bg-indigo-100 text-indigo-800;
 }
+
+.coming-soon {
+  @apply text-xs text-green-800 px-2 py-1 bg-green-100 rounded-lg;
+}

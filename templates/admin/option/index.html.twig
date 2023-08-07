@@ -1,0 +1,19 @@
+{% extends 'admin/layouts/card.html.twig' %}
+
+{% block card_title %}Options{% endblock %}
+
+{% block card_body %}
+    <div class="container">
+        <div class="flex justify-center items-center">
+            <h1 class="text-2xl">
+                Hello OptionController!
+            </h1>
+
+            <ul>
+                {% for option in options %}
+                    <li>{{ option.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
