@@ -36,6 +36,7 @@ flatpickr(".flatpickr-date-input", {
     altInput: true,
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-date-birthday", {
@@ -43,6 +44,7 @@ flatpickr(".flatpickr-date-birthday", {
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
     maxDate: new Date().fp_incr(-16 * 365),
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-date-realisation", {
@@ -50,6 +52,7 @@ flatpickr(".flatpickr-date-realisation", {
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
     minDate: new Date(2023, 0, 1),
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-date", {
@@ -57,6 +60,7 @@ flatpickr(".flatpickr-date", {
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
     defaultDate: "today",
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-date-wrap", {
@@ -64,6 +68,7 @@ flatpickr(".flatpickr-date-wrap", {
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
     wrap: true,
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-time", {
@@ -72,6 +77,7 @@ flatpickr(".flatpickr-time", {
     dateFormat: "H:i",
     time_24hr: true,
     locale: French,
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-time-input", {
@@ -81,6 +87,7 @@ flatpickr(".flatpickr-time-input", {
     time_24hr: true,
     locale: French,
     defaultDate: "today",
+    disableMobile: true,
 });
 
 flatpickr(".flatpickr-time-wrap", {
@@ -90,6 +97,7 @@ flatpickr(".flatpickr-time-wrap", {
     time_24hr: true,
     locale: French,
     wrap: true,
+    disableMobile: true,
 });
 
 // $('.flatpickr-wrap').each(function () {
