@@ -1,5 +1,35 @@
 .flatpickr-calendar {
-  @apply font-inter text-base;
+  @apply font-inter text-sm text-gray-700 bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden;
+}
+
+.flatpickr-innerContainer {
+  @apply flex flex-col items-center justify-center;
+}
+
+
+//.flatpickr-current-month {
+//  @apply text-base;
+//}
+
+.flatpickr-months {
+  @apply flex items-center justify-between w-full;
+}
+
+//.flatpickr-prev-month {
+//  @apply flex items-center justify-start;
+//}
+//
+//.flatpickr-next-month {
+//  @apply inline-block ml-auto;
+//}
+
+
+.flatpickr-month {
+  @apply flex items-center justify-between w-full px-4 py-2 bg-red-900;
+}
+
+.flatpickr-current-month {
+  @apply flex items-center justify-between text-base;
 }
 
 .flatpickr-day {
@@ -14,6 +44,6 @@
   @apply border border-b-indigo-500;
 }
 
-.flatpickr-current-month .numInputWrapper {
-  @apply absolute top-2 right-0;
-}
+//.flatpickr-current-month .numInputWrapper {
+//  @apply absolute top-2 right-0 text-base;
+//}
