@@ -1,3 +1,7 @@
+.flatpickr-calendar {
+  @apply font-inter text-base;
+}
+
 .flatpickr-day {
   @apply hover:bg-indigo-100 ;
 }
