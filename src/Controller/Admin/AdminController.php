@@ -8,8 +8,10 @@ use App\Service\RealisationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/admin', name: 'app_admin_' )]
+#[IsGranted( 'ROLE_ADMIN' )]
 class AdminController extends AbstractController
 {
     #[Route( '/', name: 'home', methods: ['GET'] )]
