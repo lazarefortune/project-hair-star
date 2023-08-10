@@ -6,28 +6,12 @@ import flatpickr from "flatpickr";
 
 // import 'flatpickr/dist/themes/dark.css';
 
-// import 'flatpickr/dist/themes/light.css';
-
-import 'flatpickr/dist/themes/airbnb.css';
-
-// $('.flatpickr-date-input').each(function () {
-//     // // placer le this dans une div avec la classe flatpickr-date-wrap flatpickr-wrap
-//     const $this = $(this);
-//     $this.wrap('<div class="flatpickr-date-wrap flatpickr-wrap"></div>');
-//     // // supprimer le this de la div
-//     // // ajouter les boutons
-//     // $this.after('<a class="input-button" title="toggle" data-toggle><i class="las la-calendar"></i></a><a class="input-button-clear" title="clear" data-clear><i class="las la-times-circle"></i></a>');
-//     // // ajouter le data-input true à l'input
-//     // // $this.attr('data-input', 'true');
-//     //
-//     // // $(this).before('<div class="flatpickr-date-wrap flatpickr-wrap"></div>');
-//     // // déplacer l'élément dans la div
-//     // // $(this).appendTo('.flatpickr-date-wrap');
-//     // // ajouter les boutons
-//     // $(this).after('<a class="input-button" title="toggle" data-toggle><i class="las la-calendar"></i></a><a class="input-button-clear" title="clear" data-clear><i class="las la-times-circle"></i></a>');
-//     // // ajouter le data-input true à l'input
-//     // $(this).attr('data-input', 'true');
-// })
+import 'flatpickr/dist/themes/light.css';
+// import 'flatpickr/dist/themes/material_green.css';
+// import 'flatpickr/dist/themes/material_red.css';
+// import 'flatpickr/dist/themes/material_orange.css';
+// import 'flatpickr/dist/themes/material_blue.css';
+// import 'flatpickr/dist/themes/airbnb.css';
 
 
 flatpickr.localize(French);
