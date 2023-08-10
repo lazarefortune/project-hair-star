@@ -7,9 +7,9 @@ import '../../libs/flatpickr/index.js'
 import '../../libs/flatpickr/flatpickr-tailwind.scss';
 
 // Bulma Calendar
-import '../../libs/bulmacalendar/index.js'
+// import '../../libs/bulmacalendar/index.js'
 // Custom Datepicker
-import '../../libs/datepicker/index.js'
+// import '../../libs/datepicker/index.js'
 
 /* ===== Pages ===== */
 import '../pages/admin/realisation/_deleteImage.js'
