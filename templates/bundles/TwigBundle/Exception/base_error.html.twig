@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_simple.html.twig' %}
 
 {% block body %}
 
@@ -38,7 +38,7 @@
                 {% block error_message '' %}
             </p>
             <div class="mt-10 flex flex-col lg:flex-row items-center justify-center gap-x-6 ">
-                <a href=""
+                <a href="{{ path('app_home') }}"
                    class="btn btn-primary">
                     <svg class="mr-2 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">

@@ -1,5 +1,5 @@
 .alert {
-  @apply rounded-lg relative px-4 py-3 mb-4 border;
+  @apply rounded-lg relative px-4 py-3 mb-4 border text-base;
 }
 
 .alert-danger {
@@ -7,7 +7,7 @@
 }
 
 .alert-success {
-  @apply bg-green-100 text-green-800;
+  @apply bg-green-100 text-green-800 border-green-100;
 }
 
 .alert-warning {

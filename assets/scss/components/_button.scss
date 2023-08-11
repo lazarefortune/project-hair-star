@@ -10,6 +10,10 @@
   @apply inline-flex items-center justify-center rounded-md border px-2 text-sm shadow-sm py-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2;
 }
 
+.btn-md {
+  @apply inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
 .btn-primary {
   @apply rounded-md border-transparent bg-indigo-600 text-white shadow-sm hover:bg-indigo-800 hover:text-white focus:ring-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
 }
