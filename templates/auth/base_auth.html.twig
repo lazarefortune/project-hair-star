@@ -1,44 +1,28 @@
 {% extends 'base_simple.html.twig' %}
 
 {% block body %}
-
-    {#    <section class="bg-gray-50 dark:bg-gray-900"> #}
-    {#        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"> #}
-    {#            <a href="{{ path('app_home') }}" #}
-    {#               class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"> #}
-    {#                <img class="w-8 h-8 mr-2" src="{{ asset('images/jessy_hair_logo.png') }}" #}
-    {#                     alt=" logo"> #}
-    {#                <span class="font-pacifico">Jessy Hair</span> #}
-    {#            </a> #}
-    {#            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"> #}
-    {#                <div class="p-6 space-y-4 md:space-y-6 sm:p-8"> #}
-    {#                    {% block auth_form %}{% endblock %} #}
-    {#                </div> #}
-    {#            </div> #}
-    {#        </div> #}
-    {#    </section> #}
-
-    <section class="bg-gray-50 dark:bg-gray-900 flex items-center justify-center min-h-screen">
-        <div class="flex flex-col md:flex-row w-full px-6 py-8 lg:px-0 lg:py-0 min-h-screen">
-            <div class="w-full lg:w-1/2 flex flex-col items-center justify-center">
-                <a href="{{ path('app_home') }}"
-                   class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img class="w-8 h-8 mr-2" src="{{ asset('images/jessy_hair_logo.png') }}"
-                         alt=" logo">
-                    <span class="font-pacifico">Jessy Hair</span>
-                </a>
-                <div class="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        {% block auth_body %}{% endblock %}
+    <section class="min-h-screen bg-white dark:bg-gray-900">
+        <div class="flex flex-col md:flex-row w-full min-h-screen px-6 py-0 sm:py-8 lg:px-0 lg:py-0">
+            <div class="flex flex-col items-center justify-center w-full min-h-screen lg:w-1/2">
+                <div class="w-full md:max-w-lg">
+                    <a href="{{ path('app_home') }}"
+                       class="flex items-center justify-center text-xl font-semibold text-gray-900 dark:text-white">
+                        {#                        <div class="p-2 rounded-full bg-indigo-100"> <!-- Circle wrapper --> #}
+                        <img class="w-20 h-20" src="{{ asset('images/hair-star-logo.svg') }}" alt="logo">
+                        <!-- Smaller logo -->
+                        {#                        </div> #}
+                    </a>
+                    <div class="w-full dark:bg-gray-800 dark:border-gray-700">
+                        <div class="space-y-4 md:space-y-6 sm:p-8">
+                            {% block auth_body %}{% endblock %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="hidden lg:block lg:w-1/2 relative">
+            <div class="hidden lg:flex lg:w-1/2">
                 <img src="{{ asset('images/coiffure.webp') }}" alt="Outils de coiffure"
-                     class="absolute inset-0 w-full h-full object-cover">
+                     class="w-full h-full object-cover rounded-lg">
             </div>
         </div>
     </section>
-
-
 {% endblock %}

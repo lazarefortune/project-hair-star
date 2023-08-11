@@ -1,17 +1,22 @@
 .form-input-sm {
-  @apply border border-gray-300 text-gray-900 sm:text-base rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply block w-full rounded-lg border border-gray-300 text-gray-900 py-1.5 focus:border-indigo-600 focus:ring-indigo-600 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-blue-500 dark:focus:ring-blue-500;
 }
 
 .form-input-md {
-  @apply border border-gray-300 text-gray-900 sm:text-base rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply block w-full rounded-md border-2 border-gray-300 px-4 text-base text-gray-900 placeholder-gray-300 hover:border-indigo-600 focus:border-indigo-600 focus:ring-0;
+  //@apply block w-full rounded-lg border border-gray-300 py-2 text-gray-900 focus:border-indigo-600 focus:ring-indigo-600 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-base dark:focus:border-blue-500 dark:focus:ring-blue-500;
 }
 
 .form-input-lg {
-  @apply border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply block w-full rounded-lg border border-gray-300 py-3 text-gray-900 focus:border-indigo-600 focus:ring-indigo-600 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-lg dark:focus:border-blue-500 dark:focus:ring-blue-500;
 }
 
 .label {
-  @apply block mb-2 text-base text-gray-500 dark:text-white;
+  @apply block text-base font-medium text-gray-900 dark:text-white;
+}
+
+.form-checkbox-md {
+  @apply h-6 w-6 rounded border border-gray-300 bg-gray-50 text-indigo-600 focus:ring-indigo-500 focus:ring-0;
 }
 
 .invalid-feedback {

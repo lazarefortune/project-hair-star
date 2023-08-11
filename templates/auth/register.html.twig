@@ -5,84 +5,102 @@
 {% endblock %}
 
 {% block auth_body %}
+    <div class="container mx-auto px-4">
+        <h1 class="text-2xl text-center text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white">
+            Bienvenue chez <span class="text-indigo-600 dark:text-primary-400">Hair Star</span>
+        </h1>
+        <p class="text-center text-gray-500 dark:text-gray-400">
+            Inscrivez-vous pour gérez vos rendez-vous en ligne.
+        </p>
 
-    <h1 class="text-xl text-center text-indigo-600 font-bold leading-tight tracking-tight md:text-2xl dark:text-white">
-        Création de votre compte
-    </h1>
+        {{ form_start(registrationForm, {
+            attr: {
+                class: 'space-y-4 md:space-y-6'
+            }
+        }) }}
 
-    {{ form_start(registrationForm, {
-        attr: {
-            class: 'space-y-4 md:space-y-6'
-        }
-    }) }}
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+            {{ form_row(registrationForm.fullname, {
+                label: 'Nom',
+                label_attr: {
+                    class: 'label'
+                },
+                'attr': {
+                    'placeholder': 'Nom complet',
+                    'class': 'flex-1'
+                }
+            }) }}
 
-    {{ form_row(registrationForm.fullname, {
-        label: 'Nom complet',
-        label_attr: {
-            class: 'label'
-        }
-    }) }}
+            {{ form_row(registrationForm.phone, {
+                label: 'Numéro de téléphone',
+                label_attr: {
+                    class: 'label'
+                },
+                'attr': {
+                    'placeholder': 'ex: +33 6 12 34 56 78',
+                    'class': 'flex-1'
+                }
+            }) }}
+        </div>
 
-    {{ form_row(registrationForm.phone, {
-        label: 'Numéro de téléphone',
-        label_attr: {
-            class: 'label'
-        }
-    }) }}
+        {{ form_row(registrationForm.email, {
+            label: 'E-mail',
+            label_attr: {
+                class: 'label'
+            },
+            'attr': {
+                'placeholder': 'Votre e-mail'
+            }
+        }) }}
 
-    {{ form_row(registrationForm.email, {
-        label: 'Email',
-        label_attr: {
-            class: 'label'
-        }
-    }) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Mot de passe',
+            label_attr: {
+                class: 'label'
+            },
+            'attr': {
+                'placeholder': 'Choisissez un mot de passe'
+            }
+        }) }}
 
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Mot de passe',
-        label_attr: {
-            class: 'label'
-        }
-    }) }}
-
-    <div class="flex items-center justify-between">
-        <div class="flex items-start">
-            <div class="flex items-center h-5">
-                {{ form_widget(registrationForm.agreeTerms, {
-                    'id': 'agreeTerms',
-                    'attr': {
-                        'class': 'w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800'
-                    }
-                }) }}
-                {{ form_errors(registrationForm.agreeTerms) }}
-            </div>
-            <div class="ml-3 text-sm">
-                <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
-                    J'accepte les <a href="">termes</a> et <a href="">conditions</a> d'utilisation.
-                </label>
+        <div class="flex items-center justify-between">
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    {{ form_widget(registrationForm.agreeTerms, {
+                        'id': 'agreeTerms',
+                        'attr': {
+                            'class': ''
+                        }
+                    }) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+                <div class="ml-3 text-base">
+                    <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
+                        J'accepte les <a href="">termes</a> et <a href="">conditions</a> d'utilisation.
+                    </label>
+                </div>
             </div>
         </div>
+
+        <button type="submit"
+                class="btn btn-primary w-full">
+            Créer mon compte
+        </button>
+        <p class="text-base font-light text-gray-500 dark:text-gray-400">
+            Vous avez déjà un compte ?
+            <a href="{{ path('app_login') }}"
+               class="font-medium text-primary-600 dark:text-primary-500">
+                Connectez-vous
+            </a>
+        </p>
+        {{ form_end(registrationForm) }}
     </div>
-
-    <button type="submit"
-            class="btn btn-primary w-full">
-        Créer mon compte
-    </button>
-    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-        Vous avez déjà un compte ?
-        <a href="{{ path('app_login') }}"
-           class="font-medium text-primary-600 hover:underline dark:text-primary-500">
-            Connectez-vous
-        </a>
-    </p>
-    {{ form_end(registrationForm) }}
-
-
 {% endblock %}
