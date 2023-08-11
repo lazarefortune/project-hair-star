@@ -64,7 +64,7 @@
             <a href="{{ path('app_admin_realisation_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
                 {{ icon('cut', 'sm') }}
-                <span class="ml-1">Prestations</span>
+                <span class="ml-1">Réalisations</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
@@ -83,45 +83,33 @@
         </div>
 
         <div class="space-y-2">
-            <a href="{{ path('app_admin_service_index') }}"
-               class="sidebar-nav-item {{ menu_active('app_admin_service') }}">
-                {{ icon('store-alt', 'sm') }}
-                <span class="ml-1">Services</span>
-            </a>
-            <a href="{{ path('app_admin_category_service_index') }}"
-               class="sidebar-nav-item {{ menu_active('app_admin_category_service') }}">
-                {{ icon('purchase-tag', 'sm') }}
-                <span class="ml-1">Type de services</span>
-            </a>
             <a href="" class="sidebar-nav-item">
-                {{ icon('cog', 'sm') }}
-                <span class="ml-1">Paramètres</span>
+                {{ icon('wallet', 'sm') }}
+                <span class="ml-1">Comptes</span>
             </a>
 
-            <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_option_index') }}">
-                {{ icon('cog', 'sm') }}
-                <span class="ml-1">Gestion du salon</span>
+            <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_service') }} {{ menu_active('app_admin_category_service') }}">
+                {{ icon('store-alt', 'sm') }}
+                <span class="ml-1">Prestations</span>
                 <span class="sidebar-dropdown-toggle-icon float-right flex justify-center items-center">
                         {{ icon('chevron-down', 'sm') }}
                     </span>
             </button>
             <div class="sidebar-dropdown-menu  w-full bg-white origin-top-right hidden">
-                <a href="{{ path('app_admin_option_index') }}"
-                   class="sidebar-nav-item {{ menu_active('app_admin_option_index') }}">
-                    Option 1
+                <a href="{{ path('app_admin_service_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_service') }}">
+                    Toutes
                 </a>
-                <a href="#" class="sidebar-nav-item">
-                    Option 2
-                </a>
-                <a href="#" class="sidebar-nav-item">
-                    Option 3
+                <a href="{{ path('app_admin_category_service_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_category_service') }}">
+                    Catégories
                 </a>
             </div>
 
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
-                {{ icon('calendar', 'sm') }}
-                <span class="ml-1">Rendez-vous</span>
+                {{ icon('donate-heart', 'sm') }}
+                <span class="ml-1">Promotions</span>
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle">

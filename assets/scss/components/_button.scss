@@ -19,7 +19,8 @@
 }
 
 .btn-danger {
-  @apply border-transparent bg-[#FDDAE6] hover:bg-[#FDC7D8] focus:ring-[#FDC7D8] focus:border-[#FDC7D8] dark:bg-[#FDC7D8] dark:hover:bg-[#FDC7D8] dark:focus:ring-[#FDC7D8] dark:focus:border-[#FDC7D8] text-[#C7204B] hover:text-[#C7204B] dark:text-[#C7204B] dark:hover:text-[#C7204B];
+  @apply bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-white focus:ring-indigo-600;
+  //@apply border-transparent bg-[#FDDAE6] hover:bg-[#FDC7D8] focus:ring-[#FDC7D8] focus:border-[#FDC7D8] dark:bg-[#FDC7D8] dark:hover:bg-[#FDC7D8] dark:focus:ring-[#FDC7D8] dark:focus:border-[#FDC7D8] text-[#C7204B] hover:text-[#C7204B] dark:text-[#C7204B] dark:hover:text-[#C7204B];
 }
 
 .btn-primary-outline {

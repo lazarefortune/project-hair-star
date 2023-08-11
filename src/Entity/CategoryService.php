@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CategoryServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryServiceRepository::class)]
@@ -20,6 +21,12 @@ class CategoryService
 
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'categories')]
     private Collection $services;
+
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -66,6 +73,30 @@ class CategoryService
         if ($this->services->removeElement($service)) {
             $service->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

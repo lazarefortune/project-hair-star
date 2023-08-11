@@ -21,6 +21,24 @@ class CategoryServiceType extends AbstractType
                 'label_attr' => [
                     'class' => 'label',
                 ],
+            ] )
+            ->add( 'description', TextType::class, [
+                'label' => 'Description de la catégorie',
+                'attr' => [
+                    'class' => '',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+            ] )
+            ->add( 'isActive', null, [
+                'label' => 'Actif',
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] );
     }
 

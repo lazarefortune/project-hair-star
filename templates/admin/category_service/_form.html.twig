@@ -1,4 +1,8 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-<button class="btn btn-primary mt-4">{{ button_label|default('Enregistrer') }}</button>
+
+<button class="btn btn-md btn-primary mt-4">
+    {{ icon('save', 'sm') }}
+    <span class="ml-2 text-base">{{ button_label|default('Enregistrer') }}</span>
+</button>
 {{ form_end(form) }}
