@@ -137,9 +137,10 @@
     </nav>
 </aside>
 
-<div class="bg-gray-900 opacity-50 fixed inset-0 z-10 hidden" id="sidebarBackdrop"></div>
+<div class="fixed inset-0 z-10 hidden backdrop-blur-sm bg-gray-900 bg-opacity-30" id="sidebarBackdrop"></div>
 
-<div class="min-h-screen font-Gilroy">
+
+<div class="min-h-screen">
     <div class="w-full fixed z-50 py-2 px-3 flex justify-between items-center bg-white shadow-sm dark:bg-gray-800">
         <div class="flex items-center">
             <button id="btnSidebar" type="button" onClick="toggleSidebar"
@@ -150,7 +151,7 @@
             </button>
 
             <a href="{{ path('app_admin_home') }}"
-               class="flex items-center gap-2 text-orange-600 dark:text-orange-600 text-xl font-bold sm:ml-9">
+               class="flex items-center gap-2 text-orange-600 dark:text-orange-600 text-xl ml-2 font-bold sm:ml-9">
                 <img src="{{ asset('images/hair-star-logo.svg') }}" alt="logo" class="w-12 h-12">
             </a>
         </div>
@@ -164,12 +165,12 @@
             <div id="userDropdown"
                  class="absolute top-11 right-0 mt-2 w-48 bg-white rounded-lg overflow-hidden shadow-xl z-10 transform scale-0 origin-top-right transition-all duration-100">
                 <a href="{{ path('app_admin_account_index') }}"
-                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-indigo-600 hover:bg-indigo-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-primary-600 hover:bg-primary-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
                     {{ icon('user') }}
                     <span class="ml-2">Mon compte</span>
                 </a>
                 <a href="{{ path('app_logout') }}"
-                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-indigo-600 hover:bg-indigo-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-primary-600 hover:bg-primary-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
                     {{ icon('log-out') }}
                     <span class="ml-2">Déconnexion</span>
                 </a>
@@ -178,7 +179,7 @@
 
     </div>
 
-    <main class="min-h-screen pt-20 px-4 py-4 sm:px-9 lg:ml-64 bg-indigo-50/50 dark:bg-gray-600 dark:text-gray-50">
+    <main class="min-h-screen pt-20 px-4 py-4 sm:px-9 lg:ml-64 bg-gray-50/10 dark:bg-gray-600 dark:text-gray-50">
         {% block body %}{% endblock %}
     </main>
 </div>

@@ -11,10 +11,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="col-span-2 bg-white px-4 py-5 shadow rounded-lg sm:py-6 sm:px-8">
             {{ form_start(formUser) }}
-            <h2 class="text-xl text-indigo-600 font-semibold leading-7">
+            <h2 class="text-xl text-primary-600 font-semibold leading-7">
                 Informations personnelles
             </h2>
-            {#            <div class="border border-indigo-200 mt-1 mb-6"></div> #}
+            {#            <div class="border border-primary-200 mt-1 mb-6"></div> #}
 
 
             <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
@@ -75,8 +75,8 @@
                 <div class="sm:col-span-full border-t border-gray-200 pt-5">
                     <div class="flex justify-end">
                         <button type="submit" class="btn btn-md btn-primary">
-                            {{ icon('save', 'sm', 'mr-3') }}
-                            Enregistrer
+                            {{ icon('save') }}
+                            <span>Enregistrer</span>
                         </button>
                     </div>
                 </div>
@@ -86,10 +86,10 @@
         </div>
 
         <div class="col-span-1 bg-white px-4 py-5 shadow rounded-lg sm:p-6">
-            <h2 class="text-xl text-indigo-600 font-semibold leading-7">
+            <h2 class="text-xl text-primary-600 font-semibold leading-7">
                 Photo de profil
             </h2>
-            {#            <div class="border border-indigo-200 mt-1 mb-6"></div> #}
+            {#            <div class="border border-primary-200 mt-1 mb-6"></div> #}
             <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-6">
             </div>
         </div>

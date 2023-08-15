@@ -4,15 +4,7 @@
     <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-6">
             <div class="sm:col-span-4">
-                {{ form_row(form.isPublic, {
-                    'attr': {
-                        'class': 'form-input-md',
-                    },
-                    'label': 'Visibilité de la réalisation',
-                    'label_attr': {
-                        'class': 'label'
-                    }
-                }) }}
+                {{ form_row(form.isPublic) }}
             </div>
 
             <div class="sm:col-span-4">
@@ -53,15 +45,7 @@
             </div>
 
             <div class="sm:col-span-4">
-                {{ form_row(form.isTarifPublic, {
-                    'attr': {
-                        'class': 'form-input-md',
-                    },
-                    'label': 'Souhaites-tu rendre public le coût de la réalisation ?',
-                    'label_attr': {
-                        'class': 'label'
-                    }
-                }) }}
+                {{ form_row(form.isTarifPublic) }}
             </div>
 
             <div class="sm:col-span-4">

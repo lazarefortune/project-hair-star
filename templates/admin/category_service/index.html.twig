@@ -9,7 +9,7 @@
     <a href="{{ path('app_admin_category_service_new') }}"
        class="btn btn-md btn-primary">
         {{ icon('plus') }}
-        <span class="ml-2">Ajouter</span>
+        <span>Ajouter</span>
     </a>
 {% endblock %}
 
@@ -31,10 +31,12 @@
                     <a href="{{ path('app_admin_category_service_edit', {'id': serviceType.id}) }}"
                        class="btn btn-md btn-primary">
                         {{ icon('edit') }}
-                        <span class="ml-2">Editer</span>
+                        <span>
+                            Modifier
+                        </span>
                     </a>
                     <a href="{{ path('app_admin_category_service_delete', {'id': serviceType.id}) }}"
-                       class="btn btn-md btn-danger">
+                       class="btn btn-md btn-outline-primary">
                         {{ icon('trash') }}
                     </a>
                 </div>

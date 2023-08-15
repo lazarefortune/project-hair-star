@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\CategoryService;
+use App\Form\Type\SwitchboxType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +25,7 @@ class CategoryServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'description', TextType::class, [
+            ->add( 'description', TextareaType::class, [
                 'label' => 'Description de la catégorie',
                 'attr' => [
                     'class' => '',
@@ -31,14 +34,9 @@ class CategoryServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'isActive', null, [
-                'label' => 'Actif',
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-                'label_attr' => [
-                    'class' => 'label',
-                ],
+            ->add( 'isActive', SwitchboxType::class, [
+                'label_on' => 'En ligne',
+                'label_off' => 'Hors ligne'
             ] );
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Form;
 
 use App\Entity\User;
@@ -12,31 +13,31 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add('fullname', TextType::class, [
+            ->add( 'fullname', TextType::class, [
                 'label' => 'Nom complet',
-            ])
-            ->add('phone', TextType::class, [
+            ] )
+            ->add( 'phone', TextType::class, [
                 'label' => 'Téléphone',
-            ])
-            ->add('dateOfBirthday', DateType::class, [
+            ] )
+            ->add( 'dateOfBirthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
                     'class' => 'flatpickr-date-birthday',
                 ]
-            ])
-            ->add('avatarFile' , VichFileType::class, [
+            ] )
+            ->add( 'avatarFile', VichFileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
 //                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control-file',
                 ],
-            ])
+            ] )
 //            ->add('avatar', VichFileType::class, [
 //                'label' => 'Avatar',
 //                'required' => false,
@@ -45,14 +46,13 @@ class UserType extends AbstractType
 //                    'class' => 'form-control-file',
 //                ],
 //            ])
-            ->add('email')
-        ;
+            ->add( 'email' );
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions( OptionsResolver $resolver ) : void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults( [
             'data_class' => User::class,
-        ]);
+        ] );
     }
 }

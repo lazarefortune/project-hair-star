@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Realisation;
+use App\Form\Type\SwitchboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,16 +20,10 @@ class RealisationType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'isPublic', ChoiceType::class, [
-                'label' => 'Visible par :',
-                'choices' => [
-                    'Tout le monde' => 1,
-                    'Moi uniquement' => 0,
-                ],
-                'attr' => [
-                    'class' => 'form-control-radio',
-                ],
-//                'expanded' => true,
+            ->add( 'isPublic', SwitchboxType::class, [
+                'input_label' => 'Souhaites-tu afficher cette réalisation ?',
+                'label_on' => 'Oui',
+                'label_off' => 'Non',
             ] )
             ->add( 'tarif', NumberType::class, [
                 'attr' => [
@@ -37,15 +32,10 @@ class RealisationType extends AbstractType
                 ],
                 'scale' => 2,
             ] )
-            ->add( 'isTarifPublic', ChoiceType::class, [
-                'label' => 'Souhaites-tu afficher le tarif ?',
-                'choices' => [
-                    'Non' => 0,
-                    'Oui' => 1,
-                ],
-                'attr' => [
-                    'class' => 'form-control-radio',
-                ],
+            ->add( 'isTarifPublic', SwitchboxType::class, [
+                'label_on' => 'Oui',
+                'label_off' => 'Non',
+                'input_label' => 'Souhaites-tu afficher le tarif ?',
             ] )
             ->add( 'dateRealisation', DateType::class, [
                 'required' => false,

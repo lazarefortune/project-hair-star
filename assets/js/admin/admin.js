@@ -1,3 +1,5 @@
+import '../base/index.js'
+
 /* ===== Styles ===== */
 import '../../scss/admin/admin.scss'
 /* ===== Libs ===== */

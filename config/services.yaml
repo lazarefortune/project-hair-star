@@ -29,6 +29,9 @@ services:
 
   App\Twig\BreadcrumbExtension:
 
+  App\Form\Type\SwitchboxType:
+    tags:
+      - { name: 'form.type' }
 
 
   # add more service definitions when explicit configuration is needed

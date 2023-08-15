@@ -21,27 +21,27 @@
 }
 
 .flatpickr-day {
-  @apply rounded-lg;
+  @apply rounded-md;
 }
 
 .flatpickr-day:hover {
-  @apply bg-indigo-100 border-indigo-100 text-indigo-600;
+  @apply bg-primary-100 border-primary-100 text-primary-600;
 }
 
 .flatpickr-day.selected {
-  @apply bg-indigo-600 text-white border-indigo-600;
+  @apply bg-primary-500 text-white border-primary-500;
 }
 
 .flatpickr-day.selected:hover {
-  @apply bg-indigo-600 border-indigo-600;
+  @apply bg-primary-600 border-primary-600;
 }
 
 .flatpickr-day.today:not(.selected) {
-  @apply bg-red-100 border-red-100;
+  @apply text-primary-600 border-primary-100;
 }
 
 .flatpickr-day.today:not(.selected):hover {
-  @apply bg-indigo-100 border-indigo-100 text-indigo-600;
+  @apply bg-primary-100 border-primary-100 text-primary-600;
 }
 
 .flatpickr-months .flatpickr-month {
