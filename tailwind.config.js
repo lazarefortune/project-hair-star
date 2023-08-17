@@ -29,9 +29,12 @@ module.exports = {
     ],
     theme: {
         extend: {
+            borderWidth: {
+                'thin': '.5px',
+            },
             boxShadow: {
                 'soft': 'rgba(0, 0, 0, 0.03) 0px 0px 0px 0.5px',
-                'soft-md': 'rgba(0, 0, 0, 0.04) 0px 5px 22px',
+                'soft-md': 'rgba(0, 0, 0, 0.04) 0px 10px 32px',
                 // 'soft-md': 'rgba(0, 0, 0, 0.04) 0px 5px 22px',
                 // 'soft': '0 0 10px rgba(0, 0, 0, 0.05)',
                 'soft-xs': '0 0 2px rgba(0, 0, 0, 0.05)',

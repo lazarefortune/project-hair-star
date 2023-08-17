@@ -32,7 +32,7 @@ class AdminUserController extends AbstractController
         }
 
         return $this->render( 'admin/account/index.html.twig', [
-            'formUser' => $formUser->createView(),
+            'form' => $formUser->createView(),
         ] );
     }
 
