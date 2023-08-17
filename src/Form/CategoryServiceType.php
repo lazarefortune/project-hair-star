@@ -30,6 +30,7 @@ class CategoryServiceType extends AbstractType
                 'attr' => [
                     'class' => '',
                 ],
+                'required' => false,
                 'label_attr' => [
                     'class' => 'label',
                 ],

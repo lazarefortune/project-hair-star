@@ -1,86 +1,153 @@
-{% extends 'admin/layouts/card.html.twig' %}
+{# {% extends 'admin/layouts/card.html.twig' %} #}
 
-{% block title %}CategoryService index{% endblock %}
-{% block card_title %}
-    Type de service
-{% endblock %}
+{# {% block title %}CategoryService index{% endblock %} #}
+{# {% block card_title %} #}
+{#    Type de service #}
+{# {% endblock %} #}
 
-{% block card_actions %}
-    <a href="{{ path('app_admin_category_service_new') }}"
-       class="btn btn-md btn-primary">
-        {{ icon('plus') }}
-        <span>Ajouter</span>
-    </a>
-{% endblock %}
+{# {% block card_actions %} #}
+{#    <a href="{{ path('app_admin_category_service_new') }}" #}
+{#       class="btn btn-md btn-primary"> #}
+{#        {{ icon('plus') }} #}
+{#        <span>Ajouter</span> #}
+{#    </a> #}
+{# {% endblock %} #}
 
-{% block card_style '' %}
+{# {% block card_style '' %} #}
 
-{% block card_body %}
+{# {% block card_body %} #}
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {% for serviceType in category_services %}
-            <div class="bg-white shadow-md rounded-md p-4 flex flex-col justify-between relative">
-                <h3 class="text-lg font-bold">{{ serviceType.name }}</h3>
-                <span class="badge absolute top-3 right-3 {{ serviceType.isActive ? 'badge-success' : 'badge-danger' }}">
-                    {{ serviceType.isActive ? 'Actif' : 'Inactif' }}
-                </span>
-                <p class="text-sm text-gray-500 mt-2 flex-1">
-                    {{ serviceType.description }}
-                </p>
-                <div class="mt-4 flex justify-end space-x-2">
-                    <a href="{{ path('app_admin_category_service_edit', {'id': serviceType.id}) }}"
-                       class="btn btn-md btn-primary">
-                        {{ icon('edit') }}
-                        <span>
-                            Modifier
-                        </span>
-                    </a>
-                    <a href="{{ path('app_admin_category_service_delete', {'id': serviceType.id}) }}"
-                       class="btn btn-md btn-outline-primary">
-                        {{ icon('trash') }}
-                    </a>
-                </div>
-            </div>
-        {% endfor %}
+{#    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"> #}
+{#        {% for serviceType in category_services %} #}
+{#            <div class="relative flex flex-col justify-between rounded-md bg-white p-4 shadow-md"> #}
+{#                <h3 class="text-lg font-bold">{{ serviceType.name }}</h3> #}
+{#                <span class="badge absolute top-3 right-3 {{ serviceType.isActive ? 'badge-success' : 'badge-danger' }}"> #}
+{#                    {{ serviceType.isActive ? 'Actif' : 'Inactif' }} #}
+{#                </span> #}
+{#                <p class="mt-2 flex-1 text-sm text-gray-500"> #}
+{#                    {{ serviceType.description }} #}
+{#                </p> #}
+{#                <div class="mt-4 flex justify-end space-x-2"> #}
+{#                    <a href="{{ path('app_admin_category_service_edit', {'id': serviceType.id}) }}" #}
+{#                       class="btn btn-md btn-primary"> #}
+{#                        {{ icon('edit') }} #}
+{#                        <span> #}
+{#                            Modifier #}
+{#                        </span> #}
+{#                    </a> #}
+{#                    <a href="{{ path('app_admin_category_service_delete', {'id': serviceType.id}) }}" #}
+{#                       class="btn btn-md btn-outline-primary"> #}
+{#                        {{ icon('trash') }} #}
+{#                    </a> #}
+{#                </div> #}
+{#            </div> #}
+{#        {% endfor %} #}
+{#    </div> #}
+
+
+{#    #}{#    <div class="overflow-auto"> #}
+{#    #}{#        <table class="mt-6 table w-full table-responsive font-circularStd"> #}
+{#    #}{#            <thead> #}
+{#    #}{#            <tr> #}
+{#    #}{#                <th>Nom</th> #}
+{#    #}{#                <th>Statut</th> #}
+{#    #}{#                <th>Actions</th> #}
+{#    #}{#            </tr> #}
+{#    #}{#            </thead> #}
+{#    #}{#            <tbody> #}
+{#    #}{#            {% for category_service in category_services %} #}
+{#    #}{#                <tr> #}
+{#    #}{#                    <td>{{ category_service.name }}</td> #}
+{#    #}{#                    <td> #}
+{#    #}{#                        <span class="badge badge-success">Actif</span> #}
+{#    #}{#                    </td> #}
+{#    #}{#                    <td class="table-actions"> #}
+{#    #}{#                        <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}" #}
+{#    #}{#                           class="card-btn-action"> #}
+{#    #}{#                            {{ icon('edit') }} #}
+{#    #}{#                        </a> #}
+{#    #}{#                        <a href="{{ path('app_admin_category_service_delete', {'id': category_service.id}) }}" #}
+{#    #}{#                           class="card-btn-action"> #}
+{#    #}{#                            {{ icon('trash') }} #}
+{#    #}{#                        </a> #}
+
+{#    #}{#                    </td> #}
+{#    #}{#                </tr> #}
+{#    #}{#            {% else %} #}
+{#    #}{#                <tr> #}
+{#    #}{#                    <td colspan="3">no records found</td> #}
+{#    #}{#                </tr> #}
+{#    #}{#            {% endfor %} #}
+{#    #}{#            </tbody> #}
+{#    #}{#        </table> #}
+{#    #}{#    </div> #}
+
+
+{# {% endblock %} #}
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+    <h4 class="text-2xl font-bold md:text-3xl">
+        Catégories
+    </h4>
+
+    <div class="mt-4 card-simple">
+        <div class="mb-6 px-4 sm:px-6">
+            <input type="text"
+                   class="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
+                   placeholder="Rechercher...">
+        </div>
+
+        <div class="mt-12 block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th class="">
+                        <input type="checkbox"
+                               class="">
+                    </th>
+                    <th class="">
+                        Nom
+                    </th>
+                    <th class="">
+                        Description
+                    </th>
+                    <th class="">
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for category in category_services %}
+                    <tr>
+                        <th class="text-left">
+                            <input type="checkbox"
+                                   class="">
+                        </th>
+                        <td>
+                            {{ category.name }}
+                        </td>
+                        <td>
+                            {{ category.description }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"
+                               class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+                            <a href=""
+                               class="btn-icon">
+                                {{ icon('trash') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
-
-
-    {#    <div class="overflow-auto"> #}
-    {#        <table class="table table-responsive mt-6 font-circularStd w-full"> #}
-    {#            <thead> #}
-    {#            <tr> #}
-    {#                <th>Nom</th> #}
-    {#                <th>Statut</th> #}
-    {#                <th>Actions</th> #}
-    {#            </tr> #}
-    {#            </thead> #}
-    {#            <tbody> #}
-    {#            {% for category_service in category_services %} #}
-    {#                <tr> #}
-    {#                    <td>{{ category_service.name }}</td> #}
-    {#                    <td> #}
-    {#                        <span class="badge badge-success">Actif</span> #}
-    {#                    </td> #}
-    {#                    <td class="table-actions"> #}
-    {#                        <a href="{{ path('app_admin_category_service_edit', {'id': category_service.id}) }}" #}
-    {#                           class="card-btn-action"> #}
-    {#                            {{ icon('edit') }} #}
-    {#                        </a> #}
-    {#                        <a href="{{ path('app_admin_category_service_delete', {'id': category_service.id}) }}" #}
-    {#                           class="card-btn-action"> #}
-    {#                            {{ icon('trash') }} #}
-    {#                        </a> #}
-
-    {#                    </td> #}
-    {#                </tr> #}
-    {#            {% else %} #}
-    {#                <tr> #}
-    {#                    <td colspan="3">no records found</td> #}
-    {#                </tr> #}
-    {#            {% endfor %} #}
-    {#            </tbody> #}
-    {#        </table> #}
-    {#    </div> #}
-
-
 {% endblock %}
