@@ -45,57 +45,57 @@
 
 
 <aside id="sidebar"
-       class="fixed top-0 left-0 w-64 z-40 h-screen font-circularStd transition-transform -translate-x-full lg:translate-x-0">
-    <nav class="h-full pt-16 px-4 py-4 overflow-auto bg-white shadow-none lg:shadow-md dark:bg-gray-800">
+       class="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full transition-transform lg:translate-x-0">
+    <nav class="h-full overflow-auto bg-white px-4 py-4 pt-16 shadow-none dark:bg-gray-800 lg:shadow-md">
 
-        <div class="px-4 mb-2 mt-4 text-sm text-gray-400 dark:text-gray-400">
+        <div class="mt-4 mb-2 px-4 text-sm text-gray-400 dark:text-gray-400">
             Menu
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-1">
             <a href="{{ path('app_home') }}" class="sidebar-nav-item">
-                {{ icon('chevrons-left', 'sm') }}
+                {{ icon('subdirectory-left') }}
                 <span class="ml-1">Retour au site</span>
             </a>
             <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
-                {{ icon('home', 'sm') }}
+                {{ icon('home') }}
                 <span class="ml-1">Accueil</span>
             </a>
             <a href="{{ path('app_admin_realisation_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
-                {{ icon('cut', 'sm') }}
+                {{ icon('cut') }}
                 <span class="ml-1">Réalisations</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
-                {{ icon('group', 'sm') }}
+                {{ icon('group') }}
                 <span class="ml-1">Clients</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
-                {{ icon('calendar', 'sm') }}
+                {{ icon('calendar') }}
                 <span class="ml-1">Rendez-vous</span>
             </a>
         </div>
 
-        <div class="px-4 mb-2 mt-4 text-sm text-gray-400 dark:text-gray-400">
+        <div class="mt-4 mb-2 px-4 text-sm text-gray-400 dark:text-gray-400">
             Gestion du salon
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-1">
             <a href="" class="sidebar-nav-item">
-                {{ icon('wallet', 'sm') }}
+                {{ icon('wallet') }}
                 <span class="ml-1">Comptes</span>
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_service') }} {{ menu_active('app_admin_category_service') }}">
-                {{ icon('store-alt', 'sm') }}
+                {{ icon('store-alt') }}
                 <span class="ml-1">Prestations</span>
-                <span class="sidebar-dropdown-toggle-icon float-right flex justify-center items-center">
-                        {{ icon('chevron-down', 'sm') }}
-                    </span>
+                <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
+                    {{ icon('chevron-right') }}
+                </span>
             </button>
-            <div class="sidebar-dropdown-menu  w-full bg-white origin-top-right hidden">
+            <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
                 <a href="{{ path('app_admin_service_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_service') }}">
                     Toutes
@@ -108,18 +108,18 @@
 
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
-                {{ icon('donate-heart', 'sm') }}
+                {{ icon('donate-heart') }}
                 <span class="ml-1">Promotions</span>
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle">
-                {{ icon('cog', 'sm') }}
+                {{ icon('cog') }}
                 <span class="ml-1">Gestion du salon</span>
-                <span class="sidebar-dropdown-toggle-icon float-right flex justify-center items-center">
-                        {{ icon('chevron-down', 'sm') }}
+                <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
+                        {{ icon('chevron-right') }}
                     </span>
             </button>
-            <div class="sidebar-dropdown-menu  w-full bg-white origin-top-right hidden">
+            <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
                 <a href="{{ path('app_admin_option_index') }}"
                    class="sidebar-nav-item">
                     Option 1
@@ -137,11 +137,11 @@
     </nav>
 </aside>
 
-<div class="fixed inset-0 z-10 hidden backdrop-blur-sm bg-gray-900 bg-opacity-30" id="sidebarBackdrop"></div>
+<div class="fixed inset-0 z-10 hidden bg-gray-900 bg-opacity-30 backdrop-blur-sm" id="sidebarBackdrop"></div>
 
 
 <div class="min-h-screen">
-    <div class="w-full fixed z-50 py-2 px-3 flex justify-between items-center bg-white shadow-sm dark:bg-gray-800">
+    <div class="fixed z-50 flex w-full items-center justify-between bg-white px-3 py-2 shadow-sm dark:bg-gray-800">
         <div class="flex items-center">
             <button id="btnSidebar" type="button" onClick="toggleSidebar"
                     class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300
@@ -151,35 +151,73 @@
             </button>
 
             <a href="{{ path('app_admin_home') }}"
-               class="flex items-center gap-2 text-orange-600 dark:text-orange-600 text-xl ml-2 font-bold sm:ml-9">
-                <img src="{{ asset('images/hair-star-logo.svg') }}" alt="logo" class="w-12 h-12">
+               class="ml-2 flex items-center gap-2 text-xl font-bold text-orange-600 dark:text-orange-600 sm:ml-9">
+                <img src="{{ asset('images/hair-star-logo.svg') }}" alt="logo" class="h-12 w-12">
             </a>
         </div>
 
-        <div class="relative flex items-center">
-            <button id="userBtn" class="cursor-pointer">
-                <img class="h-10 w-10 rounded-full" src="{{ asset('images/coiffure.webp') }}"
+        <div class="relative mr-2 flex items-center">
+            <button id="userBtn" class="cursor-pointer rounded-full border-2 border-gray-100 p-1">
+                <img class="h-8 w-8 rounded-full" src="{{ asset('images/coiffure.webp') }}"
                      alt="Your avatar">
             </button>
 
             <div id="userDropdown"
-                 class="absolute top-11 right-0 mt-2 w-48 bg-white rounded-lg overflow-hidden shadow-xl z-10 transform scale-0 origin-top-right transition-all duration-100">
-                <a href="{{ path('app_admin_account_index') }}"
-                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-primary-600 hover:bg-primary-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                    {{ icon('user') }}
-                    <span class="ml-2">Mon compte</span>
-                </a>
-                <a href="{{ path('app_logout') }}"
-                   class="flex justify-start items-center gap-2 px-4 py-3 text-base text-gray-600 hover:text-primary-600 hover:bg-primary-200/30 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                    {{ icon('log-out') }}
-                    <span class="ml-2">Déconnexion</span>
-                </a>
+                 class="absolute top-11 right-0 z-10 mt-2 w-48 origin-top-right scale-0 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all duration-100">
+                <div class="px-4 py-2">
+                    <p class="text-base font-medium text-gray-800 dark:text-gray-200">
+                        {{ app.user.fullname }}
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ app.user.email }}
+                    </p>
+                </div>
+
+                <hr class="border-gray-100">
+
+                <div class="px-2 py-2">
+                    <a href="{{ path('app_admin_account_index') }}"
+                       class="user-dropdown-menu-item {{ menu_active('app_admin_account') }}">
+                        {{ icon('user') }}
+                        <span>Mon compte</span>
+                    </a>
+                </div>
+
+                <hr class="border-gray-100">
+
+                <div class="px-2 py-2">
+                    <a href="{{ path('app_logout') }}"
+                       class="user-dropdown-menu-item">
+                        {{ icon('log-out') }}
+                        <span>Déconnexion</span>
+                    </a>
+                </div>
             </div>
+
+
+            {#            <button id="userBtn" class="cursor-pointer rounded-full border-2 border-gray-100 p-1"> #}
+            {#                <img class="h-8 w-8 rounded-full" src="{{ asset('images/coiffure.webp') }}" #}
+            {#                     alt="Your avatar"> #}
+            {#            </button> #}
+
+            {#            <div id="userDropdown" #}
+            {#                 class="absolute top-11 right-0 z-10 mt-2 w-48 origin-top-right scale-0 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all duration-100"> #}
+            {#                <a href="{{ path('app_admin_account_index') }}" #}
+            {#                   class="user-dropdown-menu-item"> #}
+            {#                    {{ icon('user', '', 'icon') }} #}
+            {#                    <span class="ml-1">Mon compte</span> #}
+            {#                </a> #}
+            {#                <a href="{{ path('app_logout') }}" #}
+            {#                   class="user-dropdown-menu-item"> #}
+            {#                    {{ icon('log-out', '', 'icon') }} #}
+            {#                    <span class="ml-1">Déconnexion</span> #}
+            {#                </a> #}
+            {#            </div> #}
         </div>
 
     </div>
 
-    <main class="min-h-screen pt-20 px-4 py-4 sm:px-9 lg:ml-64 bg-gray-50/10 dark:bg-gray-600 dark:text-gray-50">
+    <main class="min-h-screen bg-gray-50/10 px-4 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
         {% block body %}{% endblock %}
     </main>
 </div>
@@ -215,6 +253,7 @@
     document.querySelectorAll('.sidebar-dropdown-toggle').forEach(toggle => {
 
         if (toggle.classList.contains('active')) {
+            toggle.querySelector('.sidebar-dropdown-toggle-icon').classList.add('rotate-90');
             toggle.nextElementSibling.classList.remove('hidden');
         }
 
@@ -222,7 +261,7 @@
             e.preventDefault();
             const dropdownIcon = toggle.querySelector('.sidebar-dropdown-toggle-icon');
             if (dropdownIcon) {
-                dropdownIcon.classList.toggle('-rotate-180');
+                dropdownIcon.classList.toggle('rotate-90');
             }
             const menu = toggle.nextElementSibling;
             menu.classList.toggle('hidden');
@@ -233,7 +272,7 @@
                     dropdown.classList.add('hidden');
 
                     // Si vous voulez que le dropdown-icon tourne à chaque fois qu'on clique sur un autre sidebar-dropdown-toggle:
-                    dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('-rotate-180');
+                    dropdown.previousElementSibling.querySelector('.sidebar-dropdown-toggle-icon').classList.remove('rotate-90');
                 }
             });
         });

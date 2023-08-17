@@ -131,3 +131,52 @@
   font-weight: 700;
   font-style: italic;
 }
+
+@font-face {
+  font-family: 'CircularStd';
+  src: url('../../fonts/CircularStd/CircularStd-BlackItalic.ttf');
+  font-weight: 900;
+  font-style: italic;
+}
+
+// ------------------------------ Plus Jakarta Sans ------------------------------
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBold.ttf');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Light.ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../../fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraLight.ttf');
+  font-weight: 200;
+}

@@ -22,7 +22,7 @@
 }
 
 .btn-md > span {
-  @apply text-base;
+  @apply text-sm leading-none inline-block;
 }
 
 /* Taille standard pour la plupart des usages */

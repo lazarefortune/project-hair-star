@@ -28,8 +28,9 @@
   @apply bg-primary-100 border-primary-100 text-primary-600;
 }
 
+span.flatpickr-day.selected,
 .flatpickr-day.selected {
-  @apply bg-primary-500 text-white border-primary-500;
+  @apply bg-primary-500 text-white border-primary-500 font-normal;
 }
 
 .flatpickr-day.selected:hover {
