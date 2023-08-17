@@ -88,40 +88,51 @@
 
 
 {% block body %}
-    <h4 class="text-2xl font-bold md:text-3xl">
-        Catégories
-    </h4>
 
-    <div class="mt-4 card-simple">
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Catégories
+        </h4>
+        <a href="{{ path('app_admin_category_service_new') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
+
+    <div class="card-simple">
         <div class="mb-6 px-4 sm:px-6">
-            <input type="text"
-                   class="form-input-md"
-                   placeholder="Rechercher...">
+            <div class="flex justify-between">
+                <div class="flex-1 flex justify-between">
+                    <input type="text" class="form-control" placeholder="Rechercher...">
+                </div>
+            </div>
         </div>
 
-        <div class="mt-12 block w-full overflow-x-auto">
+        <div class="block w-full overflow-x-auto">
             <table class="table w-full border-collapse items-center bg-transparent">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th class="">
+                    <th>
                         <input type="checkbox"
                                class="">
                     </th>
-                    <th class="">
+                    <th>
                         Nom
                     </th>
-                    <th class="">
+                    <th>
                         Statut
                     </th>
-                    <th class="">
+                    <th>
                         Description
                     </th>
-                    <th class="">
+                    <th>
                         Actions
                     </th>
                 </tr>
                 </thead>
-
                 <tbody>
                 {% for category in category_services %}
                     <tr>
@@ -155,9 +166,7 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-
             </table>
         </div>
-
     </div>
 {% endblock %}
