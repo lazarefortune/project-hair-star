@@ -111,6 +111,9 @@
                         Nom
                     </th>
                     <th class="">
+                        Statut
+                    </th>
+                    <th class="">
                         Description
                     </th>
                     <th class="">
@@ -128,6 +131,13 @@
                         </th>
                         <td>
                             {{ category.name }}
+                        </td>
+                        <td>
+                            {% if category.isActive %}
+                                <span class="badge badge-success">Actif</span>
+                            {% else %}
+                                <span class="badge badge-danger">Inactif</span>
+                            {% endif %}
                         </td>
                         <td>
                             {{ category.description }}
