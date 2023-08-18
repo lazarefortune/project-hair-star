@@ -8,6 +8,9 @@ import '../../libs/flatpickr/index.js'
 // import '../../libs/flatpickr/flatpickr.scss';
 import '../../libs/flatpickr/flatpickr-tailwind.scss';
 
+// Select2
+import '../../libs/select2/index.js'
+
 // Bulma Calendar
 // import '../../libs/bulmacalendar/index.js'
 // Custom Datepicker

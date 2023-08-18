@@ -23,6 +23,14 @@ flatpickr(".flatpickr-date-input", {
     disableMobile: true,
 });
 
+flatpickr(".flatpickr-date-input-today", {
+    altInput: true,
+    altFormat: "d/m/Y",
+    dateFormat: "Y-m-d",
+    disableMobile: true,
+    minDate: "today",
+});
+
 flatpickr(".flatpickr-date-birthday", {
     altInput: true,
     altFormat: "d/m/Y",

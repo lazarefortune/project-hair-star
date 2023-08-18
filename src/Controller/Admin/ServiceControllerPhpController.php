@@ -2,8 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Service;
+use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,6 +20,25 @@ class ServiceControllerPhpController extends AbstractController
 
         return $this->render( 'admin/services/index.html.twig', [
             'services' => $services,
+        ] );
+    }
+
+    #[Route( '/new', name: 'new' )]
+    public function new( Request $request, ServiceRepository $serviceRepository ) : Response
+    {
+        $service = new Service();
+        $form = $this->createForm( ServiceType::class, $service );
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $serviceRepository->save( $service, true );
+
+            return $this->redirectToRoute( 'app_admin_service_index', [], Response::HTTP_SEE_OTHER );
+        }
+
+        return $this->render( 'admin/services/new.html.twig', [
+            'service' => $service,
+            'form' => $form,
         ] );
     }
 }
