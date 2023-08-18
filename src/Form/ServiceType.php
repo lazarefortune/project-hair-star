@@ -91,7 +91,7 @@ class ServiceType extends AbstractType
                 'label' => 'Heure de début du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-time-wrap',
+                    'class' => 'form-input-md flatpickr-time-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -101,7 +101,7 @@ class ServiceType extends AbstractType
                 'label' => 'Heure de fin du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-time-wrap',
+                    'class' => 'form-input-md flatpickr-time-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
