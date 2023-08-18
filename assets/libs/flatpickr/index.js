@@ -1,116 +1,58 @@
 import $ from 'jquery';
-// import 'flatpickr/dist/flatpickr.css';
-// import 'flatpickr/dist/themes/material_blue.css';
 import {French} from 'flatpickr/dist/l10n/fr.js';
 import flatpickr from "flatpickr";
-
-// import 'flatpickr/dist/themes/dark.css';
-
 import 'flatpickr/dist/themes/light.css';
-// import 'flatpickr/dist/themes/material_green.css';
-// import 'flatpickr/dist/themes/material_red.css';
-// import 'flatpickr/dist/themes/material_orange.css';
-// import 'flatpickr/dist/themes/material_blue.css';
-// import 'flatpickr/dist/themes/airbnb.css';
-
 
 flatpickr.localize(French);
 
-flatpickr(".flatpickr-date-input", {
+const baseConfig = {
+    disableMobile: true,
+    locale: French,
+    time_24hr: true,
+};
+
+const dateConfig = {
+    ...baseConfig,
     altInput: true,
     altFormat: "d/m/Y",
     dateFormat: "Y-m-d",
-    disableMobile: true,
-});
+};
 
-flatpickr(".flatpickr-date-input-today", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "Y-m-d",
-    disableMobile: true,
-    minDate: "today",
-});
-
-flatpickr(".flatpickr-date-birthday", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "Y-m-d",
-    maxDate: new Date().fp_incr(-16 * 365),
-    disableMobile: true,
-});
-
-flatpickr(".flatpickr-date-realisation", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "Y-m-d",
-    minDate: new Date(2023, 0, 1),
-    disableMobile: true,
-});
-
-flatpickr(".flatpickr-date", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "Y-m-d",
-    defaultDate: "today",
-    disableMobile: true,
-});
-
-flatpickr(".flatpickr-date-wrap", {
-    altInput: true,
-    altFormat: "d/m/Y",
-    dateFormat: "Y-m-d",
-    wrap: true,
-    disableMobile: true,
-});
-
-flatpickr(".flatpickr-time", {
+const timeConfig = {
+    ...baseConfig,
     enableTime: true,
     noCalendar: true,
     dateFormat: "H:i",
-    time_24hr: true,
-    locale: French,
-    disableMobile: true,
-});
+};
 
-flatpickr(".flatpickr-time-input", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-    locale: French,
-    defaultDate: "today",
-    disableMobile: true,
-});
+const customConfigs = [
+    // dates
+    {selector: ".flatpickr-date-input", options: {...dateConfig}},
+    {selector: ".flatpickr-date-input-after-today", options: {...dateConfig, minDate: "today"}},
+    {
+        selector: ".flatpickr-date-after-today-default-today",
+        options: {...dateConfig, minDate: "today", defaultDate: "today"}
+    },
+    {
+        selector: ".flatpickr-date-after-today-default-after-month",
+        options: {...dateConfig, minDate: "today", defaultDate: new Date().fp_incr(30)}
+    },
+    {selector: ".flatpickr-date-birthday", options: {...dateConfig, maxDate: new Date().fp_incr(-16 * 365)}},
+    {selector: ".flatpickr-date-realisation", options: {...dateConfig, minDate: new Date(2023, 0, 1)}},
+    {selector: ".flatpickr-date-default-today", options: {...dateConfig, defaultDate: "today"}},
+    {selector: ".flatpickr-date-default-tomorrow", options: {...dateConfig, defaultDate: "tomorrow"}},
+    {selector: ".flatpickr-date-wrap", options: {...dateConfig, wrap: true}},
+    
+    // times
+    {selector: ".flatpickr-time", options: {...timeConfig}},
+    {selector: ".flatpickr-time-wrap", options: {...timeConfig, wrap: true}},
+    {selector: ".flatpickr-time-input", options: {...timeConfig}},
+    {selector: ".flatpickr-default-today", options: {...timeConfig, defaultDate: "today"}},
+    {selector: ".flatpickr-service-startTime", options: {...timeConfig, defaultDate: "08:00"}},
+    {selector: ".flatpickr-service-endTime", options: {...timeConfig, defaultDate: "19:00"}}
+];
 
-flatpickr(".flatpickr-time-wrap", {
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-    locale: French,
-    wrap: true,
-    disableMobile: true,
+customConfigs.forEach(config => {
+    flatpickr(config.selector, config.options);
 });
-
-// $('.flatpickr-wrap').each(function () {
-//     $(this).on('input', function () {
-//         console.log($(this).find('input').val());
-//         if ($(this).find('input').val() !== '') {
-//             $(this).find('.input-button-clear').css('display', 'block');
-//         } else {
-//             $(this).find('.input-button-clear').css('display', 'none');
-//         }
-//     })
-// })
-//
-// // on page load
-// $(document).ready(function () {
-//     $('.flatpickr-wrap').each(function () {
-//         if ($(this).find('input').val() !== '') {
-//             $(this).find('.input-button-clear').css('display', 'block');
-//         } else {
-//             $(this).find('.input-button-clear').css('display', 'none');
-//         }
-//     })
-// })
 

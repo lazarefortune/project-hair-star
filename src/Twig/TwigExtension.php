@@ -17,6 +17,25 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
+    public function getFilters() : array
+    {
+        return [
+            new TwigFilter( 'duration_format', [$this, 'durationFormat'] ),
+        ];
+    }
+
+    public function durationFormat( \DateTime $dateTime ) : string
+    {
+        $hours = $dateTime->format( 'H' );
+        $minutes = $dateTime->format( 'i' );
+
+        if ( $hours > 0 ) {
+            return $hours . ' h ' . $minutes;
+        }
+
+        return $minutes . ' min';
+    }
+
     public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
     {
         return $this->showIconWithBoxIcons( $iconName, $iconSize, $additionalClass, $iconType );

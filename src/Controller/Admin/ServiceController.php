@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route( '/admin/prestations', name: 'app_admin_service_' )]
-class ServiceControllerPhpController extends AbstractController
+class ServiceController extends AbstractController
 {
     #[Route( '/', name: 'index' )]
     public function index( ServiceRepository $serviceRepository ) : Response
@@ -37,6 +37,24 @@ class ServiceControllerPhpController extends AbstractController
         }
 
         return $this->render( 'admin/services/new.html.twig', [
+            'service' => $service,
+            'form' => $form,
+        ] );
+    }
+
+    #[Route( '/{id}/edit', name: 'edit' )]
+    public function edit( Request $request, Service $service, ServiceRepository $serviceRepository ) : Response
+    {
+        $form = $this->createForm( ServiceType::class, $service );
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $serviceRepository->save( $service, true );
+
+            return $this->redirectToRoute( 'app_admin_service_index', [], Response::HTTP_SEE_OTHER );
+        }
+
+        return $this->render( 'admin/services/edit.html.twig', [
             'service' => $service,
             'form' => $form,
         ] );

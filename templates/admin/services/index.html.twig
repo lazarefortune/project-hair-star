@@ -57,13 +57,13 @@
                             {{ service.name }}
                         </td>
                         <td>
-                            {{ service.duration }}
+                            {{ service.duration|duration_format }}
                         </td>
                         <td>
                             {{ service.price }}
                         </td>
                         <td>
-                            <a href=""
+                            <a href="{{ path('app_admin_service_edit', {'id': service.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>

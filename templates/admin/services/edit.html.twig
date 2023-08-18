@@ -18,8 +18,12 @@
         {{ include('partials/flash.html.twig') }}
     </div>
 
-    {% include 'admin/services/_form.html.twig' with {
-        button_label: 'Modifier',
-    } %}
+    <div class="mt-6">
+        {% include 'admin/services/_form.html.twig' with {
+            form: form,
+            button_label: 'Modifier',
+            button_back_to_list: false
+        } %}
+    </div>
 {% endblock %}
 

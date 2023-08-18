@@ -24,6 +24,12 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
 
+  App\DataTransformer\MinutesToTimeTransformer: ~
+
+  App\Form\ServiceType:
+    arguments:
+      $transformer: '@App\DataTransformer\MinutesToTimeTransformer'
+
   App\Service\BreadcrumbService:
     public: true
 

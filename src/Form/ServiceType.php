@@ -2,12 +2,14 @@
 
 namespace App\Form;
 
+use App\DataTransformer\MinutesToTimeTransformer;
 use App\Entity\CategoryService;
 use App\Entity\Service;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServiceType extends AbstractType
 {
+
+    public function __construct( private readonly MinutesToTimeTransformer $transformer )
+    {
+    }
+
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
@@ -39,10 +46,12 @@ class ServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'price', TextType::class, [
+            ->add( 'price', MoneyType::class, [
                 'label' => 'Prix du service',
+                'currency' => 'EUR',
+                'required' => true,
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -52,7 +61,7 @@ class ServiceType extends AbstractType
                 'label' => 'Durée du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'flatpickr-time-input',
+                    'class' => 'form-input-md flatpickr-time-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -62,7 +71,7 @@ class ServiceType extends AbstractType
                 'label' => 'Date de début du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md flatpickr-date-after-today-default-today',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -72,116 +81,48 @@ class ServiceType extends AbstractType
                 'label' => 'Date de fin du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md flatpickr-date-after-today-default-after-month',
                 ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'startTime', ChoiceType::class, [
+            ->add( 'startTime', TimeType::class, [
                 'label' => 'Heure de début du service',
-                'data' => '09:00',
-                'choices' => [
-                    '08:00' => '08:00',
-                    '08:30' => '08:30',
-                    '09:00' => '09:00',
-                    '09:30' => '09:30',
-                    '10:00' => '10:00',
-                    '10:30' => '10:30',
-                    '11:00' => '11:00',
-                    '11:30' => '11:30',
-                    '12:00' => '12:00',
-                    '12:30' => '12:30',
-                    '13:00' => '13:00',
-                    '13:30' => '13:30',
-                    '14:00' => '14:00',
-                    '14:30' => '14:30',
-                    '15:00' => '15:00',
-                    '15:30' => '15:30',
-                    '16:00' => '16:00',
-                    '16:30' => '16:30',
-                    '17:00' => '17:00',
-                    '17:30' => '17:30',
-                    '18:00' => '18:00',
-                    '18:30' => '18:30',
-                    '19:00' => '19:00',
-                    '19:30' => '19:30',
-                    '20:00' => '20:00',
-                    '20:30' => '20:30',
-                    '21:00' => '21:00',
-                    '21:30' => '21:30',
-                    '22:00' => '22:00',
-                    '22:30' => '22:30',
-                    '23:00' => '23:00',
-                    '23:30' => '23:30'
-                ],
+                'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md',
+                    'class' => 'form-input-md flatpickr-time-wrap',
                 ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'endTime', ChoiceType::class, [
-                'label' => 'Heure de début du service',
-                'data' => '18:00',
-                'choices' => [
-                    '08:00' => '08:00',
-                    '08:30' => '08:30',
-                    '09:00' => '09:00',
-                    '09:30' => '09:30',
-                    '10:00' => '10:00',
-                    '10:30' => '10:30',
-                    '11:00' => '11:00',
-                    '11:30' => '11:30',
-                    '12:00' => '12:00',
-                    '12:30' => '12:30',
-                    '13:00' => '13:00',
-                    '13:30' => '13:30',
-                    '14:00' => '14:00',
-                    '14:30' => '14:30',
-                    '15:00' => '15:00',
-                    '15:30' => '15:30',
-                    '16:00' => '16:00',
-                    '16:30' => '16:30',
-                    '17:00' => '17:00',
-                    '17:30' => '17:30',
-                    '18:00' => '18:00',
-                    '18:30' => '18:30',
-                    '19:00' => '19:00',
-                    '19:30' => '19:30',
-                    '20:00' => '20:00',
-                    '20:30' => '20:30',
-                    '21:00' => '21:00',
-                    '21:30' => '21:30',
-                    '22:00' => '22:00',
-                    '22:30' => '22:30',
-                    '23:00' => '23:00',
-                    '23:30' => '23:30'
-                ],
+            ->add( 'endTime', TimeType::class, [
+                'label' => 'Heure de fin du service',
+                'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md',
+                    'class' => 'form-input-md flatpickr-time-wrap',
                 ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] )
-//            ->add( 'categories', EntityType::class, [
-//                'class' => CategoryService::class,
-//                'choice_label' => 'name',
-//                'multiple' => true,
-//                'label' => 'Catégories du service',
-//                'attr' => [
-//                    'class' => 'select2 form-input-md',
-//                ],
-//                'label_attr' => [
-//                    'class' => 'label',
-//                ],
-//            ] )
-            ->add( 'avalaibleSpacePerService', TextType::class, [
+            ->add( 'categories', EntityType::class, [
+                'class' => CategoryService::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'label' => 'Catégories du service',
+                'attr' => [
+                    'class' => 'form-input-md select2',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+            ] )
+            ->add( 'avalaibleSpacePerService', IntegerType::class, [
                 'label' => 'Nombre de places disponibles',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -204,12 +145,14 @@ class ServiceType extends AbstractType
                     '60 minutes' => 60,
                 ],
                 'attr' => [
-                    'class' => ' form-input-md',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
                 ],
             ] );
+
+        $builder->get( 'bufferTime' )->addModelTransformer( $this->transformer );
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void
