@@ -30,7 +30,7 @@ class ServiceType extends AbstractType
             ->add( 'name', TextType::class, [
                 'label' => 'Nom du service',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -39,7 +39,7 @@ class ServiceType extends AbstractType
             ->add( 'description', TextareaType::class, [
                 'label' => 'Description du service',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'required' => false,
                 'label_attr' => [

@@ -21,7 +21,13 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFilter( 'duration_format', [$this, 'durationFormat'] ),
+            new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
         ];
+    }
+
+    public function priceFormat( float $price ) : string
+    {
+        return number_format( $price, 2, ',', ' ' ) . ' €';
     }
 
     public function durationFormat( \DateTime $dateTime ) : string

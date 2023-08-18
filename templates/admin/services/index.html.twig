@@ -60,7 +60,7 @@
                             {{ service.duration|duration_format }}
                         </td>
                         <td>
-                            {{ service.price }}
+                            {{ service.price|price_format }}
                         </td>
                         <td>
                             <a href="{{ path('app_admin_service_edit', {'id': service.id}) }}"

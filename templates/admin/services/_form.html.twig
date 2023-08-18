@@ -11,15 +11,7 @@
     <div class="col-span-2 flex flex-col space-y-3">
         <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
             <div class="col-span-full sm:col-span-1">
-                {{ form_row(form.name, {
-                    'attr': {
-                        'class': 'form-input-md'
-                    },
-                    'label': 'Nom du service',
-                    'label_attr': {
-                        'class': 'label'
-                    }
-                }) }}
+                {{ form_row(form.name) }}
             </div>
 
             <div class="sm:col-span-full">
@@ -47,7 +39,7 @@
             Calendrier
         </h6>
         <p class="mt-2 text-sm text-gray-500">
-            Modifier les informations de base de votre prestation
+            Ces informations permettent de définir les disponibilités de votre prestation
         </p>
     </div>
     <div class="col-span-2 flex flex-col space-y-3">
@@ -83,7 +75,7 @@
             Personnalisation
         </h6>
         <p class="mt-2 text-sm text-gray-500">
-            Modifier les informations de base de votre prestation
+            Ces informations permettent de gérer les options de votre prestation
         </p>
     </div>
     <div class="col-span-2 flex flex-col space-y-3">
