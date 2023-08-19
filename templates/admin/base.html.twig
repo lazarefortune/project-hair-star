@@ -54,7 +54,7 @@
 
         <div class="space-y-1">
             <a href="{{ path('app_home') }}" class="sidebar-nav-item">
-                {{ icon('subdirectory-left') }}
+                {{ icon('undo-2') }}
                 <span class="ml-1">Retour au site</span>
             </a>
             <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
@@ -63,12 +63,12 @@
             </a>
             <a href="{{ path('app_admin_realisation_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
-                {{ icon('cut') }}
+                {{ icon('scissors') }}
                 <span class="ml-1">Réalisations</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item">
-                {{ icon('group') }}
+                {{ icon('users-2') }}
                 <span class="ml-1">Clients</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
@@ -89,7 +89,7 @@
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_service') }} {{ menu_active('app_admin_category_service') }}">
-                {{ icon('store-alt') }}
+                {{ icon('store') }}
                 <span class="ml-1">Prestations</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
                     {{ icon('chevron-right') }}
@@ -113,7 +113,7 @@
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle">
-                {{ icon('cog') }}
+                {{ icon('store') }}
                 <span class="ml-1">Gestion du salon</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
                         {{ icon('chevron-right') }}

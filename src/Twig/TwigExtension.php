@@ -44,7 +44,7 @@ class TwigExtension extends AbstractExtension
 
     public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
     {
-        return $this->showIconWithBoxIcons( $iconName, $iconSize, $additionalClass, $iconType );
+        return $this->showIconWithLucidIcons( $iconName, $iconSize, $additionalClass );
     }
 
     private function showIconWithLineAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 's' ) : string
@@ -85,6 +85,30 @@ class TwigExtension extends AbstractExtension
         HTML;
     }
 
+    private function showIconWithLucidIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
+    {
+        $width = '20';
+        $height = '20';
+
+        // Map icon sizes to width and height
+        $lucidIconSizes = [
+            'xs' => ['width' => '12', 'height' => '12'],
+            'sm' => ['width' => '16', 'height' => '16'],
+            '2sm' => ['width' => '20', 'height' => '20'],
+            'md' => ['width' => '24', 'height' => '24'],
+            'lg' => ['width' => '32', 'height' => '32'],
+            'xl' => ['width' => '48', 'height' => '48'],
+        ];
+
+        if ( $iconSize && array_key_exists( $iconSize, $lucidIconSizes ) ) {
+            $width = $lucidIconSizes[$iconSize]['width'];
+            $height = $lucidIconSizes[$iconSize]['height'];
+        }
+
+        return <<<HTML
+            <i data-lucide="{$iconName}" class="{$classNames}" width="{$width}" height="{$height}"></i>
+        HTML;
+    }
 
     private function showIconWithFontAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 'regular' ) : string
     {

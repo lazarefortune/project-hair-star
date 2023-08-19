@@ -1,3 +1,7 @@
+import {createIcons, icons} from 'lucide';
+
+createIcons({icons});
+
 document.addEventListener("DOMContentLoaded", function () {
     const switchesBox = document.querySelectorAll('.form-switch');
 
