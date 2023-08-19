@@ -33,6 +33,7 @@ class ServiceController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $serviceRepository->save( $service, true );
 
+            $this->addFlash( 'success', 'Prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_service_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -51,6 +52,7 @@ class ServiceController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $serviceRepository->save( $service, true );
 
+            $this->addFlash( 'success', 'Prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_service_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -58,5 +60,17 @@ class ServiceController extends AbstractController
             'service' => $service,
             'form' => $form,
         ] );
+    }
+
+    #[Route( '/{id}', name: 'delete', methods: ['POST'] )]
+    public function delete( Request $request, Service $service, ServiceRepository $serviceRepository ) : Response
+    {
+        if ( $this->isCsrfTokenValid( 'delete' . $service->getId(), $request->request->get( '_token' ) ) ) {
+            $serviceRepository->remove( $service, true );
+
+            $this->addFlash( 'success', 'Prestation supprimée avec succès' );
+        }
+
+        return $this->redirectToRoute( 'app_admin_service_index', [], Response::HTTP_SEE_OTHER );
     }
 }

@@ -31,6 +31,7 @@ class CategoryServiceController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $categoryServiceRepository->save( $categoryService, true );
 
+            $this->addFlash( 'success', 'Catégorie de prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_service_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -55,11 +56,9 @@ class CategoryServiceController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            // vardump form values
-//            dd( $form->getData() );
-//            dd( $categoryService );
             $categoryServiceRepository->save( $categoryService, true );
 
+            $this->addFlash( 'success', 'Catégorie de prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_service_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -73,6 +72,7 @@ class CategoryServiceController extends AbstractController
     public function delete( Request $request, CategoryService $categoryService, CategoryServiceRepository $categoryServiceRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $categoryService->getId(), $request->request->get( '_token' ) ) ) {
+            $this->addFlash( 'success', 'Catégorie de prestation supprimée avec succès' );
             $categoryServiceRepository->remove( $categoryService, true );
         }
 

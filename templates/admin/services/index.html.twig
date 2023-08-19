@@ -14,6 +14,10 @@
         </a>
     </div>
 
+    <div class="mt-2">
+        {{ include('partials/flash.html.twig') }}
+    </div>
+
     <div class="card-simple">
         <div class="mb-6 px-4 sm:px-6">
             <div class="flex justify-between">
@@ -66,10 +70,19 @@
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            <a href=""
-                               class="btn-icon">
+                            <button
+                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ service.id }}">
                                 {{ icon('trash') }}
-                            </a>
+                            </button>
+
+                            {% include 'components/_delete-modal.html.twig' with {
+                                'id': 'modal-id-' ~ service.id,
+                                'title': 'Supprimer la prestation',
+                                'content': 'Êtes-vous sûr de vouloir supprimer la prestation ?',
+                                'form_action': path('app_admin_service_delete', {'id': service.id}),
+                                'csrf_value': csrf_token('delete' ~ service.id),
+                                'btn_label': 'Supprimer'
+                            } %}
                         </td>
                     </tr>
                 {% endfor %}

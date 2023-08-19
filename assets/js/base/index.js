@@ -2,7 +2,32 @@ import {createIcons, icons} from 'lucide';
 
 createIcons({icons});
 
+import '../components/_modal';
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    // Modales
+    const modalButtons = document.querySelectorAll('.modal-button');
+    const modalCloses = document.querySelectorAll('.modal-close');
+
+
+    modalButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const modalID = button.getAttribute('data-modal-id');
+            const modal = document.getElementById(modalID);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        });
+    });
+
+    modalCloses.forEach(close => {
+        close.addEventListener('click', function () {
+            const modal = close.closest('.modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    });
+
     const switchesBox = document.querySelectorAll('.form-switch');
 
     switchesBox.forEach(switchElementBox => {
