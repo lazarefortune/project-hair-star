@@ -71,7 +71,7 @@ class ServiceType extends AbstractType
                 'label' => 'Date de début du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-date-after-today-default-today',
+                    'class' => 'form-input-md flatpickr-date-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -81,7 +81,7 @@ class ServiceType extends AbstractType
                 'label' => 'Date de fin du service',
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'form-input-md flatpickr-date-after-today-default-after-month',
+                    'class' => 'form-input-md flatpickr-date-input',
                 ],
                 'label_attr' => [
                     'class' => 'label',
