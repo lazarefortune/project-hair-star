@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryServiceRepository::class)]
+#[ORM\Entity( repositoryClass: CategoryServiceRepository::class )]
 class CategoryService
 {
     #[ORM\Id]
@@ -16,36 +16,61 @@ class CategoryService
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column( length: 255 )]
     private ?string $name = null;
-
-    #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'categories')]
-    private Collection $services;
 
     #[ORM\Column]
     private ?bool $isActive = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'categoryService', targetEntity: Service::class)]
+    private Collection $services;
 
     public function __construct()
     {
         $this->services = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName() : ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName( string $name ) : self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+
+    public function isIsActive() : ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive( bool $isActive ) : self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getDescription() : ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription( ?string $description ) : self
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -62,7 +87,7 @@ class CategoryService
     {
         if (!$this->services->contains($service)) {
             $this->services->add($service);
-            $service->addCategory($this);
+            $service->setCategoryService($this);
         }
 
         return $this;
@@ -71,32 +96,11 @@ class CategoryService
     public function removeService(Service $service): self
     {
         if ($this->services->removeElement($service)) {
-            $service->removeCategory($this);
+            // set the owning side to null (unless already changed)
+            if ($service->getCategoryService() === $this) {
+                $service->setCategoryService(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function isIsActive(): ?bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }

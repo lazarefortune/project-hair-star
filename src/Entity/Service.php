@@ -22,8 +22,6 @@ class Service
     #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $description = null;
 
-    #[ORM\ManyToMany( targetEntity: CategoryService::class, inversedBy: 'services' )]
-    private Collection $categories;
 
     #[ORM\Column( type: "decimal", precision: 10, scale: 2, nullable: true )]
     private ?float $price = null;
@@ -52,9 +50,11 @@ class Service
     #[ORM\Column( type: Types::TIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $bufferTime = null;
 
+    #[ORM\ManyToOne( inversedBy: 'services' )]
+    private ?CategoryService $categoryService = null;
+
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -82,30 +82,6 @@ class Service
     public function setDescription( ?string $description ) : self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CategoryService>
-     */
-    public function getCategories() : Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory( CategoryService $category ) : self
-    {
-        if ( !$this->categories->contains( $category ) ) {
-            $this->categories->add( $category );
-        }
-
-        return $this;
-    }
-
-    public function removeCategory( CategoryService $category ) : self
-    {
-        $this->categories->removeElement( $category );
 
         return $this;
     }
@@ -214,6 +190,18 @@ class Service
     public function setBufferTime( ?\DateTimeInterface $bufferTime ) : self
     {
         $this->bufferTime = $bufferTime;
+
+        return $this;
+    }
+
+    public function getCategoryService() : ?CategoryService
+    {
+        return $this->categoryService;
+    }
+
+    public function setCategoryService( ?CategoryService $categoryService ) : self
+    {
+        $this->categoryService = $categoryService;
 
         return $this;
     }

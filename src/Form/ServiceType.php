@@ -5,6 +5,7 @@ namespace App\Form;
 use App\DataTransformer\MinutesToTimeTransformer;
 use App\Entity\CategoryService;
 use App\Entity\Service;
+use App\Repository\CategoryServiceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,6 +33,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md',
                 ],
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -63,6 +65,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md flatpickr-time-input',
                 ],
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -73,6 +76,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md flatpickr-date-input',
                 ],
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -83,6 +87,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md flatpickr-date-input',
                 ],
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -90,6 +95,7 @@ class ServiceType extends AbstractType
             ->add( 'startTime', TimeType::class, [
                 'label' => 'Heure de début du service',
                 'widget' => 'single_text',
+                'required' => true,
                 'attr' => [
                     'class' => 'form-input-md flatpickr-time-input',
                 ],
@@ -100,6 +106,7 @@ class ServiceType extends AbstractType
             ->add( 'endTime', TimeType::class, [
                 'label' => 'Heure de fin du service',
                 'widget' => 'single_text',
+                'required' => true,
                 'attr' => [
                     'class' => 'form-input-md flatpickr-time-input',
                 ],
@@ -107,13 +114,12 @@ class ServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'categories', EntityType::class, [
+            ->add( 'categoryService', EntityType::class, [
                 'class' => CategoryService::class,
                 'choice_label' => 'name',
-                'multiple' => true,
-                'label' => 'Catégories du service',
+                'label' => 'Catégories',
                 'attr' => [
-                    'class' => 'form-input-md select2',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -124,6 +130,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-md',
                 ],
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
@@ -144,6 +151,7 @@ class ServiceType extends AbstractType
                     '55 minutes' => 55,
                     '60 minutes' => 60,
                 ],
+                'required' => true,
                 'attr' => [
                     'class' => 'form-input-md',
                 ],
