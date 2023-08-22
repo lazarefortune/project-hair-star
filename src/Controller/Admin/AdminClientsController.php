@@ -23,10 +23,34 @@ class AdminClientsController extends AbstractController
     {
         $clients = $clientService->getClients();
 
-//        return $this->render( 'admin/clients/index.html.twig', [
-//            'clients' => $clients,
-//        ] );
+        return $this->render( 'admin/clients/index.html.twig', [
+            'clients' => $clients,
+        ] );
+    }
 
-        return $this->render( 'admin/layouts/maintenance.html.twig' );
+    #[Route( '/ajouter', name: 'new' )]
+    public function addNewClient( Request $request, ClientService $clientService ) : Response
+    {
+        $form = $this->createForm( UserType::class );
+        $form->handleRequest( $request );
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            try {
+                $clientService->addNewClient( $form->getData() );
+            } catch ( \Exception $e ) {
+                $this->addFlash( 'danger', $e->getMessage() );
+
+                return $this->redirectToRoute( 'app_admin_clients_add' );
+            }
+
+            $this->addFlash( 'success', 'Le client a bien été ajouté' );
+
+            return $this->redirectToRoute( 'app_admin_clients_index' );
+        }
+
+        return $this->render( 'admin/clients/add.html.twig', [
+            'form' => $form->createView(),
+        ] );
+
     }
 }
