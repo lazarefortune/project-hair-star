@@ -30,8 +30,12 @@ class TwigExtension extends AbstractExtension
         return number_format( $price, 2, ',', ' ' ) . ' €';
     }
 
-    public function durationFormat( \DateTime $dateTime ) : string
+    public function durationFormat( ?\DateTime $dateTime ) : string
     {
+        if ( !$dateTime ) {
+            return '';
+        }
+
         $hours = $dateTime->format( 'H' );
         $minutes = $dateTime->format( 'i' );
 
