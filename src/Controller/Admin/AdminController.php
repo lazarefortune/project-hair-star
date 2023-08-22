@@ -55,4 +55,10 @@ class AdminController extends AbstractController
     {
         return $this->render( 'admin/test.html.twig' );
     }
+
+    #[Route( '/maintenance', name: 'maintenance', methods: ['GET'] )]
+    public function maintenance() : Response
+    {
+        return $this->render( 'admin/layouts/maintenance.html.twig' );
+    }
 }
