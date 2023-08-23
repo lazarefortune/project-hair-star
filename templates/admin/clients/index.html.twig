@@ -45,6 +45,9 @@
                         Numéro
                     </th>
                     <th>
+                        Date de création
+                    </th>
+                    <th>
                         Vérifié
                     </th>
                     <th>
@@ -76,17 +79,28 @@
                             {{ client.phone }}
                         </td>
                         <td>
-                            {{ client.verified }}
+                            {{ client.createdAt|date('d/m/Y') }}
                         </td>
                         <td>
-                            <a href=""
+                            {% if client.isVerified %}
+                                <span class="badge badge-success">
+                                    Vérifié
+                                </span>
+                            {% else %}
+                                <span class="badge badge-danger">
+                                    Non vérifié
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_clients_edit', {id: client.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
-                            <button
-                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ client.id }}">
-                                {{ icon('trash') }}
-                            </button>
+                            <a href="{{ path('app_admin_clients_show', {id: client.id}) }}"
+                               class="btn-icon">
+                                {{ icon('arrow-right') }}
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

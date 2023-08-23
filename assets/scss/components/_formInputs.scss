@@ -22,3 +22,7 @@
 .invalid-feedback {
   @apply block text-sm font-medium text-red-800;
 }
+
+.form-error {
+  @apply block text-sm font-normal text-red-800;
+}

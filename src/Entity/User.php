@@ -55,11 +55,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
 
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCreatedAt() : ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn( nullable: false )]
+    #[ORM\JoinColumn( nullable: true )]
     private ?Role $role = null;
 
     public function __construct()

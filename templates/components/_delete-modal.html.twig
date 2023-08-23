@@ -12,16 +12,20 @@
                     {{ content|raw }}
                 </p>
             </div>
+
         </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end sm:flex-row gap-3">
             <button type="button"
-                    class="btn btn-md btn-outline-primary modal-close">
+                    class="btn-md btn-outline-primary modal-close">
                 Annuler
             </button>
-            <form method="post" action="{{ form_action }}" class="block">
+
+            <form method="post" action="{{ form_action }}"
+                  class="block modal-delete-btn">
                 <input type="hidden" name="_token" value="{{ csrf_value }}">
-                <button class="btn btn-md btn-primary">{{ btn_label }}</button>
+                <button class="btn-md btn-primary">{{ btn_label }}</button>
             </form>
+
         </div>
     </div>
 </div>

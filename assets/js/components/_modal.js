@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('modal.js');
-
     function toggleModal(modalID) {
         const modal = document.getElementById(modalID);
         if (modal.classList.contains('hidden')) {
