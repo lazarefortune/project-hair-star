@@ -4,7 +4,7 @@ table.table thead th {
 
 table.table tbody th,
 table.table tbody td {
-  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 py-4 px-6 align-middle text-md;
+  @apply whitespace-nowrap border-t-0 border-r-0 border-l-0 py-4 px-6 align-middle text-sm;
 }
 
 table.table tbody tr {
