@@ -1,6 +1,28 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
+
+<a href="{{ path('app_admin_clients_index') }}"
+   class="btn-link mb-4">
+    {{ icon('arrow-left', '', 'mr-2') }}
+    <span>
+        Liste des clients
+    </span>
+</a>
+
+<div class="flex justify-between items-center mb-6">
+    <h4 class="text-2xl font-bold md:text-3xl">
+        John Doe John Doe John Doe
+    </h4>
+    <a href="{{ path('app_admin_clients_new') }}"
+       class="btn-md btn-primary">
+        {{ icon('pencil', '', 'mr-2') }}
+        <span>
+            Modifier
+        </span>
+    </a>
+</div>
+
 <div class="block w-full overflow-x-auto">
 
     <div class="border-b border-gray-200 dark:border-gray-700 text-sm">

@@ -78,7 +78,7 @@
                             {% include 'components/_delete-modal.html.twig' with {
                                 'id': 'modal-id-' ~ service.id,
                                 'title': 'Supprimer la prestation',
-                                'content': 'Êtes-vous sûr de vouloir supprimer la prestation ?',
+                                'content': 'Vous êtes sur le point de supprimer la prestation <strong>' ~ service.name ~ '</strong>.<br>Cette action est irréversible.',
                                 'form_action': path('app_admin_service_delete', {'id': service.id}),
                                 'csrf_value': csrf_token('delete' ~ service.id),
                                 'btn_label': 'Supprimer'

@@ -40,7 +40,7 @@ class AdminClientsController extends AbstractController
             } catch ( \Exception $e ) {
                 $this->addFlash( 'danger', $e->getMessage() );
 
-                return $this->redirectToRoute( 'app_admin_clients_add' );
+                return $this->redirectToRoute( 'app_admin_clients_new' );
             }
 
             $this->addFlash( 'success', 'Le client a bien été ajouté' );
