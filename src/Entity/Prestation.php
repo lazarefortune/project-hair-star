@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
+use App\Repository\PrestationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity( repositoryClass: ServiceRepository::class )]
-class Service
+#[ORM\Entity( repositoryClass: PrestationRepository::class )]
+class Prestation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,16 +45,20 @@ class Service
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column( nullable: true )]
-    private ?int $avalaibleSpacePerService = null;
+    private ?int $avalaibleSpacePerPrestation = null;
 
     #[ORM\Column( type: Types::TIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $bufferTime = null;
 
-    #[ORM\ManyToOne( inversedBy: 'services' )]
-    private ?CategoryService $categoryService = null;
+    #[ORM\ManyToOne( inversedBy: 'prestations' )]
+    private ?CategoryPrestation $categoryPrestation = null;
+
+    #[ORM\ManyToMany( targetEntity: Tag::class, inversedBy: 'prestations' )]
+    private Collection $tags;
 
     public function __construct()
     {
+        $this->tags = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -170,14 +174,14 @@ class Service
         return $this;
     }
 
-    public function getAvalaibleSpacePerService() : ?int
+    public function getAvalaibleSpacePerPrestation() : ?int
     {
-        return $this->avalaibleSpacePerService;
+        return $this->avalaibleSpacePerPrestation;
     }
 
-    public function setAvalaibleSpacePerService( ?int $avalaibleSpacePerService ) : self
+    public function setAvalaibleSpacePerPrestation( ?int $avalaibleSpacePerPrestation ) : self
     {
-        $this->avalaibleSpacePerService = $avalaibleSpacePerService;
+        $this->avalaibleSpacePerPrestation = $avalaibleSpacePerPrestation;
 
         return $this;
     }
@@ -194,14 +198,38 @@ class Service
         return $this;
     }
 
-    public function getCategoryService() : ?CategoryService
+    public function getCategoryPrestation() : ?CategoryPrestation
     {
-        return $this->categoryService;
+        return $this->categoryPrestation;
     }
 
-    public function setCategoryService( ?CategoryService $categoryService ) : self
+    public function setCategoryPrestation( ?CategoryPrestation $categoryPrestation ) : self
     {
-        $this->categoryService = $categoryService;
+        $this->categoryPrestation = $categoryPrestation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags() : Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag( Tag $tag ) : self
+    {
+        if ( !$this->tags->contains( $tag ) ) {
+            $this->tags->add( $tag );
+        }
+
+        return $this;
+    }
+
+    public function removeTag( Tag $tag ) : self
+    {
+        $this->tags->removeElement( $tag );
 
         return $this;
     }

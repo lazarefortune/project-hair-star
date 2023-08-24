@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Service;
+use App\Entity\Prestation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Service>
+ * @extends ServiceEntityRepository<Prestation>
  *
- * @method Service|null find($id, $lockMode = null, $lockVersion = null)
- * @method Service|null findOneBy(array $criteria, array $orderBy = null)
- * @method Service[]    findAll()
- * @method Service[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Prestation|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method Prestation|null findOneBy( array $criteria, array $orderBy = null )
+ * @method Prestation[]    findAll()
+ * @method Prestation[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class ServiceRepository extends ServiceEntityRepository
+class PrestationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct( ManagerRegistry $registry )
     {
-        parent::__construct($registry, Service::class);
+        parent::__construct( $registry, Prestation::class );
     }
 
-    public function save(Service $entity, bool $flush = false): void
+    public function save( Prestation $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(Service $entity, bool $flush = false): void
+    public function remove( Prestation $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }

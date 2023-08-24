@@ -26,7 +26,7 @@ services:
 
   App\DataTransformer\MinutesToTimeTransformer: ~
 
-  App\Form\ServiceType:
+  App\Form\PrestationType:
     arguments:
       $transformer: '@App\DataTransformer\MinutesToTimeTransformer'
 

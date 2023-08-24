@@ -7,7 +7,7 @@
         <h4 class="text-2xl font-bold md:text-3xl">
             Catégorie
         </h4>
-        <a href="{{ path('app_admin_category_service_index') }}"
+        <a href="{{ path('app_admin_category_prestation_index') }}"
            class="btn btn-md btn-primary">
             {{ icon('arrow-left') }}
             <span>
@@ -20,9 +20,7 @@
         {{ include('partials/flash.html.twig') }}
     </div>
 
-
-    {{ include('admin/category_service/_form.html.twig') }}
-
+    {% include 'admin/category-prestation/_form.html.twig' with {'button_label': 'Enregistrer'} %}
 
 
 {% endblock %}

@@ -88,21 +88,20 @@
                 <span class="ml-1">Comptes</span>
             </a>
 
-            <button class="relative sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_service') }} {{ menu_active('app_admin_category_service') }}">
+            <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_prestation') }} {{ menu_active('app_admin_category_prestation') }}">
                 {{ icon('store') }}
-                <span class="absolute text-primary-600  bg-primary-200 p-1 text-xs rounded-full -top-2 -right-2">Pro</span>
                 <span class="ml-1">Prestations</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
                     {{ icon('chevron-right') }}
                 </span>
             </button>
             <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
-                <a href="{{ path('app_admin_service_index') }}"
-                   class="sidebar-nav-item {{ menu_active('app_admin_service') }}">
+                <a href="{{ path('app_admin_prestation_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_prestation') }}">
                     Toutes
                 </a>
-                <a href="{{ path('app_admin_category_service_index') }}"
-                   class="sidebar-nav-item {{ menu_active('app_admin_category_service') }}">
+                <a href="{{ path('app_admin_category_prestation_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_category_prestation') }}">
                     Catégories
                 </a>
             </div>

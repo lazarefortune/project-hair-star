@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\CategoryService;
+use App\Entity\CategoryPrestation;
 use App\Form\Type\SwitchboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CategoryServiceType extends AbstractType
+class CategoryPrestationType extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
@@ -44,7 +44,7 @@ class CategoryServiceType extends AbstractType
     public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
-            'data_class' => CategoryService::class,
+            'data_class' => CategoryPrestation::class,
         ] );
     }
 }

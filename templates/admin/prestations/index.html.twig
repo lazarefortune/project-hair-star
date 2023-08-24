@@ -1,12 +1,11 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
-            Catégories
+            Prestations
         </h4>
-        <a href="{{ path('app_admin_category_service_new') }}"
+        <a href="{{ path('app_admin_prestation_new') }}"
            class="btn btn-md btn-primary">
             {{ icon('plus') }}
             <span>
@@ -40,10 +39,10 @@
                         Nom
                     </th>
                     <th>
-                        Statut
+                        Durée
                     </th>
                     <th>
-                        Description
+                        Tarif
                     </th>
                     <th>
                         Actions
@@ -51,41 +50,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for category in category_services %}
+                {% for prestation in prestations %}
                     <tr>
                         <th class="text-left">
                             <input type="checkbox"
                                    class="">
                         </th>
                         <td>
-                            {{ category.name }}
+                            {{ prestation.name }}
                         </td>
                         <td>
-                            {% if category.isActive %}
-                                <span class="badge badge-success">Actif</span>
-                            {% else %}
-                                <span class="badge badge-danger">Inactif</span>
-                            {% endif %}
+                            {{ prestation.duration|duration_format }}
                         </td>
                         <td>
-                            {{ category.description }}
+                            {{ prestation.price|price_format }}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"
+                            <a href="{{ path('app_admin_prestation_edit', {'id': prestation.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
                             <button
-                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ category.id }}">
+                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ prestation.id }}">
                                 {{ icon('trash') }}
                             </button>
 
                             {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ category.id,
-                                'title': 'Supprimer la catégorie',
-                                'content': 'Êtes-vous sûr de vouloir supprimer cette catégorie ?',
-                                'form_action': path('app_admin_category_service_delete', {'id': category.id}),
-                                'csrf_value': csrf_token('delete' ~ category.id),
+                                'id': 'modal-id-' ~ prestation.id,
+                                'title': 'Supprimer la prestation',
+                                'content': 'Vous êtes sur le point de supprimer la prestation <strong>' ~ prestation.name ~ '</strong>.<br>Cette action est irréversible.',
+                                'form_action': path('app_admin_prestation_delete', {'id': prestation.id}),
+                                'csrf_value': csrf_token('delete' ~ prestation.id),
                                 'btn_label': 'Supprimer'
                             } %}
                         </td>

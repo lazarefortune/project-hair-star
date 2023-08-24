@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\CategoryService;
+use App\Entity\CategoryPrestation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CategoryService>
+ * @extends ServiceEntityRepository<CategoryPrestation>
  *
- * @method CategoryService|null find($id, $lockMode = null, $lockVersion = null)
- * @method CategoryService|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategoryService[]    findAll()
- * @method CategoryService[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CategoryPrestation|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method CategoryPrestation|null findOneBy( array $criteria, array $orderBy = null )
+ * @method CategoryPrestation[]    findAll()
+ * @method CategoryPrestation[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class CategoryServiceRepository extends ServiceEntityRepository
+class CategoryPrestationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct( ManagerRegistry $registry )
     {
-        parent::__construct($registry, CategoryService::class);
+        parent::__construct( $registry, CategoryPrestation::class );
     }
 
-    public function save(CategoryService $entity, bool $flush = false): void
+    public function save( CategoryPrestation $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(CategoryService $entity, bool $flush = false): void
+    public function remove( CategoryPrestation $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }

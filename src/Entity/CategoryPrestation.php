@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryServiceRepository;
+use App\Repository\CategoryPrestationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity( repositoryClass: CategoryServiceRepository::class )]
-class CategoryService
+#[ORM\Entity( repositoryClass: CategoryPrestationRepository::class )]
+class CategoryPrestation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,12 +25,12 @@ class CategoryService
     #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'categoryService', targetEntity: Service::class)]
-    private Collection $services;
+    #[ORM\OneToMany( mappedBy: 'categoryPrestation', targetEntity: Prestation::class )]
+    private Collection $prestations;
 
     public function __construct()
     {
-        $this->services = new ArrayCollection();
+        $this->prestations = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -76,29 +76,29 @@ class CategoryService
     }
 
     /**
-     * @return Collection<int, Service>
+     * @return Collection<int, Prestation>
      */
-    public function getServices(): Collection
+    public function getPrestations() : Collection
     {
-        return $this->services;
+        return $this->prestations;
     }
 
-    public function addService(Service $service): self
+    public function addService( Prestation $prestation ) : self
     {
-        if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->setCategoryService($this);
+        if ( !$this->prestations->contains( $prestation ) ) {
+            $this->prestations->add( $prestation );
+            $prestation->setCategoryPrestation( $this );
         }
 
         return $this;
     }
 
-    public function removeService(Service $service): self
+    public function removeService( Service $service ) : self
     {
-        if ($this->services->removeElement($service)) {
+        if ( $this->services->removeElement( $service ) ) {
             // set the owning side to null (unless already changed)
-            if ($service->getCategoryService() === $this) {
-                $service->setCategoryService(null);
+            if ( $service->getCategoryService() === $this ) {
+                $service->setCategoryService( null );
             }
         }
 

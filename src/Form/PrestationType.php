@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\DataTransformer\MinutesToTimeTransformer;
-use App\Entity\CategoryService;
-use App\Entity\Service;
-use App\Repository\CategoryServiceRepository;
+use App\Entity\CategoryPrestation;
+use App\Entity\Prestation;
+use App\Entity\Tag;
+use App\Form\Type\SwitchboxType;
+use App\Repository\CategoryPrestationRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ServiceType extends AbstractType
+class PrestationType extends AbstractType
 {
 
     public function __construct( private readonly MinutesToTimeTransformer $transformer )
@@ -114,8 +116,8 @@ class ServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'categoryService', EntityType::class, [
-                'class' => CategoryService::class,
+            ->add( 'categoryPrestation', EntityType::class, [
+                'class' => CategoryPrestation::class,
                 'choice_label' => 'name',
                 'label' => 'Catégories',
                 'attr' => [
@@ -125,7 +127,7 @@ class ServiceType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'avalaibleSpacePerService', IntegerType::class, [
+            ->add( 'avalaibleSpacePerPrestation', IntegerType::class, [
                 'label' => 'Nombre de places disponibles',
                 'attr' => [
                     'class' => 'form-input-md',
@@ -158,7 +160,22 @@ class ServiceType extends AbstractType
                 'label_attr' => [
                     'class' => 'label',
                 ],
+            ] )
+            ->add( 'tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'label' => 'Tags',
+                'attr' => [
+                    'class' => 'form-input-md select2-tags',
+                    'data-tags' => 'true'
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'multiple' => true,
+                'required' => false,
             ] );
+
 
         $builder->get( 'bufferTime' )->addModelTransformer( $this->transformer );
     }
@@ -166,7 +183,7 @@ class ServiceType extends AbstractType
     public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
-            'data_class' => Service::class,
+            'data_class' => Prestation::class,
         ] );
     }
 }
