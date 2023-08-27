@@ -50,6 +50,13 @@ class PrestationController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
+
+            foreach ( $prestation->getTags() as $tag ) {
+                if ( !$tag->getPrestations()->contains( $prestation ) ) {
+                    $tag->addPrestation( $prestation );
+                }
+            }
+
             $prestationRepository->save( $prestation, true );
 
             $this->addFlash( 'success', 'Prestation modifiée avec succès' );

@@ -167,7 +167,7 @@ class PrestationType extends AbstractType
                 'label' => 'Tags',
                 'attr' => [
                     'class' => 'form-input-md select2-tags',
-                    'data-tags' => 'true'
+//                    'data-tags' => 'true'
                 ],
                 'label_attr' => [
                     'class' => 'label',
