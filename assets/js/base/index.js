@@ -107,4 +107,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+
+    //----  Gestion de l'affichage des prix enfants ---- //
+    const priceChildrenSwitchBox = document.querySelector('#prestation_considerChildrenForPrice');
+    const priceChildrenBox = document.querySelector('#form-children-price');
+
+    if (priceChildrenSwitchBox.checked) {
+        priceChildrenBox.classList.remove('hidden');
+    }
+
+    priceChildrenSwitchBox.addEventListener('change', function () {
+        if (this.checked) {
+            priceChildrenBox.classList.remove('hidden');
+        } else {
+            priceChildrenBox.classList.add('hidden');
+        }
+    });
+
+
 });
