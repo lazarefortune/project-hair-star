@@ -56,6 +56,18 @@ class Prestation
     #[ORM\ManyToMany( targetEntity: Tag::class, inversedBy: 'prestations' )]
     private Collection $tags;
 
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+    #[ORM\Column( nullable: true )]
+    private ?bool $considerChildrenForPrice = null;
+
+    #[ORM\Column( nullable: true )]
+    private ?int $childrenAgeRange = null;
+
+    #[ORM\Column( nullable: true )]
+    private ?float $childrenPricePercentage = null;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -230,6 +242,59 @@ class Prestation
     public function removeTag( Tag $tag ) : self
     {
         $this->tags->removeElement( $tag );
+
+        return $this;
+    }
+
+    public function isIsActive() : ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive( bool $isActive ) : self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function isConsiderChildrenForPrice() : ?bool
+    {
+        return $this->considerChildrenForPrice;
+    }
+
+    public function setConsiderChildrenForPrice( ?bool $considerChildrenForPrice ) : self
+    {
+        $this->considerChildrenForPrice = $considerChildrenForPrice;
+
+        if ( $considerChildrenForPrice === false ) {
+            $this->setChildrenAgeRange( null );
+            $this->setChildrenPricePercentage( null );
+        }
+
+        return $this;
+    }
+
+    public function getChildrenAgeRange() : ?int
+    {
+        return $this->childrenAgeRange;
+    }
+
+    public function setChildrenAgeRange( ?int $childrenAgeRange ) : self
+    {
+        $this->childrenAgeRange = $childrenAgeRange;
+
+        return $this;
+    }
+
+    public function getChildrenPricePercentage() : ?float
+    {
+        return $this->childrenPricePercentage;
+    }
+
+    public function setChildrenPricePercentage( ?float $childrenPricePercentage ) : self
+    {
+        $this->childrenPricePercentage = $childrenPricePercentage;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Prestation;
 use App\Form\PrestationType;
 use App\Repository\PrestationRepository;
+use App\Service\PrestationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +25,15 @@ class PrestationController extends AbstractController
     }
 
     #[Route( '/new', name: 'new' )]
-    public function new( Request $request, PrestationRepository $prestationRepository ) : Response
+    public function new( Request $request, PrestationService $prestationService ) : Response
     {
         $prestation = new Prestation();
         $form = $this->createForm( PrestationType::class, $prestation );
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $prestationRepository->save( $prestation, true );
+            
+            $prestationService->save( $prestation, true );
 
             $this->addFlash( 'success', 'Prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
@@ -44,20 +46,14 @@ class PrestationController extends AbstractController
     }
 
     #[Route( '/{id}/edit', name: 'edit' )]
-    public function edit( Request $request, Prestation $prestation, PrestationRepository $prestationRepository ) : Response
+    public function edit( Request $request, Prestation $prestation, PrestationService $prestationService ) : Response
     {
         $form = $this->createForm( PrestationType::class, $prestation );
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
 
-            foreach ( $prestation->getTags() as $tag ) {
-                if ( !$tag->getPrestations()->contains( $prestation ) ) {
-                    $tag->addPrestation( $prestation );
-                }
-            }
-
-            $prestationRepository->save( $prestation, true );
+            $prestationService->save( $prestation, true );
 
             $this->addFlash( 'success', 'Prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );

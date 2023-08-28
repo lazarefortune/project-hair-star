@@ -138,8 +138,9 @@ class PrestationType extends AbstractType
                 ],
             ] )
             ->add( 'bufferTime', ChoiceType::class, [
-                'label' => 'Temps de battement',
+                'label' => 'Temps de pause',
                 'choices' => [
+                    '0 minutes' => 0,
                     '5 minutes' => 5,
                     '10 minutes' => 10,
                     '15 minutes' => 15,
@@ -174,6 +175,58 @@ class PrestationType extends AbstractType
                 ],
                 'multiple' => true,
                 'required' => false,
+            ] )
+            ->add( 'isActive', SwitchboxType::class, [
+                'label' => 'Activer le service',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'required' => true,
+            ] )
+            ->add( 'considerChildrenForPrice', SwitchboxType::class, [
+                'label' => 'Prendre en compte les enfants pour le prix',
+                'label_attr' => [
+                    'class' => 'label children-price',
+                ],
+                'required' => true,
+            ] )
+            ->add( 'childrenAgeRange', ChoiceType::class, [
+                'label' => 'Tranche d\'âge des enfants',
+                'choices' => [
+                    '0-3 ans' => '3',
+                    '0-4 ans' => '4',
+                    '0-5 ans' => '5',
+                    '0-6 ans' => '6',
+                    '0-7 ans' => '7',
+                    '0-8 ans' => '8',
+                    '0-9 ans' => '9',
+                    '0-10 ans' => '10',
+                    '0-11 ans' => '11',
+                    '0-12 ans' => '12',
+                    '0-13 ans' => '13',
+                    '0-14 ans' => '14',
+                    '0-15 ans' => '15',
+                    '0-16 ans' => '16',
+                    '0-17 ans' => '17',
+                    '0-18 ans' => '18',
+                ],
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-input-md',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+            ] )
+            ->add( 'childrenPricePercentage', IntegerType::class, [
+                'label' => '% de réduction du prix pour les enfants',
+                'attr' => [
+                    'class' => 'form-input-md',
+                ],
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] );
 
 
