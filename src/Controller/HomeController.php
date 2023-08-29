@@ -6,6 +6,7 @@ use App\Entity\Option;
 use App\Entity\User;
 use App\Form\WelcomeType;
 use App\Model\WelcomeModel;
+use App\Service\MailService;
 use App\Service\OptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,8 +66,12 @@ class HomeController extends AbstractController
     }
 
     #[Route( '/installe', name: 'app_success_installed' )]
-    public function successInstalled() : Response
+    public function successInstalled( OptionService $optionService ) : Response
     {
+        if ( $optionService->getValue( WelcomeModel::SITE_INSTALLED_NAME ) ) {
+            return $this->redirectToRoute( 'app_home' );
+        }
+
         return $this->render( 'home/success_installed.html.twig' );
     }
 }

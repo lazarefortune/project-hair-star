@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Event\AddUserEvent;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
@@ -18,16 +19,15 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
 
-    public function __construct( EmailVerifier $emailVerifier )
+    public function __construct( private EmailVerifier $emailVerifier, private EventDispatcherInterface $eventDispatcher )
     {
-        $this->emailVerifier = $emailVerifier;
     }
 
     #[Route( '/inscription', name: 'app_register' )]
@@ -57,6 +57,9 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist( $user );
             $entityManager->flush();
+
+            $subscriptionEvent = new AddUserEvent( $user );
+            $this->eventDispatcher->dispatch( $subscriptionEvent, AddUserEvent::NAME );
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation( 'app_verify_email', $user,
