@@ -17,4 +17,20 @@ class OptionService
     {
         return $this->optionRepository->findAll();
     }
+
+    public function getValue( string $name ) : mixed
+    {
+        $option = $this->optionRepository->findOneBy( ['name' => $name] );
+
+        if ( $option instanceof Option ) {
+            return $option->getValue();
+        }
+
+        return null;
+    }
+
+    public function findAll() : array
+    {
+        return $this->optionRepository->findAllForTwig();
+    }
 }

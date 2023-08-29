@@ -9,34 +9,49 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Option>
  *
- * @method Option|null find($id, $lockMode = null, $lockVersion = null)
- * @method Option|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Option|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method Option|null findOneBy( array $criteria, array $orderBy = null )
  * @method Option[]    findAll()
- * @method Option[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Option[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
 class OptionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct( ManagerRegistry $registry )
     {
-        parent::__construct($registry, Option::class);
+        parent::__construct( $registry, Option::class );
     }
 
-    public function save(Option $entity, bool $flush = false): void
+    public function save( Option $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(Option $entity, bool $flush = false): void
+    public function remove( Option $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
+    }
+
+//    public function findAllForTwig() : array
+//    {
+//        return $this->createQueryBuilder( 'o', 'o.name' )
+//            ->select( 'o.name', 'o.value' )
+//            ->getQuery()
+//            ->getArrayResult();
+//    }
+
+    public function findAllForTwig() : array
+    {
+        return $this->createQueryBuilder( 'o', 'o.name' )
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

@@ -28,4 +28,9 @@ class PrestationService
         $this->prestationRepository->save( $prestation, $flush );
     }
 
+    public function getAll()
+    {
+        return $this->prestationRepository->findAll();
+    }
+
 }

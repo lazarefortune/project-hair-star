@@ -10,14 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/admin/prestations', name: 'app_admin_prestation_' )]
+#[IsGranted( 'ROLE_ADMIN' )]
 class PrestationController extends AbstractController
 {
     #[Route( '/', name: 'index' )]
-    public function index( PrestationRepository $prestationRepository ) : Response
+    public function index( PrestationService $prestationService ) : Response
     {
-        $prestations = $prestationRepository->findAll();
+        $prestations = $prestationService->getAll();
 
         return $this->render( 'admin/prestations/index.html.twig', [
             'prestations' => $prestations,
@@ -32,7 +34,7 @@ class PrestationController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            
+
             $prestationService->save( $prestation, true );
 
             $this->addFlash( 'success', 'Prestation créée avec succès' );

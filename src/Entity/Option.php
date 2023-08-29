@@ -23,7 +23,7 @@ class Option
     #[ORM\Column( length: 255, nullable: true )]
     private ?string $value = null;
 
-    #[ORM\Column( length: 255 )]
+    #[ORM\Column( length: 255, nullable: true )]
     private ?string $type = null;
 
     /**
@@ -91,5 +91,10 @@ class Option
         $this->type = $type;
 
         return $this;
+    }
+
+    public function __toString() : string
+    {
+        return $this->value;
     }
 }

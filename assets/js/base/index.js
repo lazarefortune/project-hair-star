@@ -112,17 +112,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const priceChildrenSwitchBox = document.querySelector('#prestation_considerChildrenForPrice');
     const priceChildrenBox = document.querySelector('#form-children-price');
 
-    if (priceChildrenSwitchBox.checked) {
-        priceChildrenBox.classList.remove('hidden');
-    }
+    if (priceChildrenSwitchBox && priceChildrenBox) {
 
-    priceChildrenSwitchBox.addEventListener('change', function () {
-        if (this.checked) {
+        if (priceChildrenSwitchBox.checked) {
             priceChildrenBox.classList.remove('hidden');
-        } else {
-            priceChildrenBox.classList.add('hidden');
         }
-    });
+
+        priceChildrenSwitchBox.addEventListener('change', function () {
+            if (this.checked) {
+                priceChildrenBox.classList.remove('hidden');
+            } else {
+                priceChildrenBox.classList.add('hidden');
+            }
+        });
+
+    }
 
 
 });

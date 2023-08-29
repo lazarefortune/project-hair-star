@@ -50,6 +50,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% if prestations is empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Aucune prestations pour le moment.
+                        </td>
+                    </tr>
+                {% endif %}
                 {% for prestation in prestations %}
                     <tr>
                         <th class="text-left">

@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route( '/admin/category/prestations' )]
+#[IsGranted( 'ROLE_ADMIN' )]
 class CategoryPrestationController extends AbstractController
 {
     #[Route( '/', name: 'app_admin_category_prestation_index', methods: ['GET'] )]

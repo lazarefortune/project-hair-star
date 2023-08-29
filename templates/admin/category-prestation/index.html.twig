@@ -51,6 +51,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% if category_prestations is empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            Aucune catégorie pour le moment.
+                        </td>
+                    </tr>
+                {% endif %}
                 {% for category in category_prestations %}
                     <tr>
                         <th class="text-left">
