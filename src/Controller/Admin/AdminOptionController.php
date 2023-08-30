@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Option;
+use App\Form\EditOptionType;
 use App\Form\OptionType;
 use App\Service\OptionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,10 +33,12 @@ class AdminOptionController extends AbstractController
     #[Route( '/{id}', name: 'edit' )]
     public function edit( Option $option ) : Response
     {
-        $formOption = $this->createForm( OptionType::class, $option );
+        $formEditOption = $this->createForm( EditOptionType::class, $option );
+
+//        $formOption = $this->createForm( OptionType::class, $option );
 
         return $this->render( 'admin/option/edit.html.twig', [
-            'formOption' => $formOption->createView(),
+            'formOption' => $formEditOption->createView(),
         ] );
     }
 }

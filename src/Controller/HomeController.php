@@ -10,6 +10,7 @@ use App\Service\MailService;
 use App\Service\OptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +42,7 @@ class HomeController extends AbstractController
             $data = $welcomeForm->getData();
 
             $siteTitle = new Option( WelcomeModel::SITE_TITLE_LABEL, WelcomeModel::SITE_TITLE_NAME, $data->getSiteTitle(), TextType::class );
-            $siteInstalled = new Option( WelcomeModel::SITE_INSTALLED_LABEL, WelcomeModel::SITE_INSTALLED_NAME, true, null );
+            $siteInstalled = new Option( WelcomeModel::SITE_INSTALLED_LABEL, WelcomeModel::SITE_INSTALLED_NAME, true, CheckboxType::class );
 
             $user = new User();
             $user->setEmail( $data->getUsername() );
@@ -68,10 +69,6 @@ class HomeController extends AbstractController
     #[Route( '/installe', name: 'app_success_installed' )]
     public function successInstalled( OptionService $optionService ) : Response
     {
-        if ( $optionService->getValue( WelcomeModel::SITE_INSTALLED_NAME ) ) {
-            return $this->redirectToRoute( 'app_home' );
-        }
-
         return $this->render( 'home/success_installed.html.twig' );
     }
 }

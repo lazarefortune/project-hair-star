@@ -87,6 +87,25 @@
   font-weight: 900;
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: url('../../fonts/Inter/static/Inter-Light.ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../fonts/Inter/static/Inter-Thin.ttf');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../fonts/Inter/static/Inter-ExtraLight.ttf');
+  font-weight: 200;
+}
+
+
 // ------------------------------ CircularStd font ------------------------------
 @font-face {
   font-family: 'CircularStd';
