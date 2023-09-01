@@ -1,26 +1,25 @@
 {{ form_start(form) }}
-
 <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
         <h6 class="card-section-title">
-            Catégorie de prestation
+            Pourquoi partir en vacances ?
         </h6>
         <p class="card-section-subtitle">
-            Les catégorisations permettent de regrouper les prestations par thématique.
+            Prévenez vos clients que vous partez en vacances.
         </p>
     </div>
     <div class="col-span-2 flex flex-col space-y-3">
         <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+            <div class="col-span-full">
+                {{ form_row(form.title) }}
+            </div>
+
             <div class="col-span-full sm:col-span-1">
-                {{ form_row(form.name) }}
+                {{ form_row(form.startDate) }}
             </div>
 
-            <div class="sm:col-span-full">
-                {{ form_row(form.description) }}
-            </div>
-
-            <div class="sm:col-span-full mt-2">
-                {{ form_row(form.isActive) }}
+            <div class="col-span-full sm:col-span-1">
+                {{ form_row(form.endDate) }}
             </div>
         </div>
     </div>

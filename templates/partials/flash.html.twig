@@ -1,6 +1,6 @@
 {% for type, messages in app.session.flashbag.all() %}
     {% for message in messages %}
-        <div class="alert alert-{{ type }} flex flex-row items-center" role="alert">
+        <div class="alert alert-{{ type }} flex flex-row items-center my-1" role="alert">
             {% if type == 'danger' %}
                 <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-red-600">
                     {{ icon('times', 'xs', 'text-white') }}

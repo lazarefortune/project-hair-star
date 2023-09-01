@@ -2,9 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Holiday;
 use App\Entity\Option;
+use App\Form\HolidayType;
 use App\Form\OffDaysType;
+use App\Repository\HolidayRepository;
+use App\Service\HolidayService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,9 +66,77 @@ class ShopSettingsController extends AbstractController
             return $this->redirectToRoute( 'app_admin_shop_settings_offdays' );
         }
 
-        return $this->render( 'admin/shop_settings/offdays.html.twig', [
+        return $this->render( 'admin/shop_settings/off-days.html.twig', [
             'form' => $formOffDays->createView(),
         ] );
+    }
+
+
+    #[Route( '/vacances', name: 'holidays' )]
+    public function holidays( HolidayService $holidayService ) : Response
+    {
+
+        $holidays = $holidayService->getAll();
+
+        return $this->render( 'admin/shop_settings/holidays/holidays.html.twig', [
+            'holidays' => $holidays,
+        ] );
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route( '/vacances/ajout', name: 'holidays_new' )]
+    public function addHolidays( Request $request, HolidayService $holidayService ) : Response
+    {
+
+        $holiday = new Holiday();
+        $formHoliday = $this->createForm( HolidayType::class, $holiday );
+
+        $formHoliday->handleRequest( $request );
+
+        if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
+            $holidayService->addHoliday( $holiday );
+            $this->addFlash( 'success', 'Les vacances ont été ajoutées.' );
+
+            return $this->redirectToRoute( 'app_admin_shop_settings_holidays' );
+        }
+
+        return $this->render( 'admin/shop_settings/holidays/add-holiday.html.twig', [
+            'form' => $formHoliday->createView(),
+        ] );
+    }
+
+    #[Route( '/vacances/{id}/modifier', name: 'holidays_edit' )]
+    public function editHolidays( Request $request, HolidayService $holidayService, Holiday $holiday ) : Response
+    {
+
+        $formHoliday = $this->createForm( HolidayType::class, $holiday );
+
+        $formHoliday->handleRequest( $request );
+
+        if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
+            $holidayService->updateHoliday( $holiday );
+            $this->addFlash( 'success', 'Les vacances ont été modifiées.' );
+
+            return $this->redirectToRoute( 'app_admin_shop_settings_holidays' );
+        }
+
+        return $this->render( 'admin/shop_settings/holidays/edit-holiday.html.twig', [
+            'form' => $formHoliday->createView(),
+        ] );
+    }
+
+    #[Route( '/{id}', name: 'holidays_delete', methods: ['POST'] )]
+    public function delete( Request $request, Holiday $holiday, HolidayRepository $holidayRepository ) : Response
+    {
+        if ( $this->isCsrfTokenValid( 'delete' . $holiday->getId(), $request->request->get( '_token' ) ) ) {
+            $holidayRepository->remove( $holiday, true );
+
+            $this->addFlash( 'success', 'Prestation supprimée avec succès' );
+        }
+
+        return $this->redirectToRoute( 'app_admin_shop_settings_holidays', [], Response::HTTP_SEE_OTHER );
     }
 
 }

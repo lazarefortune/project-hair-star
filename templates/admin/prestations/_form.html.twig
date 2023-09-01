@@ -1,10 +1,10 @@
 {{ form_start(form) }}
 <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="text-lg font-bold">
+        <h6 class="card-section-title">
             Informations basiques
         </h6>
-        <p class="mt-2 text-sm text-gray-500">
+        <p class="card-section-subtitle">
             Modifier les informations de base de votre prestation
         </p>
     </div>
@@ -26,13 +26,13 @@
     </div>
 </div>
 
-
+<!-- Tarification -->
 <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="text-lg font-bold">
+        <h6 class="card-section-title">
             Tarification
         </h6>
-        <p class="mt-2 text-sm text-gray-500">
+        <p class="card-section-subtitle">
             Ces informations permettent de définir les tarifs de votre prestation
         </p>
     </div>
@@ -49,14 +49,6 @@
                     }
                 }) }}
             </div>
-
-            {#            Affichage du prix pour les enfants calculé automatiquement #}
-            {#            <div class="col-span-full sm:col-span-1 bg-gray-100 text-center"> #}
-            {#                <span class="text-sm">Tarif pour les enfants</span> #}
-            {#                <hr class="my-2"> #}
-            {#                <h2 class="text-2xl" #}
-            {#                >10 €</h2> #}
-            {#            </div> #}
 
             <div class="col-span-full">
                 {{ form_row(form.considerChildrenForPrice) }}
@@ -80,12 +72,13 @@
     </div>
 </div>
 
+<!-- calendar -->
 <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="text-lg font-bold">
+        <h6 class="card-section-title">
             Calendrier
         </h6>
-        <p class="mt-2 text-sm text-gray-500">
+        <p class="card-section-subtitle">
             Ces informations permettent de définir les disponibilités de votre prestation
         </p>
     </div>
@@ -118,10 +111,10 @@
 
 <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="text-lg font-bold">
+        <h6 class="card-section-title">
             Personnalisation
         </h6>
-        <p class="mt-2 text-sm text-gray-500">
+        <p class="card-section-subtitle">
             Ces informations permettent de gérer les options de votre prestation
         </p>
     </div>

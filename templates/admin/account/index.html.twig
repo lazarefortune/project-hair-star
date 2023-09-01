@@ -10,10 +10,10 @@
 
     <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
         <div class="col-span-1 flex flex-col justify-start">
-            <h6 class="text-lg font-bold">
+            <h6 class="card-section-title">
                 Profil
             </h6>
-            <p class="mt-2 text-sm text-gray-500">
+            <p class="card-section-subtitle">
                 Ces informations ne seront pas partagées avec d'autres utilisateurs.
             </p>
         </div>
@@ -21,52 +21,20 @@
             {{ form_start(form) }}
             <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
                 <div class="col-span-full sm:col-span-1">
-                    {{ form_row(form.fullname, {
-                        'attr': {
-                            'class': 'form-input-md'
-                        },
-                        'label': 'Nom complet',
-                        'label_attr': {
-                            'class': 'label'
-                        }
-                    }) }}
+                    {{ form_row(form.fullname) }}
                 </div>
 
                 <div class="col-span-full sm:col-span-1">
-                    {{ form_row(form.phone, {
-                        'attr': {
-                            'class': 'form-input-md'
-                        },
-                        'label': 'Numéro de téléphone',
-                        'label_attr': {
-                            'class': 'label'
-                        }
-                    }) }}
+                    {{ form_row(form.phone) }}
                 </div>
 
                 <div class="sm:col-span-full">
-                    {{ form_row(form.email, {
-                        'attr': {
-                            'class': 'form-input-md'
-                        },
-                        'label': 'Adresse e-mail',
-                        'label_attr': {
-                            'class': 'label'
-                        }
-                    }) }}
+                    {{ form_row(form.email) }}
                 </div>
 
 
                 <div class="sm:col-span-full">
-                    {{ form_row(form.dateOfBirthday, {
-                        'attr': {
-                            'class': 'flatpickr-date-birthday form-input-md'
-                        },
-                        'label': 'Date de naissance',
-                        'label_attr': {
-                            'class': 'label',
-                        }
-                    }) }}
+                    {{ form_row(form.dateOfBirthday) }}
                 </div>
 
                 <div class="col-span-full">
