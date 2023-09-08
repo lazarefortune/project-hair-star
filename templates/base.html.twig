@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - {{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {#    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}"> #}
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/all.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/brands.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/solid.css') }}">
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -43,8 +39,13 @@
 
 {{ include('layouts/blocs/_header.html.twig') }}
 
-<main class="bg-white mt-14">
-    <section class="max-w-screen-xl mx-auto bg-white min-h-screen p-4 md:p-8">
+{# <main class="bg-white mt-14"> #}
+{#    <section class="max-w-screen-xl mx-auto bg-white min-h-screen p-4 md:p-8"> #}
+{#        {% block body %}{% endblock %} #}
+{#    </section> #}
+{# </main> #}
+<main>
+    <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10 mx-auto">
         {% block body %}{% endblock %}
     </section>
 </main>
