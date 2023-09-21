@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    <div class="mt-2">
+        {{ include('partials/flash.html.twig') }}
+    </div>
+
     <p class="text-3xl text-gray-700 font-circularStd font-medium mb-4">Salut {{ app.user.fullname }} !</p>
 
     <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">

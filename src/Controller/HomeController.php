@@ -45,6 +45,7 @@ class HomeController extends AbstractController
             $siteInstalled = new Option( WelcomeModel::SITE_INSTALLED_LABEL, WelcomeModel::SITE_INSTALLED_NAME, true, CheckboxType::class );
 
             $user = new User();
+            $user->setFullname( $data->getFullname() );
             $user->setEmail( $data->getUsername() );
             $user->setRoles( ['ROLE_SUPER_ADMIN'] );
             $user->setPassword( $passwordHasher->hashPassword(

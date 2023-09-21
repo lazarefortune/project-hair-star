@@ -11,6 +11,9 @@ import '../../libs/flatpickr/flatpickr-tailwind.scss';
 // Select2
 import '../../libs/select2/index.js'
 
+// Tom Select
+import '../../libs/tomselect/index.js'
+
 // Bulma Calendar
 // import '../../libs/bulmacalendar/index.js'
 // Custom Datepicker

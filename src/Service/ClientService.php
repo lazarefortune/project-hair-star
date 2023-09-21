@@ -30,7 +30,7 @@ class ClientService
         }
 
         $user = $getData;
-        $user->setRoles( ['ROLE_USER'] );
+        $user->setRoles( ['ROLE_USER', 'ROLE_CLIENT'] );
         $user->setPassword( '' );
 
         $this->userRepository->save( $user, true );

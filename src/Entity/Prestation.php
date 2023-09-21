@@ -68,9 +68,13 @@ class Prestation
     #[ORM\Column( nullable: true )]
     private ?float $childrenPricePercentage = null;
 
+    #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Booking::class, orphanRemoval: true)]
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -295,6 +299,36 @@ class Prestation
     public function setChildrenPricePercentage( ?float $childrenPricePercentage ) : self
     {
         $this->childrenPricePercentage = $childrenPricePercentage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getPrestation() === $this) {
+                $booking->setPrestation(null);
+            }
+        }
 
         return $this;
     }

@@ -6,11 +6,11 @@ class WelcomeModel
 {
     const SITE_TITLE_LABEL = 'Nom du site';
     const SITE_TITLE_NAME = 'site_title';
-
     const SITE_INSTALLED_LABEL = 'Site installé';
     const SITE_INSTALLED_NAME = 'site_installed';
 
     private ?string $siteTitle;
+    private ?string $fullname;
     private ?string $username;
     private ?string $password;
 
@@ -28,6 +28,16 @@ class WelcomeModel
     public function setSiteTitle( ?string $siteTitle ) : void
     {
         $this->siteTitle = $siteTitle;
+    }
+
+    public function getFullname() : ?string
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname( ?string $fullname ) : void
+    {
+        $this->fullname = $fullname;
     }
 
     /**

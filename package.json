@@ -33,6 +33,7 @@
         "flatpickr": "^4.6.13",
         "jquery": "^3.6.4",
         "lucide": "^0.263.0",
-        "select2": "^4.1.0-rc.0"
+        "select2": "^4.1.0-rc.0",
+        "tom-select": "^2.2.2"
     }
 }

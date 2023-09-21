@@ -26,6 +26,16 @@ class WelcomeType extends AbstractType
                     'class' => 'label',
                 ],
             ] )
+            ->add( 'fullname', TextType::class, [
+                'label' => 'Votre nom complet',
+                'attr' => [
+                    'placeholder' => 'Nom complet',
+                    'class' => 'form-input-md',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+            ] )
             ->add( 'username', EmailType::class, [
                 'label' => 'Adresse email',
                 'attr' => [

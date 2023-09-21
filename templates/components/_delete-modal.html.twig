@@ -17,7 +17,7 @@
         <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end sm:flex-row gap-3">
             <button type="button"
                     class="btn-md btn-outline-primary modal-close">
-                Annuler
+                {{ close_btn_label|default('Annuler') }}
             </button>
 
             <form method="post" action="{{ form_action }}"

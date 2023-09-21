@@ -42,14 +42,17 @@ const customConfigs = [
     {selector: ".flatpickr-date-default-today", options: {...dateConfig, defaultDate: "today"}},
     {selector: ".flatpickr-date-default-tomorrow", options: {...dateConfig, defaultDate: "tomorrow"}},
     {selector: ".flatpickr-date-wrap", options: {...dateConfig, wrap: true}},
-    
+
     // times
     {selector: ".flatpickr-time", options: {...timeConfig}},
     {selector: ".flatpickr-time-wrap", options: {...timeConfig, wrap: true}},
     {selector: ".flatpickr-time-input", options: {...timeConfig}},
     {selector: ".flatpickr-default-today", options: {...timeConfig, defaultDate: "today"}},
     {selector: ".flatpickr-service-startTime", options: {...timeConfig, defaultDate: "08:00"}},
-    {selector: ".flatpickr-service-endTime", options: {...timeConfig, defaultDate: "19:00"}}
+    {selector: ".flatpickr-service-endTime", options: {...timeConfig, defaultDate: "19:00"}},
+
+    // datetime
+    {selector: ".flatpickr-datetime", options: {...dateConfig, ...timeConfig}},
 ];
 
 customConfigs.forEach(config => {
