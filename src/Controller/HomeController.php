@@ -72,4 +72,23 @@ class HomeController extends AbstractController
     {
         return $this->render( 'home/success_installed.html.twig' );
     }
+
+    #[Route( '/test-email', name: 'app_test_mail' )]
+    public function testEmail( MailService $mailService ) : Response
+    {
+        if ( !$this->getUser() ) {
+            return $this->redirectToRoute( 'app_home' );
+        }
+        $email = $mailService->createEmail( 'mails/auth/register.twig', [
+            'user' => $this->getUser()
+        ] )
+            ->to( $this->getUser()->getEmail() )
+            ->subject( 'Bienvenue sur My Space' );
+
+        $mailService->send( $email );
+
+        return $this->render( 'home/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ] );
+    }
 }

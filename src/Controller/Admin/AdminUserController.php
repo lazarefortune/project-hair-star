@@ -2,10 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\AbstractController;
+use App\Dto\Admin\Profile\AdminProfileUpdateDto;
+use App\Exception\TooManyEmailChangeException;
+use App\Form\Admin\UserProfileType;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
+use App\Service\Admin\ProfileService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -17,24 +21,53 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted( 'ROLE_ADMIN' )]
 class AdminUserController extends AbstractController
 {
+    public function __construct(
+        private readonly ProfileService         $profileService,
+        private readonly EntityManagerInterface $entityManager,
+    )
+    {
+    }
+
     #[Route( '/', name: 'index' )]
     public function index( Request $request, EntityManagerInterface $entityManager ) : Response
     {
-        $user = $this->getUser();
-        $formUser = $this->createForm( UserType::class, $user );
-        $formUser->handleRequest( $request );
+        [$formProfile, $response] = $this->createFormProfile( $request );
 
-        if ( $formUser->isSubmitted() && $formUser->isValid() ) {
-            $entityManager->persist( $user );
-            $entityManager->flush();
-
-            $this->addFlash( 'success', 'Informations mises à jour avec succès' );
-            return $this->redirectToRoute( 'app_admin_account_index' );
+        if ( $response ) {
+            return $response;
         }
 
         return $this->render( 'admin/account/index.html.twig', [
-            'form' => $formUser->createView(),
+            'form' => $formProfile->createView(),
         ] );
+    }
+
+    private function createFormProfile( Request $request ) : array
+    {
+        $user = $this->getUserOrThrow();
+        $form = $this->createForm( UserProfileType::class, new AdminProfileUpdateDto( $user ) );
+
+        $form->handleRequest( $request );
+        try {
+            if ( $form->isSubmitted() && $form->isValid() ) {
+                $data = $form->getData();
+                $this->profileService->updateProfile( $data );
+                $this->entityManager->flush();
+
+                if ( $data->email !== $user->getEmail() ) {
+                    $this->addFlash( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
+                    return [$form, $this->redirectToRoute( 'app_admin_account_index' )];
+                } else {
+                    $this->addFlash( 'success', 'Informations mises à jour avec succès' );
+                }
+
+                return [$form, $this->redirectToRoute( 'app_admin_account_index' )];
+            }
+        } catch ( TooManyEmailChangeException ) {
+            $this->addFlash( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter 1h avant de pouvoir en faire un nouveau' );
+        }
+
+        return [$form, null];
     }
 
     #[Route( '/mot-de-passe', name: 'password' )]

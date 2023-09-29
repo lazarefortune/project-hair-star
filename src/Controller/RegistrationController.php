@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Event\AddUserEvent;
+use App\Event\UserCreatedEvent;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
@@ -38,7 +39,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            // encode the plain password
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -58,8 +59,8 @@ class RegistrationController extends AbstractController
             $entityManager->persist( $user );
             $entityManager->flush();
 
-            $subscriptionEvent = new AddUserEvent( $user );
-            $this->eventDispatcher->dispatch( $subscriptionEvent, AddUserEvent::NAME );
+            $registrationEvent = new UserCreatedEvent( $user );
+            $this->eventDispatcher->dispatch( $registrationEvent, UserCreatedEvent::NAME );
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation( 'app_verify_email', $user,

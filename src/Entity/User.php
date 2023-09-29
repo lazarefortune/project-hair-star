@@ -83,12 +83,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, orphanRemoval: true)]
     private Collection $bookings;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true)]
+    private Collection $emailVerifications;
+
     public function __construct()
     {
         $this->roles = [Role::ROLE_USER];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
+        $this->emailVerifications = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -286,6 +290,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($booking->getClient() === $this) {
                 $booking->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmailVerification>
+     */
+    public function getEmailVerifications(): Collection
+    {
+        return $this->emailVerifications;
+    }
+
+    public function addEmailVerification(EmailVerification $emailVerification): self
+    {
+        if (!$this->emailVerifications->contains($emailVerification)) {
+            $this->emailVerifications->add($emailVerification);
+            $emailVerification->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmailVerification(EmailVerification $emailVerification): self
+    {
+        if ($this->emailVerifications->removeElement($emailVerification)) {
+            // set the owning side to null (unless already changed)
+            if ($emailVerification->getAuthor() === $this) {
+                $emailVerification->setAuthor(null);
             }
         }
 
