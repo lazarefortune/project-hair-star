@@ -4,13 +4,13 @@ namespace App\Service\Admin;
 
 use App\Dto\Admin\Profile\AdminProfileUpdateDto;
 use App\Entity\EmailVerification;
+use App\Entity\User;
 use App\Event\EmailVerificationEvent;
 use App\Exception\TooManyEmailChangeException;
 use App\Repository\EmailVerificationRepository;
 use App\Service\TokenGeneratorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfileService
 {
@@ -56,5 +56,10 @@ class ProfileService
     {
         $emailVerification->getAuthor()->setEmail( $emailVerification->getEmail() );
         $this->entityManager->remove( $emailVerification );
+    }
+
+    public function getRequestEmailChange( User $getUserOrThrow )
+    {
+        return $this->emailVerificationRepository->findLatestEmailVerificationByUser( $getUserOrThrow );
     }
 }

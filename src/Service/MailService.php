@@ -23,7 +23,7 @@ class MailService
         $text = $this->twig->render( $template, array_merge( $data, ['layout' => 'mails/base.text.twig'] ) );
 
         return ( new Email() )
-            ->from( 'noreply@my-space.fr' )
+            ->from( 'service@lazarefortune.com' )
             ->html( $html )
             ->text( $text );
     }

@@ -32,13 +32,17 @@ class AdminUserController extends AbstractController
     public function index( Request $request, EntityManagerInterface $entityManager ) : Response
     {
         [$formProfile, $response] = $this->createFormProfile( $request );
+        // check if user has already requested an email change
+        $user = $this->getUserOrThrow();
+        $requestEmailChange = $this->profileService->getRequestEmailChange( $user );
 
         if ( $response ) {
             return $response;
         }
-
+        
         return $this->render( 'admin/account/index.html.twig', [
             'form' => $formProfile->createView(),
+            'requestEmailChange' => $requestEmailChange,
         ] );
     }
 

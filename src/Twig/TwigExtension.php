@@ -22,7 +22,18 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigFilter( 'duration_format', [$this, 'durationFormat'] ),
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
+            new TwigFilter( 'is_older_than_hours', [$this, 'isOlderThanHours'] ),
         ];
+    }
+
+    public function isOlderThanHours( \DateTimeImmutable $dateTime, int $hours ) : bool
+    {
+        $now = new \DateTimeImmutable();
+        $interval = $now->diff( $dateTime );
+
+        $totalHours = $interval->h + ( $interval->days * 24 );
+
+        return $totalHours >= $hours;
     }
 
     public function priceFormat( float $price ) : string
@@ -93,7 +104,7 @@ class TwigExtension extends AbstractExtension
     {
         $width = '20';
         $height = '20';
-        
+
         // Map icon sizes to width and height
         $lucidIconSizes = [
             'xs' => ['width' => '12', 'height' => '12'],

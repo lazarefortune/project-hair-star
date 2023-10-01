@@ -8,6 +8,17 @@
         {{ include('partials/flash.html.twig') }}
     </div>
 
+    {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
+        <div class="alert-ping">
+            <strong>Attention !</strong>
+            <br>
+            Vous avez demandé un changement d'adresse email.
+            <br>
+            Veuillez vérifier votre
+            nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
+        </div>
+    {% endif %}
+
     <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
         <div class="col-span-1 flex flex-col justify-start">
             <h6 class="card-section-title">
@@ -42,7 +53,7 @@
                 {#                </div> #}
 
                 <!-- submit btn at right -->
-                <div class="border-t border-gray-200 pt-5 sm:col-span-full">
+                <div class="pt-5 sm:col-span-full">
                     <div class="flex justify-end">
                         <button type="submit" class="btn btn-md btn-primary">
                             {{ icon('save') }}
