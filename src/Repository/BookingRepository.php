@@ -9,32 +9,32 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Booking>
  *
- * @method Booking|null find($id, $lockMode = null, $lockVersion = null)
- * @method Booking|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Booking|null find( $id, $lockMode = null, $lockVersion = null )
+ * @method Booking|null findOneBy( array $criteria, array $orderBy = null )
  * @method Booking[]    findAll()
- * @method Booking[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Booking[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
 class BookingRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct( ManagerRegistry $registry )
     {
-        parent::__construct($registry, Booking::class);
+        parent::__construct( $registry, Booking::class );
     }
 
-    public function save(Booking $entity, bool $flush = false): void
+    public function save( Booking $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(Booking $entity, bool $flush = false): void
+    public function remove( Booking $entity, bool $flush = false ) : void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove( $entity );
 
-        if ($flush) {
+        if ( $flush ) {
             $this->getEntityManager()->flush();
         }
     }
@@ -63,4 +63,12 @@ class BookingRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllOrderedByDate()
+    {
+        return $this->createQueryBuilder( 'b' )
+            ->orderBy( 'b.bookingDate', 'ASC' )
+            ->addOrderBy( 'b.bookingTime', 'ASC' )
+            ->getQuery()
+            ->getResult();
+    }
 }

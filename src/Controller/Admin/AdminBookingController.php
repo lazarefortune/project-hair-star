@@ -29,18 +29,32 @@ class AdminBookingController extends AbstractController
     public function add( Request $request ) : Response
     {
         $booking = new Booking();
-        $form = $this->createForm( AdminAddBookingType::class, $booking );
-        $form->handleRequest( $request );
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            $this->bookingService->addBooking( $booking );
-            $this->addFlash( 'success', 'Le rendez-vous a bien été ajouté.' );
-            return $this->redirectToRoute( 'app_admin_booking_index' );
+        [$form, $response] = $this->createFormBooking( $request );
+
+        if ( $response ) {
+            return $response;
         }
 
         return $this->render( 'admin/booking/add.html.twig', [
             'form' => $form->createView(),
         ] );
+    }
+
+    private function createFormBooking( Request $request ) : array
+    {
+        $booking = new Booking();
+        $form = $this->createForm( AdminAddBookingType::class, $booking );
+
+        $form->handleRequest( $request );
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $data = $form->getData();
+            $this->bookingService->addBooking( $data );
+            $this->addFlash( 'success', 'Votre rendez-vous a bien été enregistré.' );
+            return [$form, $this->redirectToRoute( 'app_admin_booking_index' )];
+        }
+
+        return [$form, null];
     }
 
 //    #[Route( '/{id}/modifier', name: 'edit' )]

@@ -3,6 +3,9 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+
+    {{ include('partials/flash.html.twig') }}
+
     <div class="flex flex-col items-start gap-2 max-w-[980px]">
         <h1 class="text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
             La coiffure à <span class="text-primary-600">domicile</span> <br> en Île-de-France.

@@ -40,10 +40,13 @@
                                class="">
                     </th>
                     <th>
-                        Prestation
+                        Date
                     </th>
                     <th>
                         Client
+                    </th>
+                    <th>
+                        Prestation
                     </th>
                     <th>
                         Tarif
@@ -68,10 +71,13 @@
                                    class="">
                         </th>
                         <td>
-                            {{ booking.prestation.name }}
+                            {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}
                         </td>
                         <td>
                             {{ booking.client.fullname }}
+                        </td>
+                        <td>
+                            {{ booking.prestation.name }}
                         </td>
                         <td>
                             {{ booking.prestation.price }} €
