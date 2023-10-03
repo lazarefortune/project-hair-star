@@ -1,0 +1,17 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        La réservation de {{ booking.client.fullname }} a modifié pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
+
+        Merci de vous connecter à votre espace admin pour consulter les détails de la réservation.
+
+    {% endapply %}
+
+{% endblock %}

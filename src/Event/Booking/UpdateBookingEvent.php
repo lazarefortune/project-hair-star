@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Event;
+namespace App\Event\Booking;
 
 use App\Entity\Booking;
 
-class NewBookingEvent
+class UpdateBookingEvent
 {
     public function __construct( private readonly Booking $booking )
     {
@@ -14,5 +14,4 @@ class NewBookingEvent
     {
         return $this->booking;
     }
-
 }

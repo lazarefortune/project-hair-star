@@ -7,13 +7,11 @@ use App\Dto\Admin\Profile\AdminProfileUpdateDto;
 use App\Exception\TooManyEmailChangeException;
 use App\Form\Admin\UserProfileType;
 use App\Form\UserPasswordType;
-use App\Form\UserType;
 use App\Service\Admin\ProfileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -29,7 +27,7 @@ class AdminUserController extends AbstractController
     }
 
     #[Route( '/', name: 'index' )]
-    public function index( Request $request, EntityManagerInterface $entityManager ) : Response
+    public function index( Request $request ) : Response
     {
         [$formProfile, $response] = $this->createFormProfile( $request );
         // on vérifie si l'utilisateur a demandé un changement d'email

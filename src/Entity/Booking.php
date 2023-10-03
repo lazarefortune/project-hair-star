@@ -76,9 +76,11 @@ class Booking
         return $this->bookingDate;
     }
 
-    public function setBookingDate( ?\DateTimeInterface $bookingDate ) : void
+    public function setBookingDate( ?\DateTimeInterface $bookingDate ) : self
     {
         $this->bookingDate = $bookingDate;
+
+        return $this;
     }
 
     public function getBookingTime() : ?\DateTimeInterface
@@ -105,6 +107,13 @@ class Booking
         }
 
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function setIsConfirmed( bool $value ) : self
+    {
+        $this->setStatus( $value ? self::STATUS_CONFIRMED : self::STATUS_CANCELED );
 
         return $this;
     }

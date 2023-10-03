@@ -1,0 +1,19 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour {{ booking.client.fullname }},
+
+        Nous sommes désolés de vous informer que votre réservation du {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('d/m/Y') }} a été annulée.
+
+        Nous vous invitons à nous contacter pour plus d'informations.
+
+    {% endapply %}
+
+    {{ e.button('Voir ma réservation', 'https://lazarefortune.com') }}
+
+{% endblock %}

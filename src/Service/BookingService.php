@@ -2,8 +2,12 @@
 
 namespace App\Service;
 
+use App\Dto\Admin\Booking\BookingDto;
 use App\Entity\Booking;
-use App\Event\NewBookingEvent;
+use App\Event\Booking\CanceledBookingEvent;
+use App\Event\Booking\ConfirmedBookingEvent;
+use App\Event\Booking\NewBookingEvent;
+use App\Event\Booking\UpdateBookingEvent;
 use App\Repository\BookingRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -18,8 +22,13 @@ class BookingService
         return $this->bookingRepository->findAllOrderedByDate();
     }
 
-    public function addBooking( Booking $booking ) : void
+    public function addBooking( BookingDto $bookingDto ) : void
     {
+        $booking = ( new Booking() )->setClient( $bookingDto->client )
+            ->setPrestation( $bookingDto->prestation )
+            ->setBookingDate( $bookingDto->bookingDate )
+            ->setBookingTime( $bookingDto->bookingTime );
+
         $this->bookingRepository->save( $booking, true );
 
         $newBookingEvent = new NewBookingEvent( $booking );
@@ -27,8 +36,42 @@ class BookingService
         $this->eventDispatcher->dispatch( $newBookingEvent );
     }
 
+    public function updateBookingWithDto( BookingDto $bookingDto ) : void
+    {
+//        dd( $bookingDto );
+        $booking = $bookingDto->booking->setClient( $bookingDto->client )
+            ->setPrestation( $bookingDto->prestation )
+            ->setBookingDate( $bookingDto->bookingDate )
+            ->setBookingTime( $bookingDto->bookingTime );
+
+        $this->bookingRepository->save( $booking, true );
+
+        $this->eventDispatcher->dispatch( new UpdateBookingEvent( $booking ) );
+    }
+
     public function deleteBooking( Booking $booking ) : void
     {
         $this->bookingRepository->remove( $booking, true );
+    }
+
+    public function updateBooking( Booking $booking ) : void
+    {
+        $this->bookingRepository->save( $booking, true );
+    }
+
+    public function confirmBooking( Booking $booking ) : void
+    {
+        $booking->setIsConfirmed( true );
+        $this->bookingRepository->save( $booking, true );
+
+        $this->eventDispatcher->dispatch( new ConfirmedBookingEvent( $booking ) );
+    }
+
+    public function cancelBooking( Booking $booking ) : void
+    {
+        $booking->setIsConfirmed( false );
+        $this->bookingRepository->save( $booking, true );
+
+        $this->eventDispatcher->dispatch( new CanceledBookingEvent( $booking ) );
     }
 }

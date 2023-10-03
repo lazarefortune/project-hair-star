@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Dto\Admin\Booking\BookingDto;
 use App\Entity\Booking;
 use App\Entity\User;
 use App\Entity\Prestation;
@@ -72,7 +73,7 @@ class AdminAddBookingType extends AbstractType
     public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
-            'data_class' => Booking::class,
+            'data_class' => BookingDto::class,
         ] );
     }
 }

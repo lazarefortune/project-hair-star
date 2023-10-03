@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Hello AdminBookingController!{% endblock %}
+{% block title %}Réservations{% endblock %}
 
 {% block body %}
     <div class="flex justify-between items-center mb-6">
@@ -43,6 +43,9 @@
                         Date
                     </th>
                     <th>
+                        Statut
+                    </th>
+                    <th>
                         Client
                     </th>
                     <th>
@@ -74,6 +77,21 @@
                             {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}
                         </td>
                         <td>
+                            {% if booking.status == 'pending' %}
+                                <span class="badge badge-warning">
+                                    En attente
+                                </span>
+                            {% elseif booking.status == 'confirmed' %}
+                                <span class="badge badge-success">
+                                    Confirmé
+                                </span>
+                            {% elseif booking.status == 'canceled' %}
+                                <span class="badge badge-danger">
+                                    Annulé
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
                             {{ booking.client.fullname }}
                         </td>
                         <td>
@@ -83,24 +101,63 @@
                             {{ booking.prestation.price }} €
                         </td>
                         <td>
-                            {#                            <a href="{{ path('app_admin_prestation_edit', {'id': prestation.id}) }}" #}
-                            {#                               class="btn-icon"> #}
-                            {#                                {{ icon('pencil') }} #}
-                            {#                            </a> #}
-                            <button
-                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ booking.id }}">
-                                {{ icon('ban') }}
-                            </button>
+                            <a href="{{ path('app_admin_booking_show', {'id': booking.id}) }}"
+                               class="btn-icon">
+                                {{ icon('eye') }}
+                            </a>
+                            {% if booking.status != 'canceled' %}
+                                <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
+                                   class="btn-icon">
+                                    {{ icon('pencil') }}
+                                </a>
 
-                            {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ booking.id,
-                                'title': 'Annuler le rendez-vous',
-                                'content': 'Vous êtes sur le point d\'annuler le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
-                                'form_action': path('app_admin_booking_delete', {'id': booking.id}),
-                                'csrf_value': csrf_token('delete' ~ booking.id),
-                                'close_btn_label': 'Retour',
-                                'btn_label': 'Je confirme l\'annulation',
-                            } %}
+                                {% if booking.status != 'confirmed' %}
+                                    <button
+                                            class="btn-icon modal-button" data-modal-id="modal-id-{{ booking.id }}">
+                                        {{ icon('check') }}
+                                    </button>
+
+                                    {% include 'components/_modal.html.twig' with {
+                                        'id': 'modal-id-' ~ booking.id,
+                                        'title': 'Confirmer le rendez-vous',
+                                        'content': 'Vous êtes sur le point de confirmer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                        'form_action': path('app_admin_booking_confirm', {'id': booking.id}),
+                                        'csrf_value': csrf_token('confirm_booking' ~ booking.id),
+                                        'close_btn_label': 'Retour',
+                                        'btn_label': 'Oui confirmer',
+                                    } %}
+                                {% endif %}
+
+                                <button
+                                        class="btn-icon modal-button" data-modal-id="modal-id-{{ booking.id }}">
+                                    {{ icon('ban') }}
+                                </button>
+
+                                {% include 'components/_modal.html.twig' with {
+                                    'id': 'modal-id-' ~ booking.id,
+                                    'title': 'Annuler le rendez-vous',
+                                    'content': 'Vous êtes sur le point d\'annuler le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                    'form_action': path('app_admin_booking_cancel', {'id': booking.id}),
+                                    'csrf_value': csrf_token('cancel_booking' ~ booking.id),
+                                    'close_btn_label': 'Retour',
+                                    'btn_label': 'Je confirme l\'annulation',
+                                } %}
+                            {% else %}
+                                <button
+                                        class="btn-icon modal-button" data-modal-id="modal-id-{{ booking.id }}">
+                                    {{ icon('trash') }}
+                                </button>
+
+                                {% include 'components/_modal.html.twig' with {
+                                    'id': 'modal-id-' ~ booking.id,
+                                    'title': 'Supprimer le rendez-vous',
+                                    'content': 'Vous êtes sur le point de supprimer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                    'form_action': path('app_admin_booking_delete', {'id': booking.id}),
+                                    'csrf_value': csrf_token('delete' ~ booking.id),
+                                    'close_btn_label': 'Retour',
+                                    'btn_label': 'Oui Supprimer',
+                                } %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

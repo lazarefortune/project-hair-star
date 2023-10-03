@@ -2,24 +2,30 @@
      aria-labelledby="modal-title" role="dialog" aria-modal="true" id="{{ id }}">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-    <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:w-96">
+    <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                 {{ title }}
             </h3>
             <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                    {{ content }}
+                <p class="text-sm text-gray-500 whitespace-normal word-break break-all">
+                    {{ content|raw }}
                 </p>
             </div>
-        </div>
-        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="button"
-                    class="modal-close w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
 
-            >
-                Close
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end sm:flex-row gap-3">
+            <button type="button"
+                    class="btn-md btn-outline-primary modal-close">
+                {{ close_btn_label|default('Annuler') }}
             </button>
+
+            <form method="post" action="{{ form_action }}"
+                  class="block modal-delete-btn">
+                <input type="hidden" name="_token" value="{{ csrf_value }}">
+                <button class="btn-md btn-primary">{{ btn_label }}</button>
+            </form>
+
         </div>
     </div>
 </div>
