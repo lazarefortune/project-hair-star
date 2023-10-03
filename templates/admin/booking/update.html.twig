@@ -8,7 +8,7 @@
 {% block body %}
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
-            Prestations
+            Rendez-vous
         </h4>
         <a href="{{ path('app_admin_booking_index') }}"
            class="btn btn-md btn-primary">
@@ -26,4 +26,9 @@
     {% include 'admin/booking/_form.html.twig' with {
         button_label: 'Enregistrer',
     } %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin/booking/form-booking.js') }}"></script>
 {% endblock %}

@@ -74,4 +74,9 @@ class BookingService
 
         $this->eventDispatcher->dispatch( new CanceledBookingEvent( $booking ) );
     }
+
+    public function getReservedBookings()
+    {
+        return $this->bookingRepository->findReservedBookings();
+    }
 }

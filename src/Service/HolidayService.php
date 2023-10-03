@@ -8,7 +8,7 @@ use Exception;
 
 class HolidayService
 {
-    public function __construct( private readonly HolidayRepository $holidayRepository )
+    public function __construct( private readonly HolidayRepository $holidayRepository, private SerializerService $serializerService )
     {
     }
 
@@ -39,7 +39,7 @@ class HolidayService
     /**
      * @throws Exception
      */
-    public function updateHoliday( Holiday $holiday )
+    public function updateHoliday( Holiday $holiday ) : void
     {
         // check if holiday already exists (startDate and endDate is between existing holiday)
         /** @var Holiday $existingHoliday */
@@ -55,5 +55,19 @@ class HolidayService
         }
 
         $this->holidayRepository->save( $holiday, true );
+    }
+
+    public function getHolidaysForApi() : array
+    {
+        $holidays = $this->holidayRepository->findAll();
+        $json_holidays = [];
+        foreach ( $holidays as $holiday ) {
+            $json_holidays[] = array(
+                'id' => $holiday->getId(),
+                'startDate' => $holiday->getStartDate()->format( 'Y-m-d' ),
+                'endDate' => $holiday->getEndDate()->format( 'Y-m-d' ),
+            );
+        }
+        return $json_holidays;
     }
 }

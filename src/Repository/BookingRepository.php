@@ -71,4 +71,15 @@ class BookingRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findReservedBookings()
+    {
+        return $this->createQueryBuilder( 'b' )
+            ->andWhere( 'b.status = :val' )
+            ->setParameter( 'val', 'confirmed' )
+            ->orderBy( 'b.bookingDate', 'ASC' )
+            ->addOrderBy( 'b.bookingTime', 'ASC' )
+            ->getQuery()
+            ->getResult();
+    }
 }

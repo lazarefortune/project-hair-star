@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Service\BookingService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route( '/api/booking', name: 'api_booking_' )]
@@ -14,7 +15,7 @@ class ApiBookingController extends AbstractController
     }
 
     #[Route( '/', name: 'bookings', methods: ['GET'] )]
-    public function getBookings()
+    public function getBookings() : JsonResponse
     {
         $bookings = $this->bookingService->getBookings();
         $data = [];
@@ -41,5 +42,20 @@ class ApiBookingController extends AbstractController
 
         // return json response
         return $this->json( $data );
+    }
+
+    #[Route( '/reserved', name: 'reserved_bookings', methods: ['GET'] )]
+    public function getReservedBookings() : JsonResponse
+    {
+        $reservedBookings = $this->bookingService->getReservedBookings();
+        $dataJson = [];
+        foreach ( $reservedBookings as $reservedBooking ) {
+            $dataJson[] = [
+                'date' => $reservedBooking->getBookingDate()->format( 'Y-m-d' ),
+                'time' => $reservedBooking->getBookingTime()->format( 'H:i' ),
+            ];
+        }
+        
+        return $this->json( $dataJson );
     }
 }
