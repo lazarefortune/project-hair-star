@@ -8,13 +8,12 @@
 
         ## Bonjour {{ booking.client.fullname }},
 
-        Votre rendez-vous a été confirmée pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('d/m/Y') }}. Vous pouvez consulter les détails de votre réservation en cliquant sur le bouton ci-dessous.
+        Nous avons bien reçu votre demande de réservation pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
 
+        Nous vous confirmons que votre réservation a bien été prise en compte.
 
         Nous vous remercions de votre confiance et nous nous réjouissons de vous accueillir prochainement.
 
     {% endapply %}
-
-    {{ e.button('Voir ma réservation', 'https://lazarefortune.com') }}
 
 {% endblock %}
