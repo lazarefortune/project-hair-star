@@ -13,6 +13,7 @@ class Booking
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CANCELED = 'canceled';
+    public const STATUS_END = 'end';
 
     public static array $statusList = [
         self::STATUS_PENDING,
@@ -116,5 +117,11 @@ class Booking
         $this->setStatus( $value ? self::STATUS_CONFIRMED : self::STATUS_CANCELED );
 
         return $this;
+    }
+
+    public function isPast() : bool
+    {
+        return $this->getBookingDate()->format( 'Y-m-d' ) <= ( new \DateTime() )->format( 'Y-m-d' )
+            && $this->getBookingTime()->format( 'H:i' ) < ( new \DateTime() )->format( 'H:i' );
     }
 }

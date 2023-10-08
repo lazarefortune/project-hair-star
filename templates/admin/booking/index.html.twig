@@ -77,18 +77,24 @@
                             {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}
                         </td>
                         <td>
-                            {% if booking.status == 'pending' %}
-                                <span class="badge badge-warning">
-                                    En attente
-                                </span>
-                            {% elseif booking.status == 'confirmed' %}
-                                <span class="badge badge-success">
-                                    Confirmé
-                                </span>
-                            {% elseif booking.status == 'canceled' %}
+                            {% if booking.isPast %}
                                 <span class="badge badge-danger">
-                                    Annulé
+                                    Passé
                                 </span>
+                            {% else %}
+                                {% if booking.status == 'pending' %}
+                                    <span class="badge badge-warning">
+                                        En attente
+                                    </span>
+                                {% elseif booking.status == 'confirmed' %}
+                                    <span class="badge badge-success">
+                                        Confirmé
+                                    </span>
+                                {% elseif booking.status == 'canceled' %}
+                                    <span class="badge badge-danger">
+                                        Annulé
+                                    </span>
+                                {% endif %}
                             {% endif %}
                         </td>
                         <td>
@@ -105,7 +111,7 @@
                                class="btn-icon">
                                 {{ icon('eye') }}
                             </a>
-                            {% if booking.status != 'canceled' %}
+                            {% if booking.status != 'canceled' and not booking.isPast %}
                                 <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
                                    class="btn-icon">
                                     {{ icon('pencil') }}

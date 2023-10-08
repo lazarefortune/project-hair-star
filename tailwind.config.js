@@ -82,6 +82,7 @@ module.exports = {
             'poppins': ['Poppins'],
             'circularStd': ['CircularStd'],
             'plusJakartaSans': ['Plus Jakarta Sans'],
+            'ibmPlexSans': ['IBM Plex Sans'],
         }
     },
     plugins: [

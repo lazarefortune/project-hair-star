@@ -80,15 +80,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn( nullable: true )]
     private ?Role $role = null;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Booking::class, orphanRemoval: true)]
+    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Booking::class, orphanRemoval: true )]
     private Collection $bookings;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true)]
+    #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
     private Collection $emailVerifications;
 
     public function __construct()
     {
-        $this->roles = [Role::ROLE_USER];
+        $this->roles = [Role::ROLE_USER, Role::ROLE_CLIENT];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
@@ -269,27 +269,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookings(): Collection
+    public function getBookings() : Collection
     {
         return $this->bookings;
     }
 
-    public function addBooking(Booking $booking): self
+    public function addBooking( Booking $booking ) : self
     {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings->add($booking);
-            $booking->setClient($this);
+        if ( !$this->bookings->contains( $booking ) ) {
+            $this->bookings->add( $booking );
+            $booking->setClient( $this );
         }
 
         return $this;
     }
 
-    public function removeBooking(Booking $booking): self
+    public function removeBooking( Booking $booking ) : self
     {
-        if ($this->bookings->removeElement($booking)) {
+        if ( $this->bookings->removeElement( $booking ) ) {
             // set the owning side to null (unless already changed)
-            if ($booking->getClient() === $this) {
-                $booking->setClient(null);
+            if ( $booking->getClient() === $this ) {
+                $booking->setClient( null );
             }
         }
 
@@ -299,27 +299,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, EmailVerification>
      */
-    public function getEmailVerifications(): Collection
+    public function getEmailVerifications() : Collection
     {
         return $this->emailVerifications;
     }
 
-    public function addEmailVerification(EmailVerification $emailVerification): self
+    public function addEmailVerification( EmailVerification $emailVerification ) : self
     {
-        if (!$this->emailVerifications->contains($emailVerification)) {
-            $this->emailVerifications->add($emailVerification);
-            $emailVerification->setAuthor($this);
+        if ( !$this->emailVerifications->contains( $emailVerification ) ) {
+            $this->emailVerifications->add( $emailVerification );
+            $emailVerification->setAuthor( $this );
         }
 
         return $this;
     }
 
-    public function removeEmailVerification(EmailVerification $emailVerification): self
+    public function removeEmailVerification( EmailVerification $emailVerification ) : self
     {
-        if ($this->emailVerifications->removeElement($emailVerification)) {
+        if ( $this->emailVerifications->removeElement( $emailVerification ) ) {
             // set the owning side to null (unless already changed)
-            if ($emailVerification->getAuthor() === $this) {
-                $emailVerification->setAuthor(null);
+            if ( $emailVerification->getAuthor() === $this ) {
+                $emailVerification->setAuthor( null );
             }
         }
 

@@ -20,13 +20,16 @@ class ApiOffDaysController extends AbstractController
     {
         $offDaysInEachWeek = $this->entityManager->getRepository( Option::class )->findOneBy( ['name' => 'offdays'] );
 
+        if ( !$offDaysInEachWeek ) {
+            return new JsonResponse( [] );
+        }
         $values = $offDaysInEachWeek->getValue();
         if ( $values ) {
             $offDaysArray = explode( ',', $offDaysInEachWeek->getValue() );
         } else {
             $offDaysArray = [];
         }
-        
+
         return new JsonResponse( $offDaysArray );
     }
 }

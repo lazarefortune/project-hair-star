@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     altInput: true,
                     altFormat: "d/m/Y",
                     dateFormat: "Y-m-d",
-                    minDate: minDate,
+                    minDate: "today",
                     maxDate: maxDate,
                     disable: [
                         ...excludeCreneaux,
@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     dateFormat: "H:i",
                     minTime: minTime,
                     maxTime: maxTime,
+                    disableMobile: true,
                 });
             });
     }

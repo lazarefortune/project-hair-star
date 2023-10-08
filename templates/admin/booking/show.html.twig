@@ -16,7 +16,7 @@
         <h4 class="text-2xl font-bold md:text-3xl">
             Rdv du {{ booking.bookingDate|date('d/m/Y') }}
         </h4>
-        {% if booking.status != 'canceled' %}
+        {% if booking.status != 'canceled' and not booking.isPast %}
             <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
                class="btn-md btn-primary">
                 {{ icon('pencil', '', 'mr-2') }}
@@ -87,18 +87,24 @@
                                 {{ booking.bookingTime|date('H:i') }}
                             </td>
                             <td>
-                                {% if booking.status == 'confirmed' %}
-                                    <span class="badge badge-success">
-                                        Confirmé
-                                    </span>
-                                {% elseif booking.status == 'canceled' %}
+                                {% if booking.isPast %}
                                     <span class="badge badge-danger">
-                                        Annulé
+                                        Passé
                                     </span>
                                 {% else %}
-                                    <span class="badge badge-warning">
-                                        En attente
-                                    </span>
+                                    {% if booking.status == 'confirmed' %}
+                                        <span class="badge badge-success">
+                                            Confirmé
+                                        </span>
+                                    {% elseif booking.status == 'canceled' %}
+                                        <span class="badge badge-danger">
+                                            Annulé
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            En attente
+                                        </span>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -117,13 +123,13 @@
                             </button>
                         </form>
                     {% endif %}
-                    {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                    {% if (booking.status == 'pending' or booking.status == 'confirmed') and not booking.isPast %}
                         <form method="post" action="{{ path('app_admin_booking_cancel', {'id': booking.id}) }}">
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('cancel_booking' ~ booking.id) }}">
                             <button class="btn-md btn-outline-primary">
                                 {{ icon('x', '', 'mr-2') }}
-                                Refuser
+                                Annuler
                             </button>
                         </form>
                     {% endif %}

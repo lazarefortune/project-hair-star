@@ -45,6 +45,10 @@ span.flatpickr-day.selected,
   @apply bg-primary-100 border-primary-100 text-primary-600;
 }
 
+.flatpickr-day.today.flatpickr-disabled {
+  @apply text-gray-400 border-gray-100;
+}
+
 .flatpickr-months .flatpickr-month {
   @apply bg-transparent text-gray-500 fill-gray-500 h-11;
 }

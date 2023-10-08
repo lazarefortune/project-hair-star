@@ -60,3 +60,11 @@
 .btn-danger {
   @apply border-transparent text-white btn-primary-base bg-danger-500 hover:bg-danger-600 hover:text-white focus:ring-danger-500 focus-visible:outline-danger-600 disabled:bg-danger-200 disabled:text-danger-700;
 }
+
+.btn-menu {
+  @apply block rounded-md bg-primary-600 px-5 py-2.5 text-sm text-white transition hover:bg-primary-700;
+}
+
+.btn-menu-alt {
+  @apply rounded-md bg-gray-100 px-5 py-2.5 text-sm text-primary-600 transition hover:text-primary-600/75;
+}
