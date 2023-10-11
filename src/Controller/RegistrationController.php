@@ -50,11 +50,13 @@ class RegistrationController extends AbstractController
             // Retrieve the default role from the database
             $defaultRole = $entityManager->getRepository( Role::class )->findOneBy( ['name' => 'ROLE_USER'] );
 
-            if ( !$defaultRole ) {
-                throw $this->createNotFoundException( 'The default role does not exist' );
-            }
+//            if ( !$defaultRole ) {
+//                throw $this->createNotFoundException( 'The default role does not exist' );
+//            }
 
-            $user->setRole( $defaultRole );
+            if ( $defaultRole ) {
+                $user->setRole( $defaultRole );
+            }
 
             $entityManager->persist( $user );
             $entityManager->flush();
