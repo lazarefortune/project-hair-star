@@ -76,10 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn( nullable: true )]
-    private ?Role $role = null;
-
     #[ORM\OneToMany( mappedBy: 'client', targetEntity: Booking::class, orphanRemoval: true )]
     private Collection $bookings;
 
@@ -88,7 +84,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->roles = [Role::ROLE_USER, Role::ROLE_CLIENT];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
@@ -127,17 +122,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles() : array
     {
-        $roles = $this->role === null ? [Role::ROLE_USER] : [$this->role->getName()];
+        $roles = $this->roles;
 
-        if ( $this->role === null ) {
-            return $roles;
-        }
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        $permissions = $this->role->getPermissions()->map( function ( $permission ) {
-            return $permission->getName();
-        } )->toArray();
-
-        return array_merge( $roles, $permissions );
+        return array_unique( $roles );
     }
 
     public function setRoles( array $roles ) : self
@@ -252,18 +242,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Exclure l'attribut avatarFile de la sérialisation
         return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile'] );
-    }
-
-    public function getRole() : ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole( ?Role $role ) : self
-    {
-        $this->role = $role;
-
-        return $this;
     }
 
     /**

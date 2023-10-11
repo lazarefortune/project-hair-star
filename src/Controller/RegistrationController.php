@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Role;
 use App\Entity\User;
-use App\Event\AddUserEvent;
 use App\Event\UserCreatedEvent;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -13,7 +11,6 @@ use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -47,16 +44,7 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            // Retrieve the default role from the database
-            $defaultRole = $entityManager->getRepository( Role::class )->findOneBy( ['name' => 'ROLE_USER'] );
-
-//            if ( !$defaultRole ) {
-//                throw $this->createNotFoundException( 'The default role does not exist' );
-//            }
-
-            if ( $defaultRole ) {
-                $user->setRole( $defaultRole );
-            }
+            $user->setRoles( ['ROLE_CLIENT'] );
 
             $entityManager->persist( $user );
             $entityManager->flush();
