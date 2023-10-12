@@ -14,7 +14,7 @@
 
 /* Taille pour des textes courts et des icônes petites */
 .btn-md {
-  @apply px-8 h-11 text-base btn-base active:scale-95;
+  @apply h-11 px-8 text-base btn-base active:scale-95;
 }
 
 .btn-md > i {
@@ -62,9 +62,30 @@
 }
 
 .btn-menu {
-  @apply block rounded-md bg-primary-600 px-5 py-2.5 text-sm text-white transition hover:bg-primary-700;
+  @apply block rounded-md px-5 text-sm text-white transition bg-primary-600 py-2.5 hover:bg-primary-700;
 }
 
 .btn-menu-alt {
-  @apply rounded-md bg-gray-100 px-5 py-2.5 text-sm text-primary-600 transition hover:text-primary-600/75;
+  @apply rounded-md bg-gray-100 px-5 text-sm transition py-2.5 text-primary-600 hover:text-primary-600/75;
+}
+
+.link {
+  @apply text-primary-600 pb-0.5 p-1.5 hover:text-primary-600/75 hover:border-primary-600 hover:border-primary-600/75 hover:bg-primary-100/25 hover:border-b;
+}
+
+.link[target="_blank"]::after {
+  @apply bg-primary-600;
+  content: "";
+  margin-left: .3rem;
+  margin-right: -.125rem;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  mask-image: url(../../images/external-link-line.svg);
+  mask-size: 100% 100%;
+  vertical-align: calc((.75em - 1rem) * .5);
+  box-sizing: inherit;
+  //mask-size: 100% 100%;
+  //mask-repeat: no-repeat;
+  //mask-position: center;
 }

@@ -81,7 +81,7 @@ class RegistrationController extends AbstractController
         ] );
     }
 
-    #[Route( '/resend/email', name: 'app_resend_email' )]
+    #[Route( '/resend/email', name: 'app_account_resend_verification_email' )]
     public function resendUserEmailVerification( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
     {
         $id = $request->get( 'id' );
