@@ -13,11 +13,24 @@
 
     {% endapply %}
 
-    {{ element.button('Valider mon compte', 'https://lazarefortune.com') }}
-    {#    {{ element.button('Valider mon compte', url('register_confirm', {id: user.id, token: user.confirmationToken})) }} #}
+    {{ element.button('Valider mon compte', signedUrl|raw ) }}
 
     {% apply markdown_email %}
         Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email, le compte sera automatiquement supprimé.
     {% endapply %}
+
+
+    {% set email_verification_link_section %}
+        {% apply markdown_email %}
+            Si le lien ne fonctionne pas, vous pouvez copier/coller l'adresse suivante dans votre navigateur :
+            [ici]({{ signedUrl|raw }})
+
+            Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+        {% endapply %}
+    {% endset %}
+
+
+    {{ element.section(email_verification_link_section) }}
+
 
 {% endblock %}
