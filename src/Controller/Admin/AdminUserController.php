@@ -6,7 +6,7 @@ use App\Controller\AbstractController;
 use App\Dto\Admin\Profile\AdminProfileUpdateDto;
 use App\Exception\TooManyEmailChangeException;
 use App\Form\Admin\UserProfileType;
-use App\Form\UserPasswordType;
+use App\Form\UserChangePasswordType;
 use App\Service\Admin\ProfileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,16 +72,25 @@ class AdminUserController extends AbstractController
         return [$form, null];
     }
 
-    #[Route( '/mot-de-passe', name: 'password' )]
+    #[Route( '/mot-de-passe', name: 'change_password' )]
     #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
     public function password( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ) : Response
     {
-        $formPassword = $this->createForm( UserPasswordType::class );
+        $formPassword = $this->createForm( UserChangePasswordType::class );
         $formPassword->handleRequest( $request );
 
         if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
+            // TODO: Refactor this
+            $currentPassword = $formPassword->get( 'currentPassword' )->getData();
+
+            if ( !$passwordHasher->isPasswordValid( $this->getUser(), $currentPassword ) ) {
+                $this->addFlash( 'danger', 'Mot de passe actuel incorrect' );
+                return $this->redirectToRoute( 'app_admin_account_change_password' );
+            }
+
             $user = $this->getUser();
             // hash the plain password
+            // TODO: move this to a service and add event listener to send mail
             $user->setPassword(
                 $passwordHasher->hashPassword(
                     $user,
@@ -92,10 +101,10 @@ class AdminUserController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
-            return $this->redirectToRoute( 'app_admin_account_password' );
+            return $this->redirectToRoute( 'app_admin_account_index' );
         }
 
-        return $this->render( 'admin/account/password.html.twig', [
+        return $this->render( 'admin/account/change-password.html.twig', [
             'form' => $formPassword->createView(),
         ] );
     }

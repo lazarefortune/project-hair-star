@@ -22,8 +22,11 @@ class SubscribeClientDto
 
     #[Assert\NotBlank( message: 'Veuillez renseigner votre mot de passe' )]
     #[Assert\Length( min: 6, minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères' )]
-    #[Assert\Regex( pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/', message: 'Votre mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre' )]
+    #[Assert\Regex( pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.^])[A-Za-z\d@$!%*?&#.^]{6,}$/', message: 'Votre mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial' )]
     public string $plainPassword = '';
+
+    #[Assert\IsTrue( message: 'Vous devez accepter les conditions d\'utilisation' )]
+    public bool $agreeTerms = false;
 
     public function __construct( public User $user )
     {

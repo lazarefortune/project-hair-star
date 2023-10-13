@@ -13,9 +13,11 @@
     <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
         <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
             <div class="flex justify-center items-center">
-                <div class="bg-primary-200/50 text-primary-700 p-4 rounded-lg  text-xl flex justify-center items-center">
-                    {{ icon('users-2') }}
-                </div>
+                <a href="{{ path('app_admin_clients_index') }}">
+                    <div class="bg-primary-200/50 text-primary-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('users-2') }}
+                    </div>
+                </a>
             </div>
 
             <div class="ml-7 flex flex-col align-center">
@@ -25,9 +27,11 @@
         </div>
         <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
             <div class="flex justify-center items-center">
-                <div class="bg-orange-200/50 text-orange-700 p-4 rounded-lg  text-xl flex justify-center items-center">
-                    {{ icon('scissors') }}
-                </div>
+                <a href="{{ path('app_admin_realisation_index') }}">
+                    <div class="bg-orange-200/50 text-orange-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('scissors') }}
+                    </div>
+                </a>
             </div>
 
             <div class="ml-7 flex flex-col align-center">
@@ -37,9 +41,11 @@
         </div>
         <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
             <div class="flex justify-center items-center">
-                <div class="bg-green-200/50 text-green-700 p-4 rounded-lg  text-xl flex justify-center items-center">
-                    {{ icon('calendar') }}
-                </div>
+                <a href="{{ path('app_admin_booking_index') }}">
+                    <div class="bg-green-200/50 text-green-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('calendar') }}
+                    </div>
+                </a>
             </div>
 
             <div class="ml-7 flex flex-col align-center">

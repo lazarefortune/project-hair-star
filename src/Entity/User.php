@@ -82,6 +82,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
     private Collection $emailVerifications;
 
+    #[ORM\Column]
+    private ?bool $cgu = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -300,6 +303,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $emailVerification->setAuthor( null );
             }
         }
+
+        return $this;
+    }
+
+    public function isCgu(): ?bool
+    {
+        return $this->cgu;
+    }
+
+    public function setCgu(bool $cgu): static
+    {
+        $this->cgu = $cgu;
 
         return $this;
     }

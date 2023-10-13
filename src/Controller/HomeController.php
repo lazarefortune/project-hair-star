@@ -73,22 +73,23 @@ class HomeController extends AbstractController
         return $this->render( 'home/success_installed.html.twig' );
     }
 
-    #[Route( '/test-email', name: 'app_test_mail' )]
-    public function testEmail( MailService $mailService ) : Response
+    #[Route( '/conditions-generales-utilisation', name: 'app_cgu' )]
+    public function cgu( OptionService $optionService ) : Response
     {
-        if ( !$this->getUser() ) {
-            return $this->redirectToRoute( 'app_home' );
-        }
-        $email = $mailService->createEmail( 'mails/auth/register.twig', [
-            'user' => $this->getUser()
-        ] )
-            ->to( $this->getUser()->getEmail() )
-            ->subject( 'Bienvenue sur My Space' );
-
-        $mailService->send( $email );
-
-        return $this->render( 'home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ] );
+        return $this->render( 'home/cgu.html.twig' );
     }
+
+    #[Route( '/mentions-legales', name: 'app_mentions_legales' )]
+    public function mentionsLegales( OptionService $optionService ) : Response
+    {
+        return $this->render( 'home/mentions_legales.html.twig' );
+    }
+
+    #[Route( '/politique-confidentialite', name: 'app_politique_confidentialite' )]
+    public function politiqueConfidentialite( OptionService $optionService ) : Response
+    {
+        return $this->render( 'home/politique_confidentialite.html.twig' );
+    }
+
+
 }

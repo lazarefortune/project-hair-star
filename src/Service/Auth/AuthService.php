@@ -28,7 +28,8 @@ class AuthService
                     $newClientDto->plainPassword
                 )
             )
-            ->setRoles( ['ROLE_CLIENT'] );
+            ->setRoles( ['ROLE_CLIENT'] )
+            ->setCgu( true );
 
         $this->entityManager->persist( $client );
         $this->entityManager->flush();
