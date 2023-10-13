@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
  * @AsCommand(
@@ -27,7 +26,7 @@ class CreateFirstUserCommand extends Command
     private UserPasswordHasherInterface $userPasswordHasher;
     private EntityManagerInterface $em;
 
-    public function __construct( UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher , EntityManagerInterface $em )
+    public function __construct( UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em )
     {
         $this->userRepository = $userRepository;
         $this->userPasswordHasher = $userPasswordHasher;
@@ -35,14 +34,14 @@ class CreateFirstUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
+    protected function configure() : void
     {
         $this
-            ->setDescription('Create the first user')
-            ->setHelp('This command allows you to create the first user');
+            ->setDescription( 'Create the first user' )
+            ->setHelp( 'This command allows you to create the first user' );
     }
 
-    protected function execute( InputInterface $input, OutputInterface $output ): int
+    protected function execute( InputInterface $input, OutputInterface $output ) : int
     {
         $io = new SymfonyStyle( $input, $output );
         $io->title( 'First user creation' );
@@ -64,21 +63,20 @@ class CreateFirstUserCommand extends Command
         $password = $io->askHidden( 'Password' );
         $passwordConfirm = $io->askHidden( 'Confirm password' );
 
-        if( $password !== $passwordConfirm ) {
+        if ( $password !== $passwordConfirm ) {
             $io->error( 'Passwords do not match' );
             return Command::FAILURE;
         }
 
         $user = $this->userRepository->findOneBy( ['email' => $email] );
 
-        if( $user ) {
+        if ( $user ) {
             $io->error( 'User already exists' );
             return Command::FAILURE;
         }
 
         $fullName = $io->ask( 'What is your full name?' );
         $phone = $io->ask( 'What is your phone number?' );
-
 
 
         try {

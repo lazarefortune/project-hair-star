@@ -81,16 +81,11 @@ class RegistrationController extends AbstractController
         ] );
     }
 
-    #[Route( '/resend/email', name: 'app_account_resend_verification_email' )]
+    #[Route( '/email/confirmation', name: 'app_account_resend_verification_email' )]
     public function resendUserEmailVerification( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
     {
-        $id = $request->get( 'id' );
 
-        if ( null === $id ) {
-            return $this->redirectToRoute( 'app_register' );
-        }
-
-        $user = $userRepository->find( $id );
+        $user = $this->getUser();
 
         if ( null === $user ) {
             return $this->redirectToRoute( 'app_register' );
@@ -108,10 +103,9 @@ class RegistrationController extends AbstractController
 
         $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
 
-        return $this->render( 'auth/verify_email.html.twig', [
-            'title' => 'Email de confirmation envoyé',
-            'message' => 'Un email de confirmation vous a été envoyé.'
-        ] );
+        $previousPage = $request->headers->get( 'referer' );
+
+        return $this->redirect( $previousPage );
     }
 
     #[Route( '/verify/email', name: 'app_verify_email' )]
