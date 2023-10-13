@@ -55,24 +55,10 @@ class RegistrationController extends AbstractController
     #[Route( '/inscription', name: 'app_register' )]
     public function register( Request $request ) : Response
     {
-//        $user = new User();
-//        $form = $this->createForm( RegistrationFormType::class, $user );
-//        $form->handleRequest( $request );
-//
-//        if ( $form->isSubmitted() && $form->isValid() ) {
-//
-//
-//            return $userAuthenticator->authenticateUser(
-//                $user,
-//                $authenticator,
-//                $request
-//            );
-//        }
 
         [$form, $response] = $this->createSubsciptionForm( $request );
 
         if ( $response ) {
-//            $this->addFlash( 'success', 'Votre compte a bien été créé.' );
             return $response;
         }
 
@@ -81,8 +67,8 @@ class RegistrationController extends AbstractController
         ] );
     }
 
-    #[Route( '/email/confirmation', name: 'app_account_resend_verification_email' )]
-    public function resendUserEmailVerification( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
+    #[Route( '/email/envoie/re-verification', name: 'app_account_resend_verification_email' )]
+    public function resendUserEmailVerification( Request $request ) : Response
     {
 
         $user = $this->getUser();
@@ -91,15 +77,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute( 'app_register' );
         }
 
-        // generate a signed url and email it to the user
-        $this->emailVerifier->sendEmailConfirmation( 'app_verify_email', $user,
-            ( new TemplatedEmail() )
-                ->from( new Address( 'contact@my-space.fr', 'Jessy Hair' ) )
-                ->to( $user->getEmail() )
-                ->subject( 'Please Confirm your Email' )
-                ->htmlTemplate( 'auth/emails/confirmation_email.html.twig' )
-        );
-        // do anything else you need here, like send an email
+        $this->emailVerifier->sendEmailConfirmation( $user );
 
         $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
 
@@ -108,7 +86,7 @@ class RegistrationController extends AbstractController
         return $this->redirect( $previousPage );
     }
 
-    #[Route( '/verify/email', name: 'app_verify_email' )]
+    #[Route( '/email/validation', name: 'app_verify_email' )]
     public function verifyUserEmail( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
     {
         $id = $request->get( 'id' );
@@ -121,6 +99,13 @@ class RegistrationController extends AbstractController
 
         if ( null === $user ) {
             return $this->redirectToRoute( 'app_register' );
+        }
+
+        if ( $user->isVerified() ) {
+            return $this->render( 'auth/verify_email.html.twig', [
+                'title' => 'Adresse email déjà vérifiée',
+                'message' => 'Votre adresse email a déjà été vérifiée. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
+            ] );
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists

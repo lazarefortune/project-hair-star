@@ -15,10 +15,9 @@
         <p class="text-center text-sm leading-5 text-gray-600 mt-4">
             {{ message }}
         </p>
-        {#        <button class="btn-md btn-primary mt-6 w-full" onclick="window.location.href='{{ path('app_home') }}'"> #}
-        <a class="btn-md btn-primary mt-6 w-full" href="{{ back_link }}">
+        <button class="btn-md btn-primary mt-6 w-full" onclick="window.location.href='{{ path('app_home') }}'">
             Retour à l'accueil
-        </a>
+        </button>
     </div>
 {% endblock %}
 

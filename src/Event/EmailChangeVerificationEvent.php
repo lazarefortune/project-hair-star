@@ -4,7 +4,7 @@ namespace App\Event;
 
 use App\Entity\EmailVerification;
 
-class EmailVerificationEvent
+class EmailChangeVerificationEvent
 {
 
     public function __construct( public EmailVerification $emailVerification )

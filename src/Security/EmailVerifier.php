@@ -2,11 +2,11 @@
 
 namespace App\Security;
 
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
@@ -15,9 +15,10 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class EmailVerifier
 {
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
-        private MailerInterface            $mailer,
-        private EntityManagerInterface     $entityManager
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly MailerInterface            $mailer,
+        private readonly EntityManagerInterface     $entityManager,
+        private readonly MailService                $mailService
     )
     {
     }
@@ -32,7 +33,49 @@ class EmailVerifier
         );
     }
 
-    public function sendEmailConfirmation( string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email ) : void
+    public function sendEmailConfirmation( UserInterface $user )
+    {
+        $signature = $this->getVerifyEmailSignature(
+            'app_verify_email',
+            $user
+        );
+
+        $data = [
+            'user' => $user,
+            'signedUrl' => $signature->getSignedUrl(),
+            'expiresAtMessageKey' => $signature->getExpirationMessageKey(),
+            'expiresAtMessageData' => $signature->getExpirationMessageData()
+        ];
+
+        $email = $this->mailService->createEmail( 'mails/profile/confirm-email.twig', $data )
+            ->to( $user->getEmail() )
+            ->subject( 'Confirmation de votre adresse email' );
+
+        $this->mailService->send( $email );
+    }
+
+    public function sendWelcomeEmailConfirmation( UserInterface $user )
+    {
+        $signature = $this->getVerifyEmailSignature(
+            'app_verify_email',
+            $user
+        );
+
+        $data = [
+            'user' => $user,
+            'signedUrl' => $signature->getSignedUrl(),
+            'expiresAtMessageKey' => $signature->getExpirationMessageKey(),
+            'expiresAtMessageData' => $signature->getExpirationMessageData()
+        ];
+
+        $email = $this->mailService->createEmail( 'mails/auth/register.twig', $data )
+            ->to( $user->getEmail() )
+            ->subject( 'Bienvenue sur Hair Star' );
+
+        $this->mailService->send( $email );
+    }
+
+    public function sendEmailConfirmationWithTemplated( string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email ) : void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
@@ -48,6 +91,7 @@ class EmailVerifier
 
         $email->context( $context );
 
+        // TODO: Utiliser plus tard le service MailService
         $this->mailer->send( $email );
     }
 

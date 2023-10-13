@@ -30,7 +30,7 @@ class AdminUserController extends AbstractController
     public function index( Request $request ) : Response
     {
         [$formProfile, $response] = $this->createFormProfile( $request );
-        // on vérifie si l'utilisateur a demandé un changement d'email
+        // on vérifie si l'utilisateur a déjà demandé un changement d'email
         $user = $this->getUserOrThrow();
         $requestEmailChange = $this->profileService->getRequestEmailChange( $user );
 

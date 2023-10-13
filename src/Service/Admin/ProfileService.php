@@ -5,7 +5,7 @@ namespace App\Service\Admin;
 use App\Dto\Admin\Profile\AdminProfileUpdateDto;
 use App\Entity\EmailVerification;
 use App\Entity\User;
-use App\Event\EmailVerificationEvent;
+use App\Event\EmailChangeVerificationEvent;
 use App\Exception\TooManyEmailChangeException;
 use App\Repository\EmailVerificationRepository;
 use App\Service\TokenGeneratorService;
@@ -48,7 +48,7 @@ class ProfileService
             $this->entityManager->persist( $emailVerification );
 
             // Event de vérification de l'email
-            $this->eventDispatcher->dispatch( new EmailVerificationEvent( $emailVerification ) );
+            $this->eventDispatcher->dispatch( new EmailChangeVerificationEvent( $emailVerification ) );
         }
     }
 

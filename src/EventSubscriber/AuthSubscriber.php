@@ -14,7 +14,6 @@ class AuthSubscriber implements EventSubscriberInterface
 {
 
     public function __construct(
-        private readonly MailService   $mailService,
         private readonly EmailVerifier $emailVerifier,
     )
     {
@@ -31,23 +30,6 @@ class AuthSubscriber implements EventSubscriberInterface
     {
         $user = $event->getUser();
 
-        $signature = $this->emailVerifier->getVerifyEmailSignature(
-            'app_verify_email',
-            $user
-        );
-
-        $data = [
-            'user' => $user,
-            'signedUrl' => $signature->getSignedUrl(),
-            'expiresAtMessageKey' => $signature->getExpirationMessageKey(),
-            'expiresAtMessageData' => $signature->getExpirationMessageData()
-        ];
-
-        // Envoi de l'email de confirmation
-        $email = $this->mailService->createEmail( 'mails/auth/register.twig', $data )
-            ->to( $event->getUser()->getEmail() )
-            ->subject( 'Bienvenue sur Hair Star' );
-
-        $this->mailService->send( $email );
+        $this->emailVerifier->sendWelcomeEmailConfirmation( $user );
     }
 }
