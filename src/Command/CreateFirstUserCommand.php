@@ -87,6 +87,7 @@ class CreateFirstUserCommand extends Command
             $newUser->setPhone( $phone );
             $newUser->setIsVerified( true );
             $newUser->setRoles( ['ROLE_ADMIN'] );
+            $newUser->setCgu( true );
             $this->em->persist( $newUser );
             $this->em->flush();
 
