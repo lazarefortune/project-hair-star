@@ -17,6 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EmailVerificationRepository extends ServiceEntityRepository
 {
+
+    private const HOURS_TO_EXPIRE = 1;
+
     public function __construct( ManagerRegistry $registry )
     {
         parent::__construct( $registry, EmailVerification::class );
@@ -48,5 +51,23 @@ class EmailVerificationRepository extends ServiceEntityRepository
             ->setMaxResults( 1 )
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Delete expired email verifications and return the number of deleted rows
+     * @return int
+     */
+    public function deleteExpiredEmailVerifications() : int
+    {
+        $date = new \DateTime();
+        $date->modify( sprintf( '-%d hours', self::HOURS_TO_EXPIRE ) );
+
+        return $this->createQueryBuilder( 'v' )
+            ->delete()
+            ->where( 'v.createdAt < :date' )
+            ->setParameter( 'date', $date )
+            ->getQuery()
+            ->execute();
+
     }
 }
