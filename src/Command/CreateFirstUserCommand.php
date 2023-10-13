@@ -12,16 +12,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/**
- * @AsCommand(
- *     name="app:create-first-user",
- *     description="Create the first user"
- * )
- */
+#[AsCommand(
+    name: 'app:create-first-user',
+    description: 'Create the first user',
+)]
 class CreateFirstUserCommand extends Command
 {
-    protected static $defaultName = 'app:create-first-user';
-
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
     private EntityManagerInterface $em;

@@ -3,15 +3,19 @@
 namespace App\Command\Emails;
 
 use App\Repository\EmailVerificationRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+
+#[AsCommand(
+    name: 'app:email-verification:cleanup',
+    description: 'Deletes expired and already verified email verification requests.',
+)]
 class EmailVerificationCleanupCommand extends Command
 {
-    protected static $defaultName = 'app:email-verification:cleanup';
-
     public function __construct( private readonly EmailVerificationRepository $emailVerificationRepository )
     {
         parent::__construct();
