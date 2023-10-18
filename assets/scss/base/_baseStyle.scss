@@ -1,5 +1,10 @@
+* {
+  font-family: 'Inter Var', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
+}
+
 body {
-  font-family: 'Inter', 'IBM Plex Sans', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-family: 'Inter Var', 'IBM Plex Sans', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
   font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
   background-color: #ffffff;
   font-size: 16px;
@@ -8,18 +13,10 @@ body {
   word-break: break-word;
 }
 
-* {
-  font-family: Inter, 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
-}
 
 h1, h2, h3, h4, h5, h6 {
   @apply font-plusJakartaSans;
 }
-
-//body {
-//  @apply font-family['CircularStd', 'Inter', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif] bg-white text-base text-gray-800 leading-6 scroll-margin-top[100px] word-break[break-word];
-//}
 
 a {
   @apply text-indigo-600 hover:text-indigo-500 no-underline hover:no-underline;

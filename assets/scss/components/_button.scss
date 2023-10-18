@@ -62,7 +62,8 @@
 }
 
 .btn-danger {
-  @apply border-transparent text-white btn-primary-base bg-orange-800 hover:bg-orange-900 hover:text-white focus:ring-orange-900 focus-visible:outline-danger-600 disabled:bg-danger-200 disabled:text-danger-700;
+  @apply border-transparent text-white btn-primary-base bg-slate-800 hover:bg-slate-900 hover:text-white focus:ring-orange-900 focus-visible:outline-danger-600 disabled:bg-danger-200 disabled:text-danger-700;
+  //@apply border-transparent text-white btn-primary-base bg-orange-800 hover:bg-orange-900 hover:text-white focus:ring-orange-900 focus-visible:outline-danger-600 disabled:bg-danger-200 disabled:text-danger-700;
 }
 
 .btn-menu {

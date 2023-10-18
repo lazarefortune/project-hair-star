@@ -62,44 +62,6 @@ class TwigExtension extends AbstractExtension
         return $this->showIconWithLucidIcons( $iconName, $iconSize, $additionalClass );
     }
 
-    private function showIconWithLineAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 's' ) : string
-    {
-        $classNames = '';
-
-        $lineAwesomeIconsSizes = ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x'];
-
-        if ( $iconSize and in_array( $iconSize, $lineAwesomeIconsSizes ) ) {
-            $classNames = 'la-' . $iconSize;
-        }
-
-        if ( $additionalClass ) {
-            $classNames .= ' ' . $additionalClass;
-        }
-
-        return <<<HTML
-           <i class="la{$iconType} la-{$iconName}  {$classNames}"></i>
-        HTML;
-    }
-
-    private function showIconWithBoxIcons( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
-    {
-        $classNames = '';
-
-        $boxIconsSizes = ['xs', 'sm', 'lg', 'xl'];
-
-        if ( $iconSize and in_array( $iconSize, $boxIconsSizes ) ) {
-            $classNames = 'bx-' . $iconSize;
-        }
-
-        if ( $additionalClass ) {
-            $classNames .= ' ' . $additionalClass;
-        }
-
-        return <<<HTML
-           <i class="bx bx{$iconType}-{$iconName}  {$classNames}"></i>
-        HTML;
-    }
-
     private function showIconWithLucidIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
     {
         $width = '17';
@@ -121,28 +83,10 @@ class TwigExtension extends AbstractExtension
             $height = $lucidIconSizes[$iconSize]['height'];
         }
 
-
         return <<<HTML
-            <i data-lucide="{$iconName}" class="{$classNames}" width="{$width}" height="{$height}"></i>
-        HTML;
-    }
-
-    private function showIconWithFontAwesome( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = 'regular' ) : string
-    {
-        $classNames = '';
-
-        $fontAwesomeIconsSizes = ['2xs', 'xs', 'sm', 'lg', 'xl', '2xl'];
-
-        if ( $iconSize and in_array( $iconSize, $fontAwesomeIconsSizes ) ) {
-            $classNames = 'fa-' . $iconSize;
-        }
-
-        if ( $additionalClass ) {
-            $classNames .= ' ' . $additionalClass;
-        }
-
-        return <<<HTML
-           <i class="fa-{$iconType} fa-{$iconName}  {$classNames}"></i>
+            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;">
+                <i data-lucide="{$iconName}" class="{$classNames}" width="{$width}" height="{$height}"></i>
+            </div>
         HTML;
     }
 

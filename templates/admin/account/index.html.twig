@@ -14,10 +14,6 @@
 
     <h4 class="text-2xl font-bold md:text-3xl">Mon compte</h4>
 
-    <div class="mt-2">
-        {{ include('partials/flash.html.twig') }}
-    </div>
-
     {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
         <div class="alert-ping">
             <strong>Attention !</strong>
@@ -35,7 +31,7 @@
                 Profil
             </h6>
             <p class="card-section-subtitle">
-                Ces informations ne seront pas partagées avec d'autres utilisateurs.
+                Vous pouvez modifier vos informations personnelles.
             </p>
         </div>
         <div class="col-span-2 flex flex-col space-y-3">
@@ -115,8 +111,8 @@
                 Supprimer mon compte
             </h6>
             <p class="card-section-subtitle">
-                Vous pouvez supprimer votre compte à tout moment. Attention, cette action est irréversible.
-                Vous perdrez toutes vos données.
+                Vous pouvez demander la suppression de votre compte. Vous disposerez d'un délai de 30 jours pour
+                annuler votre demande.
             </p>
         </div>
 

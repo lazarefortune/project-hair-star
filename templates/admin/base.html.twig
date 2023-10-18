@@ -7,12 +7,6 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title 'Dashboard' %} - {{ options['site_title'] }}</title>
-    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/boxicons/css/boxicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/all.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/brands.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/solid.css') }}">
-
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -198,12 +192,13 @@
         </div>
 
     </div>
-
+    {{ include('partials/flash.html.twig') }}
     <main class="min-h-screen bg-primary-50/50 px-3 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
         {% block body %}{% endblock %}
     </main>
 </div>
 
+<!-- Cookie consent -->
 <section class="z-50 fixed bottom-0 w-full bg-gray-50 dark:bg-gray-800 hidden" id="cookie-consent">
     <div class="container px-4 py-8 mx-auto lg:flex lg:items-center lg:gap-x-16">
         <p class="text-gray-600 dark:text-gray-300">
@@ -223,6 +218,7 @@
         </div>
     </div>
 </section>
+<!-- /Cookie consent -->
 
 <script type="text/javascript">
     //--------- COOKIE CONSENT ---------

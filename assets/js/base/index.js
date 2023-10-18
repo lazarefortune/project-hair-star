@@ -3,6 +3,7 @@ import {createIcons, icons} from 'lucide';
 createIcons({icons});
 
 import '../components/_modal';
+import '../components/_alert';
 
 document.addEventListener("DOMContentLoaded", function () {
 

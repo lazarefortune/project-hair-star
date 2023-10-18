@@ -71,16 +71,14 @@ module.exports = {
                     "800": "#e60000",
                     "900": "#c50000",
                     "950": "#8c0000"
+                },
+                danger2: {
+                    "600": "#ff3084"
                 }
             }
         },
         fontFamily: {
-            'inter': ['Inter'],
-            'josefin': ['JosefinSans'],
-            'pacifico': ['Pacifico'],
-            'lato': ['Lato'],
-            'poppins': ['Poppins'],
-            'circularStd': ['CircularStd'],
+            'inter': ['Inter Var'],
             'plusJakartaSans': ['Plus Jakarta Sans'],
             'ibmPlexSans': ['IBM Plex Sans'],
         }
