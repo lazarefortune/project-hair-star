@@ -102,8 +102,8 @@ class TwigExtension extends AbstractExtension
 
     private function showIconWithLucidIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
     {
-        $width = '20';
-        $height = '20';
+        $width = '17';
+        $height = '17';
 
         // Map icon sizes to width and height
         $lucidIconSizes = [

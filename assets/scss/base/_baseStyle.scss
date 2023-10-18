@@ -1,10 +1,16 @@
 body {
-  font-family: 'IBM Plex Sans', 'Inter', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-family: 'Inter', 'IBM Plex Sans', 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
   background-color: #ffffff;
   font-size: 16px;
   line-height: 1.6;
   scroll-margin: 100px 0 0 0;
   word-break: break-word;
+}
+
+* {
+  font-family: Inter, 'CircularStd', 'Poppins', 'Lato', 'Pacifico', 'Josefin Sans', sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv05", "cv09", "cv11" !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

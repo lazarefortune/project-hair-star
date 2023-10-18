@@ -55,32 +55,32 @@
 
         <div class="space-y-1">
             <a href="{{ path('app_home') }}" class="sidebar-nav-item">
-                {{ icon('undo-2') }}
+                {{ icon('undo-2', 'sm' ) }}
                 <span class="ml-1">Retour au site</span>
             </a>
             <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
-                {{ icon('home') }}
+                {{ icon('home', 'sm' ) }}
                 <span class="ml-1">Accueil</span>
             </a>
             <a href="{{ path('app_admin_realisation_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
-                {{ icon('scissors') }}
+                {{ icon('scissors', 'sm' ) }}
                 <span class="ml-1">Réalisations</span>
             </a>
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_clients') }}">
-                {{ icon('users-2') }}
+                {{ icon('users-2', 'sm' ) }}
                 <span class="ml-1">Clients</span>
             </a>
             <a href="{{ path('app_admin_booking_index') }}"
                class="sidebar-nav-item {{ menu_active('app_admin_booking_') }}">
-                {{ icon('calendar') }}
+                {{ icon('calendar', 'sm' ) }}
                 <span class="ml-1">Rendez-vous</span>
             </a>
         </div>
 
         <div class="mt-4 mb-2 px-4 text-sm text-gray-400 dark:text-gray-400">
-            Gestion du salon
+            Gestion du lon
         </div>
 
         <div class="space-y-1">
@@ -90,10 +90,10 @@
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_prestation') }} {{ menu_active('app_admin_category_prestation') }}">
-                {{ icon('store') }}
+                {{ icon('store', 'sm' ) }}
                 <span class="ml-1">Prestations</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
-                    {{ icon('chevron-right') }}
+                    {{ icon('chevron-right', 'sm' ) }}
                 </span>
             </button>
             <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
@@ -109,15 +109,15 @@
 
             <a href="{{ path('app_admin_clients_index') }}"
                class="sidebar-nav-item sidebar-nav-item-disabled">
-                {{ icon('badge-percent') }}
+                {{ icon('badge-percent', 'sm' ) }}
                 <span class="ml-1">Promotions</span>
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_shop_settings_') }}">
-                {{ icon('store') }}
+                {{ icon('store', 'sm' ) }}
                 <span class="ml-1">Gestion du salon</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
-                        {{ icon('chevron-right') }}
+                        {{ icon('chevron-right', 'sm' ) }}
                     </span>
             </button>
             <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
@@ -180,7 +180,7 @@
                 <div class="px-2 py-2">
                     <a href="{{ path('app_admin_account_index') }}"
                        class="user-dropdown-menu-item {{ menu_active('app_admin_account') }}">
-                        {{ icon('user') }}
+                        {{ icon('user', 'sm' ) }}
                         <span>Mon compte</span>
                     </a>
                 </div>
@@ -190,7 +190,7 @@
                 <div class="px-2 py-2">
                     <a href="{{ path('app_logout') }}"
                        class="user-dropdown-menu-item">
-                        {{ icon('log-out') }}
+                        {{ icon('log-out', 'sm' ) }}
                         <span>Déconnexion</span>
                     </a>
                 </div>
@@ -204,8 +204,63 @@
     </main>
 </div>
 
+<section class="z-50 fixed bottom-0 w-full bg-gray-50 dark:bg-gray-800 hidden" id="cookie-consent">
+    <div class="container px-4 py-8 mx-auto lg:flex lg:items-center lg:gap-x-16">
+        <p class="text-gray-600 dark:text-gray-300">
+            En cliquant sur "Accepter tous les cookies", vous acceptez le stockage de cookies sur votre appareil pour
+            améliorer la navigation sur le site, analyser son utilisation et contribuer à nos efforts de marketing.
+        </p>
+
+        <div class="flex items-center mt-6 gap-x-4 lg:gap-x-8 shrink-0 lg:mt-0">
+            <button id="btn-decline-cookies-consent"
+                    class="w-1/2 text-sm text-gray-800 underline transition-colors duration-300 md:w-auto dark:text-white dark:hover:text-gray-400 hover:text-gray-600 focus:outline-none">
+                Paramètres des cookies
+            </button>
+
+            <button id="btn-agree-cookies-consent" class="text-sm w-1/2 md:w-auto font-medium btn-2sm">
+                Accepter tous les cookies
+            </button>
+        </div>
+    </div>
+</section>
 
 <script type="text/javascript">
+    //--------- COOKIE CONSENT ---------
+
+    function checkCookieConsent() {
+        return document.cookie.indexOf('hairstar_cookie_consent') !== -1;
+    }
+
+    function setCookieConsent(value) {
+        document.cookie = `hairstar_cookie_consent=${value};max-age=31536000;path=/`
+    }
+
+    function removeCookieConsent() {
+        document.cookie = "hairstar_cookie_consent=;max-age=0;path=/";
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnAgreeConsentCookies = document.getElementById('btn-agree-cookies-consent');
+        const btnDeclineCookies = document.getElementById('btn-decline-cookies-consent');
+        const cookieConsent = document.getElementById('cookie-consent');
+
+        btnAgreeConsentCookies.addEventListener('click', function () {
+            setCookieConsent(true);
+            cookieConsent.classList.add('hidden');
+        });
+
+        btnDeclineCookies.addEventListener('click', function () {
+            setCookieConsent(false);
+            cookieConsent.classList.add('hidden');
+        });
+
+        if (!checkCookieConsent()) {
+            cookieConsent.classList.remove('hidden');
+        }
+    });
+
+    //--------- SIDEBAR ---------
+
     const sidebar = document.getElementById('sidebar');
     const btnSidebar = document.getElementById('btnSidebar');
 

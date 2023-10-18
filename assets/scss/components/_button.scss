@@ -12,9 +12,13 @@
   @apply text-base leading-none;
 }
 
+.btn-2sm {
+  @apply bg-primary-600 rounded-lg hover:bg-primary-800 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none;
+}
+
 /* Taille pour des textes courts et des icônes petites */
 .btn-md {
-  @apply h-11 px-8 text-base btn-base active:scale-95;
+  @apply h-11 px-5 text-base btn-base active:scale-95;
 }
 
 .btn-md > i {
