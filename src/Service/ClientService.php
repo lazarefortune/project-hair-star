@@ -32,6 +32,7 @@ class ClientService
         $user = $getData;
         $user->setRoles( ['ROLE_USER', 'ROLE_CLIENT'] );
         $user->setPassword( '' );
+        $user->setCgu( false );
 
         $this->userRepository->save( $user, true );
     }
