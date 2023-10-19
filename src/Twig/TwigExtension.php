@@ -84,8 +84,8 @@ class TwigExtension extends AbstractExtension
         }
 
         return <<<HTML
-            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;">
-                <i data-lucide="{$iconName}" class="{$classNames}" width="{$width}" height="{$height}"></i>
+            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;" class="{$classNames}">
+                <i data-lucide="{$iconName}"  width="{$width}" height="{$height}"></i>
             </div>
         HTML;
     }
