@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\Auth\SubscribeClientDto;
 use App\Entity\User;
+use App\Event\Auth\EmailConfirmSuccessEvent;
 use App\Event\UserCreatedEvent;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -25,7 +27,8 @@ class RegistrationController extends AbstractController
         private readonly AuthService                $authService,
         private readonly UserAuthenticatorInterface $userAuthenticator,
         private readonly AppAuthenticator           $authenticator,
-        private readonly EmailVerifier              $emailVerifier
+        private readonly EmailVerifier              $emailVerifier,
+        private readonly EventDispatcherInterface   $eventDispatcher,
     )
     {
     }
@@ -84,17 +87,37 @@ class RegistrationController extends AbstractController
         return $this->redirect( $previousPage );
     }
 
-    #[Route( '/email/validation', name: 'app_verify_email' )]
-    public function verifyUserEmail( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
+    #[Route( '/email/envoie/re-verification/{id}', name: 'app_account_resend_verification_email_to_user' )]
+    public function resendToOneUserHisEmailVerification( Request $request, UserRepository $userRepository ) : Response
     {
-        $id = $request->get( 'id' );
-
-        if ( null === $id ) {
+        $userId = $request->get( 'id' );
+        if ( null === $userId ) {
             return $this->redirectToRoute( 'app_register' );
         }
 
-        $user = $userRepository->find( $id );
+        $user = $userRepository->find( $userId );
+        if ( null === $user ) {
+            return $this->redirectToRoute( 'app_register' );
+        }
 
+        $this->emailVerifier->sendEmailConfirmation( $user );
+
+        $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
+
+        $previousPage = $request->headers->get( 'referer' );
+
+        return $this->redirect( $previousPage );
+    }
+
+    #[Route( '/email/validation', name: 'app_verify_email' )]
+    public function verifyUserEmail( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
+    {
+        $userId = $request->get( 'id' );
+        if ( null === $userId ) {
+            return $this->redirectToRoute( 'app_register' );
+        }
+
+        $user = $userRepository->find( $userId );
         if ( null === $user ) {
             return $this->redirectToRoute( 'app_register' );
         }
@@ -106,19 +129,23 @@ class RegistrationController extends AbstractController
             ] );
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation( $request, $user );
+
+            $emailConfirmSuccessEvent = new EmailConfirmSuccessEvent( $user );
+            $this->eventDispatcher->dispatch( $emailConfirmSuccessEvent, EmailConfirmSuccessEvent::NAME );
+
+            return $this->render( 'auth/verify_email.html.twig', [
+                'title' => 'Adresse email vérifiée',
+                'message' => 'Merci d\'avoir vérifié votre adresse email. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
+            ] );
+
         } catch ( VerifyEmailExceptionInterface $exception ) {
             $this->addFlash( 'verify_email_error', $translator->trans( $exception->getReason(), [], 'VerifyEmailBundle' ) );
 
             return $this->redirectToRoute( 'app_register' );
         }
 
-        return $this->render( 'auth/verify_email.html.twig', [
-            'title' => 'Adresse email vérifiée',
-            'message' => 'Merci d\'avoir vérifié votre adresse email. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
-        ] );
     }
 }
 

@@ -231,11 +231,19 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #2d3748;
-    border-bottom: 8px solid #2d3748;
-    border-left: 18px solid #2d3748;
-    border-right: 18px solid #2d3748;
-    border-top: 8px solid #2d3748;
+    /*  old color: #2d3748 */
+    background-color: #843dff;
+    border-bottom: 8px solid #843dff;
+    border-left: 18px solid #843dff;
+    border-right: 18px solid #843dff;
+    border-top: 8px solid #843dff;
+}
+
+.button-outline-primary {
+    background-color: #fff;
+    border: 1px solid #843dff;
+    padding: 8px 16px;
+    color: #843dff;
 }
 
 .button-green,

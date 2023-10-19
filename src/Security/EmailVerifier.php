@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Entity\User;
+use App\Service\AppConfigService;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,7 +20,8 @@ class EmailVerifier
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
         private readonly MailerInterface            $mailer,
         private readonly EntityManagerInterface     $entityManager,
-        private readonly MailService                $mailService
+        private readonly MailService                $mailService,
+        private readonly AppConfigService           $appConfigService
     )
     {
     }
@@ -68,9 +71,12 @@ class EmailVerifier
             'expiresAtMessageData' => $signature->getExpirationMessageData()
         ];
 
+        $appName = $this->appConfigService->getAppName();
+        $mailObject = "Bienvenue sur $appName, " . $user->getFullname() . " !";
+
         $email = $this->mailService->createEmail( 'mails/auth/register.twig', $data )
             ->to( $user->getEmail() )
-            ->subject( 'Bienvenue sur Hair Star' );
+            ->subject( $mailObject );
 
         $this->mailService->send( $email );
     }

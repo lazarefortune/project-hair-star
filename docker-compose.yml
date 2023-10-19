@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: jessy_hair_app
+    container_name: hair_app
     volumes:
       - .:/var/www/symfony:delegated
       - /var/www/symfony/var
@@ -42,5 +42,5 @@ services:
       - db
 
 volumes:
-  db_data: {}
-  nginx_logs: {}
+  db_data: { }
+  nginx_logs: { }

@@ -3,21 +3,23 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Event\UserCreatedEvent;
 use App\Repository\UserRepository;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ClientService
 {
 
-    private UserRepository $userRepository;
-
-    public function __construct( UserRepository $userRepository )
+    public function __construct(
+        private readonly UserRepository           $userRepository,
+        private readonly EventDispatcherInterface $eventDispatcher,
+    )
     {
-        $this->userRepository = $userRepository;
     }
 
     public function getClients() : array
     {
-        return $this->userRepository->findByRole( 'ROLE_USER' );
+        return $this->userRepository->findByRole( 'ROLE_CLIENT' );
     }
 
     public function addNewClient( mixed $getData ) : void
@@ -30,11 +32,13 @@ class ClientService
         }
 
         $user = $getData;
-        $user->setRoles( ['ROLE_USER', 'ROLE_CLIENT'] );
+        $user->setRoles( ['ROLE_CLIENT'] );
         $user->setPassword( '' );
         $user->setCgu( false );
-
         $this->userRepository->save( $user, true );
+
+        $registrationEvent = new UserCreatedEvent( $user );
+        $this->eventDispatcher->dispatch( $registrationEvent, UserCreatedEvent::NAME );
     }
 
     /**

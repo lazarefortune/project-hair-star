@@ -11,14 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/clients', name: 'app_admin_clients_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
+#[Route( '/admin/clients', name: 'app_admin_clients_' )]
 class AdminClientsController extends AbstractController
 {
     #[Route( '/', name: 'index' )]
     public function index( ClientService $clientService ) : Response
     {
         $clients = $clientService->getClients();
+        // remove current user from list
+        $clients = array_filter( $clients, fn( $client ) => $client->getId() !== $this->getUser()->getId() );
 
         return $this->render( 'admin/clients/index.html.twig', [
             'clients' => $clients,
