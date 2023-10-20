@@ -24,6 +24,21 @@
 //}
 
 .alert {
+  @apply relative mb-4 cursor-pointer rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600 opacity-80 hover:opacity-100;
+  & .alert-title {
+    @apply font-bold;
+  }
+
+  & .alert-content {
+    @apply text-sm;
+  }
+
+  & .alert-text {
+    @apply text-base;
+  }
+}
+
+.alert-floating {
   // TODO: fix it to sticky for scroll
   @apply absolute top-3 right-3 z-50 mb-4 cursor-pointer rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600 opacity-80 hover:opacity-100;
   & .alert-title {
@@ -45,7 +60,22 @@
     @apply text-green-900;
   }
 
-  & .alert-content {
+  & .alert-content, & .alert-text {
     @apply text-green-800;
+  }
+}
+
+.alert-danger {
+  @apply border-rose-800 bg-rose-50;
+  & > i {
+    @apply text-rose-500;
+  }
+
+  & .alert-title {
+    @apply text-rose-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-rose-800;
   }
 }

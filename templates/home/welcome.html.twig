@@ -11,10 +11,7 @@
                 <div class="w-full md:max-w-lg">
                     <a href="{{ path('app_home') }}"
                        class="flex items-center justify-center text-xl font-semibold text-gray-900 dark:text-white">
-                        {#                        <div class="p-2 rounded-full bg-indigo-100"> <!-- Circle wrapper --> #}
-                        <img class="w-20 h-20" src="{{ asset('images/hair-star-logo.svg') }}" alt="logo">
-                        <!-- Smaller logo -->
-                        {#                        </div> #}
+                        <img class="w-20 h-20" src="{{ asset('images/app-logo.svg') }}" alt="{{ app_name }} logo">
                     </a>
                     <div class="w-full dark:bg-gray-800 dark:border-gray-700">
                         <h4 class="text-2xl sm:text-4xl text-primary-600 text-center font-semibold mb-4">
@@ -27,7 +24,6 @@
                             {{ form_row(form.username) }}
                             {{ form_row(form.password) }}
                             {{ form_row(form.submit) }}
-
                         </div>
                         {{ form_end(form) }}
                     </div>
