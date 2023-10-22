@@ -1,31 +1,6 @@
-//.alert {
-//  @apply relative mb-4 rounded-md border px-4 py-3 text-base;
-//}
-//
-//.alert-danger {
-//  @apply border-red-50 bg-red-50 text-red-700;
-//}
-//
-//.alert-success {
-//  @apply bg-primary-200/25 text-primary-800 border-primary-200/25;
-//}
-//
-//.alert-warning {
-//  @apply bg-yellow-100 text-yellow-800;
-//}
-//
-//.alert-info {
-//  @apply bg-blue-100 text-blue-800;
-//}
-//
-//.alert-ping {
-//  @apply border-l-2 px-4 py-3 text-sm border-primary-500 bg-primary-50 text-primary-500 sm:text-base;
-//  //@apply border-l-2 border-[#2d3748] bg-[#edf2f7] text-[#718096] px-4 py-3 text-sm sm:text-base;
-//}
-
 .alert {
-  @apply relative mb-4 cursor-pointer rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600 opacity-80 hover:opacity-100;
-  & .alert-title {
+  @apply relative mb-4 rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
+  & .alert-heading {
     @apply font-bold;
   }
 
@@ -38,25 +13,13 @@
   }
 }
 
-.alert-floating {
-  // TODO: fix it to sticky for scroll
-  @apply absolute top-3 right-3 z-50 mb-4 cursor-pointer rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600 opacity-80 hover:opacity-100;
-  & .alert-title {
-    @apply font-bold;
-  }
-
-  & .alert-content {
-    @apply text-sm;
-  }
-}
-
 .alert-success {
   @apply border-green-500 bg-green-50;
   & > i {
     @apply text-green-500;
   }
 
-  & .alert-title {
+  & .alert-heading {
     @apply text-green-900;
   }
 
@@ -71,11 +34,56 @@
     @apply text-rose-500;
   }
 
-  & .alert-title {
+  & .alert-heading {
     @apply text-rose-900;
   }
 
   & .alert-content, & .alert-text {
     @apply text-rose-800;
+  }
+}
+
+.alert-warning {
+  @apply border-yellow-500 bg-yellow-50;
+  & > i {
+    @apply text-yellow-500;
+  }
+
+  & .alert-heading {
+    @apply text-yellow-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-yellow-800;
+  }
+}
+
+.alert-info {
+  @apply border-blue-500 bg-blue-50;
+  & > i {
+    @apply text-blue-500;
+  }
+
+  & .alert-heading {
+    @apply text-blue-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-blue-800;
+  }
+}
+
+.alert-primary {
+  @apply border-primary-500 bg-primary-50;
+  & > i {
+    @apply text-primary-500;
+  }
+
+  & .alert-heading {
+    @apply text-primary-900;
+  }
+
+  & .alert-content, & .alert-text {
+    @apply text-primary-800;
   }
 }

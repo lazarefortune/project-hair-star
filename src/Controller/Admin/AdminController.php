@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 use App\Service\BookingService;
 use App\Service\ClientService;
 use App\Service\RealisationService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;

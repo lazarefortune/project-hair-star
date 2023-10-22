@@ -4,16 +4,53 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
-    <div class="space-y-3">
-        {{ form_row(form.name) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.subject) }}
-        {{ form_row(form.message) }}
+    <section class="bg-white dark:bg-gray-900">
+        <div class="pb-8 lg:pb-16 px-0 sm:px-3 mx-auto max-w-screen-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
+                Nous contacter
+            </h2>
+            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
+                Problème technique ? Vous avez des suggestions ? Vous souhaitez nous rejoindre ?
+                N'hésitez pas à nous contacter.
+            </p>
+            {{ form_start(form,
+                {'attr': {'class': 'grid grid-cols-1 gap-6'}}
+            ) }}
 
-        <button type="submit" class="btn-md btn-primary">Envoyer</button>
-    </div>
+            <div class="sm:col-span-2 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="col-span-2 sm:col-span-1">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    {{ form_row(form.email) }}
+                </div>
+            </div>
+            <div class="sm:col-span-2">
+                {{ form_row(form.subject) }}
+            </div>
+            <div class="sm:col-span-2">
+                {{ form_row(form.message) }}
+            </div>
+            <div class="sm:col-span-full">
+                <button type="submit" class="btn-md btn-primary">
+                    {{ icon('send') }}
+                    <span>Envoyer le message</span>
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
 
-    {{ form_end(form) }}
+    {#    {{ form_start(form) }} #}
+    {#    <div class=""> #}
+    {#        {{ form_row(form.name) }} #}
+    {#        {{ form_row(form.email) }} #}
+    {#        {{ form_row(form.subject) }} #}
+    {#        {{ form_row(form.message) }} #}
+
+    {#        <button type="submit" class="btn-md btn-primary">Envoyer</button> #}
+    {#    </div> #}
+
+    {#    {{ form_end(form) }} #}
 
 {% endblock %}

@@ -21,3 +21,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
   @apply text-primary-500 hover:text-primary-900 no-underline hover:no-underline;
 }
+
+.form {
+  @apply w-full space-y-4 mb-8;
+}

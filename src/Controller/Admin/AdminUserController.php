@@ -57,16 +57,16 @@ class AdminUserController extends AbstractController
                 $this->entityManager->flush();
 
                 if ( $data->email !== $user->getEmail() ) {
-                    $this->addFlash( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
+                    $this->addToast( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
                     return [$form, $this->redirectToRoute( 'app_admin_account_index' )];
                 } else {
-                    $this->addFlash( 'success', 'Informations mises à jour avec succès' );
+                    $this->addToast( 'success', 'Informations mises à jour avec succès' );
                 }
 
                 return [$form, $this->redirectToRoute( 'app_admin_account_index' )];
             }
         } catch ( TooManyEmailChangeException ) {
-            $this->addFlash( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter 1h avant de pouvoir en faire un nouveau' );
+            $this->addToast( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter 1h avant de pouvoir en faire un nouveau' );
         }
 
         return [$form, null];
@@ -84,7 +84,7 @@ class AdminUserController extends AbstractController
             $currentPassword = $formPassword->get( 'currentPassword' )->getData();
 
             if ( !$passwordHasher->isPasswordValid( $this->getUser(), $currentPassword ) ) {
-                $this->addFlash( 'danger', 'Mot de passe actuel incorrect' );
+                $this->addToast( 'danger', 'Mot de passe actuel incorrect' );
                 return $this->redirectToRoute( 'app_admin_account_change_password' );
             }
 
@@ -100,7 +100,7 @@ class AdminUserController extends AbstractController
             $entityManager->persist( $user );
             $entityManager->flush();
 
-            $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
+            $this->addToast( 'success', 'Mot de passe mis à jour avec succès' );
             return $this->redirectToRoute( 'app_admin_account_index' );
         }
 

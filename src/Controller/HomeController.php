@@ -9,7 +9,6 @@ use App\Model\WelcomeModel;
 use App\Service\MailService;
 use App\Service\OptionService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +57,7 @@ class HomeController extends AbstractController
             $entityManager->persist( $user );
             $entityManager->flush();
 
-            $this->addFlash( 'success', 'Bienvenue sur votre nouveau site !' );
+            $this->addToast( 'success', 'Bienvenue sur votre nouveau site !' );
             return $this->redirectToRoute( 'app_success_installed' );
         }
 

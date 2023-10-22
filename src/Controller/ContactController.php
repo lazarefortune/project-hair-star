@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Dto\ContactDto;
 use App\Entity\Contact;
+use App\Flash\FlashMessage;
 use App\Form\ContactType;
 use App\Service\ContactService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,7 +42,7 @@ class ContactController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data = $form->getData();
             $this->contactService->sendContactMessage( $data );
-            $this->addFlash( 'success', 'Votre message a bien été envoyé' );
+            $this->addToast( 'success', 'Votre message a bien été envoyé.' );
 
             return [$form, $this->redirectToRoute( 'app_contact' )];
         }

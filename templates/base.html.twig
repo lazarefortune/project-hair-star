@@ -2,12 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - {{ app_name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {#    <link rel="stylesheet" href="{{ asset('icons/line-awesome/css/line-awesome.min.css') }}"> #}
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/all.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/brands.css') }}">
-    <link rel="stylesheet" href="{{ asset('icons/fontawesome/css/solid.css') }}">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -26,30 +24,29 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    <!-- jquery-->
-    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
-
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
+
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 </head>
 
 <body class="font-ibmPlexSans">
 
 {{ include('layouts/blocs/_header.html.twig') }}
 
-{# <main class="bg-white mt-14"> #}
-{#    <section class="max-w-screen-xl mx-auto bg-white min-h-screen p-4 md:p-8"> #}
-{#        {% block body %}{% endblock %} #}
-{#    </section> #}
-{# </main> #}
 <main>
     <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10 mx-auto">
+        <div class="max-w-5xl mx-auto">
+            {{ include('partials/flash.html.twig') }}
+        </div>
         {% block body %}{% endblock %}
     </section>
 </main>

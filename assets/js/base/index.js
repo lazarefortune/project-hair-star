@@ -5,6 +5,11 @@ createIcons({icons});
 import '../components/_modal';
 import '../components/_alert';
 
+/* Libs */
+import * as toast from '../../libs/toast-notifications/toast';
+
+window.toast = toast;
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // Modales

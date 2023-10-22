@@ -11,7 +11,7 @@ use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
 use App\Security\EmailVerifier;
 use App\Service\Auth\AuthService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,7 +80,7 @@ class RegistrationController extends AbstractController
 
         $this->emailVerifier->sendEmailConfirmation( $user );
 
-        $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
+        $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
 
         $previousPage = $request->headers->get( 'referer' );
 
@@ -102,7 +102,7 @@ class RegistrationController extends AbstractController
 
         $this->emailVerifier->sendEmailConfirmation( $user );
 
-        $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
+        $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
 
         $previousPage = $request->headers->get( 'referer' );
 
@@ -141,7 +141,7 @@ class RegistrationController extends AbstractController
             ] );
 
         } catch ( VerifyEmailExceptionInterface $exception ) {
-            $this->addFlash( 'verify_email_error', $translator->trans( $exception->getReason(), [], 'VerifyEmailBundle' ) );
+            $this->addToast( 'verify_email_error', $translator->trans( $exception->getReason(), [], 'VerifyEmailBundle' ) );
 
             return $this->redirectToRoute( 'app_register' );
         }

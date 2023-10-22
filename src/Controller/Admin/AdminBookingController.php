@@ -2,11 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\AbstractController;
 use App\Dto\Admin\Booking\BookingDto;
 use App\Entity\Booking;
 use App\Form\AdminAddBookingType;
 use App\Service\BookingService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +34,7 @@ class AdminBookingController extends AbstractController
         [$form, $response] = $this->createFormBooking( $request );
 
         if ( $response ) {
-            $this->addFlash( 'success', 'Votre rendez-vous a bien été enregistré.' );
+            $this->addToast( 'success', 'Votre rendez-vous a bien été enregistré.' );
             return $response;
         }
 
@@ -77,7 +77,7 @@ class AdminBookingController extends AbstractController
     public function show( Booking $booking = null ) : Response
     {
         if ( !$booking ) {
-            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
+            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_booking_index' );
         }
 
@@ -90,14 +90,14 @@ class AdminBookingController extends AbstractController
     public function edit( Request $request, Booking $booking = null ) : Response
     {
         if ( !$booking ) {
-            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
+            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_booking_index' );
         }
 
         [$form, $response] = $this->createUpdateFormBooking( $request, $booking );
 
         if ( $response ) {
-            $this->addFlash( 'success', 'Votre rendez-vous a bien été modifié.' );
+            $this->addToast( 'success', 'Votre rendez-vous a bien été modifié.' );
             return $response;
         }
 
@@ -110,14 +110,14 @@ class AdminBookingController extends AbstractController
     public function confirmBooking( Request $request, Booking $booking = null ) : Response
     {
         if ( !$booking ) {
-            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
+            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_booking_index' );
         }
 
         if ( $this->isCsrfTokenValid( 'confirm_booking' . $booking->getId(), $request->request->get( '_token' ) ) ) {
             $this->bookingService->confirmBooking( $booking );
 
-            $this->addFlash( 'success', 'Rendez-vous confirmé avec succès.' );
+            $this->addToast( 'success', 'Rendez-vous confirmé avec succès.' );
             return $this->redirectToRoute( 'app_admin_booking_show', ['id' => $booking->getId()] );
         }
 
@@ -128,14 +128,14 @@ class AdminBookingController extends AbstractController
     public function cancelBooking( Request $request, Booking $booking = null ) : Response
     {
         if ( !$booking ) {
-            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
+            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_booking_index' );
         }
 
         if ( $this->isCsrfTokenValid( 'cancel_booking' . $booking->getId(), $request->request->get( '_token' ) ) ) {
             $this->bookingService->cancelBooking( $booking );
 
-            $this->addFlash( 'success', 'Rendez-vous annulé avec succès.' );
+            $this->addToast( 'success', 'Rendez-vous annulé avec succès.' );
             return $this->redirectToRoute( 'app_admin_booking_show', ['id' => $booking->getId()] );
         }
 
@@ -148,7 +148,7 @@ class AdminBookingController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $booking->getId(), $request->request->get( '_token' ) ) ) {
             $this->bookingService->deleteBooking( $booking );
 
-            $this->addFlash( 'success', 'Rendez-vous supprimé avec succès.' );
+            $this->addToast( 'success', 'Rendez-vous supprimé avec succès.' );
         }
 
         return $this->redirectToRoute( 'app_admin_booking_index', [], Response::HTTP_SEE_OTHER );

@@ -1,47 +1,49 @@
-{% for type, messages in app.session.flashbag.all() %}
+{% for type, messages in app.session.flashBag.all() %}
     {% for message in messages %}
-        {#        <div class="alert alert-{{ type }} flex flex-row items-center my-1" role="alert"> #}
-        {#            {% if type == 'danger' %} #}
-        {#                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-red-600"> #}
-        {#                    {{ icon('times', 'xs', 'text-white') }} #}
-        {#                </div> #}
-        {#            {% endif %} #}
-        {#            {% if type == 'warning' %} #}
-        {#                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-yellow-600"> #}
-        {#                    {{ icon('exclamation', 'xs', 'text-white') }} #}
-        {#                </div> #}
-        {#            {% endif %} #}
-        {#            {% if type == 'info' %} #}
-        {#                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-blue-600"> #}
-        {#                    {{ icon('info', 'xs', 'text-white') }} #}
-        {#                </div> #}
-        {#            {% endif %} #}
-        {#            {% if type == 'success' %} #}
-        {#                <div class="border-none rounded-full flex items-center justify-center h-5 w-5 mr-2 bg-primary-600"> #}
-        {#                    {{ icon('check', 'xs', 'text-white') }} #}
-        {#                </div> #}
-        {#            {% endif %} #}
-        {#            {{ message | raw }} #}
-        {#        </div> #}
+        {% if     "toast_message" == type %}
+            {% set decodedMessage = message|json_decode(true) %}
+            {% if decodedMessage %}
+                {% set toastTitle = decodedMessage.title ?? '' %}
+                {% set toastMessage = decodedMessage.message ?? '' %}
+                {% set toastType = decodedMessage.type ?? 'info' %}
+                {% set toastDuration = decodedMessage.duration ?? 5000 %}
+                {% set toastPosition = decodedMessage.position ?? 'top-right' %}
 
-        <div class="alert-floating alert-{{ type }}">
-            {#            <h6 class="alert-title"> #}
-            {#                {% if type == 'danger' %} #}
-            {#                    {{ icon('times', 'xs', 'text-red-600') }} #}
-            {#                {% endif %} #}
-            {#                {% if type == 'warning' %} #}
-            {#                    {{ icon('exclamation', 'xs', 'text-yellow-600') }} #}
-            {#                {% endif %} #}
-            {#                {% if type == 'info' %} #}
-            {#                    {{ icon('info', 'xs', 'text-blue-600') }} #}
-            {#                {% endif %} #}
-            {#                {% if type == 'success' %} #}
-            {#                    Succès #}
-            {#                {% endif %} #}
-            {#            </h6> #}
-            <p class="alert-content">
-                {{ message | raw }}
-            </p>
-        </div>
+                <script>
+                    $(document).ready(function () {
+                        window.toast.showToastNotification({
+                            heading: '{{ toastTitle }}',
+                            text: '{{ toastMessage }}',
+                            position: '{{ toastPosition }}',
+                            type: '{{ toastType }}',
+                            hideAfter: {{ toastDuration }},
+                        })
+                    });
+                </script>
+            {% endif %}
+        {% elseif "flash_message" == type %}
+            {% set decodedMessage = message|json_decode(true) %}
+            {% if decodedMessage %}
+                {% set title = decodedMessage.title ?? '' %}
+                {% set message = decodedMessage.message ?? '' %}
+                {% set type = decodedMessage.type %}
+                {% set duration = decodedMessage.duration %}
+
+                <div class="alert alert-{{ type }}">
+                    <h4 class="alert-heading">
+                        {{ title }}
+                    </h4>
+                    <p class="alert-content">
+                        {{ message | raw }}
+                    </p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-{{ type }}">
+                <p class="alert-content">
+                    {{ message | raw }}
+                </p>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endfor %}

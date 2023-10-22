@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\CategoryPrestation;
 use App\Form\CategoryPrestationType;
 use App\Repository\CategoryPrestationRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +33,7 @@ class CategoryPrestationController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $categoryPrestationRepository->save( $categoryPrestation, true );
 
-            $this->addFlash( 'success', 'Catégorie de prestation créée avec succès' );
+            $this->addToast( 'success', 'Catégorie de prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -60,7 +60,7 @@ class CategoryPrestationController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $categoryPrestationRepository->save( $categoryPrestation, true );
 
-            $this->addFlash( 'success', 'Catégorie de prestation modifiée avec succès' );
+            $this->addToast( 'success', 'Catégorie de prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -74,7 +74,7 @@ class CategoryPrestationController extends AbstractController
     public function delete( Request $request, CategoryPrestation $categoryPrestation, CategoryPrestationRepository $categoryPrestationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $categoryPrestation->getId(), $request->request->get( '_token' ) ) ) {
-            $this->addFlash( 'success', 'Catégorie de prestation supprimée avec succès' );
+            $this->addToast( 'success', 'Catégorie de prestation supprimée avec succès' );
             $categoryPrestationRepository->remove( $categoryPrestation, true );
         }
 

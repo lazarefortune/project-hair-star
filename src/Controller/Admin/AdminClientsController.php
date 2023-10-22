@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Form\NewClientType;
 use App\Service\ClientService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +33,7 @@ class AdminClientsController extends AbstractController
         try {
             $client = $clientService->getClient( $id );
         } catch ( \Exception $e ) {
-            $this->addFlash( 'danger', $e->getMessage() );
+            $this->addToast( 'danger', $e->getMessage() );
 
             return $this->redirectToRoute( 'app_admin_clients_index' );
         }
@@ -53,12 +53,12 @@ class AdminClientsController extends AbstractController
             try {
                 $clientService->addNewClient( $form->getData() );
             } catch ( \Exception $e ) {
-                $this->addFlash( 'danger', $e->getMessage() );
+                $this->addToast( 'danger', $e->getMessage() );
 
                 return $this->redirectToRoute( 'app_admin_clients_new' );
             }
 
-            $this->addFlash( 'success', 'Le client a bien été ajouté' );
+            $this->addToast( 'success', 'Le client a bien été ajouté' );
 
             return $this->redirectToRoute( 'app_admin_clients_index' );
         }
@@ -78,7 +78,7 @@ class AdminClientsController extends AbstractController
         try {
             $client = $clientService->getClient( $id );
         } catch ( \Exception $e ) {
-            $this->addFlash( 'danger', $e->getMessage() );
+            $this->addToast( 'danger', $e->getMessage() );
 
             return $this->redirectToRoute( 'app_admin_clients_index' );
         }
@@ -90,12 +90,12 @@ class AdminClientsController extends AbstractController
             try {
                 $clientService->updateClient( $form->getData() );
             } catch ( \Exception $e ) {
-                $this->addFlash( 'danger', $e->getMessage() );
+                $this->addToast( 'danger', $e->getMessage() );
 
                 return $this->redirectToRoute( 'app_admin_clients_edit', ['id' => $id] );
             }
 
-            $this->addFlash( 'success', 'Le client a bien été modifié' );
+            $this->addToast( 'success', 'Le client a bien été modifié' );
 
             return $this->redirectToRoute( 'app_admin_clients_show', ['id' => $id] );
 
@@ -117,17 +117,17 @@ class AdminClientsController extends AbstractController
             try {
                 $clientService->deleteClient( $client );
             } catch ( \Exception $e ) {
-                $this->addFlash( 'danger', $e->getMessage() );
+                $this->addToast( 'danger', $e->getMessage() );
 
                 return $this->redirectToRoute( 'app_admin_clients_index' );
             }
 
-            $this->addFlash( 'success', 'Le client a bien été supprimé' );
+            $this->addToast( 'success', 'Le client a bien été supprimé' );
 
             return $this->redirectToRoute( 'app_admin_clients_index' );
         }
 
-        $this->addFlash( 'danger', 'Le client n\'a pas pu être supprimé' );
+        $this->addToast( 'danger', 'Le client n\'a pas pu être supprimé' );
 
         return $this->redirectToRoute( 'app_admin_clients_index' );
     }

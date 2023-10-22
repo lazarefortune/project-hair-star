@@ -6,7 +6,7 @@ use App\Entity\Prestation;
 use App\Form\PrestationType;
 use App\Repository\PrestationRepository;
 use App\Service\PrestationService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +37,7 @@ class PrestationController extends AbstractController
 
             $prestationService->save( $prestation, true );
 
-            $this->addFlash( 'success', 'Prestation créée avec succès' );
+            $this->addToast( 'success', 'Prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -57,7 +57,7 @@ class PrestationController extends AbstractController
 
             $prestationService->save( $prestation, true );
 
-            $this->addFlash( 'success', 'Prestation modifiée avec succès' );
+            $this->addToast( 'success', 'Prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -73,7 +73,7 @@ class PrestationController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $prestation->getId(), $request->request->get( '_token' ) ) ) {
             $prestationRepository->remove( $prestation, true );
 
-            $this->addFlash( 'success', 'Prestation supprimée avec succès' );
+            $this->addToast( 'success', 'Prestation supprimée avec succès' );
         }
 
         return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );

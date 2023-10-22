@@ -23,7 +23,13 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'duration_format', [$this, 'durationFormat'] ),
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
             new TwigFilter( 'is_older_than_hours', [$this, 'isOlderThanHours'] ),
+            new TwigFilter( 'json_decode', [$this, 'jsonDecode'] ),
         ];
+    }
+
+    public function jsonDecode( string $json ) : array
+    {
+        return json_decode( $json, true );
     }
 
     public function isOlderThanHours( \DateTimeImmutable $dateTime, int $hours ) : bool

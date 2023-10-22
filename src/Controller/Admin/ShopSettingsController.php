@@ -10,7 +10,7 @@ use App\Repository\HolidayRepository;
 use App\Service\HolidayService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +61,7 @@ class ShopSettingsController extends AbstractController
             $this->entityManager->persist( $option );
             $this->entityManager->flush();
 
-            $this->addFlash( 'success', 'Les jours de fermeture ont été mis à jour.' );
+            $this->addToast( 'success', 'Les jours de fermeture ont été mis à jour.' );
 
             return $this->redirectToRoute( 'app_admin_shop_settings_offdays' );
         }
@@ -97,7 +97,7 @@ class ShopSettingsController extends AbstractController
 
         if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
             $holidayService->addHoliday( $holiday );
-            $this->addFlash( 'success', 'Les vacances ont été ajoutées.' );
+            $this->addToast( 'success', 'Les vacances ont été ajoutées.' );
 
             return $this->redirectToRoute( 'app_admin_shop_settings_holidays' );
         }
@@ -117,7 +117,7 @@ class ShopSettingsController extends AbstractController
 
         if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
             $holidayService->updateHoliday( $holiday );
-            $this->addFlash( 'success', 'Les vacances ont été modifiées.' );
+            $this->addToast( 'success', 'Les vacances ont été modifiées.' );
 
             return $this->redirectToRoute( 'app_admin_shop_settings_holidays' );
         }
@@ -133,7 +133,7 @@ class ShopSettingsController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $holiday->getId(), $request->request->get( '_token' ) ) ) {
             $holidayRepository->remove( $holiday, true );
 
-            $this->addFlash( 'success', 'Prestation supprimée avec succès' );
+            $this->addToast( 'success', 'Prestation supprimée avec succès' );
         }
 
         return $this->redirectToRoute( 'app_admin_shop_settings_holidays', [], Response::HTTP_SEE_OTHER );

@@ -37,7 +37,7 @@ class EmailChangeController extends AbstractController
 
     private function handleInvalidOrExpiredToken( string $message ) : Response
     {
-        $this->addFlash( 'danger', $message );
+        $this->addToast( 'danger', $message );
         return $this->redirectToRoute( 'app_home' );
     }
 
@@ -47,13 +47,13 @@ class EmailChangeController extends AbstractController
         $user = $this->userRepository->findOneBy( ['email' => $emailVerification->getEmail()] );
 
         if ( $user ) {
-            $this->addFlash( 'danger', 'Cet email est déjà utilisé' );
+            $this->addToast( 'danger', 'Cet email est déjà utilisé' );
             return $this->redirectToRoute( 'app_login' );
         }
 
         $this->profileService->updateEmail( $emailVerification );
         $this->entityManager->flush();
-        $this->addFlash( 'success', 'Votre email a été mis à jour avec succès' );
+        $this->addToast( 'success', 'Votre email a été mis à jour avec succès' );
 
         return $this->redirectToRoute( 'app_home' );
     }

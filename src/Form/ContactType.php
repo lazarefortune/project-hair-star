@@ -19,26 +19,26 @@ class ContactType extends AbstractType
                 [
                     'label' => 'Nom',
                     'attr' => [
-                        'placeholder' => 'Votre nom',
+                        'placeholder' => 'John Doe',
                     ],
                 ] )
             ->add( 'email', EmailType::class,
                 [
                     'label' => 'Email',
                     'attr' => [
-                        'placeholder' => 'Votre email',
+                        'placeholder' => 'johndoe@gmail.com'
                     ],
                 ] )
             ->add( 'subject', TextType::class,
                 [
-                    'label' => 'Sujet',
+                    'label' => 'C\'est à propos de ?',
                     'attr' => [
-                        'placeholder' => 'Sujet de votre message',
+                        'placeholder' => 'Ex: Problème de connexion',
                     ],
                 ] )
             ->add( 'message', TextareaType::class,
                 [
-                    'label' => 'Message',
+                    'label' => 'Expliquez-nous en détail',
                     'attr' => [
                         'placeholder' => 'Votre message',
                     ],
