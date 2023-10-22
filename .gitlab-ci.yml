@@ -23,6 +23,7 @@ deploy_dev:
   script:
     - apt-get update -yqq
     - apt-get install -yqq openssh-client
+    - apt-get update && apt-get install -y libssl-dev
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
