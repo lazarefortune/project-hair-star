@@ -10,12 +10,15 @@ use Psr\Cache\InvalidArgumentException;
 class OptionService
 {
     public function __construct(
-        private OptionRepository                $optionRepository,
+        private readonly OptionRepository       $optionRepository,
         private readonly CacheItemPoolInterface $cache
     )
     {
     }
 
+    /**
+     * @return array<Option>
+     */
     public function getAll() : array
     {
         return $this->optionRepository->findAll();
@@ -32,6 +35,9 @@ class OptionService
         return null;
     }
 
+    /**
+     * @return array<Option>
+     */
     public function findAll() : array
     {
         return $this->optionRepository->findAllForTwig();

@@ -13,6 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Model\VerifyEmailSignatureComponents;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class EmailVerifier
 {
@@ -26,7 +29,7 @@ class EmailVerifier
     {
     }
 
-    public function getVerifyEmailSignature( string $verifyEmailRouteName, UserInterface $user ) : VerifyEmailSignatureComponents
+    public function getVerifyEmailSignature( string $verifyEmailRouteName, User $user ) : VerifyEmailSignatureComponents
     {
         return $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
@@ -36,7 +39,7 @@ class EmailVerifier
         );
     }
 
-    public function sendEmailConfirmation( UserInterface $user )
+    public function sendEmailConfirmation( User $user ) : void
     {
         $signature = $this->getVerifyEmailSignature(
             'app_verify_email',
@@ -57,7 +60,12 @@ class EmailVerifier
         $this->mailService->send( $email );
     }
 
-    public function sendWelcomeEmailConfirmation( UserInterface $user )
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function sendWelcomeEmailConfirmation( User $user ) : void
     {
         $signature = $this->getVerifyEmailSignature(
             'app_verify_email',
@@ -104,7 +112,7 @@ class EmailVerifier
     /**
      * @throws VerifyEmailExceptionInterface
      */
-    public function handleEmailConfirmation( Request $request, UserInterface $user ) : void
+    public function handleEmailConfirmation( Request $request, User $user ) : void
     {
         $this->verifyEmailHelper->validateEmailConfirmation( $request->getUri(), $user->getId(), $user->getEmail() );
 

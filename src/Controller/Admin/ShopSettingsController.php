@@ -37,7 +37,7 @@ class ShopSettingsController extends AbstractController
     }
 
     #[Route( '/jours-feries', name: 'offdays' )]
-    public function offdays( Request $request )
+    public function offdays( Request $request ) : Response
     {
         $repository = $this->entityManager->getRepository( Option::class );
         $option = $repository->findOneBy( ['name' => 'offdays'] );

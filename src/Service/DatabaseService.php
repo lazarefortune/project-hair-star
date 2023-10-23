@@ -11,9 +11,6 @@ class DatabaseService
 {
 
     private const COMMAND_CREATE_DATABASE = 'doctrine:database:create';
-    private const COMMAND_MAKE_MIGRATION = 'make:migration';
-    private const COMMAND_MIGRATE_DATABASE = 'php bin/console doctrine:migrations:migrate';
-    private const COMMAND_CREATE_SCHEMA = 'doctrine:schema:create';
     private const COMMAND_UPDATE_SCHEMA = 'doctrine:schema:update';
     private const COMMAND_LOAD_FIXTURES = 'doctrine:fixtures:load';
 
@@ -23,16 +20,14 @@ class DatabaseService
 
     /**
      * Create database
-     * @return bool
+     * @return int
      */
-    public function createDatabase() : bool
+    public function createDatabase() : int
     {
         $application = new Application( $this->kernel );
         $application->setAutoExit( false );
 
         $this->runCommand( $application, self::COMMAND_CREATE_DATABASE );
-//        $this->runCommand( $application, self::COMMAND_MAKE_MIGRATION );
-//        $this->runCommand( $application, self::COMMAND_MIGRATE_DATABASE );
 
         $this->runCommand( $application, self::COMMAND_UPDATE_SCHEMA, ['--force' => true] );
 
@@ -45,19 +40,20 @@ class DatabaseService
      * Run command
      * @param Application $application
      * @param string $command
-     * @param array $options
-     * @return int
+     * @param array<string, mixed> $options
+     * @return void
      */
-    private function runCommand( Application $application, string $command, array $options = [] ) : int
+    private function runCommand( Application $application, string $command, array $options = [] ) : void
     {
         $input = new ArrayInput(
             array_merge( ['command' => $command], $options )
         );
 
         try {
-            return $application->run( $input ) === Command::SUCCESS;
+            $application->run( $input ) === Command::SUCCESS;
+            return;
         } catch ( \Exception $e ) {
-            return Command::FAILURE;
+            return;
         }
     }
 }

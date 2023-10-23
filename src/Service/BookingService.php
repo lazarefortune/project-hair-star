@@ -17,6 +17,9 @@ class BookingService
     {
     }
 
+    /**
+     * @return Booking[]
+     */
     public function getBookings() : array
     {
         return $this->bookingRepository->findAllOrderedByDate();
@@ -38,7 +41,6 @@ class BookingService
 
     public function updateBookingWithDto( BookingDto $bookingDto ) : void
     {
-//        dd( $bookingDto );
         $booking = $bookingDto->booking->setClient( $bookingDto->client )
             ->setPrestation( $bookingDto->prestation )
             ->setBookingDate( $bookingDto->bookingDate )
@@ -75,7 +77,10 @@ class BookingService
         $this->eventDispatcher->dispatch( new CanceledBookingEvent( $booking ) );
     }
 
-    public function getReservedBookings()
+    /**
+     * @return Booking[]
+     */
+    public function getReservedBookings() : array
     {
         return $this->bookingRepository->findReservedBookings();
     }

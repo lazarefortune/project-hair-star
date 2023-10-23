@@ -6,7 +6,6 @@ use App\Entity\Option;
 use App\Entity\User;
 use App\Form\WelcomeType;
 use App\Model\WelcomeModel;
-use App\Service\MailService;
 use App\Service\OptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

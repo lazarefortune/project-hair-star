@@ -7,7 +7,7 @@ use App\Dto\ContactDto;
 class ContactService
 {
 
-    public function __construct( private readonly MailService $mailer )
+    public function __construct()
     {
     }
 

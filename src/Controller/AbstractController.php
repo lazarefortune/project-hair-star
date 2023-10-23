@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Flash\FlashMessage;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -12,8 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
 
-    protected function getUserOrThrow() : UserInterface
+    protected function getUserOrThrow() : User
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         if ( !$user ) {
@@ -25,6 +27,8 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
 
     /**
      * Redirige l'utilisateur vers la page précédente ou la route en cas de fallback.
+     * @param string $route
+     * @param array<string, mixed> $params
      */
     protected function redirectBack( string $route, array $params = [] ) : RedirectResponse
     {

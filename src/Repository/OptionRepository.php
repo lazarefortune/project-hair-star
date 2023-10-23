@@ -47,6 +47,9 @@ class OptionRepository extends ServiceEntityRepository
 //            ->getArrayResult();
 //    }
 
+    /**
+     * @return array<Option>
+     */
     public function findAllForTwig() : array
     {
         return $this->createQueryBuilder( 'o', 'o.name' )

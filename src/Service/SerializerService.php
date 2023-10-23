@@ -19,7 +19,7 @@ class SerializerService
         $this->serializer = new Serializer( $normalizers, $encoders );
     }
 
-    public function serialize( $data, $format = 'json' ) : string
+    public function serialize( mixed $data, string $format = 'json' ) : string
     {
         return $this->serializer->serialize( $data, $format );
     }

@@ -8,11 +8,16 @@ use Exception;
 
 class HolidayService
 {
-    public function __construct( private readonly HolidayRepository $holidayRepository, private SerializerService $serializerService )
+    public function __construct(
+        private readonly HolidayRepository $holidayRepository,
+    )
     {
     }
 
-    public function getAll()
+    /**
+     * @return array<Holiday>
+     */
+    public function getAll() : array
     {
         return $this->holidayRepository->findAll();
     }
@@ -57,6 +62,9 @@ class HolidayService
         $this->holidayRepository->save( $holiday, true );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getHolidaysForApi() : array
     {
         $holidays = $this->holidayRepository->findAll();

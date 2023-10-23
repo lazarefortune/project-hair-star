@@ -39,6 +39,9 @@ class HolidayRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array<Holiday>
+     */
     public function findHolidayBetweenDates( \DateTimeInterface $startDate, \DateTimeInterface $endDate ) : array
     {
         return $this->createQueryBuilder( 'h' )

@@ -72,6 +72,7 @@ class RegistrationController extends AbstractController
     public function resendUserEmailVerification( Request $request ) : Response
     {
 
+        /** @var User $user */
         $user = $this->getUser();
 
         if ( null === $user ) {

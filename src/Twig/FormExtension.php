@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -7,45 +8,45 @@ use Twig\TwigFunction;
 
 class FormExtension extends AbstractExtension
 {
-    public function getFilters(): array
+    public function getFilters() : array
     {
         return [
-            new TwigFilter('date_format', [$this, 'dateFormat']),
-            new TwigFilter('price', [$this, 'formatPrice']),
+            new TwigFilter( 'date_format', [$this, 'dateFormat'] ),
+            new TwigFilter( 'price', [$this, 'formatPrice'] ),
         ];
     }
 
-    public function getFunctions(): array
+    public function getFunctions() : array
     {
         return [
-            new TwigFunction('calculate_duration', [$this, 'calculateDuration']),
+            new TwigFunction( 'calculate_duration', [$this, 'calculateDuration'] ),
         ];
     }
 
-    public function formatPrice($number, $decimals = 2, $decimalSeparator = '.', $thousandsSeparator = ' ') : string
+    public function formatPrice( int $number, int $decimals = 2, string $decimalSeparator = '.', string $thousandsSeparator = ' ' ) : string
     {
-        $price = number_format($number, $decimals, $decimalSeparator, $thousandsSeparator);
+        $price = number_format( $number, $decimals, $decimalSeparator, $thousandsSeparator );
         return $price . ' €';
     }
 
-    public function dateFormat(\DateTimeInterface $date, string $format = 'd/m/Y'): string
+    public function dateFormat( \DateTimeInterface $date, string $format = 'd/m/Y' ) : string
     {
-        return $date->format($format);
+        return $date->format( $format );
     }
 
-    public function calculateDuration(\DateTimeInterface $start, \DateTimeInterface $end): string
+    public function calculateDuration( \DateTimeInterface $start, \DateTimeInterface $end ) : string
     {
-        $duration = $start->diff($end);
+        $duration = $start->diff( $end );
         $hours = $duration->h;
         $minutes = $duration->i;
 
-        if ($hours > 0) {
+        if ( $hours > 0 ) {
             $hours = $hours . ' h ';
         } else {
             $hours = '';
         }
 
-        if ($minutes > 0) {
+        if ( $minutes > 0 ) {
             $minutes = $minutes . ' min';
         } else {
             $minutes = '';

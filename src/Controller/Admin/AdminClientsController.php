@@ -20,7 +20,9 @@ class AdminClientsController extends AbstractController
     {
         $clients = $clientService->getClients();
         // remove current user from list
-        $clients = array_filter( $clients, fn( $client ) => $client->getId() !== $this->getUser()->getId() );
+        /** @var User $user */
+        $user = $this->getUser();
+        $clients = array_filter( $clients, fn( $client ) => $client->getId() !== $user->getId() );
 
         return $this->render( 'admin/clients/index.html.twig', [
             'clients' => $clients,

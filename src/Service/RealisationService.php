@@ -5,7 +5,8 @@ namespace App\Service;
 use App\Entity\Realisation;
 use App\Repository\RealisationRepository;
 
-class RealisationService {
+class RealisationService
+{
 
     private RealisationRepository $realisationRepository;
 
@@ -14,6 +15,9 @@ class RealisationService {
         $this->realisationRepository = $realisationRepository;
     }
 
+    /**
+     * @return array<Realisation>
+     */
     public function getRealisations() : array
     {
         return $this->realisationRepository->findAll();
@@ -24,12 +28,12 @@ class RealisationService {
         return $this->realisationRepository->find( $id );
     }
 
-    public function save( $realisation, bool $flush = false ) : void
+    public function save( Realisation $realisation, bool $flush = false ) : void
     {
         $this->realisationRepository->save( $realisation, $flush );
     }
 
-    public function remove( $realisation, bool $flush = false ) : void
+    public function remove( Realisation $realisation, bool $flush = false ) : void
     {
         $this->realisationRepository->remove( $realisation, $flush );
     }

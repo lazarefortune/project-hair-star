@@ -63,7 +63,7 @@ class BookingRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findAllOrderedByDate()
+    public function findAllOrderedByDate() : array
     {
         return $this->createQueryBuilder( 'b' )
             ->orderBy( 'b.bookingDate', 'ASC' )
@@ -72,7 +72,10 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findReservedBookings()
+    /**
+     * @return Booking[]
+     */
+    public function findReservedBookings() : array
     {
         return $this->createQueryBuilder( 'b' )
             ->andWhere( 'b.status = :val' )

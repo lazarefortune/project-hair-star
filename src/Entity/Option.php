@@ -32,7 +32,7 @@ class Option
      * @param string|null $value
      * @param string|null $type
      */
-    public function __construct( ?string $label, ?string $name, ?string $value, ?string $type )
+    public function __construct( ?string $label, ?string $name, mixed $value, mixed $type )
     {
         $this->label = $label;
         $this->name = $name;

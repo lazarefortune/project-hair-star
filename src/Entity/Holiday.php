@@ -40,7 +40,7 @@ class Holiday
         return $this;
     }
 
-    public function getStartDate() : ?\DateTimeInterface
+    public function getStartDate() : \DateTimeInterface
     {
         return $this->startDate;
     }
@@ -52,7 +52,7 @@ class Holiday
         return $this;
     }
 
-    public function getEndDate() : ?\DateTimeInterface
+    public function getEndDate() : \DateTimeInterface
     {
         return $this->endDate;
     }

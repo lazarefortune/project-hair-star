@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Prestation;
 use App\Repository\PrestationRepository;
 
 class PrestationService
@@ -11,7 +12,7 @@ class PrestationService
     }
 
 
-    public function save( $prestation, $flush = false ) : void
+    public function save( Prestation $prestation, bool $flush = false ) : void
     {
 
         foreach ( $prestation->getTags() as $tag ) {
@@ -28,7 +29,10 @@ class PrestationService
         $this->prestationRepository->save( $prestation, $flush );
     }
 
-    public function getAll()
+    /**
+     * @return array<Prestation>
+     */
+    public function getAll() : array
     {
         return $this->prestationRepository->findAll();
     }

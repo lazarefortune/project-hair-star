@@ -27,6 +27,10 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string $json
+     * @return array<string, mixed>
+     */
     public function jsonDecode( string $json ) : array
     {
         return json_decode( $json, true );
@@ -98,7 +102,9 @@ class TwigExtension extends AbstractExtension
 
     /**
      * Ajout une class active pour les éléments actifs du menu.
-     *
+     * @param array<string, mixed> $context
+     * @param string $route
+     * @return string
      */
     public function menuActive( array $context, string $route ) : string
     {

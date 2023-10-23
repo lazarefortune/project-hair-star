@@ -17,6 +17,9 @@ class ClientService
     {
     }
 
+    /**
+     * @return User[]
+     */
     public function getClients() : array
     {
         return $this->userRepository->findByRole( 'ROLE_CLIENT' );

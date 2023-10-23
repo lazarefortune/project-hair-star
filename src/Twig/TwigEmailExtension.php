@@ -20,6 +20,9 @@ class TwigEmailExtension extends AbstractExtension
 
     /**
      * Convertit le contenu markdown en HTML.
+     * @param array<string, mixed> $context
+     * @param string $content
+     * @return string
      */
     public function markdownEmail( array $context, string $content ) : string
     {
@@ -27,9 +30,7 @@ class TwigEmailExtension extends AbstractExtension
             return $content;
         }
         $content = preg_replace( '/^(^ {2,})(\S+[ \S]*)$/m', '${2}', $content );
-        $content = ( new \Parsedown() )->setSafeMode( false )->text( $content );
-
-        return $content;
+        return ( new \Parsedown() )->setSafeMode( false )->text( $content );
     }
 
     public function formatText( string $content ) : string
