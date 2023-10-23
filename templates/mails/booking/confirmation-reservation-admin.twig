@@ -8,10 +8,10 @@
 
         ## Bonjour,
 
-        Votre avez confirmé le rendez-vous de {{ booking.client.fullname }} pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('d/m/Y') }}.
+        Votre avez confirmé le rendez-vous de {{ booking.client.fullname }} pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
 
     {% endapply %}
 
-    {{ e.button('Voir la réservation', 'https://lazarefortune.com') }}
+    {{ e.button('Voir la réservation', booking_url) }}
 
 {% endblock %}

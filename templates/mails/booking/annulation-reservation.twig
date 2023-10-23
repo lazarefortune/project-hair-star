@@ -8,12 +8,12 @@
 
         ## Bonjour {{ booking.client.fullname }},
 
-        Nous sommes désolés de vous informer que votre réservation du {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('d/m/Y') }} a été annulée.
+        Je suis vraiment désolé de vous informer que votre réservation du {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }} a été annulée.
 
-        Nous vous invitons à nous contacter pour plus d'informations.
+        Je vous invite à me contacter pour plus d'informations. Si vous le souhaitez, vous pouvez également réserver une nouvelle séance sur mon site internet.
 
     {% endapply %}
 
-    {{ e.button('Voir ma réservation', 'https://lazarefortune.com') }}
+    {{ e.button('En savoir plus', contact_url) }}
 
 {% endblock %}

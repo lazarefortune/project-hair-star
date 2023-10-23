@@ -6,11 +6,15 @@
 
     {% apply markdown_email %}
 
-        ## Bonjour,
+        ## Bonjour {{ booking.client.fullname }},
 
-        Un client(e) vient de prendre une réservation pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
+        J'ai bien reçu votre demande de réservation pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
 
-        Merci de vous connecter à votre espace client pour consulter les détails de la réservation.
+        Je reviens vers vous dans les plus brefs délais pour vous confirmer votre réservation.
+
+        Dans l'attente de vous accueillir, je vous souhaite une excellente journée.
+
+        {{ app_name }}.
 
     {% endapply %}
 

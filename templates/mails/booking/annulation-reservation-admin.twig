@@ -8,10 +8,10 @@
 
         ## Bonjour,
 
-        Vous avez bien annulé la réservation de {{ booking.client.fullname }} du {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('d/m/Y') }}.
+        Vous avez bien annulé la réservation de {{ booking.client.fullname }} du {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
 
     {% endapply %}
 
-    {{ e.button('Voir ma réservation', 'https://lazarefortune.com') }}
+    {{ e.button('Voir ma réservation', booking_url) }}
 
 {% endblock %}

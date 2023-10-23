@@ -10,8 +10,10 @@
 
         La réservation de {{ booking.client.fullname }} a modifié pour le {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}.
 
-        Merci de vous connecter à votre espace admin pour consulter les détails de la réservation.
+        Tu peux voir les détails de la réservation en cliquant sur le bouton ci-dessous.
 
     {% endapply %}
+
+    {{ e.button('Voir la réservation', booking_url) }}
 
 {% endblock %}
