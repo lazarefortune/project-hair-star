@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Event\Client\DeleteClientEvent;
 use App\Event\UserCreatedEvent;
 use App\Repository\UserRepository;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -66,5 +67,7 @@ class ClientService
     public function deleteClient( User $client ) : void
     {
         $this->userRepository->remove( $client, true );
+        $deleteClientEvent = new DeleteClientEvent( $client );
+        $this->eventDispatcher->dispatch( $deleteClientEvent, DeleteClientEvent::NAME );
     }
 }
