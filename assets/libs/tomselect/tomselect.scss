@@ -1,0 +1,51 @@
+.ts-wrapper {
+  .ts-control {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  }
+
+  .ts-dropdown {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    .ts-option {
+      padding: 10px;
+      color: #333;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      &[data-active] {
+        background-color: #007bff;
+        color: #fff;
+      }
+    }
+  }
+
+  .ts-item {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+
+  .ts-search {
+    input {
+      font-size: 14px;
+      color: #333;
+      padding: 5px;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+<div class="sm:col-span-4">
+    <div class="relative">
+        <button type="button"
+                class="custom-date-picker-btn w-full px-4 py-2 rounded-md bg-white border-2 border-gray-300 text-left flex items-center"
+                aria-haspopup="true" aria-expanded="true" aria-controls="datePickerDate datePickerHour">
+            {{ icon('calendar', 'sm') }}
+            <span class="ml-3">Choisir une date</span>
+        </button>
+        <div class="absolute bg-white shadow-lg border-2 border-gray-200 rounded-md w-[400px] px-4 py-3">
+            <div id="datePickerDate">
+                <div class="flex items-center mb-4">
+                    {{ icon('calendar', 'sm') }}
+                    <span class="ml-3">Choisir une date</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <button class="px-4 py-2 rounded-md bg-white border-2 border-gray-300">
+                        A tout moment
+                    </button>
+
+                    <button class="px-4 py-2 rounded-md bg-white border-2 border-gray-300">
+                        Aujourd'hui
+                    </button>
+
+                    <button class="px-4 py-2 rounded-md bg-white border-2 border-gray-300">
+                        Demain
+                    </button>
+                </div>
+
+                <div>
+                    <button class="w-full px-4 py-2 rounded-md bg-white border-2 border-gray-300">
+                        Choisir une date
+                    </button>
+                </div>
+            </div>
+
+            <div id="datePickerHour" class="mt-5">
+                <div class="flex items-center mb-4">
+                    {{ icon('time-five', 'sm') }}
+                    <span class="ml-3">Choisir un créneau</span>
+                </div>
+
+                <button class="px-4 py-2 mb-2 rounded-md bg-white border-2 border-gray-300">
+                    A tout moment
+                </button>
+
+                <div>
+                    <button class="w-full px-4 py-2 rounded-md bg-white border-2 border-gray-300">
+                        Choisir un créneau
+                    </button>
+
+                    <div class="mt-4 flex justify-between gap-2">
+                        <div class="w-full">
+                            <label for="startDate">De</label>
+                            <select name="startDate" id="startDate" class="form-input-md">
+                                <option selected value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+                        <div class="w-full">
+                            <label for="endDate">à</label>
+                            <select name="endDate" id="endDate" class="form-input-md">
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option selected value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="mt-5 w-full px-4 py-2 rounded-md bg-primary-600 text-white">
+                Valider
+            </button>
+        </div>
+    </div>
+</div>

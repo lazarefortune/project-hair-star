@@ -3,36 +3,74 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Clients
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_admin_clients_index') }}" class="card__number-stats">{{ nbClients }}</a>
-                </div>
+
+    <p class="text-3xl text-gray-700 font-plusJakartaSans font-bold mb-4">Salut {{ app.user.fullname }} !</p>
+
+    <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
+        <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
+            <div class="flex justify-center items-center">
+                <a href="{{ path('app_admin_clients_index') }}">
+                    <div class="bg-primary-200/50 text-primary-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('users-2') }}
+                    </div>
+                </a>
+            </div>
+
+            <div class="ml-7 flex flex-col align-center">
+                <p class="text-2xl my-0">{{ nbClients }}</p>
+                <p class="text-sm text-gray-400 my-0">Clients</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Réalisations
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_admin_realisation_index') }}" class="card__number-stats">{{ nbRealisations }}</a>
-                </div>
+        <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
+            <div class="flex justify-center items-center">
+                <a href="{{ path('app_admin_realisation_index') }}">
+                    <div class="bg-orange-200/50 text-orange-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('scissors') }}
+                    </div>
+                </a>
+            </div>
+
+            <div class="ml-7 flex flex-col align-center">
+                <p class="text-2xl my-0">{{ nbRealisations }}</p>
+                <p class="text-sm text-gray-400 my-0">Réalisations</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card dashboard__card">
-                <div class="card-header">
-                    Réservations
-                </div>
-                <div class="card-body">
-                    <a href="" class="card__number-stats">{{ nbBookings }}</a>
-                </div>
+        <div class="w-full flex rounded-xl p-8 relative shadow-soft-md bg-white">
+            <div class="flex justify-center items-center">
+                <a href="{{ path('app_admin_booking_index') }}">
+                    <div class="bg-green-200/50 text-green-700 p-4 rounded-lg  text-xl flex justify-center items-center">
+                        {{ icon('calendar') }}
+                    </div>
+                </a>
+            </div>
+
+            <div class="ml-7 flex flex-col align-center">
+                <p class="text-2xl my-0">{{ nbBookings }}</p>
+                <p class="text-sm text-gray-400 my-0">Réservations</p>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section class="bg-white rounded-xl shadow-soft px-4 py-3 lg:px-8 lg:py-6 mb-10 h-64">
+        Section 1
+        <a href="" class="link">Découvrez nos réalisations</a> mais j'aimerais découvrir aussi les <a href=""
+                                                                                                      class="link"
+                                                                                                      target="_blank">avis
+            de nos clients</a>
+
+        prestations
+    </section>
+
+    <section class="bg-white rounded-lg shadow-soft px-4 py-3 lg:px-8 lg:py-6 mb-10 h-64">
+        Section 2
+    </section>
+
+    <section class="bg-white rounded-lg shadow-soft px-4 py-3 lg:px-8 lg:py-6 mb-10 h-64">
+        Section 3
+    </section>
+
+    <section class="bg-white rounded-lg shadow-soft px-4 py-3 lg:px-8 lg:py-6 mb-10 h-64">
+        Section 4
+    </section>
+
 {% endblock %}

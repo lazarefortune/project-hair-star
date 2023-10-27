@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - {{ app_name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title 'Dashboard' %} - {{ app_name }}</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('favicons/apple-icon-57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('favicons/apple-icon-60x60.png') }}">
@@ -24,32 +24,62 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('favicons/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    <!-- jquery-->
-    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
-
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
+
+    <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 </head>
-<body>
 
-<!-- header bootstrap -->
-<header class="header">
-    <ul class="nav">
-        <li class="nav-item"><a href="" class="nav-link">Link 1</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 2</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 3</a></li>
-        <li class="nav-item"><a href="" class="nav-link">Link 4</a></li>
-    </ul>
-</header>
+<body class="font-ibmPlexSans">
 
-{% block body %}{% endblock %}
+{{ include('layouts/blocs/_header.html.twig') }}
 
-{% block javascripts__footer %}{% endblock %}
+<main>
+    <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10 mx-auto">
+        <div class="max-w-5xl mx-auto">
+            {{ include('partials/flash.html.twig') }}
+        </div>
+        {% block body %}{% endblock %}
+    </section>
+</main>
+
+{% block javascripts__footer %}
+    {#    <script type="text/javascript"> #}
+    {#        window.onload = function () { #}
+    {#            let toggleBtn = document.querySelector("#navbar-toggle"); #}
+    {#            let toggleBtnIcon = document.querySelector("#navbar-toggle-icon"); #}
+    {#            let collapse = document.querySelector("#navbar-collapse"); #}
+    {#            let navbar = document.querySelector("#navbar"); #}
+
+    {#            toggleBtn.onclick = () => { #}
+    {#                collapse.classList.toggle("hidden"); #}
+    {#                collapse.classList.toggle("flex"); #}
+    {#                // collapse.classList.toggle("opacity-0"); #}
+    {#                // collapse.classList.toggle("opacity-100"); #}
+    {#                // collapse.classList.toggle("invisible"); #}
+    {#                // collapse.classList.toggle("visible"); #}
+    {#                // collapse.classList.toggle("h-0"); #}
+    {#                // collapse.classList.toggle("h-auto"); #}
+
+    {#                if (toggleBtnIcon.classList.contains("fa-bars")) { #}
+    {#                    toggleBtnIcon.classList.remove("fa-bars"); #}
+    {#                    toggleBtnIcon.classList.add("fa-times"); #}
+    {#                    toggleBtnIcon.style.transform = "rotate(180deg)"; #}
+    {#                } else { #}
+    {#                    toggleBtnIcon.classList.remove("fa-times"); #}
+    {#                    toggleBtnIcon.classList.add("fa-bars"); #}
+    {#                    toggleBtnIcon.style.transform = "rotate(0deg)"; #}
+    {#                } #}
+    {#            }; #}
+    {#        } #}
+    {#    </script> #}
+{% endblock %}
 </body>
-</html>

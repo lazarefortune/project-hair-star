@@ -3,12 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ImageRealisation;
-use App\Entity\Permission;
 use App\Entity\Realisation;
 use App\Form\RealisationType;
 use App\Repository\RealisationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class AdminRealisationController extends AbstractController
     public function index( RealisationRepository $realisationRepository ) : Response
     {
 
-        $this->denyAccessUnlessGranted( 'can_manage_roles' );
+//        $this->denyAccessUnlessGranted( 'can_manage_roles' );
 
         $realisations = $realisationRepository->findBy(
             [],
@@ -49,7 +48,7 @@ class AdminRealisationController extends AbstractController
 
             $realisationRepository->save( $realisation, true );
 
-            $this->addFlash( 'success', 'La réalisation a bien été ajoutée' );
+            $this->addToast( 'success', 'La réalisation a bien été ajoutée' );
             return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -77,7 +76,7 @@ class AdminRealisationController extends AbstractController
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
             $realisationRepository->save( $realisation, true );
 
-            $this->addFlash( 'success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée' );
+            $this->addToast( 'success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée' );
             return $this->redirectToRoute( 'app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER );
         }
 

@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('app_admin_prestation_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+            Liste des prestations
+        </span>
+    </a>
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Prestations
+        </h4>
+    </div>
+
+    <div class="mt-6">
+        {% include 'admin/prestations/_form.html.twig' with {
+            form: form,
+            button_label: 'Modifier',
+            button_back_to_list: false
+        } %}
+    </div>
+{% endblock %}
+

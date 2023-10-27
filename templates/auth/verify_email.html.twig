@@ -1,0 +1,23 @@
+{% extends 'auth/base_auth.html.twig' %}
+
+{% block title %}
+    Validation de votre adresse email
+{% endblock %}
+
+{% block auth_body %}
+    <div class="flex items-center justify-center flex-col">
+        <div class="border-none rounded-full flex items-center justify-center h-10 w-10 mb-4 bg-green-100 text-green-900">
+            {{ icon('check', '1x') }}
+        </div>
+        <h2 class="text-center text-xl leading-9 font-medium text-gray-900">
+            {{ title }}
+        </h2>
+        <p class="text-center text-sm leading-5 text-gray-600 mt-4">
+            {{ message }}
+        </p>
+        <button class="btn-md btn-primary mt-6 w-full" onclick="window.location.href='{{ path('app_home') }}'">
+            Retour à l'accueil
+        </button>
+    </div>
+{% endblock %}
+

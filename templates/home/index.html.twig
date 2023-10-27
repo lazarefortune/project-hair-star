@@ -3,5 +3,81 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+    
+    {#    <div class="flex flex-col items-start gap-2 max-w-[980px]"> #}
+    {#        <h1 class="text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl"> #}
+    {#            La coiffure à <span class="text-primary-600">domicile</span> <br> en Île-de-France. #}
+    {#        </h1> #}
+    {#        <p class="text-lg text-slate-700 max-w-[700px] dark:text-slate-400 sm:text-xl"> #}
+    {#            Pour vous, votre famille ou vos proches, je me déplace à domicile pour vous offrir une prestation de #}
+    {#            qualité. #}
+    {#        </p> #}
+    {#    </div> #}
 
+    {#    <div class="flex flex-col space-y-4 sm:space-x-4 sm:space-y-0 sm:flex-row md:flex-row"> #}
+    {#        <a href="{{ path('app_login') }}" #}
+    {#           class="btn-md btn-primary"> #}
+    {#            <span class="ml-2"> #}
+    {#                Prendre rendez-vous #}
+    {#            </span> #}
+    {#        </a> #}
+    {#        <a href="" #}
+    {#           class="btn-md btn-secondary"> #}
+    {#            {{ icon('book-open', '2sm', 'h-4 w-4') }} #}
+    {#            <span class="ml-2"> #}
+    {#                Voir les témoignages #}
+    {#            </span> #}
+
+    {#        </a> #}
+    {#    </div> #}
+
+
+
+    {#    <div class="my-2 w-full bg-slate-200 h-[1px] dark:bg-slate-700"></div> #}
+
+    <!-- Section stories -->
+
+    <div class="my-8 flex flex-col items-center gap-8">
+        <h2 class="text-xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-2xl lg:text-2xl">
+            Mes dernières réalisations
+        </h2>
+
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {% for story in [1,2,3,4] %}
+                <div class="col-span-1 flex flex-col items-center gap-4">
+                    <div class="w-full h-48 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
+                    <h3 class="text-lg font-bold leading-tight tracking-tighter sm:text-xl md:text-xl lg:text-xl">
+                        Faux titre
+                    </h3>
+                    <div class="text-base text-slate-700 dark:text-slate-400 flex-1">
+                        Avis du client ...qskhygqusyguqgsiuqhsiuhjqij
+                    </div>
+                    <a href=""
+                       class="btn-secondary-alt">
+                        <span class="mr-2">
+                           Lire la suite
+                        </span>
+                    </a>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+        <!-- show more -->
+        <div class="mt-8 flex justify-center">
+            <a href=""
+               class="btn-md btn-primary">
+                <span class="mr-2">
+                    Voir plus
+                </span>
+                {{ icon('arrow-right', '2sm', 'h-4 w-4') }}
+            </a>
+        </div>
+
+    </div>
+
+    <!-- End Section stories -->
+
+    <div class="my-2 w-full bg-slate-200 h-[1px] dark:bg-slate-700"></div>
 {% endblock %}

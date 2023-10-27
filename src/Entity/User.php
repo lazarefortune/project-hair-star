@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -55,18 +57,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
 
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCreatedAt() : ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn( nullable: false )]
-    private ?Role $role = null;
+    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Booking::class, orphanRemoval: true )]
+    private Collection $bookings;
+
+    #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
+    private Collection $emailVerifications;
+
+    #[ORM\Column]
+    private ?bool $cgu = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isRequestDelete = null;
 
     public function __construct()
     {
-        $this->roles = [Role::ROLE_USER];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->bookings = new ArrayCollection();
+        $this->emailVerifications = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -101,17 +128,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles() : array
     {
-        $roles = $this->role === null ? [Role::ROLE_USER] : [$this->role->getName()];
+        $roles = $this->roles;
 
-        if ( $this->role === null ) {
-            return $roles;
-        }
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        $permissions = $this->role->getPermissions()->map( function ( $permission ) {
-            return $permission->getName();
-        } )->toArray();
-
-        return array_merge( $roles, $permissions );
+        return array_unique( $roles );
     }
 
     public function setRoles( array $roles ) : self
@@ -228,14 +250,86 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile'] );
     }
 
-    public function getRole() : ?Role
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings() : Collection
     {
-        return $this->role;
+        return $this->bookings;
     }
 
-    public function setRole( ?Role $role ) : self
+    public function addBooking( Booking $booking ) : self
     {
-        $this->role = $role;
+        if ( !$this->bookings->contains( $booking ) ) {
+            $this->bookings->add( $booking );
+            $booking->setClient( $this );
+        }
+
+        return $this;
+    }
+
+    public function removeBooking( Booking $booking ) : self
+    {
+        if ( $this->bookings->removeElement( $booking ) ) {
+            // set the owning side to null (unless already changed)
+            if ( $booking->getClient() === $this ) {
+                $booking->setClient( null );
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmailVerification>
+     */
+    public function getEmailVerifications() : Collection
+    {
+        return $this->emailVerifications;
+    }
+
+    public function addEmailVerification( EmailVerification $emailVerification ) : self
+    {
+        if ( !$this->emailVerifications->contains( $emailVerification ) ) {
+            $this->emailVerifications->add( $emailVerification );
+            $emailVerification->setAuthor( $this );
+        }
+
+        return $this;
+    }
+
+    public function removeEmailVerification( EmailVerification $emailVerification ) : self
+    {
+        if ( $this->emailVerifications->removeElement( $emailVerification ) ) {
+            // set the owning side to null (unless already changed)
+            if ( $emailVerification->getAuthor() === $this ) {
+                $emailVerification->setAuthor( null );
+            }
+        }
+
+        return $this;
+    }
+
+    public function isCgu(): ?bool
+    {
+        return $this->cgu;
+    }
+
+    public function setCgu(bool $cgu): static
+    {
+        $this->cgu = $cgu;
+
+        return $this;
+    }
+
+    public function isIsRequestDelete(): ?bool
+    {
+        return $this->isRequestDelete;
+    }
+
+    public function setIsRequestDelete(?bool $isRequestDelete): static
+    {
+        $this->isRequestDelete = $isRequestDelete;
 
         return $this;
     }

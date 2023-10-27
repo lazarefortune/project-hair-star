@@ -1,0 +1,57 @@
+{{ form_start(form) }}
+<div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
+    <div class="col-span-1 flex flex-col justify-start">
+        <h6 class="card-section-title">
+            Informations basiques
+        </h6>
+        <p class="card-section-subtitle">
+            Modifier les informations de base de votre client
+        </p>
+    </div>
+    <div class="col-span-2 flex flex-col space-y-3">
+        <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+            <div class="col-span-full sm:col-span-1">
+                {{ form_row(form.fullname) }}
+            </div>
+
+            <div class="sm:col-span-full">
+                {{ form_row(form.email) }}
+            </div>
+
+            <div class="col-span-full sm:col-span-1">
+                {{ form_row(form.phone) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{# <div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3"> #}
+{#    <div class="col-span-1 flex flex-col justify-start"> #}
+{#        <h6 class="text-lg font-bold"> #}
+{#            Mot de passe #}
+{#        </h6> #}
+{#        <p class="mt-2 text-sm text-gray-500"> #}
+{#            Définir un nouveau mot de passe pour votre client #}
+{#        </p> #}
+{#    </div> #}
+{#    <div class="col-span-2 flex flex-col space-y-3"> #}
+{#        <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2"> #}
+{#            <div class="col-span-full sm:col-span-1"> #}
+
+{#            </div> #}
+{#        </div> #}
+{#    </div> #}
+{# </div> #}
+
+<!-- submit btn at right -->
+<div class="border-t border-gray-200 pt-5 sm:col-span-full mb-10">
+    <div class="flex justify-end">
+        <button type="submit" class="btn btn-md btn-primary">
+            {{ icon('save') }}
+            <span>
+                {{ button_label|default('Enregistrer') }}
+            </span>
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

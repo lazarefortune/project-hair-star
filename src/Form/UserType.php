@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,31 +14,55 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add('fullname', TextType::class, [
+            ->add( 'fullname', TextType::class, [
                 'label' => 'Nom complet',
-            ])
-            ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
-            ])
-            ->add('dateOfBirthday', DateType::class, [
+                'attr' => [
+                    'class' => 'form-input-md'
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ]
+            ] )
+            ->add( 'phone', TextType::class, [
+                'label' => 'Numéro de téléphone',
+                'attr' => [
+                    'class' => 'form-input-md'
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ]
+            ] )
+            ->add( 'email', EmailType::class, [
+                'label' => 'Adresse email',
+                'attr' => [
+                    'class' => 'form-input-md'
+                ],
+                'label_attr' => [
+                    'class' => 'label'
+                ]
+            ] )
+            ->add( 'dateOfBirthday', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
-                    'class' => 'flatpickr-date-birthday',
+                    'class' => 'flatpickr-date-birthday form-input-md',
+                ],
+                'label_attr' => [
+                    'class' => 'label'
                 ]
-            ])
-            ->add('avatarFile' , VichFileType::class, [
+            ] )
+            ->add( 'avatarFile', VichFileType::class, [
                 'label' => 'Avatar',
                 'required' => false,
 //                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control-file',
                 ],
-            ])
+            ] );
 //            ->add('avatar', VichFileType::class, [
 //                'label' => 'Avatar',
 //                'required' => false,
@@ -45,14 +71,12 @@ class UserType extends AbstractType
 //                    'class' => 'form-control-file',
 //                ],
 //            ])
-            ->add('email')
-        ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions( OptionsResolver $resolver ) : void
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults( [
             'data_class' => User::class,
-        ]);
+        ] );
     }
 }

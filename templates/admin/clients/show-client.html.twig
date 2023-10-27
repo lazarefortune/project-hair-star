@@ -1,0 +1,166 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <a href="{{ path('app_admin_clients_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+        Liste des clients
+    </span>
+    </a>
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            {{ client.fullname }}
+        </h4>
+        <a href="{{ path('app_admin_clients_edit', {id: client.id}) }}"
+           class="btn-md btn-primary">
+            {{ icon('pencil', '', 'mr-2') }}
+            <span>
+            Modifier
+        </span>
+        </a>
+    </div>
+
+    <div class="block w-full overflow-x-auto">
+
+        <div class="border-b border-gray-200 dark:border-gray-700 text-sm">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                <li class="mr-2">
+                    <a href=""
+                       class="inline-flex items-center justify-center text-primary-600 p-4 border-b-2 border-primary-600 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                        {{ icon('user', '', 'mr-2') }}
+                        Profile
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href=""
+                       class="inline-flex items-center justify-center p-4 text-gray-600 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:text-primary-500 dark:border-primary-500 group"
+                       aria-current="page">
+                        {{ icon('files', '', 'mr-2') }}
+                        Factures
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href=""
+                       class="inline-flex items-center justify-center text-gray-600 p-4 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                        {{ icon('calendar', '', 'mr-2') }}
+                        Rendez-vous
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6 mt-10 mb-10">
+        <div class="col-span-3 sm:col-span-1">
+            <div class="card">
+                <!-- title : Informations -->
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Informations</h2>
+                </div>
+
+                <!-- client informations -->
+                <div class="flex flex-col">
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Nom</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ client.fullname }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Email</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ client.email }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Phone</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ client.phone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-3 sm:col-span-2">
+            <div class="card mb-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Emails</h2>
+
+                <select class="form-input-md w-full">
+                    <option>Renvoyer la dernière facture</option>
+                    <option>Envoyer un rappel de paiement</option>
+                    <option>Envoyer un rappel de rendez-vous</option>
+                    <option>Envoyer un email de réinitialisation de mot de passe</option>
+                    <option>Envoyer un email de confirmation de compte</option>
+                </select>
+
+                <div class="mt-6">
+                    <button class="btn btn-md btn-primary">
+                        {{ icon('send', '', 'mr-2') }}
+                        Envoyer
+                    </button>
+                </div>
+
+                <!-- table last mails with mail type and date -->
+                <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
+                    <table class="table w-full">
+                        <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left">Type</th>
+                            <th class="px-4 py-2 text-left">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">Rappel de paiement</td>
+                            <td class="border px-4 py-2">12/12/2020</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Rappel de rendez-vous</td>
+                            <td class="border px-4 py-2">12/12/2020</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Réinitialisation de mot de passe</td>
+                            <td class="border px-4 py-2">12/12/2020</td>
+                        </tr>
+                        <tr>
+                            <td class="border px-4 py-2">Confirmation de compte</td>
+                            <td class="border px-4 py-2">12/12/2020</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                    Gestion du compte
+                </h2>
+
+
+                <button class="btn-md btn-danger modal-button" data-modal-id="modal-id-{{ client.id }}">
+                    {{ icon('trash', '', 'mr-2') }}
+                    Supprimer le compte
+                </button>
+
+                {% include 'components/_delete-modal.html.twig' with {
+                    'id': 'modal-id-' ~ client.id,
+                    'title': 'Supprimer le compte',
+                    'content': 'Vous êtes sur le point de supprimer le compte de ' ~ client.fullname ~ '.',
+                    'form_action': path('app_admin_clients_delete', {'id': client.id}),
+                    'csrf_value': csrf_token('delete' ~ client.id),
+                    'btn_label': 'Supprimer'
+                } %}
+
+                <p class="mt-6 text-sm text-gray-600 dark:text-gray-400">
+                    Supprimer le compte supprimera toutes les données associées à ce compte.
+                    Cette action est irréversible.
+                </p>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

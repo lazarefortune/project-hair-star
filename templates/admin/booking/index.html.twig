@@ -1,0 +1,171 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Réservations{% endblock %}
+
+{% block body %}
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Rendez-vous
+        </h4>
+        <a href="{{ path('app_admin_booking_add') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
+
+    <div class="card-simple">
+        {% if bookings is not empty %}
+            <div class="mb-6 px-4 sm:px-6">
+                <div class="flex justify-between">
+                    <div class="flex-1 flex justify-between">
+                        <input type="text" class="form-control" placeholder="Rechercher...">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th>
+                        <input type="checkbox"
+                               class="">
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Statut
+                    </th>
+                    <th>
+                        Client
+                    </th>
+                    <th>
+                        Prestation
+                    </th>
+                    <th>
+                        Tarif
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if bookings is empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            Vous n'avez aucun rendez-vous pour le moment.
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for booking in bookings %}
+                    <tr>
+                        <th class="text-left">
+                            <input type="checkbox"
+                                   class="">
+                        </th>
+                        <td>
+                            {{ booking.bookingDate|date('d/m/Y') }} à {{ booking.bookingTime|date('H:i') }}
+                        </td>
+                        <td>
+                            {% if booking.isPast %}
+                                <span class="badge badge-danger">
+                                    Passé
+                                </span>
+                            {% else %}
+                                {% if booking.status == 'pending' %}
+                                    <span class="badge badge-warning">
+                                        En attente
+                                    </span>
+                                {% elseif booking.status == 'confirmed' %}
+                                    <span class="badge badge-success">
+                                        Confirmé
+                                    </span>
+                                {% elseif booking.status == 'canceled' %}
+                                    <span class="badge badge-danger">
+                                        Annulé
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ booking.client.fullname }}
+                        </td>
+                        <td>
+                            {{ booking.prestation.name }}
+                        </td>
+                        <td>
+                            {{ booking.prestation.price }} €
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_booking_show', {'id': booking.id}) }}"
+                               class="btn-icon">
+                                {{ icon('eye') }}
+                            </a>
+                            {% if booking.status != 'canceled' and not booking.isPast %}
+                                <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
+                                   class="btn-icon">
+                                    {{ icon('pencil') }}
+                                </a>
+
+                                {% if booking.status != 'confirmed' %}
+                                    <button
+                                            class="btn-icon modal-button"
+                                            data-modal-id="modal-id-confirm-{{ booking.id }}">
+                                        {{ icon('check') }}
+                                    </button>
+
+                                    {% include 'components/_modal.html.twig' with {
+                                        'id': 'modal-id-confirm-' ~ booking.id,
+                                        'title': 'Confirmer le rendez-vous',
+                                        'content': 'Vous êtes sur le point de confirmer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                        'form_action': path('app_admin_booking_confirm', {'id': booking.id}),
+                                        'csrf_value': csrf_token('confirm_booking' ~ booking.id),
+                                        'close_btn_label': 'Retour',
+                                        'btn_label': 'Oui confirmer',
+                                    } %}
+                                {% endif %}
+
+                                <button
+                                        class="btn-icon modal-button" data-modal-id="modal-id-cancel-{{ booking.id }}">
+                                    {{ icon('ban') }}
+                                </button>
+
+                                {% include 'components/_modal.html.twig' with {
+                                    'id': 'modal-id-cancel-' ~ booking.id,
+                                    'title': 'Annuler le rendez-vous',
+                                    'content': 'Vous êtes sur le point d\'annuler le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                    'form_action': path('app_admin_booking_cancel', {'id': booking.id}),
+                                    'csrf_value': csrf_token('cancel_booking' ~ booking.id),
+                                    'close_btn_label': 'Retour',
+                                    'btn_label': 'Je confirme l\'annulation',
+                                } %}
+                            {% else %}
+                                <button
+                                        class="btn-icon modal-button" data-modal-id="modal-id-delete-{{ booking.id }}">
+                                    {{ icon('trash') }}
+                                </button>
+
+                                {% include 'components/_modal.html.twig' with {
+                                    'id': 'modal-id-delete-' ~ booking.id,
+                                    'title': 'Supprimer le rendez-vous',
+                                    'content': 'Vous êtes sur le point de supprimer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+                                    'form_action': path('app_admin_booking_delete', {'id': booking.id}),
+                                    'csrf_value': csrf_token('delete' ~ booking.id),
+                                    'close_btn_label': 'Retour',
+                                    'btn_label': 'Oui Supprimer',
+                                } %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,4 +1,5 @@
-# Jessy Hair Star
+# Hair Star
+
 Projet de création d'une application de gestion d'un salon de coiffure
 
 ## Installation
@@ -6,6 +7,7 @@ Projet de création d'une application de gestion d'un salon de coiffure
 ### Sans Docker
 
 #### Prérequis
+
 - [Node.js](https://nodejs.org/en/)
 - [PHP](https://www.php.net/)
 - [Composer](https://getcomposer.org/)
@@ -14,8 +16,8 @@ Projet de création d'une application de gestion d'un salon de coiffure
 - [Yarn](https://yarnpkg.com/)
 - [Git](https://git-scm.com/)
 
-
 #### Installation
+
 - Cloner le projet
 - Installer les dépendances avec `composer install` et `npm install`
 - Créer la base de données avec `php bin/console doctrine:database:create`
@@ -24,6 +26,7 @@ Projet de création d'une application de gestion d'un salon de coiffure
 - Créer un le premier utilisateur avec `php bin/console app:create-first-user`
 
 #### Utilisation
+
 - Lancer le serveur avec `symfony server:start`
 
 ### Avec Docker
@@ -32,14 +35,16 @@ Il vous suffit de lancer la commande :
 
 `docker-composer up -d`
 
-
 ## Auteurs
+
 - [Lazare Fortune](https://lazarefortune.com/)
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Remerciements
+
 - [OpenClassrooms](https://openclassrooms.com/fr/)
 - [Symfony](https://symfony.com/)
 - [Bootstrap](https://getbootstrap.com/)
