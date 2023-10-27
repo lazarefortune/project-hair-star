@@ -85,6 +85,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $cgu = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isRequestDelete = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -315,6 +318,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCgu(bool $cgu): static
     {
         $this->cgu = $cgu;
+
+        return $this;
+    }
+
+    public function isIsRequestDelete(): ?bool
+    {
+        return $this->isRequestDelete;
+    }
+
+    public function setIsRequestDelete(?bool $isRequestDelete): static
+    {
+        $this->isRequestDelete = $isRequestDelete;
 
         return $this;
     }
