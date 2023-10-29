@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\Client;
 
+use App\Enum\UserEmailType;
 use App\Event\Client\DeleteClientEvent;
 use App\Security\EmailVerifier;
 use App\Service\MailService;
@@ -35,6 +36,6 @@ class ClientSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Votre compte a été supprimé' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, UserEmailType::ACCOUNT_REMOVE, $client );
     }
 }

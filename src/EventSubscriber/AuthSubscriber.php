@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Enum\UserEmailType;
 use App\Event\Auth\EmailConfirmSuccessEvent;
 use App\Event\UserCreatedEvent;
 use App\Security\EmailVerifier;
@@ -45,6 +46,6 @@ class AuthSubscriber implements EventSubscriberInterface
             ->to( $event->getUser()->getEmail() )
             ->subject( 'Votre adresse email a été confirmée' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, UserEmailType::ACCOUNT_CONFIRMATION_SUCCESS, $event->getUser() );
     }
 }

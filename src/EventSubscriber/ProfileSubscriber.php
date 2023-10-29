@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Enum\UserEmailType;
 use App\Event\EmailChangeVerificationEvent;
 use App\Service\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -14,7 +15,7 @@ class ProfileSubscriber implements EventSubscriberInterface
     {
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents() : array
     {
         return [
             EmailChangeVerificationEvent::class => 'onEmailChangeVerification',
@@ -23,15 +24,16 @@ class ProfileSubscriber implements EventSubscriberInterface
 
     public function onEmailChangeVerification( EmailChangeVerificationEvent $event ) : void
     {
+        $user = $event->emailVerification->getAuthor();
         // On envoie un email de vérification
         $email = $this->mailService->createEmail( 'mails/profile/confirm-email-change.twig', [
             'token' => $event->emailVerification->getToken(),
-            'username' => $event->emailVerification->getAuthor()->getFullname(),
+            'username' => $user->getFullname(),
         ] )
             ->to( $event->emailVerification->getEmail() )
             ->subject( 'Vérification de votre nouvelle adresse email' )
             ->priority( Email::PRIORITY_HIGH );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, UserEmailType::ACCOUNT_UPDATED_EMAIL_REQUEST_CONFIRMATION, $user );
     }
 }

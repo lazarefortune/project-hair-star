@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\EmailLog;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -13,7 +16,11 @@ use Twig\Error\SyntaxError;
 
 class MailService
 {
-    public function __construct( private readonly MailerInterface $mailer, private readonly Environment $twig )
+    public function __construct(
+        private readonly MailerInterface        $mailer,
+        private readonly Environment            $twig,
+        private readonly EntityManagerInterface $em
+    )
     {
     }
 
@@ -39,12 +46,37 @@ class MailService
             ->text( $text );
     }
 
-    public function send( Email $email ) : void
+    /**
+     * Send email
+     * @param Email $email
+     * @param array $type
+     * @param User|null $recipient
+     * @return void
+     */
+    public function send( Email $email, array $type = [], User $recipient = null ) : void
     {
         try {
             $this->mailer->send( $email );
+
+            if ( $type !== [] && $recipient !== null ) {
+                $this->log( $email, $type, $recipient );
+            }
         } catch ( TransportExceptionInterface $e ) {
             $e->getMessage();
         }
+    }
+
+    private function log( Email $email, array $type, User $recipient ) : void
+    {
+        $emailLog = new EmailLog();
+        $emailLog->setType( $type['value'] );
+        $emailLog->setTypeDescription( $type['description'] );
+        $emailLog->setRecipient( $recipient );
+        $emailLog->setSentAt( new \DateTime() );
+        $emailLog->setContentHtml( $email->getHtmlBody() );
+        $emailLog->setContentText( $email->getTextBody() );
+
+        $this->em->persist( $emailLog );
+        $this->em->flush();
     }
 }

@@ -106,32 +106,60 @@
 
                 <!-- table last mails with mail type and date -->
                 <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
-                    <table class="table w-full">
-                        <thead>
-                        <tr>
-                            <th class="px-4 py-2 text-left">Type</th>
-                            <th class="px-4 py-2 text-left">Date</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">Rappel de paiement</td>
-                            <td class="border px-4 py-2">12/12/2020</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Rappel de rendez-vous</td>
-                            <td class="border px-4 py-2">12/12/2020</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Réinitialisation de mot de passe</td>
-                            <td class="border px-4 py-2">12/12/2020</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Confirmation de compte</td>
-                            <td class="border px-4 py-2">12/12/2020</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    {% if client.emailLogs|length > 0 %}
+                        <table class="table w-full">
+                            <thead>
+                            <tr>
+                                <th class="px-4 py-2 text-left">Type</th>
+                                <th class="px-4 py-2 text-left">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for emailLog in client.emailLogs %}
+                                <tr>
+                                    <td class="border px-4 py-2">
+                                        {% if emailLog.typeDescription is not empty %}
+                                            {{ emailLog.typeDescription }}
+                                        {% else %}
+                                            {{ emailLog.type }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="border px-4 py-2">{{ emailLog.sentAt|date('d/m/Y à H:i') }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            Aucun email envoyé.
+                        </p>
+                    {% endif %}
+                    {#                    <table class="table w-full"> #}
+                    {#                        <thead> #}
+                    {#                        <tr> #}
+                    {#                            <th class="px-4 py-2 text-left">Type</th> #}
+                    {#                            <th class="px-4 py-2 text-left">Date</th> #}
+                    {#                        </tr> #}
+                    {#                        </thead> #}
+                    {#                        <tbody> #}
+                    {#                        <tr> #}
+                    {#                            <td class="border px-4 py-2">Rappel de paiement</td> #}
+                    {#                            <td class="border px-4 py-2">12/12/2020</td> #}
+                    {#                        </tr> #}
+                    {#                        <tr> #}
+                    {#                            <td class="border px-4 py-2">Rappel de rendez-vous</td> #}
+                    {#                            <td class="border px-4 py-2">12/12/2020</td> #}
+                    {#                        </tr> #}
+                    {#                        <tr> #}
+                    {#                            <td class="border px-4 py-2">Réinitialisation de mot de passe</td> #}
+                    {#                            <td class="border px-4 py-2">12/12/2020</td> #}
+                    {#                        </tr> #}
+                    {#                        <tr> #}
+                    {#                            <td class="border px-4 py-2">Confirmation de compte</td> #}
+                    {#                            <td class="border px-4 py-2">12/12/2020</td> #}
+                    {#                        </tr> #}
+                    {#                        </tbody> #}
+                    {#                    </table> #}
                 </div>
             </div>
 

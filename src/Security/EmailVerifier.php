@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Enum\UserEmailType;
 use App\Service\AppConfigService;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,7 +58,7 @@ class EmailVerifier
             ->to( $user->getEmail() )
             ->subject( 'Confirmation de votre adresse email' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, UserEmailType::ACCOUNT_REQUEST_CONFIRMATION, $user );
     }
 
     /**
@@ -86,7 +87,7 @@ class EmailVerifier
             ->to( $user->getEmail() )
             ->subject( $mailObject );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, UserEmailType::ACCOUNT_WELCOME, $user );
     }
 
     public function sendEmailConfirmationWithTemplated( string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email ) : void

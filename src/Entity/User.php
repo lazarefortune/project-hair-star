@@ -88,12 +88,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isRequestDelete = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: EmailLog::class, orphanRemoval: true)]
+    private Collection $emailLogs;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
         $this->emailVerifications = new ArrayCollection();
+        $this->emailLogs = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -330,6 +334,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsRequestDelete(?bool $isRequestDelete): static
     {
         $this->isRequestDelete = $isRequestDelete;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EmailLog>
+     */
+    public function getEmailLogs(): Collection
+    {
+        return $this->emailLogs;
+    }
+
+    public function addEmailLog(EmailLog $emailLog): static
+    {
+        if (!$this->emailLogs->contains($emailLog)) {
+            $this->emailLogs->add($emailLog);
+            $emailLog->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmailLog(EmailLog $emailLog): static
+    {
+        if ($this->emailLogs->removeElement($emailLog)) {
+            // set the owning side to null (unless already changed)
+            if ($emailLog->getRecipient() === $this) {
+                $emailLog->setRecipient(null);
+            }
+        }
 
         return $this;
     }

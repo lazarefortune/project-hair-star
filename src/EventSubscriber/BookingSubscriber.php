@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Enum\BookingEmailType;
 use App\Event\Booking\CanceledBookingEvent;
 use App\Event\Booking\ConfirmedBookingEvent;
 use App\Event\Booking\NewBookingEvent;
@@ -27,26 +28,30 @@ class BookingSubscriber implements EventSubscriberInterface
         return [
             NewBookingEvent::class => 'onNewBooking',
             UpdateBookingEvent::class => 'onUpdateBooking',
-            ConfirmedBookingEvent::class => 'onConfirmedBooking',
+            ConfirmedBookingEvent::class => 'onConfirmBooking',
             CanceledBookingEvent::class => 'onCanceledBooking',
         ];
     }
 
     public function onNewBooking( NewBookingEvent $event ) : void
     {
+
+        $client = $event->getBooking()->getClient();
+        $booking = $event->getBooking();
+
         $bookingUrl = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $event->getBooking()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/nouvelle-reservation.twig', [
-            'booking' => $event->getBooking()
+            'booking' => $booking
         ] )
-            ->to( $event->getBooking()->getClient()->getEmail() )
+            ->to( $client->getEmail() )
             ->subject( 'Nouvelle réservation' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, BookingEmailType::BOOKING_NEW, $client );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/booking/nouvelle-reservation-admin.twig', [
-            'booking' => $event->getBooking(),
+            'booking' => $booking,
             'booking_url' => $bookingUrl,
         ] )
             ->to( $this->appConfigService->getAdminEmail() )
@@ -57,19 +62,22 @@ class BookingSubscriber implements EventSubscriberInterface
 
     public function onUpdateBooking( UpdateBookingEvent $event ) : void
     {
-        $bookingUrl = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $event->getBooking()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $client = $event->getBooking()->getClient();
+        $booking = $event->getBooking();
+
+        $bookingUrl = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/modification-reservation.twig', [
-            'booking' => $event->getBooking()
+            'booking' => $booking
         ] )
-            ->to( $event->getBooking()->getClient()->getEmail() )
+            ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été modifiée' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, BookingEmailType::BOOKING_UPDATED, $client );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/booking/modification-reservation-admin.twig', [
-            'booking' => $event->getBooking(),
+            'booking' => $booking,
             'booking_url' => $bookingUrl,
         ] )
             ->to( $this->appConfigService->getAdminEmail() )
@@ -78,22 +86,25 @@ class BookingSubscriber implements EventSubscriberInterface
         $this->mailService->send( $email );
     }
 
-    public function onConfirmedBooking( ConfirmedBookingEvent $event ) : void
+    public function onConfirmBooking( ConfirmedBookingEvent $event ) : void
     {
-        $bookingUrl = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $event->getBooking()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $client = $event->getBooking()->getClient();
+        $booking = $event->getBooking();
+
+        $bookingUrl = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/confirmation-reservation.twig', [
-            'booking' => $event->getBooking(),
+            'booking' => $booking,
             'booking_url' => $bookingUrl,
         ] )
-            ->to( $event->getBooking()->getClient()->getEmail() )
+            ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été confirmée' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, BookingEmailType::BOOKING_CONFIRMATION, $client );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/booking/confirmation-reservation-admin.twig', [
-            'booking' => $event->getBooking(),
+            'booking' => $booking,
             'booking_url' => $bookingUrl,
         ] )
             ->to( $this->appConfigService->getAdminEmail() )
@@ -104,20 +115,22 @@ class BookingSubscriber implements EventSubscriberInterface
 
     public function onCanceledBooking( CanceledBookingEvent $event ) : void
     {
+        $client = $event->getBooking()->getClient();
+        $booking = $event->getBooking();
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/annulation-reservation.twig', [
-            'booking' => $event->getBooking(),
+            'booking' => $booking,
             'contact_url' => $this->urlGenerator->generate( 'app_contact', [], UrlGeneratorInterface::ABSOLUTE_URL )
         ] )
-            ->to( $event->getBooking()->getClient()->getEmail() )
+            ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été annulée' );
 
-        $this->mailService->send( $email );
+        $this->mailService->send( $email, BookingEmailType::BOOKING_CANCELLED, $client );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/booking/annulation-reservation-admin.twig', [
-            'booking' => $event->getBooking(),
-            'booking_url' => $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $event->getBooking()->getId()], UrlGeneratorInterface::ABSOLUTE_URL )
+            'booking' => $booking,
+            'booking_url' => $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL )
         ] )
             ->to( $this->appConfigService->getAdminEmail() )
             ->subject( 'Confirmation de l\'annulation de la réservation' );
