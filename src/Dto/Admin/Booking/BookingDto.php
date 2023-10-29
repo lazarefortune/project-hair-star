@@ -26,6 +26,10 @@ class BookingDto
     public function __construct( Booking $booking )
     {
         $this->booking = $booking;
+        if ( $booking->getId() ) {
+            $this->client = $booking->getClient();
+            $this->prestation = $booking->getPrestation();
+        }
         $this->bookingDate = $booking->getBookingDate();
         $this->bookingTime = $booking->getBookingTime();
     }
