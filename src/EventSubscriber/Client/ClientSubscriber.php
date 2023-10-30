@@ -36,6 +36,6 @@ class ClientSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Votre compte a été supprimé' );
 
-        $this->mailService->send( $email, UserEmailType::ACCOUNT_REMOVE, $client );
+        $this->mailService->send( $email );
     }
 }
