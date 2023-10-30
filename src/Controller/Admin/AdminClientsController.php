@@ -32,8 +32,11 @@ class AdminClientsController extends AbstractController
     #[Route( '/{id}/details', name: 'show' )]
     public function showClient( int $id, ClientService $clientService ) : Response
     {
+        $EMAILS_LOG_LIMIT = 4;
+
         try {
             $client = $clientService->getClient( $id );
+            $clientEmailsLogs = $clientService->getClientMailsLog( $client, $EMAILS_LOG_LIMIT );
         } catch ( \Exception $e ) {
             $this->addToast( 'danger', $e->getMessage() );
 
@@ -42,6 +45,8 @@ class AdminClientsController extends AbstractController
 
         return $this->render( 'admin/clients/show-client.html.twig', [
             'client' => $client,
+            'clientEmailsLogs' => $clientEmailsLogs,
+            'EMAILS_LOG_LIMIT' => $EMAILS_LOG_LIMIT,
         ] );
     }
 

@@ -94,7 +94,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            {{ booking.client.fullname }}
+                            <a href="{{ path('app_admin_clients_show', {'id': booking.client.id}) }}">
+                                {{ booking.client.fullname }}
+                            </a>
                         </td>
                         <td>
                             {{ booking.prestation.name }}

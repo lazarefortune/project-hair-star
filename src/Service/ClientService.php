@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\User;
 use App\Event\Client\DeleteClientEvent;
 use App\Event\UserCreatedEvent;
+use App\Repository\ClientRepository;
+use App\Repository\EmailLogRepository;
 use App\Repository\UserRepository;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -14,6 +16,7 @@ class ClientService
     public function __construct(
         private readonly UserRepository           $userRepository,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly EmailLogRepository       $emailLogRepository
     )
     {
     }
@@ -53,7 +56,7 @@ class ClientService
         $user = $this->userRepository->findOneBy( ['id' => $id] );
 
         if ( !$user ) {
-            throw new \Exception( 'Aucun utilisateur trouvé' );
+            throw new \Exception( 'Aucun client trouvé' );
         }
 
         return $user;
@@ -69,5 +72,15 @@ class ClientService
         $this->userRepository->remove( $client, true );
         $deleteClientEvent = new DeleteClientEvent( $client );
         $this->eventDispatcher->dispatch( $deleteClientEvent, DeleteClientEvent::NAME );
+    }
+
+    /**
+     * Return an array of EmailLog objects sent to a client
+     * @param User $client
+     * @return array
+     */
+    public function getClientMailsLog( User $client, int $limit = null ) : array
+    {
+        return $this->emailLogRepository->getClientMailsLog( $client, $limit );
     }
 }
