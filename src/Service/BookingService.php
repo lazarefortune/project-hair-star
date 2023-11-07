@@ -13,7 +13,11 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class BookingService
 {
-    public function __construct( private readonly BookingRepository $bookingRepository, private EventDispatcherInterface $eventDispatcher )
+    public function __construct(
+        private readonly BookingRepository        $bookingRepository,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly TokenGeneratorService    $tokenGeneratorService
+    )
     {
     }
 
@@ -30,7 +34,9 @@ class BookingService
         $booking = ( new Booking() )->setClient( $bookingDto->client )
             ->setPrestation( $bookingDto->prestation )
             ->setBookingDate( $bookingDto->bookingDate )
-            ->setBookingTime( $bookingDto->bookingTime );
+            ->setBookingTime( $bookingDto->bookingTime )
+            ->setToken( $this->tokenGeneratorService->generate() )
+            ->setAmount( $bookingDto->prestation->getPrice() );
 
         $this->bookingRepository->save( $booking, true );
 
@@ -44,7 +50,8 @@ class BookingService
         $booking = $bookingDto->booking->setClient( $bookingDto->client )
             ->setPrestation( $bookingDto->prestation )
             ->setBookingDate( $bookingDto->bookingDate )
-            ->setBookingTime( $bookingDto->bookingTime );
+            ->setBookingTime( $bookingDto->bookingTime )
+            ->setAmount( $bookingDto->prestation->getPrice() );
 
         $this->bookingRepository->save( $booking, true );
 
@@ -83,5 +90,10 @@ class BookingService
     public function getReservedBookings() : array
     {
         return $this->bookingRepository->findReservedBookings();
+    }
+
+    public function getBookingByToken( string $token )
+    {
+        return $this->bookingRepository->findOneBy( ['token' => $token] );
     }
 }

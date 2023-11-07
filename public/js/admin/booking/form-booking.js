@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     altInput: true,
                     altFormat: "d/m/Y",
                     dateFormat: "Y-m-d",
-                    minDate: "today",
+                    // minDate: "today",
                     maxDate: maxDate,
                     disable: [
                         ...excludeCreneaux,

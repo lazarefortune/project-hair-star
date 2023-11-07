@@ -26,3 +26,7 @@
 .form-error {
   @apply block text-sm font-normal text-red-800;
 }
+
+.form-help {
+  @apply block text-sm font-normal text-gray-500;
+}

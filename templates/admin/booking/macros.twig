@@ -1,0 +1,112 @@
+{% macro status_badge(booking) %}
+    {% if booking.passed %}
+        {% if booking.statusConfirmed %}
+            {% if booking.isPaid %}
+                <span class="badge badge-primary">Terminé</span>
+            {% else %}
+                <span class="badge badge-warning">En attente de paiement</span>
+            {% endif %}
+        {% else %}
+            <span class="badge badge-danger">Trop tard</span>
+        {% endif %}
+    {% else %}
+        {% if booking.statusPending %}
+            <span class="badge badge-warning">En attente</span>
+        {% elseif booking.statusConfirmed %}
+            <span class="badge badge-success">Confirmé</span>
+        {% elseif booking.statusCanceled %}
+            <span class="badge badge-danger">Annulé</span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro payment_status_badge(booking) %}
+    {% if booking.passed %}
+        {% if booking.isPaid %}
+            <span class="badge badge-success">Traité</span>
+        {% else %}
+            <span class="badge badge-danger">Aucun</span>
+        {% endif %}
+    {% else %}
+        {% if not booking.statusCanceled %}
+            <span class="badge badge-info">A venir</span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro payment_button(booking) %}
+    {% if booking.statusConfirmed and booking.passed and not booking.isPaid %}
+        <a href="{{ path('booking_payment_start', {'id': booking.id}) }}" class="btn-icon">
+            {{ icon('credit-card') }}
+        </a>
+    {% endif %}
+{% endmacro %}
+
+{% macro delete_booking_button(booking) %}
+    {% if booking.statusCanceled %}
+        <button
+                class="btn-icon modal-button" data-modal-id="modal-id-delete-{{ booking.id }}">
+            {{ icon('trash') }}
+        </button>
+
+        {% include 'components/_modal.html.twig' with {
+            'id': 'modal-id-delete-' ~ booking.id,
+            'title': 'Supprimer le rendez-vous',
+            'content': 'Vous êtes sur le point de supprimer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+            'form_action': path('app_admin_booking_delete', {'id': booking.id}),
+            'csrf_value': csrf_token('delete' ~ booking.id),
+            'close_btn_label': 'Retour',
+            'btn_label': 'Oui Supprimer',
+        } %}
+    {% endif %}
+{% endmacro %}
+
+{% macro confirm_booking_button(booking) %}
+    {% if booking.statusPending and not booking.passed %}
+        <button
+                class="btn-icon modal-button"
+                data-modal-id="modal-id-confirm-{{ booking.id }}">
+            {{ icon('check') }}
+        </button>
+
+        {% include 'components/_modal.html.twig' with {
+            'id': 'modal-id-confirm-' ~ booking.id,
+            'title': 'Confirmer le rendez-vous',
+            'content': 'Vous êtes sur le point de confirmer le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+            'form_action': path('app_admin_booking_confirm', {'id': booking.id}),
+            'csrf_value': csrf_token('confirm_booking' ~ booking.id),
+            'close_btn_label': 'Retour',
+            'btn_label': 'Oui confirmer',
+        } %}
+    {% endif %}
+{% endmacro %}
+
+{% macro cancel_booking_button(booking) %}
+    {% if (booking.statusPending or booking.statusConfirmed) and not booking.passed %}
+        <button
+                class="btn-icon modal-button" data-modal-id="modal-id-cancel-{{ booking.id }}">
+            {{ icon('ban') }}
+        </button>
+
+        {% include 'components/_modal.html.twig' with {
+            'id': 'modal-id-cancel-' ~ booking.id,
+            'title': 'Annuler le rendez-vous',
+            'content': 'Vous êtes sur le point d\'annuler le rendez-vous de <strong>' ~ booking.client.fullname ~ '</strong>.<br>Cette action est irréversible.',
+            'form_action': path('app_admin_booking_cancel', {'id': booking.id}),
+            'csrf_value': csrf_token('cancel_booking' ~ booking.id),
+            'close_btn_label': 'Retour',
+            'btn_label': 'Je confirme l\'annulation',
+        } %}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro edit_button(booking) %}
+    {% if not booking.statusCanceled and not booking.passed %}
+        <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
+           class="btn-icon">
+            {{ icon('pencil') }}
+        </a>
+    {% endif %}
+{% endmacro %}

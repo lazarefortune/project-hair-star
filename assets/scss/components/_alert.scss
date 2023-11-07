@@ -1,5 +1,5 @@
 .alert {
-  @apply relative mb-4 rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
+  @apply relative rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
   & .alert-heading {
     @apply font-bold;
   }

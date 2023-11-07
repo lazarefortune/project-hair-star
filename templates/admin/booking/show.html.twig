@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% import 'admin/booking/macros.twig' as element %}
+
 {% block body %}
 
     <a href="{{ path('app_admin_booking_index') }}"
@@ -14,7 +16,7 @@
         <h4 class="text-2xl font-bold md:text-3xl">
             Rdv du {{ booking.bookingDate|date('d/m/Y') }}
         </h4>
-        {% if booking.status != 'canceled' and not booking.isPast %}
+        {% if  not booking.statusCanceled and not booking.passed %}
             <a href="{{ path('app_admin_booking_edit', {'id': booking.id}) }}"
                class="btn-md btn-primary">
                 {{ icon('pencil', '', 'mr-2') }}
@@ -81,16 +83,16 @@
                                 {{ booking.bookingTime|date('H:i') }}
                             </td>
                             <td>
-                                {% if booking.isPast %}
+                                {% if booking.passed %}
                                     <span class="badge badge-danger">
-                                        Passé
+                                        Terminé
                                     </span>
                                 {% else %}
-                                    {% if booking.status == 'confirmed' %}
+                                    {% if booking.statusConfirmed %}
                                         <span class="badge badge-success">
                                             Confirmé
                                         </span>
-                                    {% elseif booking.status == 'canceled' %}
+                                    {% elseif booking.statusCanceled %}
                                         <span class="badge badge-danger">
                                             Annulé
                                         </span>
@@ -107,7 +109,7 @@
                 </div>
 
                 <div class="flex justify-between items-center flex-col sm:flex-row gap-3 mt-6">
-                    {% if booking.status == 'pending' %}
+                    {% if booking.statusPending and not booking.passed %}
                         <form method="post" action="{{ path('app_admin_booking_confirm', {'id': booking.id}) }}">
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('confirm_booking' ~ booking.id) }}">
@@ -117,7 +119,7 @@
                             </button>
                         </form>
                     {% endif %}
-                    {% if (booking.status == 'pending' or booking.status == 'confirmed') and not booking.isPast %}
+                    {% if (booking.statusPending or booking.statusConfirmed) and not booking.passed %}
                         <form method="post" action="{{ path('app_admin_booking_cancel', {'id': booking.id}) }}">
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('cancel_booking' ~ booking.id) }}">
@@ -131,56 +133,6 @@
                 </div>
 
             </div>
-
-            {% if booking.status != 'canceled' %}
-                <div class="card mb-6">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Emails</h2>
-
-                    <select class="form-input-md w-full">
-                        <option>Renvoyer la dernière facture</option>
-                        <option>Envoyer un rappel de paiement</option>
-                        <option>Envoyer un rappel de rendez-vous</option>
-                        <option>Envoyer un email de réinitialisation de mot de passe</option>
-                        <option>Envoyer un email de confirmation de compte</option>
-                    </select>
-
-                    <div class="mt-6">
-                        <button class="btn btn-md btn-primary">
-                            {{ icon('send', '', 'mr-2') }}
-                            Envoyer
-                        </button>
-                    </div>
-
-                    <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
-                        <table class="table w-full">
-                            <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left">Type</th>
-                                <th class="px-4 py-2 text-left">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="border px-4 py-2">Rappel de paiement</td>
-                                <td class="border px-4 py-2">12/12/2020</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Rappel de rendez-vous</td>
-                                <td class="border px-4 py-2">12/12/2020</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Réinitialisation de mot de passe</td>
-                                <td class="border px-4 py-2">12/12/2020</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Confirmation de compte</td>
-                                <td class="border px-4 py-2">12/12/2020</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            {% endif %}
 
         </div>
 

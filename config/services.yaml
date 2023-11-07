@@ -50,6 +50,10 @@ services:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
 
+  App\Service\Payment\StripePayment:
+    arguments:
+      $clientSecret: '%env(STRIPE_SECRET_KEY)%'
+
   App\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }

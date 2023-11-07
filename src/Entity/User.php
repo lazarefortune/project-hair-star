@@ -91,6 +91,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: EmailLog::class, orphanRemoval: true)]
     private Collection $emailLogs;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true)]
+    private Collection $payments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -98,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->bookings = new ArrayCollection();
         $this->emailVerifications = new ArrayCollection();
         $this->emailLogs = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -362,6 +366,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($emailLog->getRecipient() === $this) {
                 $emailLog->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getClient() === $this) {
+                $payment->setClient(null);
             }
         }
 
