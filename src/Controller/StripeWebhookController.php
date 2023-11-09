@@ -40,24 +40,10 @@ class StripeWebhookController extends AbstractController
             );
         } catch ( \UnexpectedValueException $e ) {
             // Signature invalide
-//            return new Response( 'Invalid request', 400 );
-            return new Response(
-                $e->getMessage() . $payload . ' ||signHed= ' . $sig_header . ' ||StripEnvKey= ' . $this->stripeWebhookSecret
-                . ' ||Trace= ' . $e->getTraceAsString()
-                ,
-                Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'text/plain']
-            );
+            return new Response( 'Invalid request', 400 );
         } catch ( \Stripe\Exception\SignatureVerificationException $e ) {
             // Signature invalide
-//            return new Response( 'Invalid request', 400 );
-            return new Response(
-                $e->getMessage() . $payload . ' ||signHed= ' . $sig_header . ' ||StripEnvKey= ' . $this->stripeWebhookSecret
-                . ' ||Trace= ' . $e->getTraceAsString()
-                ,
-                Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'text/plain']
-            );
+            return new Response( 'Invalid request', 400 );
         }
 
         // Gérez l'événement
