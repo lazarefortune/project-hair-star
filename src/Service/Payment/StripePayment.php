@@ -4,73 +4,145 @@ namespace App\Service\Payment;
 
 use App\Entity\Booking;
 use App\Entity\Payment;
+use App\Entity\User;
+use App\Payment\Stripe\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripePayment
 {
     public function __construct(
-        readonly private UrlGeneratorInterface  $urlGenerator,
-        readonly private string                 $clientSecret,
-        readonly private EntityManagerInterface $entityManager,
+        private StripeApi              $stripeApi,
+        private EntityManagerInterface $entityManager,
+        private UrlGeneratorInterface  $urlGenerator,
     )
     {
-        Stripe::setApiKey( $this->clientSecret );
-        Stripe::setApiVersion( '2020-08-27' );
     }
 
-    public function startPayment( Booking $booking ) : ?string
+    public function payBooking( Booking $booking, float $amount = 0 ) : ?string
     {
-        $client = $booking->getClient();
+        if ( $amount > 0 ) {
+            $this->handleAmountChange( $booking, $amount );
+        }
 
-        $successUrl = $this->urlGenerator->generate( 'booking_payment_success', [], UrlGeneratorInterface::ABSOLUTE_URL );
+        $client = $this->ensureCustomerExists( $booking );
+        $payment = $this->ensurePaymentExists( $booking, $client );
 
-        $cancelUrl = $this->urlGenerator->generate( 'booking_payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL );
+        return $this->processPaymentSession( $payment );
+    }
 
-        $amount = ( $booking->getAmount() ? : $booking->getPrestation()->getPrice() ) * 100;
+    private function handleAmountChange( Booking $booking, float $amount ) : void
+    {
+        $booking->setAmount( $amount );
+        $this->deleteExistingSessions( $booking );
+//        $this->entityManager->flush();
+    }
 
-        $session = Session::create( [
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => 'Réservation n°' . $booking->getId(),
-                        ],
-                        'unit_amount' => $amount,
-                    ],
-                    'quantity' => 1,
-                ],
-            ],
-            'mode' => 'payment',
-            'success_url' => $successUrl,
-            'cancel_url' => $cancelUrl,
-            'metadata' => [
-                'booking_id' => $booking->getId(),
-                'client_id' => $client->getId(),
-            ],
-        ] );
+    private function deleteExistingSessions( Booking $booking ) : void
+    {
+        // Add logic to delete sessions here, if applicable.
+    }
 
-        $payment = new Payment();
-        $payment->setBooking( $booking )
-            ->setClient( $client )
-            ->setAmount( $amount )
-            ->setStatus( Booking::PAYMENT_STATUS_PENDING )
-            ->setSessionId( $session->id );
+    private function processPaymentSession( Payment $payment ) : ?string
+    {
+        $session = $this->stripeApi->getSession( $payment->getSessionId() );
 
-        $booking->addPayment( $payment );
-
-        $this->entityManager->persist( $booking );
-        $this->entityManager->persist( $payment );
-        $this->entityManager->flush();
+        if ( $this->isSessionInvalid( $session ) ) {
+            $this->updateSessionForPayment( $payment );
+            $session = $this->stripeApi->getSession( $payment->getSessionId() );
+        }
 
         return $session->url;
     }
 
-    public function pay()
+    private function isSessionInvalid( $session ) : bool
     {
-        // ...
+        return 'paid' === $session->payment_status || $session->expires_at < time();
+    }
+
+    private function ensureCustomerExists( Booking $booking ) : User
+    {
+        $client = $booking->getClient();
+        if ( !$client->getStripeId() || $this->isCustomerDeleted( $client->getStripeId() ) ) {
+            $client = $this->stripeApi->createCustomer( $client );
+            $this->storeCustomerStripeId( $client );
+        }
+        return $client;
+    }
+
+    private function isCustomerDeleted( string $clientStripeId ) : bool
+    {
+        $customerStripe = $this->stripeApi->getCustomer( $clientStripeId );
+        return $customerStripe->isDeleted();
+    }
+
+    private function storeCustomerStripeId( User $client ) : void
+    {
+        $this->entityManager->persist( $client );
+        $this->entityManager->flush();
+    }
+
+    private function ensurePaymentExists( Booking $booking, User $client ) : Payment
+    {
+        $payment = $this->getExistingPendingPayment( $booking, $client );
+        if ( !$payment ) {
+            return $this->createNewPayment( $booking, $client );
+        }
+
+        $this->updatePaymentTimestamp( $payment );
+        return $payment;
+    }
+
+    private function getExistingPendingPayment( Booking $booking, User $client ) : ?Payment
+    {
+        return $this->entityManager->getRepository( Payment::class )->findOneBy( [
+            'booking' => $booking,
+            'client' => $client,
+            'status' => Payment::STATUS_PENDING,
+        ] );
+    }
+
+    private function createNewPayment( Booking $booking, User $client ) : Payment
+    {
+        $url = $this->generatePaymentStatusUrl();
+        $sessionId = $this->stripeApi->createBookingPaymentSession( $booking, $url );
+
+        $payment = new Payment();
+        $payment->setSessionId( $sessionId )
+            ->setBooking( $booking )
+            ->setClient( $client )
+            ->setAmount( $booking->getAmount() )
+            ->setStatus( Payment::STATUS_PENDING )
+            ->setCreatedAt( new \DateTimeImmutable() )
+            ->setUpdatedAt( new \DateTimeImmutable() );
+
+        $this->entityManager->persist( $payment );
+        $this->entityManager->flush();
+
+        return $payment;
+    }
+
+    private function updateSessionForPayment( Payment $payment ) : void
+    {
+        $url = $this->generatePaymentStatusUrl();
+        $sessionId = $this->stripeApi->createBookingPaymentSession( $payment->getBooking(), $url );
+
+        $payment->setSessionId( $sessionId )
+            ->setUpdatedAt( new \DateTimeImmutable() );
+
+        $this->entityManager->persist( $payment );
+        $this->entityManager->flush();
+    }
+
+    private function updatePaymentTimestamp( Payment $payment ) : void
+    {
+        $payment->setUpdatedAt( new \DateTimeImmutable() );
+        $this->entityManager->persist( $payment );
+        $this->entityManager->flush();
+    }
+
+    private function generatePaymentStatusUrl() : string
+    {
+        return $this->urlGenerator->generate( 'app_booking_payment_result', [], UrlGeneratorInterface::ABSOLUTE_URL );
     }
 }

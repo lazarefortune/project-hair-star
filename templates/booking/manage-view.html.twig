@@ -56,7 +56,7 @@
                             </p>
                             <ul class="flex gap-4 flex-col sm:flex-row">
                                 {% if not booking.paid %}
-                                    <a href="{{ path('booking_payment_start', {'id': booking.id}) }}"
+                                    <a href="{{ path('app_booking_payment_start', {'id': booking.id}) }}"
                                        class=" btn-md btn-danger">
                                         {{ icon('credit-card', 'w-5 h-5 mr-2') }}
                                         <span>Payer maintenant</span>
@@ -67,7 +67,7 @@
                                         <span>Paiement effectué</span>
                                     </div>
                                 {% endif %}
-                                <a href="{{ path('app_booking_manage_update', {'token': booking.token}) }}"
+                                <a href="{{ path('app_booking_manage_edit', {'token': booking.token}) }}"
                                    class="btn-md btn-primary">
                                     {{ icon('calendar-days', 'w-5 h-5 mr-2') }}
                                     <span>Modifier</span>

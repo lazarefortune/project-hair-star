@@ -94,6 +94,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true)]
     private Collection $payments;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $stripeId = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -398,6 +401,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $payment->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStripeId(): ?string
+    {
+        return $this->stripeId;
+    }
+
+    public function setStripeId(?string $stripeId): static
+    {
+        $this->stripeId = $stripeId;
 
         return $this;
     }

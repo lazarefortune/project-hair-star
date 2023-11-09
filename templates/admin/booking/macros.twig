@@ -30,14 +30,18 @@
         {% endif %}
     {% else %}
         {% if not booking.statusCanceled %}
-            <span class="badge badge-info">A venir</span>
+            {% if booking.isPaid %}
+                <span class="badge badge-success">Traité</span>
+            {% else %}
+                <span class="badge badge-info">A venir</span>
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endmacro %}
 
 {% macro payment_button(booking) %}
     {% if booking.statusConfirmed and booking.passed and not booking.isPaid %}
-        <a href="{{ path('booking_payment_start', {'id': booking.id}) }}" class="btn-icon">
+        <a href="{{ path('app_booking_payment_start', {'id': booking.id}) }}" class="btn-icon">
             {{ icon('credit-card') }}
         </a>
     {% endif %}

@@ -67,7 +67,7 @@ class BookingSubscriber implements EventSubscriberInterface
         $booking = $event->getBooking();
 
         $bookingUrlAdmin = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage_view', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
 
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/modification-reservation.twig', [
@@ -96,7 +96,7 @@ class BookingSubscriber implements EventSubscriberInterface
         $booking = $event->getBooking();
 
         $bookingUrlAdmin = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage_view', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/confirmation-reservation.twig', [
             'booking' => $booking,
@@ -124,7 +124,7 @@ class BookingSubscriber implements EventSubscriberInterface
         $booking = $event->getBooking();
 
         $bookingUrlAdmin = $this->urlGenerator->generate( 'app_admin_booking_show', ['id' => $booking->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage_view', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $bookingUrlClient = $this->urlGenerator->generate( 'app_booking_manage', ['token' => $booking->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/booking/annulation-reservation.twig', [
             'booking' => $booking,

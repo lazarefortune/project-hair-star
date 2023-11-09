@@ -51,9 +51,13 @@ services:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
 
-  App\Service\Payment\StripePayment:
+  App\Service\Payment\StripePaymentOld:
     arguments:
       $clientSecret: '%env(STRIPE_SECRET_KEY)%'
+
+  App\Payment\Stripe\StripeApi:
+    arguments:
+      $privateKey: '%env(STRIPE_SECRET_KEY)%'
 
   App\EventListener\ExceptionListener:
     tags:
