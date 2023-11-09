@@ -32,7 +32,7 @@ class StripeWebhookController extends AbstractController
         $sig_header = $request->headers->get( 'Stripe-Signature' );
 
         $event = null;
-        
+
         try {
             // Vérifiez la signature de la requête avec la clé secrète d'endpoint de votre webhook
             $event = \Stripe\Webhook::constructEvent(
@@ -40,10 +40,24 @@ class StripeWebhookController extends AbstractController
             );
         } catch ( \UnexpectedValueException $e ) {
             // Signature invalide
-            return new Response( 'Invalid request', 400 );
+//            return new Response( 'Invalid request', 400 );
+            return new Response(
+                $e->getMessage() . $payload . ' ||signHed= ' . $sig_header . ' ||StripEnvKey= ' . $this->stripeWebhookSecret
+                . ' ||Trace= ' . $e->getTraceAsString()
+                ,
+                Response::HTTP_BAD_REQUEST,
+                ['content-type' => 'text/plain']
+            );
         } catch ( \Stripe\Exception\SignatureVerificationException $e ) {
             // Signature invalide
-            return new Response( 'Invalid request', 400 );
+//            return new Response( 'Invalid request', 400 );
+            return new Response(
+                $e->getMessage() . $payload . ' ||signHed= ' . $sig_header . ' ||StripEnvKey= ' . $this->stripeWebhookSecret
+                . ' ||Trace= ' . $e->getTraceAsString()
+                ,
+                Response::HTTP_BAD_REQUEST,
+                ['content-type' => 'text/plain']
+            );
         }
 
         // Gérez l'événement
