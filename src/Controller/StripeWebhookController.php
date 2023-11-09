@@ -6,18 +6,23 @@ use App\Entity\Booking;
 use App\Repository\BookingRepository;
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StripeWebhookController extends AbstractController
 {
+    private string $stripeWebhookSecret;
+
     public function __construct(
         readonly private PaymentRepository      $paymentRepository,
         readonly private EntityManagerInterface $entityManager,
         readonly private BookingRepository      $bookingRepository,
+        ParameterBagInterface                   $parameterBag,
     )
     {
+        $this->stripeWebhookSecret = $parameterBag->get( 'stripe_webhook_secret' );
     }
 
     #[Route( '/stripe/webhooks', name: 'stripe_webhook' )]
@@ -27,11 +32,11 @@ class StripeWebhookController extends AbstractController
         $sig_header = $request->headers->get( 'Stripe-Signature' );
 
         $event = null;
-
+        
         try {
             // Vérifiez la signature de la requête avec la clé secrète d'endpoint de votre webhook
             $event = \Stripe\Webhook::constructEvent(
-                $payload, $sig_header, $_ENV['STRIPE_WEBHOOK_SECRET']
+                $payload, $sig_header, $this->stripeWebhookSecret
             );
         } catch ( \UnexpectedValueException $e ) {
             // Signature invalide
