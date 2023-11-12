@@ -49,7 +49,9 @@ class HomeController extends AbstractController
             $user->setPassword( $passwordHasher->hashPassword(
                 $user,
                 $data->getPassword()
-            ) );
+            ) )
+                ->setIsVerified( true )
+                ->setCgu( true );
 
             $entityManager->persist( $siteTitle );
             $entityManager->persist( $siteInstalled );

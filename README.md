@@ -4,6 +4,26 @@ Projet de création d'une application de gestion d'un salon de coiffure
 
 ## Installation
 
+### Avec Docker
+
+#### Prérequis
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+#### Installation
+
+- Cloner le projet
+- Placer vous à la racine du projet
+- Commencer par builder l'image avec `docker build . -f ./docker/Dockerfile -t hair-star-image`
+- Placer vous dans le dossier docker avec `cd docker`
+- Lancer le docker-compose avec `docker-compose up -d`
+
+#### Utilisation
+
+- Rendez-vous sur [localhost:8080](http://localhost:8080)
+- Pour arrêter le docker-compose `docker-compose down`
+
 ### Sans Docker
 
 #### Prérequis
