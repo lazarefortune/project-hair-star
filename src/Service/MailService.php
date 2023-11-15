@@ -16,12 +16,16 @@ use Twig\Error\SyntaxError;
 
 class MailService
 {
+    private string $senderEmail;
+
     public function __construct(
         private readonly MailerInterface        $mailer,
         private readonly Environment            $twig,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        string                                  $senderEmail,
     )
     {
+        $this->senderEmail = $senderEmail;
     }
 
     /**
@@ -41,7 +45,7 @@ class MailService
         $text = $this->twig->render( $template, array_merge( $data, ['layout' => 'mails/base.text.twig'] ) );
 
         return ( new Email() )
-            ->from( 'service@lazarefortune.com' )
+            ->from( $this->senderEmail )
             ->html( $html )
             ->text( $text );
     }
