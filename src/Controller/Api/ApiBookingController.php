@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route( '/api/booking', name: 'api_booking_' )]
+#[Route( '/booking', name: 'booking_' )]
 class ApiBookingController extends AbstractController
 {
     public function __construct( private readonly BookingService $bookingService )
@@ -55,7 +55,7 @@ class ApiBookingController extends AbstractController
                 'time' => $reservedBooking->getBookingTime()->format( 'H:i' ),
             ];
         }
-        
+
         return $this->json( $dataJson );
     }
 }

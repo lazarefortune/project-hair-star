@@ -14,9 +14,9 @@
 }
 
 .alert-success {
-  @apply border-green-500 bg-green-50;
+  @apply border-b-green-500 bg-white;
   & > i {
-    @apply text-green-500;
+    @apply text-slate-900;
   }
 
   & .alert-heading {

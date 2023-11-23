@@ -41,6 +41,20 @@
 
 {% macro payment_button(booking) %}
     {% if booking.statusConfirmed and booking.passed and not booking.isPaid %}
+        {#        <button #}
+        {#                class="btn-icon modal-button" data-modal-id="modal-id-payment-method-{{ booking.id }}"> #}
+        {#            {{ icon('credit-card') }} #}
+        {#        </button> #}
+
+        {#        {% include 'components/_modal.html.twig' with { #}
+        {#            'id': 'modal-id-payment-method-' ~ booking.id, #}
+        {#            'title': 'Choissir un moyen de paiement', #}
+        {#            'content': 'Choisissez le moyen de paiement utilisé par le client.', #}
+        {#            'form_action': '', #}
+        {#            'csrf_value': '', #}
+        {#            'close_btn_label': 'Retour', #}
+        {#            'btn_label': 'Payer', #}
+        {#        } %} #}
         <a href="{{ path('app_booking_payment_start', {'id': booking.id}) }}" class="btn-icon">
             {{ icon('credit-card') }}
         </a>

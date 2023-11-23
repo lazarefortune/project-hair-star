@@ -83,12 +83,13 @@ class BookingController extends AbstractController
         return $this->redirect( $url );
     }
 
-    #[Route( '/paiement/resultat', name: 'payment_result' )]
-    public function paymentResult( Request $request ) : Response
+    #[Route( '/paiement/resultat/{id}', name: 'payment_result' )]
+    public function paymentResult( Request $request, Booking $booking ) : Response
     {
         $status = $request->query->get( 'success' ) === '1' ? 'success' : 'failure';
         return $this->render( "booking/payment/payment_result.html.twig", [
-            'status' => $status
+            'status' => $status,
+            'booking' => $booking,
         ] );
     }
 }

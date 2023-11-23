@@ -16,10 +16,16 @@ $(document).ready(function () {
         console.log(option.val());
         if (option.length && $.inArray(option.val(), $(this).val()) !== -1) {
             $.ajax({
-                url: '/admin/api/tags/new/' + option.val(),
+                headers: {
+                    'Accept': 'application/json',
+                },
+                contentType: 'application/json',
+                url: '/api/tags',
+                data: JSON.stringify({
+                    name: option.val()
+                }),
                 method: 'POST',
             }).done(function (data) {
-                console.log(data);
                 option.replaceWith('<option value="' + data.id + '" selected>' + data.name + '</option>');
             });
         }

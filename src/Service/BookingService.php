@@ -96,4 +96,9 @@ class BookingService
     {
         return $this->bookingRepository->findOneBy( ['token' => $token] );
     }
+
+    public function getBookingById( ?int $getId )
+    {
+        return $this->bookingRepository->findOneBy( ['id' => $getId] );
+    }
 }

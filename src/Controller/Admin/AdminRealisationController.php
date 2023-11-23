@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/realisations' )]
+#[Route( '/realisations', name: 'realisation_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
 class AdminRealisationController extends AbstractController
 {
-    #[Route( '/', name: 'app_admin_realisation_index', methods: ['GET'] )]
+    #[Route( '/', name: 'index', methods: ['GET'] )]
     public function index( RealisationRepository $realisationRepository ) : Response
     {
 
@@ -34,7 +34,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/new', name: 'app_admin_realisation_new', methods: ['GET', 'POST'] )]
+    #[Route( '/new', name: 'new', methods: ['GET', 'POST'] )]
     public function new( Request $request, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager ) : Response
     {
         $realisation = new Realisation();
@@ -58,7 +58,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'app_admin_realisation_show', methods: ['GET'] )]
+    #[Route( '/{id}', name: 'show', methods: ['GET'] )]
     public function show( Realisation $realisation ) : Response
     {
         return $this->render( 'admin/realisation/show.html.twig', [
@@ -66,7 +66,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}/edit', name: 'app_admin_realisation_edit', methods: ['GET', 'POST'] )]
+    #[Route( '/{id}/edit', name: 'edit', methods: ['GET', 'POST'] )]
     public function edit( Request $request, Realisation $realisation, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager ) : Response
     {
         $form = $this->createForm( RealisationType::class, $realisation );
@@ -86,7 +86,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'app_admin_realisation_delete', methods: ['POST'] )]
+    #[Route( '/{id}', name: 'delete', methods: ['POST'] )]
     public function delete( Request $request, Realisation $realisation, RealisationRepository $realisationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $realisation->getId(), $request->request->get( '_token' ) ) ) {
@@ -96,7 +96,7 @@ class AdminRealisationController extends AbstractController
         return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
     }
 
-    #[Route( '/{id}/delete-image', name: 'app_admin_realisation_delete_image', methods: ['DELETE'] )]
+    #[Route( '/{id}/delete-image', name: 'delete_image', methods: ['DELETE'] )]
     public function deleteImage( ImageRealisation $imageRealisation, Request $request, EntityManagerInterface $entityManager ) : JsonResponse
     {
         $data = json_decode( $request->getContent(), true );
@@ -114,7 +114,7 @@ class AdminRealisationController extends AbstractController
         }
     }
 
-    #[Route( '/{id}/delete-images', name: 'app_admin_realisation_delete_images', methods: ['POST'] )]
+    #[Route( '/{id}/delete-images', name: 'delete_images', methods: ['POST'] )]
     public function deleteImagesForRealisation( Realisation $realisation, EntityManagerInterface $entityManager ) : void
     {
         // si le formulaire est soumis

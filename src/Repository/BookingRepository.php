@@ -66,8 +66,8 @@ class BookingRepository extends ServiceEntityRepository
     public function findAllOrderedByDate() : array
     {
         return $this->createQueryBuilder( 'b' )
-            ->orderBy( 'b.bookingDate', 'ASC' )
-            ->addOrderBy( 'b.bookingTime', 'ASC' )
+            ->orderBy( 'b.bookingDate', 'DESC' )
+            ->addOrderBy( 'b.bookingTime', 'DESC' )
             ->getQuery()
             ->getResult();
     }

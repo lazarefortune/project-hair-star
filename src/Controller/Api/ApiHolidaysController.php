@@ -7,7 +7,7 @@ use App\Service\HolidayService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route( '/api/holidays', name: 'api_holidays_' )]
+#[Route( '/holidays', name: 'holidays_' )]
 class ApiHolidaysController extends AbstractController
 {
     public function __construct( private readonly HolidayService $holidayService )

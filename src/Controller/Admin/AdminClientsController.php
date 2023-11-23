@@ -2,7 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Data\Crud\ClientCrudData;
 use App\Entity\User;
+use App\Event\Client\DeleteClientEvent;
+use App\Event\UserCreatedEvent;
 use App\Form\NewClientType;
 use App\Service\ClientService;
 use App\Controller\AbstractController;
@@ -12,131 +15,80 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted( 'ROLE_ADMIN' )]
-#[Route( '/admin/clients', name: 'app_admin_clients_' )]
-class AdminClientsController extends AbstractController
+#[Route( '/clients', name: 'clients_' )]
+class AdminClientsController extends CrudController
 {
-    #[Route( '/', name: 'index' )]
-    public function index( ClientService $clientService ) : Response
+
+    protected string $templatePath = 'clients';
+    protected string $menuItem = 'client';
+    protected string $searchField = 'name';
+    protected string $entity = User::class;
+    protected string $routePrefix = 'app_admin_clients';
+    protected array $events = [
+        'create' => UserCreatedEvent::class,
+        'delete' => DeleteClientEvent::class
+    ];
+
+    #[Route( path: '/', name: 'index', methods: ['GET'] )]
+    public function index() : Response
     {
-        $clients = $clientService->getClients();
+        $queryBuilder = $this->getRepository()->createQueryBuilder( 'row' );
+        $queryBuilder->where( 'row.roles LIKE :role' )
+            ->setParameter( 'role', '%"ROLE_CLIENT"%' );
+
         // remove current user from list
         /** @var User $user */
         $user = $this->getUser();
-        $clients = array_filter( $clients, fn( $client ) => $client->getId() !== $user->getId() );
+        $queryBuilder->andWhere( 'row.id != :id' )
+            ->setParameter( 'id', $user->getId() )
+            ->orderBy( 'row.createdAt', 'DESC' )
+            ->setMaxResults( 5 );
 
-        return $this->render( 'admin/clients/index.html.twig', [
-            'clients' => $clients,
-        ] );
+        return parent::crudIndex( $queryBuilder );
     }
 
-    #[Route( '/{id}/details', name: 'show' )]
-    public function showClient( int $id, ClientService $clientService ) : Response
+    #[Route( path: '/new', name: 'new', methods: ['POST', 'GET'] )]
+    public function new() : Response
     {
-        $EMAILS_LOG_LIMIT = 4;
-
-        try {
-            $client = $clientService->getClient( $id );
-            $clientEmailsLogs = $clientService->getClientMailsLog( $client, $EMAILS_LOG_LIMIT );
-        } catch ( \Exception $e ) {
-            $this->addToast( 'danger', $e->getMessage() );
-
-            return $this->redirectToRoute( 'app_admin_clients_index' );
-        }
-
-        return $this->render( 'admin/clients/show-client.html.twig', [
-            'client' => $client,
-            'clientEmailsLogs' => $clientEmailsLogs,
-            'EMAILS_LOG_LIMIT' => $EMAILS_LOG_LIMIT,
-        ] );
+        $client = new User();
+        $data = new ClientCrudData( $client );
+        return $this->crudNew( $data );
     }
 
-    #[Route( '/ajouter', name: 'new' )]
-    public function addNewClient( Request $request, ClientService $clientService ) : Response
+    #[Route( path: '/{id<\d+>}', name: 'edit', methods: ['POST', 'GET'] )]
+    public function edit( User $client ) : Response
     {
-        $form = $this->createForm( NewClientType::class );
-        $form->handleRequest( $request );
+        $data = new ClientCrudData( $client );
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            try {
-                $clientService->addNewClient( $form->getData() );
-            } catch ( \Exception $e ) {
-                $this->addToast( 'danger', $e->getMessage() );
-
-                return $this->redirectToRoute( 'app_admin_clients_new' );
-            }
-
-            $this->addToast( 'success', 'Le client a bien été ajouté' );
-
-            return $this->redirectToRoute( 'app_admin_clients_index' );
-        }
-
-        return $this->render( 'admin/clients/new-client.html.twig', [
-            'form' => $form->createView(),
-        ] );
-
+        return $this->crudEdit( $data );
     }
 
-    /**
-     * @throws \Exception
-     */
-    #[Route( '/{id}/modifier', name: 'edit' )]
-    public function editClient( Request $request, ClientService $clientService, int $id ) : Response
+    #[Route( path: '/{id<\d+>}', methods: ['DELETE'] )]
+    public function delete( User $client ) : Response
     {
-        try {
-            $client = $clientService->getClient( $id );
-        } catch ( \Exception $e ) {
-            $this->addToast( 'danger', $e->getMessage() );
-
-            return $this->redirectToRoute( 'app_admin_clients_index' );
-        }
-
-        $form = $this->createForm( NewClientType::class, $client );
-        $form->handleRequest( $request );
-
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            try {
-                $clientService->updateClient( $form->getData() );
-            } catch ( \Exception $e ) {
-                $this->addToast( 'danger', $e->getMessage() );
-
-                return $this->redirectToRoute( 'app_admin_clients_edit', ['id' => $id] );
-            }
-
-            $this->addToast( 'success', 'Le client a bien été modifié' );
-
-            return $this->redirectToRoute( 'app_admin_clients_show', ['id' => $id] );
+        return $this->crudDelete( $client );
+    }
 
 
+//    #[Route( '/{id<\d+>}/details', name: 'show', methods: ['GET'] )]
+//    public function showClient( int $id ) : Response
+//    {
+//        $EMAILS_LOG_LIMIT = 4;
+//
+//        try {
+//            $client = $this->clientService->getClient( $id );
+//            $clientEmailsLogs = $this->clientService->getClientMailsLog( $client, $EMAILS_LOG_LIMIT );
+//        } catch ( \Exception $e ) {
+//            $this->addToast( 'danger', $e->getMessage() );
+//
 //            return $this->redirectToRoute( 'app_admin_clients_index' );
-        }
-
-        return $this->render( 'admin/clients/edit-client.html.twig', [
-            'form' => $form->createView(),
-            'client' => $client,
-        ] );
-    }
-
-
-    #[Route( '/{id}', name: 'delete', methods: ['POST'] )]
-    public function delete( Request $request, User $client, ClientService $clientService ) : Response
-    {
-        if ( $this->isCsrfTokenValid( 'delete' . $client->getId(), $request->request->get( '_token' ) ) ) {
-            try {
-                $clientService->deleteClient( $client );
-            } catch ( \Exception $e ) {
-                $this->addToast( 'danger', $e->getMessage() );
-
-                return $this->redirectToRoute( 'app_admin_clients_index' );
-            }
-
-            $this->addToast( 'success', 'Le client a bien été supprimé' );
-
-            return $this->redirectToRoute( 'app_admin_clients_index' );
-        }
-
-        $this->addToast( 'danger', 'Le client n\'a pas pu être supprimé' );
-
-        return $this->redirectToRoute( 'app_admin_clients_index' );
-    }
+//        }
+//
+//        return $this->render( 'admin/clients/show-client.html.twig', [
+//            'client' => $client,
+//            'clientEmailsLogs' => $clientEmailsLogs,
+//            'EMAILS_LOG_LIMIT' => $EMAILS_LOG_LIMIT,
+//        ] );
+//    }
 
 }

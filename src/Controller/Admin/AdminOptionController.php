@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/option', name: 'app_admin_option_' )]
+#[Route( '/option', name: 'option_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
 class AdminOptionController extends AbstractController
 {

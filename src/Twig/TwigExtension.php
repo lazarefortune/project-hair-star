@@ -24,7 +24,24 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
             new TwigFilter( 'is_older_than_hours', [$this, 'isOlderThanHours'] ),
             new TwigFilter( 'json_decode', [$this, 'jsonDecode'] ),
+            new TwigFilter( 'date_age', [$this, 'formatDateAge'] ),
         ];
+    }
+
+    public function formatDateAge( \DateTime $date ) : string
+    {
+        $now = new \DateTime();
+        $interval = $now->diff( $date );
+
+        if ( $interval->days == 0 ) {
+            return 'aujourd\'hui à ' . $date->format( 'H:i' );
+        } elseif ( $interval->days == 1 ) {
+            return 'hier à ' . $date->format( 'H:i' );
+        } elseif ( $interval->days <= 5 ) {
+            return 'depuis ' . $interval->days . ' jours';
+        } else {
+            return 'le ' . $date->format( 'd/m/Y' ) . ' à ' . $date->format( 'H:i' );
+        }
     }
 
     /**
@@ -61,7 +78,7 @@ class TwigExtension extends AbstractExtension
         $minutes = $dateTime->format( 'i' );
 
         if ( $hours > 0 ) {
-            return $hours . ' h ' . $minutes;
+            return $hours . 'h' . $minutes;
         }
 
         return $minutes . ' min';

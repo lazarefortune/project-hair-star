@@ -25,3 +25,13 @@ a {
 .form {
   @apply w-full space-y-4 mb-8;
 }
+
+.is-floating .alert,
+.alert.is-floating {
+  box-shadow: 0 2px 20px var(--lucasluk-shadow);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  z-index: 3000
+}

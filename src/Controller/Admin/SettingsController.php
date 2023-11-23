@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/parametres', name: 'app_admin_settings_' )]
+#[Route( '/parametres', name: 'settings_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
 class SettingsController extends AbstractController
 {

@@ -14,7 +14,7 @@ const baseConfig = {
 const dateConfig = {
     ...baseConfig,
     altInput: true,
-    altFormat: "d/m/Y",
+    altFormat: "j F Y",
     dateFormat: "Y-m-d",
 };
 
@@ -23,6 +23,8 @@ const timeConfig = {
     enableTime: true,
     noCalendar: true,
     dateFormat: "H:i",
+    altInput: true,
+    altFormat: "H \\h i",
 };
 
 const customConfigs = [

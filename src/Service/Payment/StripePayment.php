@@ -104,7 +104,7 @@ class StripePayment
 
     private function createNewPayment( Booking $booking, User $client ) : Payment
     {
-        $url = $this->generatePaymentStatusUrl();
+        $url = $this->generateBookingPaymentStatusUrl( $booking );
         $sessionId = $this->stripeApi->createBookingPaymentSession( $booking, $url );
 
         $payment = new Payment();
@@ -124,7 +124,7 @@ class StripePayment
 
     private function updateSessionForPayment( Payment $payment ) : void
     {
-        $url = $this->generatePaymentStatusUrl();
+        $url = $this->generateBookingPaymentStatusUrl( $payment->getBooking() );
         $sessionId = $this->stripeApi->createBookingPaymentSession( $payment->getBooking(), $url );
 
         $payment->setSessionId( $sessionId )
@@ -141,8 +141,10 @@ class StripePayment
         $this->entityManager->flush();
     }
 
-    private function generatePaymentStatusUrl() : string
+    private function generateBookingPaymentStatusUrl( Booking $booking ) : string
     {
-        return $this->urlGenerator->generate( 'app_booking_payment_result', [], UrlGeneratorInterface::ABSOLUTE_URL );
+        return $this->urlGenerator->generate( 'app_booking_payment_result', [
+            'id' => $booking->getId(),
+        ], UrlGeneratorInterface::ABSOLUTE_URL );
     }
 }

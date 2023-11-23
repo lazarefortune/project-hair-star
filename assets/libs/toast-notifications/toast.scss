@@ -1,6 +1,6 @@
 /* Base styles for toast notifications */
 .toast-notification {
-  @apply fixed z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-500 bg-gray-50 rounded-lg shadow;
+  @apply fixed z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-200 border-b-2 bg-gray-50 rounded-sm shadow;
 
   & .toast-notification-heading {
     @apply text-sm font-semibold text-gray-900;
@@ -34,18 +34,18 @@
 
 /* Styles for success notification */
 .toast-notification-success {
-  @apply border-green-500 bg-green-50;
+  @apply border-b-green-500 bg-white;
 
   & .toast-notification-heading {
-    @apply text-green-900;
+    @apply text-slate-900;
   }
 
   & .toast-notification-content {
-    @apply text-green-800;
+    @apply text-slate-900;
   }
 
   & .toast-notification-close {
-    @apply bg-green-50 text-green-500 hover:bg-green-100 focus:ring-green-300 hover:text-green-900;
+    @apply bg-green-50 text-slate-900 hover:bg-green-100 focus:ring-green-300 hover:text-green-900;
   }
 }
 

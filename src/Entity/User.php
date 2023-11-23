@@ -73,6 +73,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updatedAt;
     }
 
+    public function setCreatedAt( ?\DateTimeInterface $createdAt ) : self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
     #[ORM\Column( type: 'datetime', nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
 
@@ -85,20 +100,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $cgu = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column( nullable: true )]
     private ?bool $isRequestDelete = null;
 
-    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: EmailLog::class, orphanRemoval: true)]
+    #[ORM\OneToMany( mappedBy: 'recipient', targetEntity: EmailLog::class, orphanRemoval: true )]
     private Collection $emailLogs;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true)]
+    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true )]
     private Collection $payments;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $stripeId = null;
 
     public function __construct()
     {
+        $this->fullname = '';
+        $this->email = '';
+        $this->phone = '';
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
@@ -321,24 +339,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isCgu(): ?bool
+    public function isCgu() : ?bool
     {
         return $this->cgu;
     }
 
-    public function setCgu(bool $cgu): static
+    public function setCgu( bool $cgu ) : static
     {
         $this->cgu = $cgu;
 
         return $this;
     }
 
-    public function isIsRequestDelete(): ?bool
+    public function isIsRequestDelete() : ?bool
     {
         return $this->isRequestDelete;
     }
 
-    public function setIsRequestDelete(?bool $isRequestDelete): static
+    public function setIsRequestDelete( ?bool $isRequestDelete ) : static
     {
         $this->isRequestDelete = $isRequestDelete;
 
@@ -348,27 +366,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, EmailLog>
      */
-    public function getEmailLogs(): Collection
+    public function getEmailLogs() : Collection
     {
         return $this->emailLogs;
     }
 
-    public function addEmailLog(EmailLog $emailLog): static
+    public function addEmailLog( EmailLog $emailLog ) : static
     {
-        if (!$this->emailLogs->contains($emailLog)) {
-            $this->emailLogs->add($emailLog);
-            $emailLog->setRecipient($this);
+        if ( !$this->emailLogs->contains( $emailLog ) ) {
+            $this->emailLogs->add( $emailLog );
+            $emailLog->setRecipient( $this );
         }
 
         return $this;
     }
 
-    public function removeEmailLog(EmailLog $emailLog): static
+    public function removeEmailLog( EmailLog $emailLog ) : static
     {
-        if ($this->emailLogs->removeElement($emailLog)) {
+        if ( $this->emailLogs->removeElement( $emailLog ) ) {
             // set the owning side to null (unless already changed)
-            if ($emailLog->getRecipient() === $this) {
-                $emailLog->setRecipient(null);
+            if ( $emailLog->getRecipient() === $this ) {
+                $emailLog->setRecipient( null );
             }
         }
 
@@ -378,39 +396,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Payment>
      */
-    public function getPayments(): Collection
+    public function getPayments() : Collection
     {
         return $this->payments;
     }
 
-    public function addPayment(Payment $payment): static
+    public function addPayment( Payment $payment ) : static
     {
-        if (!$this->payments->contains($payment)) {
-            $this->payments->add($payment);
-            $payment->setClient($this);
+        if ( !$this->payments->contains( $payment ) ) {
+            $this->payments->add( $payment );
+            $payment->setClient( $this );
         }
 
         return $this;
     }
 
-    public function removePayment(Payment $payment): static
+    public function removePayment( Payment $payment ) : static
     {
-        if ($this->payments->removeElement($payment)) {
+        if ( $this->payments->removeElement( $payment ) ) {
             // set the owning side to null (unless already changed)
-            if ($payment->getClient() === $this) {
-                $payment->setClient(null);
+            if ( $payment->getClient() === $this ) {
+                $payment->setClient( null );
             }
         }
 
         return $this;
     }
 
-    public function getStripeId(): ?string
+    public function getStripeId() : ?string
     {
         return $this->stripeId;
     }
 
-    public function setStripeId(?string $stripeId): static
+    public function setStripeId( ?string $stripeId ) : static
     {
         $this->stripeId = $stripeId;
 

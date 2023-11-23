@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 flatpickr(inputDate, {
                     altInput: true,
-                    altFormat: "d/m/Y",
+                    altFormat: "j F Y",
                     dateFormat: "Y-m-d",
                     // minDate: "today",
                     maxDate: maxDate,
@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     enableTime: true,
                     noCalendar: true,
                     dateFormat: "H:i",
+                    altInput: true,
+                    altFormat: "H \\h i",
                     minTime: minTime,
                     maxTime: maxTime,
                     disableMobile: true,

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/salon', name: 'app_admin_shop_settings_' )]
+#[Route( '/salon', name: 'shop_settings_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
 class ShopSettingsController extends AbstractController
 {

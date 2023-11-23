@@ -67,6 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const tbodyCheckboxes = table.querySelectorAll('tbody input[type="checkbox"]');
         const tbodyTrs = table.querySelectorAll('tbody tr');
 
+        if (!theadCheckbox) {
+            return;
+        }
+
+        if (tbodyCheckboxes.length === 0) {
+            return;
+        }
         // foreach checkbox checked, add class table-active on tr
         tbodyCheckboxes.forEach(checkbox => {
             if (checkbox.checked) {

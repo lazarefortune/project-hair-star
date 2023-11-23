@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route( '/admin/rendez-vous', name: 'app_admin_booking_' )]
+#[Route( '/rendez-vous', name: 'booking_' )]
 class AdminBookingController extends AbstractController
 {
     public function __construct( private readonly BookingService $bookingService )

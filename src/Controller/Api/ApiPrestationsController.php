@@ -14,7 +14,7 @@ class ApiPrestationsController extends AbstractController
     {
     }
 
-    #[Route( '/api/prestations/{id}', name: 'api_prestations_' )]
+    #[Route( '/prestations/{id}', name: 'prestations_' )]
     public function index( Prestation $prestation ) : JsonResponse
     {
         $prestations = $this->entityManager->getRepository( Prestation::class )->findBy( ['id' => $prestation->getId()] );

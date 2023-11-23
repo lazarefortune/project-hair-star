@@ -5,21 +5,21 @@ namespace App\Enum;
 enum UserEmailType
 {
     public const ACCOUNT_WELCOME = [
-        'title' => 'Mail de bienvenue',
+        'description' => 'Mail de bienvenue',
         'value' => 'account_welcome'
     ];
     public const ACCOUNT_CONFIRMATION_SUCCESS = [
-        'title' => 'Mail de confirmation de compte réussie',
+        'description' => 'Mail de confirmation de compte réussie',
         'value' => 'account_confirmation_success'
     ];
 
 
     public const ACCOUNT_REQUEST_CONFIRMATION = [
-        'title' => 'Mail de demande de confirmation de compte',
+        'description' => 'Mail de demande de confirmation de compte',
         'value' => 'account_request_confirmation'
     ];
     public const PASSWORD_RESET = [
-        'title' => 'Mail de réinitialisation de mot de passe',
+        'description' => 'Mail de réinitialisation de mot de passe',
         'value' => 'password_reset'
     ];
 

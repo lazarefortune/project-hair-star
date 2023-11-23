@@ -15,7 +15,7 @@ class ApiOffDaysController extends AbstractController
     {
     }
 
-    #[Route( '/api/off-days', name: 'api_off_days_' )]
+    #[Route( '/off-days', name: 'off_days_' )]
     public function index() : JsonResponse
     {
         $offDaysInEachWeek = $this->entityManager->getRepository( Option::class )->findOneBy( ['name' => 'offdays'] );

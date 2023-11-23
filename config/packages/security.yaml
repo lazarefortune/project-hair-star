@@ -39,7 +39,7 @@ security:
     ROLE_CLIENT: ROLE_USER
     ROLE_ADMIN: ROLE_CLIENT
     ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
-    
+
 
 when@test:
   security:

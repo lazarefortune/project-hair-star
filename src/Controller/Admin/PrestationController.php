@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route( '/admin/prestations', name: 'app_admin_prestation_' )]
+#[Route( '/prestations', name: 'prestation_' )]
 #[IsGranted( 'ROLE_ADMIN' )]
 class PrestationController extends AbstractController
 {
