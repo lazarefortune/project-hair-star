@@ -83,4 +83,9 @@ class ClientService
     {
         return $this->emailLogRepository->getClientMailsLog( $client, $limit );
     }
+
+    public function search( string $query )
+    {
+        return $this->userRepository->searchClientByNameAndEmail( $query );
+    }
 }

@@ -3,6 +3,8 @@ import '../base/index.js'
 /* ===== Styles ===== */
 import '../../scss/admin/admin.scss'
 /* ===== Libs ===== */
+/* Drop-files-element */
+import '@grafikart/drop-files-element'
 // Flatpickr Calendar
 import '../../libs/flatpickr/index.js'
 // import '../../libs/flatpickr/flatpickr.scss';

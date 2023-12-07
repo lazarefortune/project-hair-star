@@ -17,7 +17,7 @@
             <th>
                 Date d'inscription
             </th>
-            <th>
+            <th class="text-center">
                 Vérifié
             </th>
             <th>
@@ -51,15 +51,11 @@
                 <td>
                     {{ row.createdAt|date_age }}
                 </td>
-                <td>
+                <td class="text-center">
                     {% if row.isVerified %}
-                        <span class="badge badge-success">
-                                    Vérifié
-                                </span>
+                        <div class="w-3 h-3 rounded-full bg-green-500 inline-block"></div>
                     {% else %}
-                        <span class="badge badge-danger">
-                                    Non vérifié
-                                </span>
+                        <div class="w-3 h-3 rounded-full bg-red-500 inline-block"></div>
                     {% endif %}
                 </td>
                 <td>
@@ -71,7 +67,7 @@
                         <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post"
                               onsubmit="return confirm('Voulez-vous vraiment supprimer ce contenu')">
                             <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit">
+                            <button type="submit" class="btn-icon">
                                 {{ icon('trash') }}
                             </button>
                         </form>

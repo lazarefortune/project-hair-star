@@ -1,0 +1,25 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Clients
+        </h4>
+        <a href="{{ path('app_admin_clients_new') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
+
+    <div class="card-simple">
+
+        {{ component('client_search', {
+            query: query
+        }) }}
+    </div>
+
+{% endblock %}
+

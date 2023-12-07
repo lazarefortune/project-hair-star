@@ -14,10 +14,22 @@
         </a>
     </div>
 
-    <div class="card-simple">
+    <div class="card-simple hidden md:block">
 
         {% include 'admin/clients/_items.html.twig' with {rows: rows} %}
 
-        {{ knp_pagination_render(rows) }}
+        <div class="flex justify-center mt-6">
+            {{ knp_pagination_render(rows) }}
+        </div>
     </div>
+
+    <div class="md:hidden">
+        {% include 'admin/clients/_items-mobile.html.twig' with {rows: rows} %}
+
+        <div class="flex justify-center mt-6">
+            {{ knp_pagination_render(rows) }}
+        </div>
+    </div>
+
+
 {% endblock %}

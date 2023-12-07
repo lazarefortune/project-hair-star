@@ -21,3 +21,19 @@
 .badge-primary {
   @apply bg-primary-100 text-primary-800;
 }
+
+.empty-circle {
+  @apply inline-block rounded-full h-3 w-3;
+}
+
+.empty-circle-success {
+  @apply bg-green-500;
+}
+
+.empty-circle-warning {
+  @apply bg-yellow-500;
+}
+
+.empty-circle-danger {
+  @apply bg-red-500;
+}

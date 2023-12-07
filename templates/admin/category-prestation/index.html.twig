@@ -30,9 +30,6 @@
                         Statut
                     </th>
                     <th>
-                        Description
-                    </th>
-                    <th>
                         Actions
                     </th>
                 </tr>
@@ -54,14 +51,7 @@
                             {{ category.name }}
                         </td>
                         <td>
-                            {% if category.isActive %}
-                                <span class="badge badge-success">Actif</span>
-                            {% else %}
-                                <span class="badge badge-danger">Inactif</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {{ category.description }}
+                            <div class="empty-circle empty-circle-{% if category.isActive %}success{% else %}danger{% endif %}"></div>
                         </td>
                         <td>
                             <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"

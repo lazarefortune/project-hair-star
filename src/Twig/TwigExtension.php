@@ -25,7 +25,13 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'is_older_than_hours', [$this, 'isOlderThanHours'] ),
             new TwigFilter( 'json_decode', [$this, 'jsonDecode'] ),
             new TwigFilter( 'date_age', [$this, 'formatDateAge'] ),
+            new TwigFilter( 'human_date', [$this, 'formatHumanDate'] ),
         ];
+    }
+
+    public function formatHumanDate( \DateTime $date ) : string
+    {
+        return $date->format( 'j F Y' );
     }
 
     public function formatDateAge( \DateTime $date ) : string
@@ -86,10 +92,43 @@ class TwigExtension extends AbstractExtension
 
     public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
     {
-        return $this->showIconWithLucidIcons( $iconName, $iconSize, $additionalClass );
+//        return $this->showLucideIconSvg( $iconName, $iconSize, $additionalClass );
+        return $this->showIconWithLucideIcons( $iconName, $iconSize, $additionalClass );
     }
 
-    private function showIconWithLucidIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
+    /**
+     * Show an icon with lucid icons from public folder
+     * @return void
+     */
+    public function showLucideIconSvg( string $iconName, ?string $iconSize = null, ?string $additionalClass = null ) : string
+    {
+        $width = '17';
+        $height = '17';
+
+        // Map icon sizes to width and height
+        $lucidIconSizes = [
+            'xs' => ['width' => '12', 'height' => '12'],
+            '3sm' => ['width' => '16', 'height' => '16'],
+            '2sm' => ['width' => '18', 'height' => '18'],
+            'sm' => ['width' => '20', 'height' => '20'],
+            'md' => ['width' => '24', 'height' => '24'],
+            'lg' => ['width' => '32', 'height' => '32'],
+            'xl' => ['width' => '48', 'height' => '48'],
+        ];
+
+        if ( $iconSize && array_key_exists( $iconSize, $lucidIconSizes ) ) {
+            $width = $lucidIconSizes[$iconSize]['width'];
+            $height = $lucidIconSizes[$iconSize]['height'];
+        }
+
+        return <<<HTML
+            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;" class="{$additionalClass}">
+                <img src="/icons/lucide/{$iconName}.svg" width="{$width}" height="{$height}"  alt="{$iconName}">
+            </div>
+        HTML;
+    }
+
+    private function showIconWithLucideIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
     {
         $width = '17';
         $height = '17';

@@ -25,6 +25,9 @@ module.exports = {
                 'outline-primary': '0 0 0 3px rgba(132, 61, 255, 0.5)',
                 'outline-secondary': '0 0 0 3px rgba(0, 0, 0, 0.5)',
             },
+            fontSize: {
+                'md': '0.938rem', // 15px
+            },
             colors: {
                 primary: {
                     "50": "#f3f1ff",

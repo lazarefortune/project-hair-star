@@ -1,95 +1,77 @@
-{% extends 'admin/layouts/card.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Toutes les réalisations{% endblock %}
 
-{% block card_title %}Réalisations{% endblock %}
+{% block body %}
 
-{% block card_style '' %}
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Prestations
+        </h4>
+        <a href="{{ path('app_admin_realisation_new') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
 
-{% block card_body %}
+    <div class="card-simple">
 
-    <div class="hidden lg:block bg-white px-2 lg:py-5 mb-4 rounded-lg shadow-md">
-        <table class="table table-responsive mt-6 font-plusJakartaSans w-full">
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Durée</th>
-                <th>Montant</th>
-                <th>Visibilité</th>
-                <th>Statut</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for realisation in realisations %}
+        <div class="block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
                 <tr>
-                    <td>{{ realisation.dateRealisation|date('d/m/Y') }}</td>
-                    <td>
-                        {{ realisation.duration|date('H') }}
-                        h {{ realisation.duration|date('i') }} min
-                    </td>
-                    <td>{{ realisation.tarif }} €</td>
-                    <td>
-                        <span class="badge badge-success">Terminé</span>
-                    </td>
-                    <td>
-                        {% if realisation.isPublic %}
-                            <span class="badge badge-success">Publié</span>
-                        {% else %}
-                            <span class="badge badge-danger">Non publié</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
-                           class="btn btn-primary btn-sm">Voir</a>
-                    </td>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Durée
+                    </th>
+                    <th>
+                        Tarif
+                    </th>
+                    <th>
+                        Visibilité
+                    </th>
+                    <th>
+                        Actions
+                    </th>
                 </tr>
-            {% endfor %}
-
-        </table>
+                </thead>
+                <tbody>
+                {% for realisation in realisations %}
+                    <tr>
+                        <td class="uppercase">{{ realisation.id }}</td>
+                        <td>{{ realisation.dateRealisation|human_date }}</td>
+                        <td>{{ realisation.duration|duration_format }}</td>
+                        <td>{{ realisation.tarif|price_format }}</td>
+                        <td>
+                            {% if realisation.isPublic %}
+                                <span class="badge badge-success">Publié</span>
+                            {% else %}
+                                <span class="badge badge-danger">Non publié</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_realisation_show', {'id': realisation.id}) }}"
+                               class="btn-icon">
+                                {{ icon('eye') }}
+                            </a>
+                            <a href="{{ path('app_admin_realisation_edit', {'id': realisation.id}) }}"
+                               class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-    <!-- list of realisations -->
-    <div class="mt-8 grid lg:hidden grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {% for realisation in realisations %}
-
-            {% include 'admin/realisation/_realisation_card.html.twig' %}
-
-        {% endfor %}
-    </div>
-
 {% endblock %}
 
-{% block javascripts_footer %}
-    {{ parent() }}
-    <script>
-        document.querySelectorAll('.realisation-images').forEach(carousel => {
-            const imageContainer = carousel.querySelector('.imageContainer');
-            console.log(imageContainer);
-            const images = Array.from(imageContainer.getElementsByTagName('img'));
-            const imageWidth = images[0].clientWidth;
-            let currentImageIndex = 0;
-
-            const leftButton = carousel.querySelector('.slide-left');
-            const rightButton = carousel.querySelector('.slide-right');
-
-            function checkButtons() {
-                leftButton.style.visibility = (currentImageIndex === 0) ? 'hidden' : 'visible';
-                rightButton.style.visibility = (currentImageIndex === images.length - 1) ? 'hidden' : 'visible';
-            }
-
-            checkButtons();
-
-            function scrollImages(offset) {
-                currentImageIndex = Math.max(0, Math.min(images.length - 1, currentImageIndex + offset));
-                imageContainer.style.transform = `translateX(-${currentImageIndex * imageWidth}px)`;
-                checkButtons();
-            }
-
-            carousel.querySelector('.slide-left').addEventListener('click', () => scrollImages(-1));
-            carousel.querySelector('.slide-right').addEventListener('click', () => scrollImages(1));
-        });
-
-    </script>
-{% endblock %}

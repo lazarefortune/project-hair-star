@@ -69,6 +69,13 @@ class AdminClientsController extends CrudController
         return $this->crudDelete( $client );
     }
 
+    #[Route( path: '/search', name: 'search', methods: ['GET'] )]
+    public function search( Request $request ) : Response
+    {
+        return $this->render( 'admin/clients/_search.html.twig', [
+            'query' => (string)$request->query->get( 'query', '' ),
+        ] );
+    }
 
 //    #[Route( '/{id<\d+>}/details', name: 'show', methods: ['GET'] )]
 //    public function showClient( int $id ) : Response

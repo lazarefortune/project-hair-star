@@ -1,11 +1,29 @@
-{% extends 'admin/layouts/card.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block card_title %}
-    Tu as fait une nouvelle réalisation ?
-{% endblock %}
+{% block title 'Ajout d\'une réalisation' %}
 
-{% block card_body %}
+{% block body %}
 
-    {{ include('admin/realisation/_form.html.twig') }}
+    <a href="{{ path('app_admin_realisation_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+            Liste des réalisations
+        </span>
+    </a>
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Nouvelle réalisation
+        </h4>
+    </div>
+
+    <div class="mt-6">
+        {% include 'admin/realisation/_form.html.twig' with {
+            form: form,
+            button_label: 'Enregistrer',
+            button_back_to_list: false
+        } %}
+    </div>
 
 {% endblock %}

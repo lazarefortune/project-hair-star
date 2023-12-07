@@ -21,32 +21,49 @@ class RealisationType extends AbstractType
     {
         $builder
             ->add( 'isPublic', SwitchboxType::class, [
-                'input_label' => 'Souhaites-tu afficher cette réalisation ?',
+                'input_label' => 'En ligne ?',
                 'label_on' => 'Oui',
                 'label_off' => 'Non',
             ] )
             ->add( 'tarif', NumberType::class, [
                 'attr' => [
-                    'class' => 'form-control form-control-tarif',
-                    'value' => '20.00',
+                    'class' => 'form-input-md',
+//                    'value' => '20.00',
+                ],
+                'label' => 'Tarif',
+                'label_attr' => [
+                    'class' => 'label',
                 ],
                 'scale' => 2,
             ] )
             ->add( 'isTarifPublic', SwitchboxType::class, [
                 'label_on' => 'Oui',
                 'label_off' => 'Non',
-                'input_label' => 'Souhaites-tu afficher le tarif ?',
+                'input_label' => 'Prix public ?',
             ] )
             ->add( 'dateRealisation', DateType::class, [
-                'required' => false,
+                'required' => true,
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de la réalisation',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
+                'attr' => [
+                    'class' => 'flatpickr-date-realisation form-input-md',
+                    'data-input' => 'true'
+                ],
             ] )
             ->add( 'duration', TimeType::class, [
                 'label' => 'Durée de la réalisation',
-                'required' => false,
+                'required' => true,
                 'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'flatpickr-time-input form-input-md',
+                ],
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] )
             ->add( 'images', FileType::class, [
                 'label' => 'Ajoutez des images',

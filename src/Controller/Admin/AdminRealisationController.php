@@ -8,6 +8,7 @@ use App\Form\RealisationType;
 use App\Repository\RealisationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,11 @@ class AdminRealisationController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
 
+            $dateRealisation = $form->get( 'dateRealisation' )->getData();
+            if ( empty( $dateRealisation ) ) {
+                $realisation->setDateRealisation( new \DateTime() );
+            }
+
             $realisation->setCreatedAt( new \DateTimeImmutable() );
 
             $realisationRepository->save( $realisation, true );
@@ -52,7 +58,7 @@ class AdminRealisationController extends AbstractController
             return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->renderForm( 'admin/realisation/new.html.twig', [
+        return $this->render( 'admin/realisation/new.html.twig', [
             'realisation' => $realisation,
             'form' => $form,
         ] );
@@ -77,10 +83,10 @@ class AdminRealisationController extends AbstractController
             $realisationRepository->save( $realisation, true );
 
             $this->addToast( 'success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée' );
-            return $this->redirectToRoute( 'app_admin_realisation_show', ['id' => $realisation->getId()], Response::HTTP_SEE_OTHER );
+            return $this->redirect( $request->headers->get( 'referer' ) );
         }
 
-        return $this->renderForm( 'admin/realisation/edit.html.twig', [
+        return $this->render( 'admin/realisation/edit.html.twig', [
             'realisation' => $realisation,
             'form' => $form,
         ] );
@@ -123,12 +129,12 @@ class AdminRealisationController extends AbstractController
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form
+     * @param FormInterface $form
      * @param Realisation $realisation
      * @param EntityManagerInterface $entityManager
      * @return void
      */
-    public function uploadImagesForRealisation( \Symfony\Component\Form\FormInterface $form, Realisation $realisation, EntityManagerInterface $entityManager ) : void
+    public function uploadImagesForRealisation( FormInterface $form, Realisation $realisation, EntityManagerInterface $entityManager ) : void
     {
         $uploadImages = $form->get( 'images' )->getData();
 

@@ -1,0 +1,98 @@
+<div {{ attributes }}>
+    <div class="px-4 py-6">
+        <input
+                type="search"
+                data-model="query"
+                class="rounded-sm shadow-sm block w-full border border-gray-300 px-3 py-2 "
+                placeholder="Rechercher..."
+        >
+    </div>
+
+    <div class="block w-full overflow-x-auto">
+        <table class="table w-full border-collapse items-center bg-transparent">
+            <thead class="bg-gray-50">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Nom
+                </th>
+                <th>
+                    E-mail
+                </th>
+                <th>
+                    Numéro
+                </th>
+                <th>
+                    Date d'inscription
+                </th>
+                <th class="text-center">
+                    Vérifié
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if this.clients is empty %}
+                <tr>
+                    <td colspan="7" class="text-center">
+                        Aucune donnée disponible
+                    </td>
+                </tr>
+            {% endif %}
+            {% for row in this.clients %}
+                {#                {% set link = path(prefix ~ '_edit', {id: row.id}) %} #}
+                <tr>
+                    <td class="text-left">
+                        {{ row.id }}
+                    </td>
+                    <td>
+                        {{ row.fullname }}
+                    </td>
+                    <td>
+                        {{ row.email }}
+                    </td>
+                    <td>
+                        {{ row.phone }}
+                    </td>
+                    <td>
+                        {{ row.createdAt|date_age }}
+                    </td>
+                    <td class="text-center">
+                        {% if row.isVerified %}
+                            <div class="w-3 h-3 rounded-full bg-green-500 inline-block"></div>
+                        {% else %}
+                            <div class="w-3 h-3 rounded-full bg-red-500 inline-block"></div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_admin_clients_edit', {id: row.id}) }}"
+                           class="btn-icon">
+                            {{ icon('pencil') }}
+                        </a>
+                        <div class="inline-block">
+                            {#                            <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" #}
+                            {#                                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce contenu')"> #}
+                            {#                                <input type="hidden" name="_method" value="DELETE"> #}
+                            {#                                <button type="submit" class="btn-icon"> #}
+                            {#                                    {{ icon('trash') }} #}
+                            {#                                </button> #}
+                            {#                            </form> #}
+                        </div>
+                        {#
+                        <a href="{{ path('app_admin_clients_show', {id: client.id}) }}"
+                           class="btn-icon">
+                            {{ icon('arrow-right') }}
+                        </a>
+                        #}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>

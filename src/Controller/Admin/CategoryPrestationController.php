@@ -37,7 +37,7 @@ class CategoryPrestationController extends AbstractController
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->renderForm( 'admin/category-prestation/new.html.twig', [
+        return $this->render( 'admin/category-prestation/new.html.twig', [
             'category_service' => $categoryPrestation,
             'form' => $form,
         ] );
@@ -64,7 +64,7 @@ class CategoryPrestationController extends AbstractController
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->renderForm( 'admin/category-prestation/edit.html.twig', [
+        return $this->render( 'admin/category-prestation/edit.html.twig', [
             'category_service' => $categoryPrestation,
             'form' => $form,
         ] );

@@ -55,7 +55,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save( $user, true );
     }
-    
+
     /**
      * @return User[]
      */
@@ -64,6 +64,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder( 'u' )
             ->andWhere( 'u.roles LIKE :role' )
             ->setParameter( 'role', '%' . $string . '%' )
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchClientByNameAndEmail( string $query )
+    {
+        return $this->createQueryBuilder( 'u' )
+            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.fullname LIKE :query OR u.email LIKE :query' )
+            ->orderBy( 'u.createdAt', 'DESC' )
+            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'query', '%' . $query . '%' )
             ->getQuery()
             ->getResult();
     }
