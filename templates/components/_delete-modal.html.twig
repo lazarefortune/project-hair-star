@@ -32,6 +32,7 @@
 
             <form method="post" action="{{ form_action }}" class="block modal-delete-btn">
                 <input type="hidden" name="_token" value="{{ csrf_value }}">
+                {{ form_html_element|default('')|raw }}
                 <button class="btn-md btn-danger mr-2">
                     {{ btn_label }}
                 </button>

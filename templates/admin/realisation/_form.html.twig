@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
+<div class="mt-4 grid grid-cols-1 gap-4 card card-custom lg:grid-cols-3">
     <div class="col-span-1 flex flex-col justify-start">
         <h6 class="card-section-title">
             Votre réalisation
@@ -32,7 +32,8 @@
             {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
                 <div class="col-span-full">
                     <label class="label">Vos images</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:flex-row ">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:flex-row
+                ">
                         {% for image in realisation.images %}
                             <div id="image-realisation-{{ image.id }}" class="col-span-1 relative group">
                                 <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
@@ -40,7 +41,7 @@
                                      class="object-cover  h-48 w-96">
                                 <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div>
 
-                                <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 sm:opacity-0 transition-opacity
+                                <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
                             bg-slate-900 p-2 rounded-full"
                                    href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
                                    data-delete-image-realisation
@@ -60,8 +61,10 @@
                     'attr': {
                         'class': 'form-input-md',
                         'is' : 'drop-files',
+                        'label': 'Glissez vos images ici ou cliquez ici',
+                        'help': 'Vous pouvez ajouter plusieurs images en même temps',
                     },
-                    'label': 'Montre-nous ton travail !',
+                    'label': 'Ajouter des images',
                     'label_attr': {
                         'class': 'label'
                     }

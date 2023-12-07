@@ -19,5 +19,8 @@ import '../../libs/tomselect/index.js'
 /* ===== Pages ===== */
 import '../pages/admin/realisation/_deleteImage.js'
 
+
+/* ===== Custom elements ===== */
+import '../custom-elements/spotlight.js'
 // start the Stimulus application
 import '../../bootstrap'

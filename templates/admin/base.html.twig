@@ -27,6 +27,10 @@
     <!-- jquery-->
     <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
 
+    <!-- TODO: optimize js => déplacer uniquement dans les pages qui utilisent le drop-file -->
+    <!-- drop-files element script for safari -->
+    <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('admin') }}
     {% endblock %}
@@ -79,12 +83,12 @@
         <div class="space-y-1">
             <a href="{{ path('app_admin_maintenance') }}" class="sidebar-nav-item sidebar-nav-item-disabled">
                 {{ icon('wallet') }}
-                <span class="ml-1">Comptes</span>
+                <span class="ml-1">Compte & Revenus</span>
             </a>
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_prestation') }} {{ menu_active('app_admin_category_prestation') }}">
                 {{ icon('store', 'sm' ) }}
-                <span class="ml-1">Prestations</span>
+                <span class="ml-1">Services</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
                     {{ icon('chevron-right', 'sm' ) }}
                 </span>
@@ -92,7 +96,7 @@
             <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
                 <a href="{{ path('app_admin_prestation_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_prestation') }}">
-                    Toutes
+                    Prestations
                 </a>
                 <a href="{{ path('app_admin_category_prestation_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_category_prestation') }}">
@@ -108,7 +112,7 @@
 
             <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_shop_settings_') }}">
                 {{ icon('settings', 'sm' ) }}
-                <span class="ml-1">Configuration</span>
+                <span class="ml-1">Réglages</span>
                 <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
                         {{ icon('chevron-right', 'sm' ) }}
                     </span>
@@ -116,11 +120,11 @@
             <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
                 <a href="{{ path('app_admin_maintenance') }}"
                    class="sidebar-nav-item sidebar-nav-item-disabled">
-                    Application
+                    App
                 </a>
                 <a href="{{ path('app_admin_shop_settings_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_shop_settings_index') }}">
-                    Paramètres
+                    Salon
                 </a>
             </div>
         </div>
@@ -129,6 +133,18 @@
 
 <div class="fixed inset-0 z-10 hidden bg-gray-900 bg-opacity-30 backdrop-blur-sm" id="sidebarBackdrop"></div>
 
+<spotlight-bar target=".sidebar-nav a"></spotlight-bar>
+
+{# <div class="spotlight active"> #}
+{#    <div class="spotlight__bar"> #}
+{#        <input type="text" placeholder="Rechercher"> #}
+{#        <ul class="spotlight__suggestions"> #}
+{#            <li class="active"><a href="">Réalisations</a></li> #}
+{#            <li><a href="">Clients</a></li> #}
+{#            <li><a href="">Liste des clients</a></li> #}
+{#        </ul> #}
+{#    </div> #}
+{# </div> #}
 
 <div class="min-h-screen">
     <div class="fixed z-50 flex w-full items-center justify-between bg-white px-3 py-2 shadow-sm dark:bg-gray-800">

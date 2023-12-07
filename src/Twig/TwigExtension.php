@@ -40,15 +40,20 @@ class TwigExtension extends AbstractExtension
         $interval = $now->diff( $date );
 
         if ( $interval->days == 0 ) {
-            return 'aujourd\'hui à ' . $date->format( 'H:i' );
+            return 'aujourd\'hui';
         } elseif ( $interval->days == 1 ) {
-            return 'hier à ' . $date->format( 'H:i' );
-        } elseif ( $interval->days <= 5 ) {
-            return 'depuis ' . $interval->days . ' jours';
+            return 'hier';
+        } elseif ( $interval->days < 30 ) {
+            return 'il y a ' . $interval->days . ' jours';
+        } elseif ( $interval->days < 365 ) {
+            $months = round( $interval->days / 30 );
+            return 'il y a ' . $months . ' mois';
         } else {
-            return 'le ' . $date->format( 'd/m/Y' ) . ' à ' . $date->format( 'H:i' );
+            $years = round( $interval->days / 365 );
+            return 'il y a ' . $years . ' ans';
         }
     }
+
 
     /**
      * @param string $json

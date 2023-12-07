@@ -4,6 +4,7 @@ namespace App\Data\Crud;
 
 use App\Data\AutomaticCrudData;
 use App\Entity\User;
+use Cassandra\Date;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Unique;
 
@@ -25,6 +26,8 @@ class ClientCrudData extends AutomaticCrudData
     #[Assert\Length( min: 10 )]
     public string $phone = '';
 
+    public ?\DateTimeInterface $dateOfBirthday = null;
+
     public function hydrate() : void
     {
         parent::hydrate();
@@ -32,5 +35,6 @@ class ClientCrudData extends AutomaticCrudData
         $this->entity->setCgu( true );
         $this->entity->setPassword( "" );
         $this->entity->setUpdatedAt( new \DateTimeImmutable() );
+        $this->entity->setDateOfBirthday( $this->dateOfBirthday );
     }
 }

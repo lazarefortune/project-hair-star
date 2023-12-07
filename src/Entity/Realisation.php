@@ -20,8 +20,8 @@ class Realisation
     #[ORM\Column]
     private ?bool $isPublic = null;
 
-    #[ORM\Column( nullable: true )]
-    private ?int $tarif = null;
+    #[ORM\Column( type: "decimal", precision: 10, scale: 2, nullable: true )]
+    private ?float $tarif = null;
 
     #[ORM\Column( nullable: true )]
     private ?bool $isTarifPublic = null;
@@ -62,12 +62,11 @@ class Realisation
 
     public function getTarif() : ?float
     {
-        return $this->tarif / 100;
+        return $this->tarif;
     }
 
     public function setTarif( ?float $tarif ) : self
     {
-        $tarif = (int)( $tarif * 100 );
         $this->tarif = $tarif;
 
         return $this;

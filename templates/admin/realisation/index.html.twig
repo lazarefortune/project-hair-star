@@ -6,7 +6,7 @@
 
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
-            Prestations
+            Réalisations
         </h4>
         <a href="{{ path('app_admin_realisation_new') }}"
            class="btn btn-md btn-primary">
@@ -44,6 +44,19 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% if realisations|length == 0 %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Aucune réalisation pour le moment.
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_realisation_new') }}"
+                               class="btn-icon">
+                                {{ icon('plus') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
                 {% for realisation in realisations %}
                     <tr>
                         <td class="uppercase">{{ realisation.id }}</td>
@@ -66,6 +79,19 @@
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
+                            <button
+                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ realisation.id }}">
+                                {{ icon('trash') }}
+                            </button>
+
+                            {% include 'components/_delete-modal.html.twig' with {
+                                'id': 'modal-id-' ~ realisation.id,
+                                'title': 'Supprimer la réalisation',
+                                'content': 'Vous êtes sur le point de supprimer la réalisation <br>Cette action est irréversible.',
+                                'form_action': path('app_admin_realisation_delete', {'id': realisation.id}),
+                                'csrf_value': csrf_token('delete' ~ realisation.id),
+                                'btn_label': 'Supprimer'
+                            } %}
                         </td>
                     </tr>
                 {% endfor %}

@@ -5,11 +5,9 @@ namespace App\Form;
 use App\Entity\Realisation;
 use App\Form\Type\SwitchboxType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,16 +23,16 @@ class RealisationType extends AbstractType
                 'label_on' => 'Oui',
                 'label_off' => 'Non',
             ] )
-            ->add( 'tarif', NumberType::class, [
+            ->add( 'tarif', MoneyType::class, [
                 'attr' => [
                     'class' => 'form-input-md',
-//                    'value' => '20.00',
                 ],
                 'label' => 'Tarif',
+                'currency' => 'EUR',
+                'required' => true,
                 'label_attr' => [
                     'class' => 'label',
                 ],
-                'scale' => 2,
             ] )
             ->add( 'isTarifPublic', SwitchboxType::class, [
                 'label_on' => 'Oui',

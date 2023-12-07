@@ -80,9 +80,10 @@ class AdminRealisationController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->uploadImagesForRealisation( $form, $realisation, $entityManager );
+
             $realisationRepository->save( $realisation, true );
 
-            $this->addToast( 'success', 'La réalisation ' . $realisation->getId() . ' a bien été modifiée' );
+            $this->addToast( 'success', 'La réalisation a bien été modifiée' );
             return $this->redirect( $request->headers->get( 'referer' ) );
         }
 
@@ -96,7 +97,15 @@ class AdminRealisationController extends AbstractController
     public function delete( Request $request, Realisation $realisation, RealisationRepository $realisationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $realisation->getId(), $request->request->get( '_token' ) ) ) {
+            // delete all related images from the server
+            foreach ( $realisation->getImages() as $image ) {
+                $name = $image->getName();
+                unlink( $this->getParameter( 'realisation_img_dir' ) . '/' . $name );
+            }
+
             $realisationRepository->remove( $realisation, true );
+
+            $this->addToast( 'success', 'La réalisation a bien été supprimée' );
         }
 
         return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );

@@ -49,6 +49,18 @@ class NewClientType extends AbstractType
                 'label_attr' => [
                     'class' => 'label',
                 ],
+            ] )
+            ->add( 'dateOfBirthday', DateType::class, [
+                'label' => 'Date de naissance',
+                'widget' => 'single_text',
+                'attr' => [
+                    'placeholder' => 'Date de naissance',
+                    'class' => 'form-input-md',
+                ],
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'label',
+                ],
             ] );
 
     }

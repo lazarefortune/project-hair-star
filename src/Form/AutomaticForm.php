@@ -6,6 +6,8 @@ use App\Form\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,8 +25,8 @@ class AutomaticForm extends AbstractType
         'bool' => SwitchType::class,
         'int' => NumberType::class,
         'float' => NumberType::class,
-        \DateTimeInterface::class => TextType::class,
         UploadedFile::class => FileType::class,
+        \DateTimeInterface::class => DateType::class,
     ];
 
     final public const NAMES = [
@@ -57,15 +59,46 @@ class AutomaticForm extends AbstractType
                 $builder->add( $name, ChoiceType::class, [
                     'required' => true,
                     'choices' => array_flip( Formation::$levels ),
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input-md',
+                    ],
                 ] );
                 // Input spécifique au nom du champs
             } elseif ( array_key_exists( $name, self::NAMES ) ) {
                 $builder->add( $name, self::NAMES[$name], [
                     'required' => false,
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input-md',
+                    ],
                 ] );
             } elseif ( array_key_exists( $type->getName(), self::TYPES ) ) {
+                if ( $type->getName() === \DateTimeInterface::class ) {
+                    $builder->add( $name, DateType::class, [
+                        'required' => false,
+                        'widget' => 'single_text',
+                        'label_attr' => [
+                            'class' => 'label',
+                        ],
+                        'attr' => [
+                            'class' => 'form-input-md flatpickr-date-input',
+                        ],
+                    ] );
+                    continue;
+                }
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input-md',
+                    ],
                 ] );
             } else {
                 throw new \RuntimeException( sprintf( 'Impossible de trouver le champs associé au type %s dans %s::%s', $type->getName(), $data::class, $name ) );

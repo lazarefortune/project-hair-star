@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}Prestations{% endblock %}
+
 {% block body %}
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
@@ -33,6 +35,9 @@
                         Tarif
                     </th>
                     <th>
+                        En ligne?
+                    </th>
+                    <th>
                         Actions
                     </th>
                 </tr>
@@ -58,6 +63,9 @@
                         </td>
                         <td>
                             {{ prestation.price|price_format }}
+                        </td>
+                        <td>
+                            <div class="empty-circle empty-circle-{% if prestation.isActive %}success{% else %}danger{% endif %}"></div>
                         </td>
                         <td>
                             <a href="{{ path('app_admin_prestation_edit', {'id': prestation.id}) }}"
