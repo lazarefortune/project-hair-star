@@ -83,13 +83,27 @@ class BookingController extends AbstractController
         return $this->redirect( $url );
     }
 
+    #[Route( '/paiement/acompte/demarrer/{id}', name: 'payment_acompte_start' )]
+    #[ParamConverter( 'booking', options: ['mapping' => ['id' => 'id']] )]
+    public function startAcomptePayment( Request $request, Booking $booking ) : Response
+    {
+        $this->stripePaymentService->payBookingAcompte( $booking );
+        $this->addToast( 'danger', 'Le paiement n\'est pas encore disponible' );
+        return $this->redirectToRoute( 'app_booking_manage', ['token' => $booking->getToken()] );
+    }
+
+
     #[Route( '/paiement/resultat/{id}', name: 'payment_result' )]
     public function paymentResult( Request $request, Booking $booking ) : Response
     {
+        $paymentSuccess = $request->query->get( 'success' ) === '1';
         $status = $request->query->get( 'success' ) === '1' ? 'success' : 'failure';
-        return $this->render( "booking/payment/payment_result.html.twig", [
-            'status' => $status,
-            'booking' => $booking,
-        ] );
+        if ( !$paymentSuccess ) {
+            $this->addToast( 'danger', 'Le paiement a échoué' );
+            return $this->redirectToRoute( 'app_booking_manage', ['token' => $booking->getToken()] );
+        }
+
+        $this->addToast( 'success', 'Le paiement a bien été effectué' );
+        return $this->redirectToRoute( 'app_booking_manage', ['token' => $booking->getToken()] );
     }
 }

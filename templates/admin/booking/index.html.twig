@@ -18,60 +18,40 @@
         </a>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-        {% for booking in bookings %}
-            <article
-                    class="rounded-md border-thin border-slate-300 bg-white shadow-soft">
-                <div class="px-4 py-3 border-b border-slate-200 rounded-t-md flex justify-between items-center">
-                    <!-- Mettre en avant le nom du client -->
-                    <h3 class="text-base font-medium text-slate-800 flex items-center">
-                        {{ booking.bookingDate|date('l j M') }} à {{ booking.bookingTime|date('H:i') }}
-                    </h3>
-                    <div>
-                        {#                        <span class="inline-flex items-center px-2.5 py-2 rounded-md text-xs bg-green-100 text-green-800"> #}
-                        {{ element.status_badge(booking) }}
-                        {#                        </span> #}
-                    </div>
-                </div>
-                <div class="px-4 py-3">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="col-span-1 flex justify-start items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-slate-100 flex justify-center items-center">
-                                {{ icon('user') }}
-                            </div>
-                            <div class="text-sm text-slate-500">
-                                <h4 class="text-slate-400">
-                                    Nom
-                                </h4>
-                                <p class="text-slate-800">
-                                    {{ booking.client.fullname }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-span-1">
-                            <div class="text-sm text-slate-500">
-                                <h4 class="text-slate-400">
-                                    Service
-                                </h4>
-                                <p class="text-slate-800">
-                                    {{ booking.prestation.name }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="">
-
-                    </div>
-                </div>
-                <div class="px-4 py-5 w-full">
-                    <a href="{{ path('app_admin_booking_show', {'id': booking.id}) }}"
-                       class="text-slate-900 border border-slate-300 focus:ring-4 focus:outline-none focus:ring-blue-200 shadow-soft font-medium rounded-md text-sm px-5 py-2.5 inline-flex justify-center text-center w-full sm:w-auto">
-                        Voir les détails
-                    </a>
-                </div>
-            </article>
-        {% endfor %}
+    <div class="my-4 card">
+        <h3 class="text-2xl font-bold text-slate-900">Aujourd'hui</h3>
+        <p class="text-base text-slate-500 mb-4">Vous avez {{ bookingsToday|length }} rendez-vous aujourd'hui</p>
+        <div class="flex gap-4 mb-2">
+            <div class="text-5xl text-slate-800">{{ 'now'|date('d') }}</div>
+            <div class="flex flex-col">
+                <div class="text-base text-slate-800 font-bold">{{ 'now'|date('l') }}</div>
+                <div class="text-sm text-slate-500"> {{ 'now'|date('F') }} </div>
+            </div>
+        </div>
+        {% include 'admin/booking/_list.html.twig' with {'bookings': bookingsToday} %}
     </div>
+
+    <div class="card mb-4">
+        <h3 class="text-2xl font-bold text-slate-900">A venir</h3>
+        <p class="text-base text-slate-500 mb-4">Vous avez {{ bookingsAfterToday|length }} rendez-vous à venir</p>
+        <div class="flex flex-col gap-5 mb-4">
+            {% for date,bookings in bookingsAfterToday %}
+                {#            <h4 class="text-xl font-bold text-slate-900">{{ date|date('d M Y') }}</h4> #}
+                <div class="">
+                    <div class="flex gap-4 mb-2">
+                        <div class="text-5xl text-slate-800">{{ date|date('d') }}</div>
+                        <div class="flex flex-col">
+                            <div class="text-base text-slate-800 font-bold">{{ date|date('l') }}</div>
+                            <div class="text-sm text-slate-500"> {{ date|date('F') }} </div>
+                        </div>
+                    </div>
+                    {% include 'admin/booking/_list.html.twig' with {'bookings': bookings} %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 
 
 

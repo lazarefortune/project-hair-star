@@ -124,6 +124,7 @@ class Spotlight extends HTMLElement {
             this.input.value = '';
             this.input.focus();
         } else if (e.key === 'Escape' && document.activeElement === this.input) {
+            e.preventDefault();
             this.blurSpotlight();
         }
     }

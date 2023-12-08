@@ -1,9 +1,9 @@
 import "./toast.scss";
 
 function hideNotification(notification) {
-    setTimeout(() => {
-        notification.remove();
-    }, 300);
+    // setTimeout(() => {
+    notification.remove();
+    // }, 3000);
 }
 
 function showToastNotification({
@@ -13,6 +13,19 @@ function showToastNotification({
                                    type = 'neutral',
                                    hideAfter = 3000,
                                }) {
+
+    // const toastHtmlAlt = `
+    //     <div class="toast">
+    //         <div class="toast-content">
+    //             <div class="message">
+    //                 <span aria-hidden="true">×</span>
+    //             </div>
+    //         </div>
+    //
+    //         <div class="progress"></div>
+    //     </div>
+    // `;
+
     const toastHtml = `
     <div class="toast-notification toast-notification-${position} toast-notification-${type}" role="alert">
       <div class="flex">
@@ -31,6 +44,7 @@ function showToastNotification({
           </svg>
         </button>
       </div>
+      <div class="progress"></div>
     </div>
   `;
 

@@ -23,8 +23,45 @@ class AdminBookingController extends AbstractController
     #[Route( '/', name: 'index' )]
     public function index() : Response
     {
+        $bookings = $this->bookingService->getBookings();
+        $bookingsToday = [];
+        foreach ( $bookings as $booking ) {
+            if ( $booking->getBookingDate()->format( 'Y-m-d' ) === date( 'Y-m-d' ) ) {
+                $bookingsToday[] = $booking;
+            }
+        }
+
+        // group bookings by date and order by date
+        $bookingsByDate = [];
+        foreach ( $bookings as $booking ) {
+            $date = $booking->getBookingDate()->format( 'Y-m-d' );
+            if ( !isset( $bookingsByDate[$date] ) ) {
+                $bookingsByDate[$date] = [];
+            }
+            $bookingsByDate[$date][] = $booking;
+        }
+        ksort( $bookingsByDate );
+
+        // Separate after today and before today
+        $bookingsAfterToday = [];
+        $bookingsBeforeToday = [];
+        foreach ( $bookingsByDate as $date => $bookings ) {
+            if ( $date > date( 'Y-m-d' ) ) {
+                $bookingsAfterToday[$date] = $bookings;
+            } else {
+                $bookingsBeforeToday[$date] = $bookings;
+            }
+        }
+        // Sort after today by date desc and before today by date asc
+        krsort( $bookingsBeforeToday );
+        ksort( $bookingsAfterToday );
+//        dd( $bookingsAfterToday, $bookingsBeforeToday );
+
         return $this->render( 'admin/booking/index.html.twig', [
             'bookings' => $this->bookingService->getBookings(),
+            'bookingsToday' => $bookingsToday,
+            'bookingsAfterToday' => $bookingsAfterToday,
+            'bookingsBeforeToday' => $bookingsBeforeToday,
         ] );
     }
 

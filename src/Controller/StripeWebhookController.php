@@ -74,6 +74,8 @@ class StripeWebhookController extends AbstractController
                     $this->entityManager->flush();
                 }
                 break;
+
+            // TODO: dispatch event to send email to user with invoice
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object; // contains a StripePaymentIntent
                 // Votre logique pour le paiement échoué

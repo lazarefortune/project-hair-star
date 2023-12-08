@@ -147,4 +147,8 @@ class StripePayment
             'id' => $booking->getId(),
         ], UrlGeneratorInterface::ABSOLUTE_URL );
     }
+
+    public function payBookingAcompte( Booking $booking )
+    {
+    }
 }

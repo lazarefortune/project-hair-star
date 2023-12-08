@@ -26,7 +26,13 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'json_decode', [$this, 'jsonDecode'] ),
             new TwigFilter( 'date_age', [$this, 'formatDateAge'] ),
             new TwigFilter( 'human_date', [$this, 'formatHumanDate'] ),
+            new TwigFilter( 'hour_lisible', [$this, 'formatHourLisible'] ),
         ];
+    }
+
+    public function formatHourLisible( \DateTime $date ) : string
+    {
+        return $date->format( 'H\hi' );
     }
 
     public function formatHumanDate( \DateTime $date ) : string
