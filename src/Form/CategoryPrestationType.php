@@ -19,7 +19,7 @@ class CategoryPrestationType extends AbstractType
             ->add( 'name', TextType::class, [
                 'label' => 'Nom de la catégorie',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'label_attr' => [
                     'class' => 'label',
@@ -28,7 +28,7 @@ class CategoryPrestationType extends AbstractType
             ->add( 'description', TextareaType::class, [
                 'label' => 'Description de la catégorie',
                 'attr' => [
-                    'class' => '',
+                    'class' => 'form-input-md',
                 ],
                 'required' => false,
                 'label_attr' => [

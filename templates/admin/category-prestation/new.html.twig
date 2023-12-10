@@ -3,17 +3,18 @@
 
 {% block body %}
 
+    <a href="{{ path('app_admin_category_prestation_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+            Liste des catégories
+        </span>
+    </a>
+
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
-            Catégorie
+            Nouvelle catégorie
         </h4>
-        <a href="{{ path('app_admin_category_prestation_index') }}"
-           class="btn btn-md btn-primary">
-            {{ icon('arrow-left') }}
-            <span>
-                Retour
-            </span>
-        </a>
     </div>
 
     {{ include('admin/category-prestation/_form.html.twig') }}

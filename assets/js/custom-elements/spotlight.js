@@ -20,7 +20,7 @@ class Spotlight extends HTMLElement {
         this.classList.add('spotlight');
         this.innerHTML = `
             <div class="spotlight__bar">
-                <input type="text" placeholder="Rechercher">
+                <input type="text" placeholder="Où voulez-vous aller ?">
                 <ul class="spotlight__suggestions" hidden></ul>
             </div>
         `;

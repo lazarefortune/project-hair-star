@@ -14,6 +14,7 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigFunction( 'icon', $this->showIcon( ... ), ['is_safe' => ['html']] ),
             new TwigFunction( 'menu_active', $this->menuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
+            new TwigFunction( 'pluralize', [$this, 'pluralize'] ),
         ];
     }
 
@@ -40,13 +41,28 @@ class TwigExtension extends AbstractExtension
         return $date->format( 'j F Y' );
     }
 
+    public function pluralize( int $count, string $singular, ?string $plural = null ) : string
+    {
+        if ( $count > 1 ) {
+            return $plural ?? $singular . 's';
+        }
+
+        return $singular;
+    }
+
     public function formatDateAge( \DateTime $date ) : string
     {
         $now = new \DateTime();
         $interval = $now->diff( $date );
 
         if ( $interval->days == 0 ) {
-            return 'aujourd\'hui';
+//            return 'aujourd\'hui';
+            // return il y a x heures ou il y a x minutes selon le cas (si plus de 1h) ou il y a x secondes (si moins de 1h) utilisant pluralize
+            if ( $interval->h == 0 ) {
+                return 'il y a ' . $interval->i . ' ' . $this->pluralize( $interval->i, 'minute' );
+            } else {
+                return 'il y a ' . $interval->h . ' ' . $this->pluralize( $interval->h, 'heure' );
+            }
         } elseif ( $interval->days == 1 ) {
             return 'hier';
         } elseif ( $interval->days < 30 ) {
@@ -56,7 +72,7 @@ class TwigExtension extends AbstractExtension
             return 'il y a ' . $months . ' mois';
         } else {
             $years = round( $interval->days / 365 );
-            return 'il y a ' . $years . ' ans';
+            return 'il y a ' . $years . ' ' . $this->pluralize( $years, 'an' );
         }
     }
 

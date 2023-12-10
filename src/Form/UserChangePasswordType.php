@@ -15,10 +15,16 @@ class UserChangePasswordType extends AbstractType
         $builder
             ->add( 'currentPassword', PasswordType::class, [
                 'label' => 'Mot de passe actuel',
+                'attr' => [
+                    'class' => 'form-input-md',
+                ],
                 'mapped' => false,
             ] )
             ->add( 'password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'attr' => [
+                    'class' => 'form-input-md',
+                ],
                 'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
