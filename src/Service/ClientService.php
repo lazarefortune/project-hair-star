@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Event\Client\DeleteClientEvent;
 use App\Event\UserCreatedEvent;
+use App\Repository\BookingRepository;
 use App\Repository\ClientRepository;
 use App\Repository\EmailLogRepository;
 use App\Repository\UserRepository;
@@ -16,7 +17,8 @@ class ClientService
     public function __construct(
         private readonly UserRepository           $userRepository,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly EmailLogRepository       $emailLogRepository
+        private readonly EmailLogRepository       $emailLogRepository,
+        private readonly BookingRepository        $bookingRepository,
     )
     {
     }
@@ -87,5 +89,17 @@ class ClientService
     public function search( string $query )
     {
         return $this->userRepository->searchClientByNameAndEmail( $query );
+    }
+
+    public function getClientAppointments( User $client, int $limit = null )
+    {
+        return $this->bookingRepository->createQueryBuilder( 'b' )
+            ->where( 'b.client = :client' )
+            ->setParameter( 'client', $client )
+            ->orderBy( 'b.bookingDate', 'DESC' )
+            ->addOrderBy( 'b.bookingTime', 'DESC' )
+            ->setMaxResults( $limit )
+            ->getQuery()
+            ->getResult();
     }
 }

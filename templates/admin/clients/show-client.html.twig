@@ -23,163 +23,190 @@
         </a>
     </div>
 
-    <div class="block w-full overflow-x-auto">
+    <nav-tabs class="nav-tabs mb-6">
+        <a href="#profile"
+           class="tab-link"
+           data-tab-id="profile">
+            {{ icon('user', '', 'mr-2') }}
+            Profile
+        </a>
+        <a href="#appointments"
+           class="tab-link"
+           data-tab-id="appointments">
+            {{ icon('calendar', '', 'mr-2') }}
+            Rendez-vous
+        </a>
+        <a href="#invoices"
+           class="tab-link"
+           data-tab-id="invoices">
+            {{ icon('files', '', 'mr-2') }}
+            Factures & Emails
+        </a>
+    </nav-tabs>
 
-        <div class="border-b border-gray-200 dark:border-gray-700 text-sm">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-                <li class="mr-2">
-                    <a href=""
-                       class="inline-flex items-center justify-center text-primary-600 p-4 border-b-2 border-primary-600 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                        {{ icon('user', '', 'mr-2') }}
-                        Profile
-                    </a>
-                </li>
-                <li class="mr-2">
-                    <a href=""
-                       class="inline-flex items-center justify-center p-4 text-gray-600 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:text-primary-500 dark:border-primary-500 group"
-                       aria-current="page">
-                        {{ icon('files', '', 'mr-2') }}
-                        Factures
-                    </a>
-                </li>
-                <li class="mr-2">
-                    <a href=""
-                       class="inline-flex items-center justify-center text-gray-600 p-4 border-b-2 border-transparent  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                        {{ icon('calendar', '', 'mr-2') }}
-                        Rendez-vous
-                    </a>
-                </li>
-            </ul>
+    <div id="profile">
+
+        <div id="profile" class="grid grid-cols-3 gap-6 mt-10 mb-10">
+            <div class="col-span-3 sm:col-span-1">
+                <div class="card">
+                    <!-- title : Informations -->
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Informations</h2>
+                    </div>
+
+                    <!-- client informations -->
+                    <div class="flex flex-col">
+                        <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                            <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Nom</h5>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                {{ client.fullname }}
+                            </p>
+                        </div>
+                        <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                            <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Email</h5>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                <a href="mailto:{{ client.email }}" class="text-primary-600 hover:text-primary-900">
+                                    {{ client.email }}
+                                </a>
+                            </p>
+                        </div>
+                        <div class="w-full border-b border-gray-200 dark:border-gray-700">
+                            <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Phone</h5>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                <a href="tel:{{ client.phone }}" class="text-primary-600 hover:text-primary-900">
+                                    {{ client.phone }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-3 sm:col-span-2">
+                <div class="card mb-6">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Emails</h2>
+
+                    <label>
+                        <select class="form-input-md w-full">
+                            <option>Renvoyer la dernière facture</option>
+                            <option>Envoyer un rappel de paiement</option>
+                            <option>Envoyer un rappel de rendez-vous</option>
+                            <option>Envoyer un email de réinitialisation de mot de passe</option>
+                            <option>Envoyer un email de confirmation de compte</option>
+                        </select>
+                    </label>
+
+                    <div class="mt-6">
+                        <button class="btn btn-md btn-primary">
+                            {{ icon('send', '', 'mr-2') }}
+                            Envoyer
+                        </button>
+                    </div>
+
+                    <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
+                        {% if clientEmailsLogs|length > 0 %}
+                            <table class="table w-full">
+                                <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Type</th>
+                                    <th class="px-4 py-2 text-left">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for emailLog in clientEmailsLogs %}
+                                    <tr>
+                                        <td class="border px-4 py-2">
+                                            {% if emailLog.typeDescription is not empty %}
+                                                {{ emailLog.typeDescription }}
+                                            {% else %}
+                                                {{ emailLog.type }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="border px-4 py-2">{{ emailLog.sentAt|date('d/m/Y à H:i') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                {% if client.emailLogs|length >= EMAILS_LOG_LIMIT %}
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="px-4 py-2 text-left">
+                                            <a href=""
+                                               class="btn-sm btn-primary mt-3">
+                                                Voir plus {{ icon('arrow-right', '', 'ml-2') }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                {% endif %}
+                            </table>
+                        {% else %}
+                            <p class="text-base text-gray-600 mb-2 bg-primary-100 p-4 sm:p-6 border-l-4 border-l-primary-800">
+                                Aucun email envoyé à ce client.
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                        Gestion du compte
+                    </h2>
+
+
+                    <button class="btn-md btn-danger modal-button" data-modal-id="modal-id-{{ client.id }}">
+                        {{ icon('trash', '', 'mr-2') }}
+                        Supprimer le compte
+                    </button>
+
+
+                    <p class="mt-6 text-sm text-gray-600 dark:text-gray-400">
+                        Supprimer le compte supprimera toutes les données associées à ce compte.
+                        Cette action est irréversible.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="invoices">
+        <div class="stack-large">
+            <div class="stack">
+                <h1 class="text-lg md:text-xl font-bold flex items-center">
+                    {{ icon('files', 'sm', 'mr-2') }}
+                    Factures
+                </h1>
+
+                <div class="shadow-custom card">
+                    Les factures seront affichées ici
+                </div>
+            </div>
+
+            <div class="stack">
+                <h1 class="text-lg md:text-xl font-bold flex items-center">
+                    {{ icon('mail', 'sm', 'mr-2') }}
+                    Emails
+                </h1>
+
+                <div class="shadow-custom card">
+                    Les emails seront affichés ici
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-3 gap-6 mt-10 mb-10">
-        <div class="col-span-3 sm:col-span-1">
-            <div class="card">
-                <!-- title : Informations -->
-                <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Informations</h2>
-                </div>
+    <div id="appointments">
+        <div class="">
+            <h1 class="text-lg md:text-xl font-bold mb-6 flex items-center">
+                {{ icon('calendar', 'sm', 'mr-2') }}
+                Historique des rendez-vous
+            </h1>
 
-                <!-- client informations -->
-                <div class="flex flex-col">
-                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
-                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Nom</h5>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            {{ client.fullname }}
-                        </p>
-                    </div>
-                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
-                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Email</h5>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <a href="mailto:{{ client.email }}" class="text-primary-600 hover:text-primary-900">
-                                {{ client.email }}
-                            </a>
-                        </p>
-                    </div>
-                    <div class="w-full border-b border-gray-200 dark:border-gray-700">
-                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Phone</h5>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                            <a href="tel:{{ client.phone }}" class="text-primary-600 hover:text-primary-900">
-                                {{ client.phone }}
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {% include 'admin/booking/_list.html.twig' with {
+                'bookings': clientAppointments,
+                'emptyMessage': 'Aucun rendez-vous pour ce client.'
+            } %}
         </div>
-
-        <div class="col-span-3 sm:col-span-2">
-            <div class="card mb-6">
-                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Emails</h2>
-
-                <label>
-                    <select class="form-input-md w-full">
-                        <option>Renvoyer la dernière facture</option>
-                        <option>Envoyer un rappel de paiement</option>
-                        <option>Envoyer un rappel de rendez-vous</option>
-                        <option>Envoyer un email de réinitialisation de mot de passe</option>
-                        <option>Envoyer un email de confirmation de compte</option>
-                    </select>
-                </label>
-
-                <div class="mt-6">
-                    <button class="btn btn-md btn-primary">
-                        {{ icon('send', '', 'mr-2') }}
-                        Envoyer
-                    </button>
-                </div>
-
-                <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
-                    {% if clientEmailsLogs|length > 0 %}
-                        <table class="table w-full">
-                            <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left">Type</th>
-                                <th class="px-4 py-2 text-left">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for emailLog in clientEmailsLogs %}
-                                <tr>
-                                    <td class="border px-4 py-2">
-                                        {% if emailLog.typeDescription is not empty %}
-                                            {{ emailLog.typeDescription }}
-                                        {% else %}
-                                            {{ emailLog.type }}
-                                        {% endif %}
-                                    </td>
-                                    <td class="border px-4 py-2">{{ emailLog.sentAt|date('d/m/Y à H:i') }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            {% if client.emailLogs|length >= EMAILS_LOG_LIMIT %}
-                                <tfoot>
-                                <tr>
-                                    <td colspan="2" class="px-4 py-2 text-left">
-                                        <a href=""
-                                           class="btn-sm btn-primary mt-3">
-                                            Voir plus {{ icon('arrow-right', '', 'ml-2') }}
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            {% endif %}
-                        </table>
-                    {% else %}
-                        <p class="text-base text-gray-600 mb-2 bg-primary-100 p-4 sm:p-6 border-l-4 border-l-primary-800">
-                            Aucun email envoyé à ce client.
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="card">
-                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
-                    Gestion du compte
-                </h2>
-
-
-                <button class="btn-md btn-danger modal-button" data-modal-id="modal-id-{{ client.id }}">
-                    {{ icon('trash', '', 'mr-2') }}
-                    Supprimer le compte
-                </button>
-
-                {% include 'components/_delete-modal.html.twig' with {
-                    'id': 'modal-id-' ~ client.id,
-                    'title': 'Supprimer le compte',
-                    'content': 'Vous êtes sur le point de supprimer le compte de ' ~ client.fullname ~ '.',
-                    'form_action': path('app_admin_clients_delete', {'id': client.id}),
-                    'csrf_value': csrf_token('delete' ~ client.id),
-                    'btn_label': 'Supprimer'
-                } %}
-
-                <p class="mt-6 text-sm text-gray-600 dark:text-gray-400">
-                    Supprimer le compte supprimera toutes les données associées à ce compte.
-                    Cette action est irréversible.
-                </p>
-            </div>
-        </div>
-
     </div>
 {% endblock %}

@@ -149,9 +149,24 @@ class TwigExtension extends AbstractExtension
         }
 
         return <<<HTML
-            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;" class="{$additionalClass}">
                 <img src="/icons/lucide/{$iconName}.svg" width="{$width}" height="{$height}"  alt="{$iconName}">
-            </div>
+        HTML;
+    }
+
+    /**
+     * Génère le code HTML pour une icone SVG.
+     */
+    public function svgIcon( string $name, ?int $size = null ) : string
+    {
+        $attrs = '';
+        if ( $size ) {
+            $attrs = " width=\"{$size}px\" height=\"{$size}px\"";
+        }
+
+        return <<<HTML
+        <svg class="icon icon-{$name}"{$attrs}>
+          <use href="/sprite.svg?logo#{$name}"></use>
+        </svg>
         HTML;
     }
 

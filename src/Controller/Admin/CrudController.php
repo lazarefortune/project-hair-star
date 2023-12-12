@@ -133,6 +133,15 @@ abstract class CrudController extends BaseController
         return $this->redirectToRoute( $redirectRoute ? : ( $this->routePrefix . '_index' ) );
     }
 
+    public function crudShow( object $entity, array $extraParams = [] ) : Response
+    {
+        return $this->render( "admin/{$this->templatePath}/show.html.twig", [
+            'entity' => $entity,
+            'menu' => $this->menuItem,
+            ...$extraParams,
+        ] );
+    }
+
     public function getRepository() : EntityRepository
     {
         /* @var EntityRepository */

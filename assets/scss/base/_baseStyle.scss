@@ -35,3 +35,11 @@ a {
   max-width: 400px;
   z-index: 3000
 }
+
+.stack-large {
+  @apply grid items-start gap-8;
+}
+
+.stack {
+  @apply grid items-start gap-4;
+}

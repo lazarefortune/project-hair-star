@@ -1,0 +1,11 @@
+.nav-tabs {
+  @apply border-0 flex overflow-x-auto overflow-y-hidden relative;
+
+  a {
+    @apply flex items-center py-4 px-6 whitespace-nowrap relative z-20;
+  }
+
+  a[aria-selected="true"] {
+    @apply text-gray-700 border-b-2 border-indigo-500;
+  }
+}

@@ -4,6 +4,7 @@ createIcons({icons});
 
 import '../components/_modal';
 import '../components/_alert';
+import '../../elements/index';
 
 /* Libs */
 import * as toast from '../../libs/toast-notifications/toast';

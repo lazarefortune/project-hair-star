@@ -59,6 +59,10 @@
                     {% endif %}
                 </td>
                 <td>
+                    <a href="{{ path('app_admin_clients_show', {id: row.id}) }}"
+                       class="btn-icon">
+                        {{ icon('eye') }}
+                    </a>
                     <a href="{{ path('app_admin_clients_edit', {id: row.id}) }}"
                        class="btn-icon">
                         {{ icon('pencil') }}
