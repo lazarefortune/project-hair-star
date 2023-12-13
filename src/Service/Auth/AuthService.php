@@ -21,7 +21,6 @@ class AuthService
     {
         $client = $newClientDto->user->setEmail( $newClientDto->email )
             ->setFullname( $newClientDto->fullname )
-            ->setPhone( $newClientDto->phone )
             ->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $newClientDto->user,

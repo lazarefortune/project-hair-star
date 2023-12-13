@@ -9,6 +9,32 @@ module.exports = {
     ],
     theme: {
         extend: {
+            animation: {
+                'fade-in': 'fadeIn 0.4s ease-in-out',
+                'fade-in-left': 'fadeInRight 0.4s ease-in-out',
+            },
+            keyframes: {
+                fadeIn: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateY(10px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateY(0)',
+                    },
+                },
+                fadeInRight: {
+                    '0%': {
+                        opacity: '0',
+                        transform: 'translateX(10px)',
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: 'translateX(0)',
+                    },
+                },
+            },
             borderWidth: {
                 'thin': '.5px',
             },
@@ -33,7 +59,7 @@ module.exports = {
                 'md': '0.938rem', // 15px
             },
             colors: {
-                primaryOld: {
+                primary: {
                     "50": "#f3f1ff",
                     "100": "#ebe5ff",
                     "200": "#d9ceff",
@@ -46,7 +72,7 @@ module.exports = {
                     "900": "#4b05ad",
                     "950": "#2c0076"
                 },
-                primary: {
+                primaryOld: {
                     "50": "rgb(248 250 252)",
                     "100": "rgb(241 243 245)",
                     "200": "rgb(226 232 240)",

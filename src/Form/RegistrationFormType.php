@@ -22,9 +22,6 @@ class RegistrationFormType extends AbstractType
             ->add( 'fullname', TextType::class, [
                 'label' => 'Nom complet',
             ] )
-            ->add( 'phone', TextType::class, [
-                'label' => 'Numéro de téléphone',
-            ] )
             ->add( 'agreeTerms', CheckboxType::class, [
                 'constraints' => [
                     new IsTrue( [

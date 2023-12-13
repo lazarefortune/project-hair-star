@@ -2,7 +2,7 @@
 .toast-notification {
   //@apply fixed z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-200 border-b-2 bg-gray-50 rounded-sm shadow;
 
-  @apply absolute z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-200 border-b-2 bg-gray-50 rounded-sm shadow overflow-hidden;
+  @apply animate-fade-in absolute z-50 w-full max-w-xs p-4 text-gray-500 border border-gray-200 border-b-2 bg-gray-50 rounded-sm shadow overflow-hidden;
 
   & .toast-notification-heading {
     @apply text-sm font-semibold text-gray-900;

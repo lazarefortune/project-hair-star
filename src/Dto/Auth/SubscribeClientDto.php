@@ -16,10 +16,6 @@ class SubscribeClientDto
     #[Assert\Email( message: 'Veuillez renseigner une adresse email valide' )]
     public string $email = '';
 
-    #[Assert\NotBlank( message: 'Veuillez renseigner votre numéro de téléphone' )]
-    #[Assert\Regex( pattern: '/^((\+)33|0)[1-9](\d{2}){4}$/', message: 'Veuillez renseigner un numéro de téléphone valide' )]
-    public string $phone = '';
-
     #[Assert\NotBlank( message: 'Veuillez renseigner votre mot de passe' )]
     #[Assert\Length( min: 6, minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caractères' )]
     #[Assert\Regex( pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.^])[A-Za-z\d@$!%*?&#.^]{6,}$/', message: 'Votre mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial' )]

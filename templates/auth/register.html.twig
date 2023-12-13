@@ -5,12 +5,17 @@
 {% endblock %}
 
 {% block auth_body %}
-    <h1 class="text-2xl text-center text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white">
-        Bienvenue chez <span class="text-primary-600 dark:text-primary-400">{{ app_name }}</span>
-    </h1>
-    <p class="text-center text-gray-500 dark:text-gray-400">
-        Inscrivez-vous pour retrouver vos rendez-vous.
-    </p>
+    <div class="mb-4">
+
+        <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2">
+            <span class="text-primary-900 dark:text-primary-900">{{ app_name }}</span>
+        </h1>
+        <p class="text-gray-400 dark:text-gray-400">
+            <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500 before:rounded-full relative inline-block mr-1">
+                <span class="relative text-white">-10%</span>
+            </span> sur votre premier rendez-vous
+        </p>
+    </div>
 
     {{ form_start(registrationForm, {
         attr: {
@@ -26,29 +31,16 @@
         <div class="alert alert-danger">{{ flash_error }}</div>
     {% endfor %}
 
-    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        {{ form_row(registrationForm.fullname, {
-            label: 'Nom Complet',
-            label_attr: {
-                class: 'label'
-            },
-            'attr': {
-                'placeholder': 'Votre nom complet',
-                'class': 'flex-1'
-            }
-        }) }}
-
-        {{ form_row(registrationForm.phone, {
-            label: 'Numéro de téléphone',
-            label_attr: {
-                class: 'label'
-            },
-            'attr': {
-                'placeholder': '+33 6 12 34 56 78',
-                'class': 'flex-1'
-            }
-        }) }}
-    </div>
+    {{ form_row(registrationForm.fullname, {
+        label: 'Nom',
+        label_attr: {
+            class: 'label'
+        },
+        attr: {
+            'placeholder': 'Miranda',
+            'class': 'flex-1 form-input-lg'
+        }
+    }) }}
 
     {{ form_row(registrationForm.email, {
         label: 'E-mail',
@@ -56,7 +48,8 @@
             class: 'label'
         },
         'attr': {
-            'placeholder': 'Votre e-mail'
+            'class': 'form-input-lg',
+            'placeholder': 'miranda@exemple.com'
         }
     }) }}
 
@@ -66,25 +59,26 @@
             class: 'label'
         },
         'attr': {
-            'placeholder': 'Choisissez un mot de passe'
+            'class': 'form-input-lg',
+            'placeholder': 'On ne le dira à personne'
         }
     }) }}
 
-    <div class="flex items-center justify-between flex-col">
+    <div class="flex justify-between flex-col">
         <div class="flex items-start">
             <div class="flex items-center h-5">
                 {{ form_widget(registrationForm.agreeTerms, {
                     'id': 'agreeTerms',
                     'attr': {
-                        'class': ''
+                        'class': 'form-checkbox-md'
                     }
                 }) }}
             </div>
             <div class="ml-3 text-base">
                 <label for="agreeTerms" class="text-gray-500 dark:text-gray-300">
-                    J'accepte les <a href="" class="link" target="_blank">termes</a> et <a href="{{ path('app_cgu') }}"
-                                                                                           class="link"
-                                                                                           target="_blank">conditions
+                    J'accepte les <a href="{{ path('app_cgu') }}"
+                                     class="link"
+                                     target="_blank">termes et conditions
                         d'utilisation</a>
                 </label>
             </div>
@@ -95,11 +89,11 @@
     </div>
 
     <button type="submit"
-            class="btn btn-md btn-primary w-full">
+            class="btn btn-lg btn-primary w-full">
         Créer mon compte
     </button>
-    <p class="text-base font-light text-gray-500 dark:text-gray-400">
-        Vous avez déjà un compte ?
+    <p class="text-base font-light text-gray-500">
+        <span>Vous avez déjà un compte ?</span>
         <a href="{{ path('app_login') }}"
            class="font-medium text-primary-600 dark:text-primary-500">
             Connectez-vous

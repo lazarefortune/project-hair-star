@@ -4,9 +4,14 @@
 
 {% block auth_body %}
 
-    <h1 class="text-center text-2xl font-bold leading-tight tracking-tight text-primary-600 dark:text-white md:text-3xl">
-        Bon retour parmi nous !
-    </h1>
+    <div class="text-left">
+        <h1 class="text-3xl font-bold text-primary-900">
+            Hey,
+        </h1>
+        <p class="mt-1 text-base text-slate-400">
+            Content de te revoir !
+        </p>
+    </div>
     <form class="space-y-4 md:space-y-6" action="#" method="post">
 
         <input type="hidden" name="_csrf_token"
@@ -24,13 +29,13 @@
         <div class="space-y-1">
             <label for="email" class="label">E-mail</label>
             <input type="email" name="email" id="email" value="{{ last_username }}"
-                   required="" class="form-input-md" placeholder="Votre e-mail">
+                   required="" class="form-input-lg" placeholder="Votre e-mail">
         </div>
         <div class="space-y-1">
             <label for="password" class="label">
                 Mot de passe
             </label>
-            <input type="password" name="password" id="password" class="form-input-md"
+            <input type="password" name="password" id="password" class="form-input-lg"
                    autocomplete="current-password"
                    required="" placeholder="Votre mot de passe">
             <p class="mt-2">
@@ -51,9 +56,10 @@
         </div>
 
         <button type="submit"
-                class="w-full btn-md btn-primary">
+                class="w-full btn-lg btn-primary py-4">
             Se connecter
         </button>
+
         <p class="text-base font-light text-gray-500 dark:text-gray-400">
             Vous n'êtes pas encore client ?
             <a href="{{ path('app_register') }}"
