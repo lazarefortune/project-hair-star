@@ -1,5 +1,5 @@
 .nav-tabs {
-  @apply relative flex overflow-x-auto overflow-y-hidden border-0 bg-white w-full;
+  @apply relative flex overflow-x-auto overflow-y-hidden border-0 w-full;
   padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
   padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
 
