@@ -1,39 +1,20 @@
 {{ form_start(form) }}
-<div class="mt-4 grid grid-cols-1 gap-4 card card-custom md:grid-cols-3">
-    <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="card-section-title">
-            Pourquoi partir en vacances ?
-        </h6>
-        <p class="card-section-subtitle">
-            Prévenez vos clients que vous partez en vacances.
-        </p>
-    </div>
-    <div class="col-span-2 flex flex-col space-y-3">
-        <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
-            <div class="col-span-full">
-                {{ form_row(form.title) }}
-            </div>
+<div class="stack card card-padding">
+    {{ form_row(form.title) }}
 
-            <div class="col-span-full sm:col-span-1">
-                {{ form_row(form.startDate) }}
-            </div>
+    <div class="grid2">
+        {{ form_row(form.startDate) }}
 
-            <div class="col-span-full sm:col-span-1">
-                {{ form_row(form.endDate) }}
-            </div>
-        </div>
+        {{ form_row(form.endDate) }}
     </div>
 </div>
 
-<!-- submit btn at right -->
-<div class="border-t border-gray-200 pt-5 sm:col-span-full mb-10">
-    <div class="flex justify-end">
-        <button type="submit" class="btn btn-md btn-primary">
-            {{ icon('save') }}
-            <span>
-                {{ button_label|default('Enregistrer') }}
-            </span>
-        </button>
-    </div>
+<div class="text-end">
+    <button type="submit" class="btn btn-md btn-primary">
+        {{ icon('save') }}
+        <span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
+    </button>
 </div>
 {{ form_end(form) }}

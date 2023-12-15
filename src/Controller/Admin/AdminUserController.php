@@ -27,7 +27,8 @@ class AdminUserController extends AbstractController
     }
 
     #[Route( '/', name: 'index' )]
-    public function index( Request $request ) : Response
+    #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
+    public function index( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ) : Response
     {
         [$formProfile, $response] = $this->createFormProfile( $request );
         // on vérifie si l'utilisateur a déjà demandé un changement d'email
@@ -38,9 +39,30 @@ class AdminUserController extends AbstractController
             return $response;
         }
 
+        $formPassword = $this->createForm( UserChangePasswordType::class );
+        $formPassword->handleRequest( $request );
+
+        if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
+            $user = $this->getUser();
+
+            // TODO: move this to a service and add event listener to send mail
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $formPassword->get( 'password' )->getData()
+                )
+            );
+            $entityManager->persist( $user );
+            $entityManager->flush();
+
+            $this->addToast( 'success', 'Mot de passe mis à jour avec succès' );
+            return $this->redirectToRoute( 'app_admin_account_index' );
+        }
+
         return $this->render( 'admin/account/index.html.twig', [
-            'form' => $formProfile->createView(),
+            'formProfile' => $formProfile->createView(),
             'requestEmailChange' => $requestEmailChange,
+            'formPassword' => $formPassword->createView(),
         ] );
     }
 
@@ -70,42 +92,5 @@ class AdminUserController extends AbstractController
         }
 
         return [$form, null];
-    }
-
-    #[Route( '/mot-de-passe', name: 'change_password' )]
-    #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
-    public function password( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ) : Response
-    {
-        $formPassword = $this->createForm( UserChangePasswordType::class );
-        $formPassword->handleRequest( $request );
-
-        if ( $formPassword->isSubmitted() && $formPassword->isValid() ) {
-            // TODO: Refactor this
-            $currentPassword = $formPassword->get( 'currentPassword' )->getData();
-
-            if ( !$passwordHasher->isPasswordValid( $this->getUser(), $currentPassword ) ) {
-                $this->addToast( 'danger', 'Mot de passe actuel incorrect' );
-                return $this->redirectToRoute( 'app_admin_account_change_password' );
-            }
-
-            $user = $this->getUser();
-            // hash the plain password
-            // TODO: move this to a service and add event listener to send mail
-            $user->setPassword(
-                $passwordHasher->hashPassword(
-                    $user,
-                    $formPassword->get( 'password' )->getData()
-                )
-            );
-            $entityManager->persist( $user );
-            $entityManager->flush();
-
-            $this->addToast( 'success', 'Mot de passe mis à jour avec succès' );
-            return $this->redirectToRoute( 'app_admin_account_index' );
-        }
-
-        return $this->render( 'admin/account/change-password.html.twig', [
-            'form' => $formPassword->createView(),
-        ] );
     }
 }

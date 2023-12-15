@@ -4,11 +4,6 @@
     {% for booking in bookings %}
         <article
                 class="rounded-md border-thin border-slate-300 bg-white shadow-custom relative">
-            <a href="{{ path('app_admin_booking_show', {'id': booking.id}) }}"
-               class="card_link"
-            >
-                Voir les détails
-            </a>
             <div class="px-4 py-3 border-b border-slate-200 rounded-t-md flex justify-between items-center">
                 <!-- Mettre en avant le nom du client -->
                 <h3 class="text-base font-medium text-slate-800 flex items-center">

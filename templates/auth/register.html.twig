@@ -7,10 +7,10 @@
 {% block auth_body %}
     <div class="mb-4">
 
-        <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2">
+        <h1 class="text-2xl text-gray-600 font-bold leading-tight tracking-tight md:text-3xl dark:text-white mb-2 fade">
             <span class="text-primary-900 dark:text-primary-900">{{ app_name }}</span>
         </h1>
-        <p class="text-gray-400 dark:text-gray-400">
+        <p class="text-gray-400 dark:text-gray-400 fade fade-1">
             <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500 before:rounded-full relative inline-block mr-1">
                 <span class="relative text-white">-10%</span>
             </span> sur votre premier rendez-vous
@@ -19,7 +19,7 @@
 
     {{ form_start(registrationForm, {
         attr: {
-            class: 'space-y-4 md:space-y-6'
+            class: 'space-y-4 md:space-y-6 fade fade-2'
         }
     }) }}
 

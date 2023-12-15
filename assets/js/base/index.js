@@ -142,5 +142,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    // observe all elements with .fade class
+    const fadeElements = document.querySelectorAll('.fade');
+
+    // observer options
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    // create observer
+    const observer = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // observe fade elements
+    fadeElements.forEach(element => {
+        observer.observe(element);
+    });
 
 });

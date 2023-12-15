@@ -8,6 +8,9 @@
 @import "baseStyle";
 @import "layer";
 
+/* Layout */
+@import "../base/_layout";
+
 /* Import custom components */
 @import "../components/_alert";
 @import "../components/_button";

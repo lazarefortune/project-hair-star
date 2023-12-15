@@ -59,17 +59,9 @@
 }
 
 .alert-info {
-  @apply border-blue-500 bg-blue-50;
-  & > i {
-    @apply text-blue-500;
-  }
-
-  & .alert-heading {
-    @apply text-blue-900;
-  }
-
-  & .alert-content, & .alert-text {
-    @apply text-blue-800;
+  @apply bg-white shadow-custom p-3 text-slate-900 border-l-[3px] border-primary-900;
+  & .alert-heading, h1, h2, h3, h4, h5, h6 {
+    @apply text-primary-900 font-bold text-xl mb-2;
   }
 }
 

@@ -6,20 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserChangePasswordType extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'currentPassword', PasswordType::class, [
-                'label' => 'Mot de passe actuel',
-                'attr' => [
-                    'class' => 'form-input-md',
-                ],
-                'mapped' => false,
-            ] )
             ->add( 'password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'attr' => [
@@ -28,15 +20,20 @@ class UserChangePasswordType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options' => ['label' => 'Nouveau mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'first_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Nouveau mot de passe',
+                        'class' => 'form-input-md',
+                    ],
+                ],
+                'second_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Confirmer le nouveau mot de passe',
+                        'class' => 'form-input-md',
+                    ],
+                ],
             ] );
-    }
-
-    public function configureOptions( OptionsResolver $resolver ) : void
-    {
-        $resolver->setDefaults( [
-            // Configure your form options here
-        ] );
     }
 }

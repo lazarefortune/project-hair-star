@@ -1,116 +1,70 @@
 {{ form_start(form) }}
-<div class="mt-4 grid grid-cols-1 gap-4 card card-custom lg:grid-cols-3">
-    <div class="col-span-1 flex flex-col justify-start">
-        <h6 class="card-section-title">
-            Votre réalisation
-        </h6>
-        <p class="card-section-subtitle">
-            Modifier les informations de base de votre réalisation
-        </p>
-    </div>
-    <div class="col-span-2 flex flex-col space-y-3">
-        <div class="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-4">
-            <div class="col-span-1 sm:col-span-4">
-                {{ form_row(form.isPublic) }}
-            </div>
+<div class="stack">
+    <div class="card card-padding stack">
+        {{ form_row(form.isPublic) }}
 
-            <div class="col-span-1 sm:col-span-2">
-                {{ form_row(form.dateRealisation) }}
-            </div>
+        <div class="grid2">
+            {{ form_row(form.dateRealisation) }}
 
-            <div class="col-span-1 sm:col-span-2">
-                {{ form_row(form.duration) }}
-            </div>
-
-            <div class="col-span-1 sm:col-span-2">
-                {{ form_row(form.tarif) }}
-            </div>
-            <div class="col-span-1 sm:col-span-1">
-                {{ form_row(form.isTarifPublic) }}
-            </div>
-
-            {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
-                {% if realisation.images|length > 0 %}
-                    <div class="col-span-full">
-                        <label class="label">Vos images</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:flex-row
-                ">
-                            {% for image in realisation.images %}
-                                <div id="image-realisation-{{ image.id }}" class="col-span-1 relative group">
-                                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
-                                         alt="{{ image.name }}"
-                                         class="object-cover  h-48 w-96">
-                                    <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div>
-
-                                    <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
-                            bg-slate-900 p-2 rounded-full"
-                                       href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
-                                       data-delete-image-realisation
-                                       data-token={{ csrf_token('delete' ~ image.id) }}
-                                       data-id="{{ image.id }}"
-                                    >
-                                        {{ icon('trash', '2sm', 'text-white') }}
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endif %}
-
-            <div class="sm:col-span-4">
-                {{ form_row(form.images, {
-                    'attr': {
-                        'class': 'form-input-md',
-                        'is' : 'drop-files',
-                        'label': 'Glissez vos images ici ou cliquez ici',
-                        'help': 'Vous pouvez ajouter plusieurs images en même temps',
-                    },
-                    'label': 'Ajouter des images',
-                    'label_attr': {
-                        'class': 'label'
-                    }
-                }) }}
-            </div>
+            {{ form_row(form.duration) }}
         </div>
+
+        <div class="grid2">
+            {{ form_row(form.tarif) }}
+
+            {{ form_row(form.isTarifPublic) }}
+        </div>
+
+        {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
+            {% if realisation.images|length > 0 %}
+                <div class="col-span-full">
+                    <label class="label">Vos images</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:flex-row
+        ">
+                        {% for image in realisation.images %}
+                            <div id="image-realisation-{{ image.id }}" class="col-span-1 relative group">
+                                <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}"
+                                     alt="{{ image.name }}"
+                                     class="object-cover  h-48 w-96">
+                                <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div>
+
+                                <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
+                    bg-slate-900 p-2 rounded-full"
+                                   href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
+                                   data-delete-image-realisation
+                                   data-token={{ csrf_token('delete' ~ image.id) }}
+                                   data-id="{{ image.id }}"
+                                >
+                                    {{ icon('trash', '2sm', 'text-white') }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {{ form_row(form.images, {
+            'attr': {
+                'class': 'form-input-md',
+                'is' : 'drop-files',
+                'label': 'Glissez vos images ici ou cliquez ici',
+                'help': 'Vous pouvez ajouter plusieurs images en même temps',
+            },
+            'label': 'Ajouter des images',
+            'label_attr': {
+                'class': 'label'
+            }
+        }) }}
     </div>
-</div>
-<div class="border-t border-gray-200 pt-5 sm:col-span-full mb-10">
-    <div class="flex justify-end">
+
+    <div class="text-end">
         <button type="submit" class="btn btn-md btn-primary">
             {{ icon('save') }}
             <span>
-                {{ button_label|default('Enregistrer') }}
-            </span>
+            {{ button_label|default('Enregistrer') }}
+        </span>
         </button>
     </div>
 </div>
 {{ form_end(form) }}
-
-{# {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %} #}
-{#    <h4 class="text-3xl font-medium mb-5">Images</h4> #}
-{#    <form action="{{ path('app_admin_realisation_delete_images', {'id': realisation.id}) }}" #}
-{#          method="post" #}
-{#          class="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-4 my-4"> #}
-
-{#        {% for image in realisation.images %} #}
-{#            <div id="image-realisation-{{ image.id }}" class="col-span-1 relative group"> #}
-{#                <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" #}
-{#                     alt="{{ image.name }}" #}
-{#                     class="object-cover h-48 w-96"> #}
-{#                <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div> #}
-
-{#                <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 sm:opacity-0 transition-opacity #}
-{#                            bg-slate-900 p-2 rounded-full" #}
-{#                   href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}" #}
-{#                   data-delete-image-realisation #}
-{#                   data-token={{ csrf_token('delete' ~ image.id) }} #}
-{#                   data-id="{{ image.id }}" #}
-{#                > #}
-{#                    {{ icon('trash', '2sm', 'text-white') }} #}
-{#                </a> #}
-{#            </div> #}
-{#        {% endfor %} #}
-{#    </form> #}
-{# {% endif %} #}
-

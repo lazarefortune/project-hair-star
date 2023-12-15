@@ -36,10 +36,29 @@ a {
   z-index: 3000
 }
 
-.stack-large {
-  @apply grid items-start gap-8;
+.fade {
+  opacity: 0;
+  transform: translateY(30px) !important;
 }
 
-.stack {
-  @apply grid items-start gap-4;
+.fade.in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: .3s cubic-bezier(.5,0,0,1);
+}
+
+.fade-1 {
+  transition-delay: .2s !important;
+}
+
+.fade-2 {
+  transition-delay: .4s !important;
+}
+
+.fade-3 {
+  transition-delay: .6s !important;
+}
+
+.fade-4 {
+  transition-delay: .8s !important;
 }

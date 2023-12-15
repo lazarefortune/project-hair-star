@@ -25,6 +25,12 @@ class HomeController extends AbstractController
         ] );
     }
 
+    #[Route( '/ui', name: 'app_ui' )]
+    public function ui() : Response
+    {
+        return $this->render( 'home/ui.html.twig');
+    }
+
     #[Route( '/bienvenue', name: 'app_welcome' )]
     public function welcome( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, OptionService $optionService ) : Response
     {
