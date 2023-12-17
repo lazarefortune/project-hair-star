@@ -43,7 +43,7 @@
 
 
 <aside id="sidebar"
-       class="fixed top-0 left-0 z-40 h-screen w-64 -translate-x-full transition-transform lg:translate-x-0">
+       class="fixed top-0 left-0 z-40 h-screen w-72 lg:w-64 -translate-x-full ease-[cubic-bezier(.5,0,0,1)] duration-500 transition-transform lg:translate-x-0">
     <nav class="sidebar-nav">
 
         <div class="sidebar-section-title">
@@ -131,20 +131,9 @@
     </nav>
 </aside>
 
-<div class="fixed inset-0 z-10 hidden bg-gray-900 bg-opacity-30 backdrop-blur-sm" id="sidebarBackdrop"></div>
+<div class="fixed inset-0 z-10 hidden bg-gray-900 bg-opacity-30 backdrop-blur-[2px]" id="sidebarBackdrop"></div>
 
 <spotlight-bar target=".sidebar-nav a"></spotlight-bar>
-
-{# <div class="spotlight active"> #}
-{#    <div class="spotlight__bar"> #}
-{#        <input type="text" placeholder="Rechercher"> #}
-{#        <ul class="spotlight__suggestions"> #}
-{#            <li class="active"><a href="">Réalisations</a></li> #}
-{#            <li><a href="">Clients</a></li> #}
-{#            <li><a href="">Liste des clients</a></li> #}
-{#        </ul> #}
-{#    </div> #}
-{# </div> #}
 
 <div class="min-h-screen">
     <div class="fixed z-50 flex w-full items-center justify-between bg-white px-3 py-2 shadow-sm dark:bg-gray-800">
@@ -168,7 +157,7 @@
         </div>
 
         <div class="relative mr-2 flex items-center">
-            <button id="userBtn" class="cursor-pointer rounded-full border-2 border-gray-100 p-1">
+            <button id="userBtn" class="cursor-pointer rounded-full border-2 border-primary-400 p-1">
                 <img class="h-8 w-8 rounded-full" src="{{ asset('images/coiffure.webp') }}"
                      alt="Your avatar">
             </button>
