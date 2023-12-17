@@ -12,7 +12,6 @@ class ConfigListener
     public function __construct(
         private readonly OptionService $optionService,
         private readonly Environment   $twig,
-
     )
     {
     }

@@ -2,10 +2,8 @@
 
 namespace App\EventSubscriber\Client;
 
-use App\Enum\UserEmailType;
 use App\Event\Client\DeleteClientEvent;
-use App\Security\EmailVerifier;
-use App\Service\MailService;
+use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

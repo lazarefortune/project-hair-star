@@ -29,23 +29,31 @@ services:
       - '../src/Entity/'
       - '../src/Kernel.php'
 
+  App\Http\Controller\:
+    resource: '../src/Http/Controller'
+    tags: [ 'controller.service_arguments' ]
+
+  App\Http\Admin\Controller\:
+    resource: '../src/Http/Admin/Controller'
+    tags: [ 'controller.service_arguments' ]
+
+  App\Http\Api\Controller\:
+    resource: '../src/Http/Api/Controller'
+    tags: [ 'controller.service_arguments' ]
+
   App\Helper\Paginator\PaginatorInterface:
     class: App\Helper\Paginator\KnpPaginator
 
   App\DataTransformer\MinutesToTimeTransformer: ~
 
-  App\Service\MailService:
+  App\Infrastructure\Mailing\MailService:
     arguments:
       $senderEmail: '%sender_email%'
 
-  App\Form\PrestationType:
+  App\Domain\Prestation\Form\PrestationForm:
     arguments:
       $transformer: '@App\DataTransformer\MinutesToTimeTransformer'
 
-  App\Service\BreadcrumbService:
-    public: true
-
-  App\Twig\BreadcrumbExtension:
 
   App\Form\Type\SwitchboxType:
     tags:
@@ -55,14 +63,10 @@ services:
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
 
-  App\Service\AppConfigService:
+  App\Infrastructure\AppConfigService:
     arguments:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
-
-  App\Service\Payment\StripePaymentOld:
-    arguments:
-      $clientSecret: '%env(STRIPE_SECRET_KEY)%'
 
   App\Payment\Stripe\StripeApi:
     arguments:

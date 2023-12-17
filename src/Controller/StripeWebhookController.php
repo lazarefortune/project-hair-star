@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Booking;
-use App\Repository\BookingRepository;
+use App\Domain\Appointment\Entity\Appointment;
+use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -18,7 +18,7 @@ class StripeWebhookController extends AbstractController
     public function __construct(
         readonly private PaymentRepository      $paymentRepository,
         readonly private EntityManagerInterface $entityManager,
-        readonly private BookingRepository      $bookingRepository,
+        readonly private AppointmentRepository  $appointmentRepository,
         ParameterBagInterface                   $parameterBag,
     )
     {
@@ -52,14 +52,14 @@ class StripeWebhookController extends AbstractController
                 $data = $event->data['object'];
                 $sessionId = $data->id;
 
-                $bookingId = $data->metadata->booking_id;
-                // find booking
-                $booking = $this->bookingRepository->find( $bookingId );
-                if ( $booking ) {
-                    // update booking status
-                    $booking->setPaymentStatus( Booking::PAYMENT_STATUS_SUCCESS );
-                    // save booking
-                    $this->entityManager->persist( $booking );
+                $appointmentId = $data->metadata->appointment_id;
+                // find appointment
+                $appointment = $this->appointmentRepository->find( $appointmentId );
+                if ( $appointment ) {
+                    // update appointment status
+                    $appointment->setPaymentStatus( Appointment::PAYMENT_STATUS_SUCCESS );
+                    // save appointment
+                    $this->entityManager->persist( $appointment );
                     $this->entityManager->flush();
                 }
                 // Recherchez l'enregistrement de paiement correspondant dans votre base de données

@@ -2,16 +2,14 @@
 
 namespace App\Controller;
 
+use App\Domain\Auth\EmailVerifier;
+use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\EmailConfirmSuccessEvent;
+use App\Domain\Auth\Repository\UserRepository;
+use App\Domain\Auth\Security\AppAuthenticator;
 use App\Dto\Auth\SubscribeClientDto;
-use App\Entity\User;
-use App\Event\Auth\EmailConfirmSuccessEvent;
-use App\Event\UserCreatedEvent;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
-use App\Security\AppAuthenticator;
-use App\Security\EmailVerifier;
 use App\Service\Auth\AuthService;
-use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

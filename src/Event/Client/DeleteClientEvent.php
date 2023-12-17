@@ -2,7 +2,7 @@
 
 namespace App\Event\Client;
 
-use App\Entity\User;
+use App\Domain\Auth\Entity\User;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class DeleteClientEvent extends Event

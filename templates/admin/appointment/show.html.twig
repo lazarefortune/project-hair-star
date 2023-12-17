@@ -1,0 +1,141 @@
+{% extends 'admin/base.html.twig' %}
+
+{% import 'admin/appointment/macros.twig' as element %}
+
+{% block body %}
+
+    <a href="{{ path('app_admin_appointment_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+            Liste des rendez-vous
+        </span>
+    </a>
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Rdv du {{ appointment.date|date('d/m/Y') }}
+        </h4>
+        {% if  not appointment.statusCanceled and not appointment.passed %}
+            <a href="{{ path('app_admin_appointment_edit', {'id': appointment.id}) }}"
+               class="btn-md btn-primary">
+                {{ icon('pencil', '', 'mr-2') }}
+                <span>
+                    Modifier
+                </span>
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="grid grid-cols-3 gap-6 mt-10 mb-10">
+        <div class="col-span-3 sm:col-span-1">
+            <div class="card card-padding">
+                <!-- title : Informations -->
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Client</h2>
+                </div>
+
+                <!-- client informations -->
+                <div class="flex flex-col">
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Nom</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.client.fullname }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700 mb-4">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Email</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.client.email }}
+                        </p>
+                    </div>
+                    <div class="w-full border-b border-gray-200 dark:border-gray-700">
+                        <h5 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Phone</h5>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                            {{ appointment.client.phone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-3 sm:col-span-2">
+            <div class="card card-padding mb-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">
+                    Rendez-vous
+                </h2>
+
+                <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
+                    <table class="table w-full">
+                        <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left">Date</th>
+                            <th class="px-4 py-2 text-left">Heure</th>
+                            <th class="px-4 py-2 text-left">Statut</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="border px-4 py-2">
+                                {{ appointment.date|date('d/m/Y') }}
+                            </td>
+                            <td class="border px-4 py-2">
+                                {{ appointment.time|date('H:i') }}
+                            </td>
+                            <td>
+                                {% if appointment.passed %}
+                                    <span class="badge badge-danger">
+                                        Terminé
+                                    </span>
+                                {% else %}
+                                    {% if appointment.statusConfirmed %}
+                                        <span class="badge badge-success">
+                                            Confirmé
+                                        </span>
+                                    {% elseif appointment.statusCanceled %}
+                                        <span class="badge badge-danger">
+                                            Annulé
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            En attente
+                                        </span>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-between items-center flex-col sm:flex-row gap-3 mt-6">
+                    {% if appointment.statusPending and not appointment.passed %}
+                        <form method="post"
+                              action="{{ path('app_admin_appointment_confirm', {'id': appointment.id}) }}">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('confirm_appointment' ~ appointment.id) }}">
+                            <button class="btn-md btn-primary">
+                                {{ icon('check', '', 'mr-2') }}
+                                Confirmer
+                            </button>
+                        </form>
+                    {% endif %}
+                    {% if (appointment.statusPending or appointment.statusConfirmed) and not appointment.passed %}
+                        <form method="post" action="{{ path('app_admin_appointment_cancel', {'id': appointment.id}) }}">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('cancel_appointment' ~ appointment.id) }}">
+                            <button class="btn-md btn-outline-primary">
+                                {{ icon('x', '', 'mr-2') }}
+                                Annuler
+                            </button>
+                        </form>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

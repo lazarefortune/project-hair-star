@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Domain\Auth\Repository\UserRepository;
 use App\Entity\EmailVerification;
-use App\Repository\UserRepository;
 use App\Service\Admin\ProfileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

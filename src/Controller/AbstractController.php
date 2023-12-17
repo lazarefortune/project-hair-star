@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Domain\Auth\Entity\User;
 use App\Flash\FlashMessage;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {

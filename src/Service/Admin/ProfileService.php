@@ -2,10 +2,10 @@
 
 namespace App\Service\Admin;
 
+use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\EmailChangeVerificationEvent;
 use App\Dto\Admin\Profile\AdminProfileUpdateDto;
 use App\Entity\EmailVerification;
-use App\Entity\User;
-use App\Event\EmailChangeVerificationEvent;
 use App\Exception\TooManyEmailChangeException;
 use App\Repository\EmailVerificationRepository;
 use App\Service\TokenGeneratorService;

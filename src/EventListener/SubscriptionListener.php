@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Event\AddUserEvent;
+use App\Domain\Auth\Event\AddUserEvent;
 
 class SubscriptionListener
 {

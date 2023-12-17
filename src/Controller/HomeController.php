@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Domain\Auth\Entity\User;
 use App\Entity\Option;
-use App\Entity\User;
 use App\Form\WelcomeType;
 use App\Model\WelcomeModel;
 use App\Service\OptionService;
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     #[Route( '/ui', name: 'app_ui' )]
     public function ui() : Response
     {
-        return $this->render( 'home/ui.html.twig');
+        return $this->render( 'home/ui.html.twig' );
     }
 
     #[Route( '/bienvenue', name: 'app_welcome' )]

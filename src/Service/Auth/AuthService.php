@@ -2,8 +2,8 @@
 
 namespace App\Service\Auth;
 
+use App\Domain\Auth\Event\UserCreatedEvent;
 use App\Dto\Auth\SubscribeClientDto;
-use App\Event\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;

@@ -2,8 +2,8 @@
 
 namespace App\Payment\Stripe;
 
-use App\Entity\Booking;
-use App\Entity\User;
+use App\Domain\Appointment\Entity\Appointment;
+use App\Domain\Auth\Entity\User;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
@@ -69,12 +69,12 @@ class StripeApi
     /**
      * Crée une session de paiement et renvoie l'URL de paiement.
      * @param User $user
-     * @param Booking $booking
+     * @param Appointment $appointment
      * @param string $url
      * @return string
      * @throws ApiErrorException
      */
-    public function createBookingPaymentSession( Booking $booking, string $url ) : string
+    public function createAppointmentPaymentSession( Appointment $appointment, string $url ) : string
     {
         $session = $this->stripe->checkout->sessions->create( [
             'cancel_url' => $url,
@@ -83,15 +83,15 @@ class StripeApi
             'payment_method_types' => [
                 'card',
             ],
-            'customer' => $booking->getClient()->getStripeId(),
+            'customer' => $appointment->getClient()->getStripeId(),
             'metadata' => [
-                'booking_id' => $booking->getId(),
-                'client_id' => $booking->getClient()->getId(),
+                'appointment_id' => $appointment->getId(),
+                'client_id' => $appointment->getClient()->getId(),
             ],
             'payment_intent_data' => [
                 'metadata' => [
-                    'booking_id' => $booking->getId(),
-                    'client_id' => $booking->getClient()->getId(),
+                    'appointment_id' => $appointment->getId(),
+                    'client_id' => $appointment->getClient()->getId(),
                 ],
             ],
             'line_items' => [
@@ -99,9 +99,9 @@ class StripeApi
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => 'Réservation n°' . $booking->getId(),
+                            'name' => 'Réservation n°' . $appointment->getId(),
                         ],
-                        'unit_amount' => $booking->getAmount() * 100,
+                        'unit_amount' => $appointment->getAmount() * 100,
                     ],
                     'quantity' => 1,
                 ],

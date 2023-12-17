@@ -2,7 +2,7 @@
 
 namespace App\Dto\Admin\Profile;
 
-use App\Entity\User;
+use App\Domain\Auth\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class AdminProfileUpdateDto

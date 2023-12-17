@@ -2,9 +2,9 @@
 
 namespace App\Service\Payment;
 
-use App\Entity\Booking;
+use App\Domain\Appointment\Entity\Appointment;
+use App\Domain\Auth\Entity\User;
 use App\Entity\Payment;
-use App\Entity\User;
 use App\Payment\Stripe\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,26 +19,26 @@ class StripePayment
     {
     }
 
-    public function payBooking( Booking $booking, float $amount = 0 ) : ?string
+    public function payAppointment( Appointment $appointment, float $amount = 0 ) : ?string
     {
         if ( $amount > 0 ) {
-            $this->handleAmountChange( $booking, $amount );
+            $this->handleAmountChange( $appointment, $amount );
         }
 
-        $client = $this->ensureCustomerExists( $booking );
-        $payment = $this->ensurePaymentExists( $booking, $client );
+        $client = $this->ensureCustomerExists( $appointment );
+        $payment = $this->ensurePaymentExists( $appointment, $client );
 
         return $this->processPaymentSession( $payment );
     }
 
-    private function handleAmountChange( Booking $booking, float $amount ) : void
+    private function handleAmountChange( Appointment $appointment, float $amount ) : void
     {
-        $booking->setAmount( $amount );
-        $this->deleteExistingSessions( $booking );
+        $appointment->setAmount( $amount );
+        $this->deleteExistingSessions( $appointment );
 //        $this->entityManager->flush();
     }
 
-    private function deleteExistingSessions( Booking $booking ) : void
+    private function deleteExistingSessions( Appointment $appointment ) : void
     {
         // Add logic to delete sessions here, if applicable.
     }
@@ -60,9 +60,9 @@ class StripePayment
         return 'paid' === $session->payment_status || $session->expires_at < time();
     }
 
-    private function ensureCustomerExists( Booking $booking ) : User
+    private function ensureCustomerExists( Appointment $appointment ) : User
     {
-        $client = $booking->getClient();
+        $client = $appointment->getClient();
         if ( !$client->getStripeId() || $this->isCustomerDeleted( $client->getStripeId() ) ) {
             $client = $this->stripeApi->createCustomer( $client );
             $this->storeCustomerStripeId( $client );
@@ -82,36 +82,36 @@ class StripePayment
         $this->entityManager->flush();
     }
 
-    private function ensurePaymentExists( Booking $booking, User $client ) : Payment
+    private function ensurePaymentExists( Appointment $appointment, User $client ) : Payment
     {
-        $payment = $this->getExistingPendingPayment( $booking, $client );
+        $payment = $this->getExistingPendingPayment( $appointment, $client );
         if ( !$payment ) {
-            return $this->createNewPayment( $booking, $client );
+            return $this->createNewPayment( $appointment, $client );
         }
 
         $this->updatePaymentTimestamp( $payment );
         return $payment;
     }
 
-    private function getExistingPendingPayment( Booking $booking, User $client ) : ?Payment
+    private function getExistingPendingPayment( Appointment $appointment, User $client ) : ?Payment
     {
         return $this->entityManager->getRepository( Payment::class )->findOneBy( [
-            'booking' => $booking,
+            'appointment' => $appointment,
             'client' => $client,
             'status' => Payment::STATUS_PENDING,
         ] );
     }
 
-    private function createNewPayment( Booking $booking, User $client ) : Payment
+    private function createNewPayment( Appointment $appointment, User $client ) : Payment
     {
-        $url = $this->generateBookingPaymentStatusUrl( $booking );
-        $sessionId = $this->stripeApi->createBookingPaymentSession( $booking, $url );
+        $url = $this->generateAppointmentPaymentStatusUrl( $appointment );
+        $sessionId = $this->stripeApi->createAppointmentPaymentSession( $appointment, $url );
 
         $payment = new Payment();
         $payment->setSessionId( $sessionId )
-            ->setBooking( $booking )
+            ->setAppointment( $appointment )
             ->setClient( $client )
-            ->setAmount( $booking->getAmount() )
+            ->setAmount( $appointment->getAmount() )
             ->setStatus( Payment::STATUS_PENDING )
             ->setCreatedAt( new \DateTimeImmutable() )
             ->setUpdatedAt( new \DateTimeImmutable() );
@@ -124,8 +124,8 @@ class StripePayment
 
     private function updateSessionForPayment( Payment $payment ) : void
     {
-        $url = $this->generateBookingPaymentStatusUrl( $payment->getBooking() );
-        $sessionId = $this->stripeApi->createBookingPaymentSession( $payment->getBooking(), $url );
+        $url = $this->generateAppointmentPaymentStatusUrl( $payment->getAppointment() );
+        $sessionId = $this->stripeApi->createAppointmentPaymentSession( $payment->getAppointment(), $url );
 
         $payment->setSessionId( $sessionId )
             ->setUpdatedAt( new \DateTimeImmutable() );
@@ -141,14 +141,14 @@ class StripePayment
         $this->entityManager->flush();
     }
 
-    private function generateBookingPaymentStatusUrl( Booking $booking ) : string
+    private function generateAppointmentPaymentStatusUrl( Appointment $appointment ) : string
     {
-        return $this->urlGenerator->generate( 'app_booking_payment_result', [
-            'id' => $booking->getId(),
+        return $this->urlGenerator->generate( 'app_appointment_payment_result', [
+            'id' => $appointment->getId(),
         ], UrlGeneratorInterface::ABSOLUTE_URL );
     }
 
-    public function payBookingAcompte( Booking $booking )
+    public function payAppointmentAcompte( Appointment $appointment )
     {
     }
 }

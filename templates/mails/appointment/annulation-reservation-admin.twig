@@ -1,0 +1,17 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        Vous avez bien annulé la réservation de {{ appointment.client.fullname }} du {{ appointment.date|date('d/m/Y') }} à {{ appointment.time|date('H:i') }}.
+
+    {% endapply %}
+
+    {{ e.button('Voir ma réservation', appointment_url) }}
+
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Domain\Appointment\Entity\Appointment;
+use App\Domain\Auth\Entity\User;
 use App\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +26,7 @@ class Payment
 
     #[ORM\ManyToOne( inversedBy: 'payments' )]
     #[ORM\JoinColumn( nullable: false )]
-    private ?Booking $booking = null;
+    private ?Appointment $appointment = null;
 
     #[ORM\ManyToOne( inversedBy: 'payments' )]
     #[ORM\JoinColumn( nullable: false )]
@@ -59,14 +61,14 @@ class Payment
         return $this;
     }
 
-    public function getBooking() : ?Booking
+    public function getAppointment() : ?Appointment
     {
-        return $this->booking;
+        return $this->appointment;
     }
 
-    public function setBooking( ?Booking $booking ) : static
+    public function setAppointment( ?Appointment $appointment ) : static
     {
-        $this->booking = $booking;
+        $this->appointment = $appointment;
 
         return $this;
     }

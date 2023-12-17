@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
+use App\Domain\Auth\Entity\User;
 use App\Entity\EmailLog;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,5 +39,5 @@ class EmailLogRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
-    
+
 }

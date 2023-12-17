@@ -2,13 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\User;
+use App\Domain\Appointment\Repository\AppointmentRepository;
+use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\UserCreatedEvent;
+use App\Domain\Auth\Repository\UserRepository;
 use App\Event\Client\DeleteClientEvent;
-use App\Event\UserCreatedEvent;
-use App\Repository\BookingRepository;
-use App\Repository\ClientRepository;
 use App\Repository\EmailLogRepository;
-use App\Repository\UserRepository;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ClientService
@@ -18,7 +17,7 @@ class ClientService
         private readonly UserRepository           $userRepository,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly EmailLogRepository       $emailLogRepository,
-        private readonly BookingRepository        $bookingRepository,
+        private readonly AppointmentRepository    $appointmentRepository,
     )
     {
     }
@@ -93,11 +92,11 @@ class ClientService
 
     public function getClientAppointments( User $client, int $limit = null )
     {
-        return $this->bookingRepository->createQueryBuilder( 'b' )
+        return $this->appointmentRepository->createQueryBuilder( 'b' )
             ->where( 'b.client = :client' )
             ->setParameter( 'client', $client )
-            ->orderBy( 'b.bookingDate', 'DESC' )
-            ->addOrderBy( 'b.bookingTime', 'DESC' )
+            ->orderBy( 'b.date', 'DESC' )
+            ->addOrderBy( 'b.time', 'DESC' )
             ->setMaxResults( $limit )
             ->getQuery()
             ->getResult();

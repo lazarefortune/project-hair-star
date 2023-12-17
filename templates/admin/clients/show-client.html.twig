@@ -203,8 +203,8 @@
                 Historique des rendez-vous
             </h1>
 
-            {% include 'admin/booking/_list.html.twig' with {
-                'bookings': clientAppointments,
+            {% include 'admin/appointment/_list.html.twig' with {
+                'appointments': clientAppointments,
                 'emptyMessage': 'Aucun rendez-vous pour ce client.'
             } %}
         </div>

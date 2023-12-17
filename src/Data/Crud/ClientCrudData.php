@@ -3,10 +3,9 @@
 namespace App\Data\Crud;
 
 use App\Data\AutomaticCrudData;
-use App\Entity\User;
-use Cassandra\Date;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Domain\Auth\Entity\User;
 use App\Validator\Unique;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @property User $entity

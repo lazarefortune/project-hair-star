@@ -2,9 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Prestation;
-use App\Helper\Paginator\PaginatorInterface;
 use App\Data\CrudDataInterface;
+use App\Domain\Prestation\Entity\Prestation;
+use App\Helper\Paginator\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @template E
  *
- * @method \App\Entity\User getUser()
+ * @method \App\Domain\Auth\Entity\User getUser()
  */
 abstract class CrudController extends BaseController
 {

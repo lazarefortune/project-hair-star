@@ -2,7 +2,6 @@
 
 namespace App\Components;
 
-use App\Repository\UserRepository;
 use App\Service\ClientService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;

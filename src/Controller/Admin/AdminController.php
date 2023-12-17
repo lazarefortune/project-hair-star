@@ -2,10 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Service\BookingService;
+use App\Controller\AbstractController;
+use App\Domain\Appointment\Service\AppointmentService;
 use App\Service\ClientService;
 use App\Service\RealisationService;
-use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -17,7 +17,7 @@ class AdminController extends AbstractController
     public function index(
         ClientService      $clientService,
         RealisationService $realisationService,
-        BookingService     $bookingService
+        AppointmentService $appointmentService
     ) : Response
     {
         $dashboardCards = [
@@ -38,8 +38,8 @@ class AdminController extends AbstractController
             [
                 'icon' => 'calendar',
                 'title' => 'Réservations',
-                'number' => count( $bookingService->getBookings() ),
-                'route' => 'app_admin_booking_index',
+                'number' => count( $appointmentService->getAppointments() ),
+                'route' => 'app_admin_appointment_index',
                 'status' => 'neutral',
             ],
         ];
@@ -47,7 +47,7 @@ class AdminController extends AbstractController
         return $this->render( 'admin/index.html.twig', [
             'nbClients' => count( $clientService->getClients() ),
             'nbRealisations' => count( $realisationService->getRealisations() ),
-            'nbBookings' => count( $bookingService->getBookings() ),
+            'nbAppointments' => count( $appointmentService->getAppointments() ),
             'dashboardCards' => $dashboardCards,
         ] );
     }

@@ -2,9 +2,9 @@
 
 namespace App\EventSubscriber;
 
-use App\Enum\UserEmailType;
-use App\Event\EmailChangeVerificationEvent;
-use App\Service\MailService;
+use App\Domain\Auth\Event\EmailChangeVerificationEvent;
+use App\Domain\Auth\UserEmailEnum;
+use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
 
@@ -34,6 +34,6 @@ class ProfileSubscriber implements EventSubscriberInterface
             ->subject( 'Vérification de votre nouvelle adresse email' )
             ->priority( Email::PRIORITY_HIGH );
 
-        $this->mailService->send( $email, UserEmailType::ACCOUNT_UPDATED_EMAIL_REQUEST_CONFIRMATION, $user );
+        $this->mailService->send( $email, UserEmailEnum::ACCOUNT_UPDATED_EMAIL_REQUEST_CONFIRMATION, $user );
     }
 }

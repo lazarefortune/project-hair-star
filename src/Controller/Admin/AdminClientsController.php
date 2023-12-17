@@ -3,12 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Data\Crud\ClientCrudData;
-use App\Entity\User;
+use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\UserCreatedEvent;
 use App\Event\Client\DeleteClientEvent;
-use App\Event\UserCreatedEvent;
-use App\Form\NewClientType;
 use App\Service\ClientService;
-use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
