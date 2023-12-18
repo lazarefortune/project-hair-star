@@ -2,7 +2,7 @@
 
 namespace App\Components;
 
-use App\Service\ClientService;
+use App\Domain\Client\Service\ClientService;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;

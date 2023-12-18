@@ -2,11 +2,11 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Appointment\Dto\AppointmentData;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Form\NewAppointmentForm;
 use App\Domain\Appointment\Service\AppointmentService;
+use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -7,7 +7,6 @@ use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
 use App\Domain\Appointment\Event\NewAppointmentEvent;
 use App\Domain\Appointment\Event\UpdateAppointmentEvent;
 use App\Infrastructure\AppConfigService;
-use App\Infrastructure\Mailing\Enum\AppointmentEmailEnum;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -48,7 +47,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Nouvelle réservation' );
 
-        $this->mailService->send( $email, AppointmentEmailEnum::APPOINTMENT_NEW, $client );
+        $this->mailService->send( $email );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/appointment/nouvelle-reservation-admin.twig', [
@@ -77,7 +76,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été modifiée' );
 
-        $this->mailService->send( $email, AppointmentEmailEnum::APPOINTMENT_UPDATED, $client );
+        $this->mailService->send( $email );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/appointment/modification-reservation-admin.twig', [
@@ -105,7 +104,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été confirmée' );
 
-        $this->mailService->send( $email, AppointmentEmailEnum::APPOINTMENT_CONFIRMATION, $client );
+        $this->mailService->send( $email );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/appointment/confirmation-reservation-admin.twig', [
@@ -134,7 +133,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
             ->to( $client->getEmail() )
             ->subject( 'Votre réservation a été annulée' );
 
-        $this->mailService->send( $email, AppointmentEmailEnum::APPOINTMENT_CANCELLED, $client );
+        $this->mailService->send( $email );
 
         // Envoi de l'email de notification à l'admin
         $email = $this->mailService->createEmail( 'mails/appointment/annulation-reservation-admin.twig', [

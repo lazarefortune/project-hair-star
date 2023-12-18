@@ -9,7 +9,7 @@ use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
 use App\Domain\Appointment\Event\NewAppointmentEvent;
 use App\Domain\Appointment\Event\UpdateAppointmentEvent;
 use App\Domain\Appointment\Repository\AppointmentRepository;
-use App\Service\TokenGeneratorService;
+use App\Infrastructure\Security\TokenGeneratorService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class AppointmentService

@@ -102,49 +102,6 @@
                             Envoyer
                         </button>
                     </div>
-
-                    <div class="mt-6 overflow-x-auto -mx-4 sm:-mx-6">
-                        {% if clientEmailsLogs|length > 0 %}
-                            <table class="table w-full">
-                                <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-left">Type</th>
-                                    <th class="px-4 py-2 text-left">Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for emailLog in clientEmailsLogs %}
-                                    <tr>
-                                        <td class="border px-4 py-2">
-                                            {% if emailLog.typeDescription is not empty %}
-                                                {{ emailLog.typeDescription }}
-                                            {% else %}
-                                                {{ emailLog.type }}
-                                            {% endif %}
-                                        </td>
-                                        <td class="border px-4 py-2">{{ emailLog.sentAt|date('d/m/Y à H:i') }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                                {% if client.emailLogs|length >= EMAILS_LOG_LIMIT %}
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="2" class="px-4 py-2 text-left">
-                                            <a href=""
-                                               class="btn-sm btn-primary mt-3">
-                                                Voir plus {{ icon('arrow-right', '', 'ml-2') }}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
-                                {% endif %}
-                            </table>
-                        {% else %}
-                            <p class="text-base text-gray-600 mb-2 bg-primary-100 p-4 sm:p-6 border-l-4 border-l-primary-800">
-                                Aucun email envoyé à ce client.
-                            </p>
-                        {% endif %}
-                    </div>
                 </div>
 
                 <div class="card card-padding">

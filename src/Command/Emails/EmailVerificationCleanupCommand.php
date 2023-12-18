@@ -2,7 +2,7 @@
 
 namespace App\Command\Emails;
 
-use App\Repository\EmailVerificationRepository;
+use App\Domain\Auth\Repository\EmailVerificationRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

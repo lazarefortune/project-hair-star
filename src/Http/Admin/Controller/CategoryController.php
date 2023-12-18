@@ -2,10 +2,10 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Form\NewCategoryForm;
 use App\Domain\Category\Repository\CategoryRepository;
+use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

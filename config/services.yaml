@@ -25,9 +25,7 @@ services:
   App\:
     resource: '../src/'
     exclude:
-      - '../src/DependencyInjection/'
-      - '../src/Entity/'
-      - '../src/Kernel.php'
+      exclude: '../src/{DependencyInjection,Entity,Infrastructure/Migrations,Tests,Kernel.php}'
 
   App\Http\Controller\:
     resource: '../src/Http/Controller'
@@ -68,19 +66,15 @@ services:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
 
-  App\Payment\Stripe\StripeApi:
+  App\Domain\Payment\Stripe\StripeApi:
     arguments:
       $privateKey: '%env(STRIPE_SECRET_KEY)%'
 
-  App\EventListener\ExceptionListener:
+  App\Domain\Application\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
 
-  App\EventListener\SubscriptionListener:
-    tags:
-      - { name: kernel.event_listener, event: new.user , method: onNewUser }
-
 # TODO: Si besoin d'utiliser le nom de l'application en BDD dans les templates, décommenter les lignes ci-dessous
-#  App\EventListener\ConfigListener:
+#  App\Domain\Application\EventListener\ConfigListener:
 #    tags:
 #      - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }

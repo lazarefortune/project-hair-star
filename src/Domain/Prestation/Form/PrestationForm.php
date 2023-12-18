@@ -2,11 +2,11 @@
 
 namespace App\Domain\Prestation\Form;
 
-use App\DataTransformer\MinutesToTimeTransformer;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Prestation\Entity\Prestation;
-use App\Entity\Tag;
-use App\Form\Type\SwitchboxType;
+use App\Domain\Tag\Entity\Tag;
+use App\Helper\MinutesToTimeHelper;
+use App\Http\Type\SwitchboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrestationForm extends AbstractType
 {
 
-    public function __construct( private readonly MinutesToTimeTransformer $transformer )
+    public function __construct( private readonly MinutesToTimeHelper $transformer )
     {
     }
 

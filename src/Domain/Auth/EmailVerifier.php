@@ -57,7 +57,7 @@ class EmailVerifier
             ->to( $user->getEmail() )
             ->subject( 'Confirmation de votre adresse email' );
 
-        $this->mailService->send( $email, UserEmailEnum::ACCOUNT_REQUEST_CONFIRMATION, $user );
+        $this->mailService->send( $email );
     }
 
     /**
@@ -86,7 +86,7 @@ class EmailVerifier
             ->to( $user->getEmail() )
             ->subject( $mailObject );
 
-        $this->mailService->send( $email, UserEmailEnum::ACCOUNT_WELCOME, $user );
+        $this->mailService->send( $email );
     }
 
     public function sendEmailConfirmationWithTemplated( string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email ) : void

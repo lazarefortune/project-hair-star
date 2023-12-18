@@ -2,13 +2,12 @@
 
 namespace App\Http\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Appointment\Dto\AppointmentData;
 use App\Domain\Appointment\Dto\AppointmentManageUpdateData;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Form\AppointmentManageUpdateForm;
 use App\Domain\Appointment\Service\AppointmentService;
-use App\Service\Payment\StripePayment;
+use App\Domain\Payment\Service\StripePayment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

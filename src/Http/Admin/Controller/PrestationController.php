@@ -2,11 +2,11 @@
 
 namespace App\Http\Admin\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Prestation\Entity\Prestation;
 use App\Domain\Prestation\Form\PrestationForm;
 use App\Domain\Prestation\PrestationService;
 use App\Domain\Prestation\Repository\PrestationRepository;
+use App\Http\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

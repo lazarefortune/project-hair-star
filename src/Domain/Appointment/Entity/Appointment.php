@@ -4,7 +4,7 @@ namespace App\Domain\Appointment\Entity;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
-use App\Entity\Payment;
+use App\Domain\Payment\Entity\Payment;
 use App\Domain\Prestation\Entity\Prestation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

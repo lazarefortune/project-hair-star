@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Mailing;
 
 use App\Domain\Auth\Entity\User;
-use App\Entity\EmailLog;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -20,7 +19,6 @@ class MailService
     public function __construct(
         private readonly MailerInterface        $mailer,
         private readonly Environment            $twig,
-        private readonly EntityManagerInterface $em,
         string                                  $senderEmail,
     )
     {
@@ -52,34 +50,14 @@ class MailService
     /**
      * Send email
      * @param Email $email
-     * @param array $type
-     * @param User|null $recipient
      * @return void
      */
-    public function send( Email $email, array $type = [], User $recipient = null ) : void
+    public function send( Email $email ) : void
     {
         try {
             $this->mailer->send( $email );
-
-            if ( $type !== [] && $recipient !== null ) {
-                $this->log( $email, $type, $recipient );
-            }
         } catch ( TransportExceptionInterface $e ) {
             $e->getMessage();
         }
-    }
-
-    private function log( Email $email, array $type, User $recipient ) : void
-    {
-        $emailLog = new EmailLog();
-        $emailLog->setType( $type['value'] );
-        $emailLog->setTypeDescription( $type['description'] );
-        $emailLog->setRecipient( $recipient );
-        $emailLog->setSentAt( new \DateTime() );
-        $emailLog->setContentHtml( $email->getHtmlBody() );
-        $emailLog->setContentText( $email->getTextBody() );
-
-        $this->em->persist( $emailLog );
-        $this->em->flush();
     }
 }

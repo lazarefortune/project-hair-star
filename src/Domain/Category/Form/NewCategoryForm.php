@@ -3,7 +3,7 @@
 namespace App\Domain\Category\Form;
 
 use App\Domain\Category\Entity\Category;
-use App\Form\Type\SwitchboxType;
+use App\Http\Type\SwitchboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

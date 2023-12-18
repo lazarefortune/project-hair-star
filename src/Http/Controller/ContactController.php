@@ -2,7 +2,6 @@
 
 namespace App\Http\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Contact\ContactService;
 use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;

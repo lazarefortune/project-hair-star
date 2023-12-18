@@ -2,8 +2,8 @@
 
 namespace App\Validator;
 
-use App\Data\CrudDataInterface;
-use App\Repository\AbstractRepository;
+use App\Http\Admin\Data\CrudDataInterface;
+use App\Infrastructure\Orm\AbstractRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\Constraint;

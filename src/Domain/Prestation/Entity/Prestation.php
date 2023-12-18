@@ -5,7 +5,7 @@ namespace App\Domain\Prestation\Entity;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Prestation\Repository\PrestationRepository;
-use App\Entity\Tag;
+use App\Domain\Tag\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

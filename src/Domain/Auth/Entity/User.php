@@ -4,9 +4,7 @@ namespace App\Domain\Auth\Entity;
 
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Repository\UserRepository;
-use App\Entity\EmailLog;
-use App\Entity\EmailVerification;
-use App\Entity\Payment;
+use App\Domain\Payment\Entity\Payment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -107,9 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( nullable: true )]
     private ?bool $isRequestDelete = null;
 
-    #[ORM\OneToMany( mappedBy: 'recipient', targetEntity: EmailLog::class, orphanRemoval: true )]
-    private Collection $emailLogs;
-
     #[ORM\OneToMany( mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true )]
     private Collection $payments;
 
@@ -125,7 +120,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = new \DateTimeImmutable();
         $this->bookings = new ArrayCollection();
         $this->emailVerifications = new ArrayCollection();
-        $this->emailLogs = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
 
@@ -363,36 +357,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsRequestDelete( ?bool $isRequestDelete ) : static
     {
         $this->isRequestDelete = $isRequestDelete;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, EmailLog>
-     */
-    public function getEmailLogs() : Collection
-    {
-        return $this->emailLogs;
-    }
-
-    public function addEmailLog( EmailLog $emailLog ) : static
-    {
-        if ( !$this->emailLogs->contains( $emailLog ) ) {
-            $this->emailLogs->add( $emailLog );
-            $emailLog->setRecipient( $this );
-        }
-
-        return $this;
-    }
-
-    public function removeEmailLog( EmailLog $emailLog ) : static
-    {
-        if ( $this->emailLogs->removeElement( $emailLog ) ) {
-            // set the owning side to null (unless already changed)
-            if ( $emailLog->getRecipient() === $this ) {
-                $emailLog->setRecipient( null );
-            }
-        }
 
         return $this;
     }

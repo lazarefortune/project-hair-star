@@ -2,7 +2,7 @@
 
 namespace App\Domain\Auth\Event;
 
-use App\Entity\EmailVerification;
+use App\Domain\Auth\Entity\EmailVerification;
 
 class EmailChangeVerificationEvent
 {

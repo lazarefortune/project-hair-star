@@ -46,6 +46,6 @@ class AuthSubscriber implements EventSubscriberInterface
             ->to( $event->getUser()->getEmail() )
             ->subject( 'Votre adresse email a été confirmée' );
 
-        $this->mailService->send( $email, UserEmailEnum::ACCOUNT_CONFIRMATION_SUCCESS, $event->getUser() );
+        $this->mailService->send( $email );
     }
 }

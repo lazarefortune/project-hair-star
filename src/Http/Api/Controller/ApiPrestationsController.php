@@ -2,8 +2,8 @@
 
 namespace App\Http\Api\Controller;
 
-use App\Controller\AbstractController;
 use App\Domain\Prestation\Entity\Prestation;
+use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
