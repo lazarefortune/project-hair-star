@@ -74,13 +74,11 @@ class ClientsController extends CrudController
     public function show( User $client, ClientService $clientService ) : Response
     {
         $client = $clientService->getClient( $client->getId() );
-        $clientEmailsLogs = $clientService->getClientMailsLog( $client, 4 );
         $clientAppointments = $clientService->getClientAppointments( $client, 4 );
 
 
         return $this->render( 'admin/clients/show-client.html.twig', [
             'client' => $client,
-            'clientEmailsLogs' => $clientEmailsLogs,
             'clientAppointments' => $clientAppointments,
             'EMAILS_LOG_LIMIT' => 4,
         ] );

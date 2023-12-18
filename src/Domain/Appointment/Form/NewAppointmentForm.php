@@ -22,7 +22,7 @@ class NewAppointmentForm extends AbstractType
                 'choice_label' => 'fullName',
                 'label' => 'Client',
                 'attr' => [
-                    'class' => 'select'
+                    'class' => 'form-input-md'
                 ],
                 'query_builder' => function ( \Doctrine\ORM\EntityRepository $er ) {
                     return $er->createQueryBuilder( 'u' )
@@ -38,7 +38,7 @@ class NewAppointmentForm extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Prestation',
                 'attr' => [
-                    'class' => 'select'
+                    'class' => 'form-input-md'
                 ],
                 'label_attr' => [
                     'class' => 'label'

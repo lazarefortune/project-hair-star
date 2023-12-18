@@ -19,7 +19,7 @@ $(document).ready(function () {
                     'Accept': 'application/json',
                 },
                 contentType: 'application/json',
-                url: ' /api/admin/tags/new/',
+                url: ' /api/admin/tags/new',
                 data: JSON.stringify({
                     name: option.val()
                 }),
