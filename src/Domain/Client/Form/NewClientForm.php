@@ -53,7 +53,7 @@ class NewClientForm extends AbstractType
                 'widget' => 'single_text',
                 'attr' => [
                     'placeholder' => 'Date de naissance',
-                    'class' => 'form-input-md',
+                    'class' => 'form-input-md flatpickr-date-birthday',
                 ],
                 'required' => false,
                 'label_attr' => [

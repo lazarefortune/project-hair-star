@@ -78,4 +78,9 @@ class HolidayService
         }
         return $json_holidays;
     }
+
+    public function delete( Holiday $holiday, bool $true ) : void
+    {
+        $this->holidayRepository->remove( $holiday, $true );
+    }
 }

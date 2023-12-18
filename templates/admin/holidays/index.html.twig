@@ -1,19 +1,12 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('app_admin_shop_settings_index') }}"
-       class="btn-link mb-4">
-        {{ icon('arrow-left', '', 'mr-2') }}
-        <span>
-            paramètres
-        </span>
-    </a>
 
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
-            Vacances
+            Jours off
         </h4>
-        <a href="{{ path('app_admin_shop_settings_holidays_new') }}"
+        <a href="{{ path('app_admin_holidays_new') }}"
            class="btn btn-md btn-primary">
             {{ icon('plus') }}
             <span>
@@ -28,17 +21,13 @@
                 <thead class="bg-gray-50">
                 <tr>
                     <th>
-                        <input type="checkbox"
-                               class="">
+                        Titre
                     </th>
                     <th>
-                        Motif
+                        Date de départ
                     </th>
                     <th>
-                        Date de début
-                    </th>
-                    <th>
-                        Date de fin
+                        Date de retour
                     </th>
                     <th>
                         Actions
@@ -55,10 +44,6 @@
                 {% endif %}
                 {% for holiday in holidays %}
                     <tr>
-                        <th class="text-left">
-                            <input type="checkbox"
-                                   class="">
-                        </th>
                         <td>
                             {{ holiday.title }}
                         </td>
@@ -69,7 +54,7 @@
                             {{ holiday.endDate|date('d/m/Y') }}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_shop_settings_holidays_edit', {id: holiday.id}) }}"
+                            <a href="{{ path('app_admin_holidays_edit', {id: holiday.id}) }}"
                                class="btn-icon">
                                 {{ icon('pencil') }}
                             </a>
@@ -83,7 +68,7 @@
                                 'id': 'modal-id-' ~ holiday.id,
                                 'title': 'Supprimer les congés',
                                 'content': 'Vous êtes sur le point d\'annuler vos congés : <strong>' ~ holiday.title ~ '</strong>.<br>Cette action est irréversible.',
-                                'form_action': path('app_admin_shop_settings_holidays_delete', {'id': holiday.id}),
+                                'form_action': path('app_admin_holidays_delete', {'id': holiday.id}),
                                 'csrf_value': csrf_token('delete' ~ holiday.id),
                                 'btn_label': 'Supprimer'
                             } %}

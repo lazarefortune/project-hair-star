@@ -45,14 +45,8 @@
                 <tbody>
                 {% if realisations|length == 0 %}
                     <tr>
-                        <td colspan="5" class="text-center">
+                        <td colspan="6" class="text-center">
                             Aucune réalisation pour le moment.
-                        </td>
-                        <td>
-                            <a href="{{ path('app_admin_realisation_new') }}"
-                               class="btn-icon">
-                                {{ icon('plus') }}
-                            </a>
                         </td>
                     </tr>
                 {% endif %}

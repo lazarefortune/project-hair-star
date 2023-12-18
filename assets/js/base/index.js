@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     //----  Gestion de l'affichage des prix enfants ---- //
-    const priceChildrenSwitchBox = document.querySelector('#prestation_considerChildrenForPrice');
+    const priceChildrenSwitchBox = document.querySelector('#prestation_form_considerChildrenForPrice');
     const priceChildrenBox = document.querySelector('#form-children-price');
 
     if (priceChildrenSwitchBox && priceChildrenBox) {

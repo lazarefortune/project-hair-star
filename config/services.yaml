@@ -42,7 +42,7 @@ services:
   App\Helper\Paginator\PaginatorInterface:
     class: App\Helper\Paginator\KnpPaginator
 
-  App\DataTransformer\MinutesToTimeTransformer: ~
+  App\Helper\MinutesToTimeHelper: ~
 
   App\Infrastructure\Mailing\MailService:
     arguments:
@@ -50,7 +50,7 @@ services:
 
   App\Domain\Prestation\Form\PrestationForm:
     arguments:
-      $transformer: '@App\DataTransformer\MinutesToTimeTransformer'
+      $transformer: '@App\Helper\MinutesToTimeHelper'
 
 
   App\Form\Type\SwitchboxType:
