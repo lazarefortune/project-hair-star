@@ -20,23 +20,12 @@ class SwitchboxType extends AbstractType
     {
         $view->vars['value'] = '1';
         $view->vars['checked'] = null !== $form->getViewData();
-
-        // No label for the field
-        $view->vars['input_label'] = ( isset( $options['input_label'] ) && $options['input_label'] ) ? $options['input_label'] : false;
-
-        // Set the label based on the checkbox state
-        $view->vars['label_title'] = $view->vars['checked'] ? $options['label_on'] : $options['label_off'];
-        $view->vars['label_on'] = $options['label_on'];
-        $view->vars['label_off'] = $options['label_off'];
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
             'compound' => false,
-            'label_on' => 'Activé',
-            'label_off' => 'Désactivé',
-            'input_label' => null,
             'label' => false,
         ] );
     }

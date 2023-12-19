@@ -18,9 +18,7 @@ class RealisationForm extends AbstractType
     {
         $builder
             ->add( 'isPublic', SwitchboxType::class, [
-                'input_label' => 'En ligne ?',
-                'label_on' => 'Oui',
-                'label_off' => 'Non',
+                'label' => 'En ligne ?',
             ] )
             ->add( 'tarif', MoneyType::class, [
                 'attr' => [
@@ -34,9 +32,7 @@ class RealisationForm extends AbstractType
                 ],
             ] )
             ->add( 'isTarifPublic', SwitchboxType::class, [
-                'label_on' => 'Oui',
-                'label_off' => 'Non',
-                'input_label' => 'Prix public ?',
+                'label' => 'Prix public ?',
             ] )
             ->add( 'dateRealisation', DateType::class, [
                 'required' => true,

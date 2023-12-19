@@ -1,4 +1,16 @@
-@import "base/_root";
+@import "tools/_typography";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "tools/reset";
+@import "tools/layout";
+
+/* Modules */
+@import "modules/button";
+@import "modules/form";
+@import "modules/reveal";
 
 .container {
   width: 100%;

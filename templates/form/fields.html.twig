@@ -1,9 +1,6 @@
 {% block switchbox_widget %}
-    {% include 'components/_switchbox.html.twig' with {
+    {% include 'components/_switch.html.twig' with {
         'checked': form.vars.checked,
-        'label_title': form.vars.label_title,
-        'label_on': form.vars.label_on|default('Activé'),
-        'label_off': form.vars.label_off|default('Désactivé')
     } %}
 {% endblock %}
 

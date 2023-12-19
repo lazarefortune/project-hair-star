@@ -5,15 +5,24 @@ namespace App\Http\Api\Controller;
 use App\Domain\Tag\Entity\Tag;
 use App\Domain\Tag\Repository\TagRepository;
 use App\Http\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiTagController extends AbstractController
 {
-    #[Route( '/admin/tags/new/{title}', name: 'admin_tag_new', methods: ['POST'] )]
-    public function index( string $title, TagRepository $tagRepository ) : Response
+    #[Route( '/admin/tags/new', name: 'admin_tag_new', methods: ['POST'] )]
+    public function index( Request $request, TagRepository $tagRepository ) : Response
     {
-        // check if tag already exists
+        // get title from body with "name" nb: getContent return {"name": "value"}
+        $title = ($request->getContent() ? json_decode($request->getContent())->name : '');
+
+        if ( !$title ) {
+            return $this->json( [
+                'error' => 'No title provided',
+            ], 400 );
+        }
+
         $tag = $tagRepository->findOneBy( ['name' => trim( strip_tags( $title ) )] );
         if ( $tag ) {
             return $this->json( [
