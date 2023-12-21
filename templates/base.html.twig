@@ -40,18 +40,12 @@
 
 <body class="font-ibmPlexSans">
 
-{{ include('layouts/blocs/_header.html.twig') }}
 
-<main>
-    <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10 mx-auto">
-        <div class="max-w-5xl mx-auto">
-            {{ include('partials/flash.html.twig') }}
-        </div>
-        <div class="mt-10">
-            {% block body %}{% endblock %}
-        </div>
-    </section>
-</main>
+<div class="page-wrapper">
+    {{ include('layouts/blocs/_header.html.twig') }}
+    {% block body %}{% endblock %}
+    <footer></footer>
+</div>
 
 {% block javascripts__footer %}
     {#    <script type="text/javascript"> #}
