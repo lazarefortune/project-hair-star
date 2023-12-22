@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class StripePayment
 {
     public function __construct(
-        private StripeApi              $stripeApi,
-        private EntityManagerInterface $entityManager,
-        private UrlGeneratorInterface  $urlGenerator,
+        private readonly StripeApi              $stripeApi,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UrlGeneratorInterface  $urlGenerator,
     )
     {
     }
