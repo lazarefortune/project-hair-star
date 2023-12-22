@@ -52,6 +52,9 @@ services:
     arguments:
       $transformer: '@App\Helper\MinutesToTimeHelper'
 
+  App\Infrastructure\Payment\Stripe\StripeEventValueResolver:
+    arguments:
+      $stripeWebhookSecret: '%stripe_webhook_secret%'
 
   App\Form\Type\SwitchboxType:
     tags:

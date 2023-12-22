@@ -53,7 +53,6 @@ class AppointmentController extends AbstractController
         // Sort after today by date desc and before today by date asc
         krsort( $appointmentsBeforeToday );
         ksort( $appointmentsAfterToday );
-//        dd( $appointmentsAfterToday, $appointmentsBeforeToday );
 
         return $this->render( 'admin/appointment/index.html.twig', [
             'appointments' => $this->appointmentService->getAppointments(),

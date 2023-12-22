@@ -35,8 +35,7 @@ class NewCategoryForm extends AbstractType
                 ],
             ] )
             ->add( 'isActive', SwitchboxType::class, [
-                'label_on' => 'En ligne',
-                'label_off' => 'Hors ligne'
+                'label' => 'Actif',
             ] );
     }
 

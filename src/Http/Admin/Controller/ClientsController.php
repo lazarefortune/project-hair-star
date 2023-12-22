@@ -77,18 +77,9 @@ class ClientsController extends CrudController
         $clientAppointments = $clientService->getClientAppointments( $client, 4 );
 
 
-        return $this->render( 'admin/clients/show-client.html.twig', [
+        return $this->render( 'admin/clients/show.html.twig', [
             'client' => $client,
             'clientAppointments' => $clientAppointments,
-            'EMAILS_LOG_LIMIT' => 4,
-        ] );
-    }
-
-    #[Route( path: '/search', name: 'search', methods: ['GET'] )]
-    public function search( Request $request ) : Response
-    {
-        return $this->render( 'admin/clients/_search.html.twig', [
-            'query' => (string)$request->query->get( 'query', '' ),
         ] );
     }
 

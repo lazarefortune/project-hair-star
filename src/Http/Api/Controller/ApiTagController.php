@@ -14,11 +14,15 @@ class ApiTagController extends AbstractController
     #[Route( '/admin/tags/new', name: 'admin_tag_new', methods: ['POST'] )]
     public function index( Request $request, TagRepository $tagRepository ) : Response
     {
-        // get name from body request post
-        $data = json_decode( $request->getContent(), true );
-        $title = $data['name'] ?? null;
+        // get title from body with "name" nb: getContent return {"name": "value"}
+        $title = ($request->getContent() ? json_decode($request->getContent())->name : '');
 
-        // check if tag already exists
+        if ( !$title ) {
+            return $this->json( [
+                'error' => 'No title provided',
+            ], 400 );
+        }
+
         $tag = $tagRepository->findOneBy( ['name' => trim( strip_tags( $title ) )] );
         if ( $tag ) {
             return $this->json( [

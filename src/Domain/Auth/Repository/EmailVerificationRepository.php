@@ -4,6 +4,8 @@ namespace App\Domain\Auth\Repository;
 
 use App\Domain\Auth\Entity\EmailVerification;
 use App\Domain\Auth\Entity\User;
+use App\Infrastructure\Orm\AbstractRepository;
+use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method EmailVerification[]    findAll()
  * @method EmailVerification[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class EmailVerificationRepository extends ServiceEntityRepository
+class EmailVerificationRepository extends AbstractRepository implements CleanableRepositoryInterface
 {
 
     private const HOURS_TO_EXPIRE = 1;
@@ -69,5 +71,10 @@ class EmailVerificationRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
 
+    }
+
+    public function clean() : int
+    {
+        return $this->deleteExpiredEmailVerifications();
     }
 }

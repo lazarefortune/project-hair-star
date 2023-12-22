@@ -20,7 +20,7 @@ class HomeController extends AbstractController
     #[Route( '/', name: 'home' )]
     public function index() : Response
     {
-        return $this->render( 'home/index.html.twig', [
+        return $this->render( 'pages/index.html.twig', [
             'controller_name' => 'HomeController',
         ] );
     }
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     #[Route( '/ui', name: 'ui' )]
     public function ui() : Response
     {
-        return $this->render( 'home/ui.html.twig' );
+        return $this->render( 'pages/ui.html.twig' );
     }
 
     #[Route( '/bienvenue', name: 'welcome' )]
@@ -68,7 +68,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute( 'app_success_installed' );
         }
 
-        return $this->render( 'home/welcome.html.twig', [
+        return $this->render( 'pages/welcome.html.twig', [
             'form' => $welcomeForm->createView(),
         ] );
     }
@@ -76,25 +76,25 @@ class HomeController extends AbstractController
     #[Route( '/installe', name: 'success_installed' )]
     public function successInstalled( OptionService $optionService ) : Response
     {
-        return $this->render( 'home/success_installed.html.twig' );
+        return $this->render( 'pages/success_installed.html.twig' );
     }
 
     #[Route( '/conditions-generales-utilisation', name: 'cgu' )]
     public function cgu( OptionService $optionService ) : Response
     {
-        return $this->render( 'home/cgu.html.twig' );
+        return $this->render( 'pages/cgu.html.twig' );
     }
 
     #[Route( '/mentions-legales', name: 'mentions_legales' )]
     public function mentionsLegales( OptionService $optionService ) : Response
     {
-        return $this->render( 'home/mentions_legales.html.twig' );
+        return $this->render( 'pages/mentions_legales.html.twig' );
     }
 
     #[Route( '/politique-confidentialite', name: 'politique_confidentialite' )]
     public function politiqueConfidentialite( OptionService $optionService ) : Response
     {
-        return $this->render( 'home/politique_confidentialite.html.twig' );
+        return $this->render( 'pages/politique_confidentialite.html.twig' );
     }
 
 
