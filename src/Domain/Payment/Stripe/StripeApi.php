@@ -7,9 +7,12 @@ use App\Domain\Auth\Entity\User;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
+use Stripe\Invoice;
 use Stripe\PaymentIntent;
+use Stripe\Plan;
 use Stripe\Stripe;
 use Stripe\StripeClient;
+use Stripe\Subscription;
 
 class StripeApi
 {
@@ -66,12 +69,32 @@ class StripeApi
         return $this->stripe->checkout->sessions->retrieve( $id );
     }
 
+    public function getInvoice(string $invoice): Invoice
+    {
+        return $this->stripe->invoices->retrieve($invoice);
+    }
+
+    public function getSubcription(string $subcription): Subscription
+    {
+        return $this->stripe->subscriptions->retrieve($subcription);
+    }
+
+    public function getPlan(string $plan): Plan
+    {
+        return $this->stripe->plans->retrieve($plan);
+    }
+
+    /**
+     * Creates a subscription session and returns the payment URL.
+     */
+    public function createSubscriptionSession( User $user, string $url): string
+    {
+        // Implement this method to create a subscription session. Need to create Plan entity first.
+        return $url;
+    }
+
     /**
      * Crée une session de paiement et renvoie l'URL de paiement.
-     * @param User $user
-     * @param Appointment $appointment
-     * @param string $url
-     * @return string
      * @throws ApiErrorException
      */
     public function createAppointmentPaymentSession( Appointment $appointment, string $url ) : string
@@ -109,6 +132,16 @@ class StripeApi
         ] );
 
         return $session->id;
+    }
+
+    public function getBillingUrl( User $user, string $returnUrl ) : string
+    {
+        $session = $this->stripe->billingPortal->sessions->create( [
+            'customer' => $user->getStripeId(),
+            'return_url' => $returnUrl,
+        ] );
+
+        return $session->url;
     }
 
 }
