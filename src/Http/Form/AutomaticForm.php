@@ -54,19 +54,7 @@ class AutomaticForm extends AbstractType
                 ] );
             }
             // Input spécifique au niveau
-            if ( 'level' === $name ) {
-                $builder->add( $name, ChoiceType::class, [
-                    'required' => true,
-                    'choices' => array_flip( Formation::$levels ),
-                    'label_attr' => [
-                        'class' => 'label',
-                    ],
-                    'attr' => [
-                        'class' => 'form-input-md',
-                    ],
-                ] );
-                // Input spécifique au nom du champs
-            } elseif ( array_key_exists( $name, self::NAMES ) ) {
+            if ( array_key_exists( $name, self::NAMES ) ) {
                 $builder->add( $name, self::NAMES[$name], [
                     'required' => false,
                     'label_attr' => [
@@ -76,20 +64,18 @@ class AutomaticForm extends AbstractType
                         'class' => 'form-input-md',
                     ],
                 ] );
+            } elseif ( $type->getName() === \DateTimeInterface::class ) {
+                $builder->add( $name, DateType::class, [
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
+                    'attr' => [
+                        'class' => 'form-input-md flatpickr-date-input',
+                    ],
+                ] );
             } elseif ( array_key_exists( $type->getName(), self::TYPES ) ) {
-                if ( $type->getName() === \DateTimeInterface::class ) {
-                    $builder->add( $name, DateType::class, [
-                        'required' => false,
-                        'widget' => 'single_text',
-                        'label_attr' => [
-                            'class' => 'label',
-                        ],
-                        'attr' => [
-                            'class' => 'form-input-md flatpickr-date-input',
-                        ],
-                    ] );
-                    continue;
-                }
                 $builder->add( $name, self::TYPES[$type->getName()], [
                     'required' => !$type->allowsNull() && 'bool' !== $type->getName(),
                     'label_attr' => [

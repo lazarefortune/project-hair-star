@@ -1,7 +1,0 @@
-{% for realisation in realisations %}
-    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-        {% with {'realisation': realisation} %}
-            {% include 'layouts/realisations/_realisation_card.html.twig' %}
-        {% endwith %}
-    </div>
-{% endfor %}

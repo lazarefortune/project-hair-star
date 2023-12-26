@@ -107,6 +107,7 @@ class StripePayment
         $url = $this->generateAppointmentPaymentStatusUrl( $appointment );
         $sessionId = $this->stripeApi->createAppointmentPaymentSession( $appointment, $url );
 
+        // TODO: add event listener to create payment on session creation
         $payment = new Payment();
         $payment->setSessionId( $sessionId )
             ->setAppointment( $appointment )

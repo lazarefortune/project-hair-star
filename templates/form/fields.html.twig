@@ -4,6 +4,16 @@
     } %}
 {% endblock %}
 
+{% block switch_widget %}
+    <label class="relative inline-flex cursor-pointer items-center form-switch" for="{{ form.vars.id }}">
+        <input type="hidden" name="{{ form.vars.full_name }}" value="0">
+        <input type="checkbox" name="{{ form.vars.full_name }}"
+               id="{{ form.vars.id }}"
+               class="sr-only peer form-switch-input" {% if checked %} checked {% endif %}>
+        <div class="w-11 h-6 bg-primary-100 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-primary-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-900"></div>
+    </label>
+{% endblock %}
+
 {% extends 'form_div_layout.html.twig' %}
 
 {% block money_widget %}
@@ -20,7 +30,6 @@
     </div>
 {% endblock %}
 
-{# customize form row , i would like to have in order 1. form_label, 2. form_widget , 3. form_errors #}
 {% block form_row %}
     <div class="">
         {{ form_label(form) }}
@@ -34,7 +43,6 @@
 {% endblock %}
 
 {% block choice_widget_expanded %}
-
     <div {{ block('widget_container_attributes') }}>
         {% for child in form %}
             <div class="flex items-center space-x-2">
@@ -43,5 +51,4 @@
             </div>
         {% endfor %}
     </div>
-
 {% endblock %}

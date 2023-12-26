@@ -4,6 +4,7 @@ namespace App\Domain\Realisation\Form;
 
 use App\Domain\Realisation\Entity\Realisation;
 use App\Http\Type\SwitchboxType;
+use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -17,7 +18,7 @@ class RealisationForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'isPublic', SwitchboxType::class, [
+            ->add( 'isPublic', SwitchType::class, [
                 'label' => 'En ligne ?',
             ] )
             ->add( 'tarif', MoneyType::class, [

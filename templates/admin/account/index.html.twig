@@ -15,8 +15,6 @@
 
 
     <div class="stack-large mb-10">
-        <h4 class="text-2xl font-bold md:text-3xl">Mon compte</h4>
-
         {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
             <div class="alert-info">
                 <h2 class="alert-heading">Attention !</h2>

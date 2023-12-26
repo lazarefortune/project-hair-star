@@ -2,10 +2,13 @@
 
 namespace App\Http\Admin\Controller;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Client\Service\ClientService;
+use App\Domain\Payment\Service\StripePayment;
 use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -13,6 +16,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted( 'ROLE_ADMIN' )]
 class PageController extends AbstractController
 {
+
+    public function __construct(
+        private readonly StripePayment $stripePayment
+    )
+    {
+    }
+
     #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
     public function index(
         ClientService      $clientService,
@@ -56,7 +66,11 @@ class PageController extends AbstractController
     #[Route( '/test', name: 'test', methods: ['GET'] )]
     public function testViewAdmin() : Response
     {
-        return $this->render( 'admin/test.html.twig' );
+        $paymentUrl = "";
+        return $this->render( 'admin/test.html.twig', [
+                'paymentUrl' => $paymentUrl,
+            ]
+        );
     }
 
     #[Route( '/maintenance', name: 'maintenance', methods: ['GET'] )]

@@ -20,4 +20,9 @@ class SwitchType extends CheckboxType
             ],
         ] );
     }
+
+    public function getBlockPrefix() : string
+    {
+        return 'switch';
+    }
 }

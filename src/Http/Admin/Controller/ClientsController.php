@@ -57,7 +57,6 @@ class ClientsController extends CrudController
     public function edit( User $client ) : Response
     {
         $data = new ClientCrudData( $client );
-
         return $this->crudEdit( $data );
     }
 
