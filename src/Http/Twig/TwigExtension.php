@@ -27,7 +27,28 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'date_age', [$this, 'formatDateAge'] ),
             new TwigFilter( 'human_date', [$this, 'formatHumanDate'] ),
             new TwigFilter( 'hour_lisible', [$this, 'formatHourLisible'] ),
+            new TwigFilter( 'ago', [$this, 'formatAgo'] ),
         ];
+    }
+
+    public function formatAgo( \DateTime $date ) : string
+    {
+        $now = new \DateTime();
+        $interval = $now->diff( $date );
+
+        if ( $interval->days == 0 ) {
+            return 'aujourd\'hui';
+        } elseif ( $interval->days == 1 ) {
+            return 'hier';
+        } elseif ( $interval->days < 30 ) {
+            return '' . $interval->days . ' jours';
+        } elseif ( $interval->days < 365 ) {
+            $months = round( $interval->days / 30 );
+            return '' . $months . ' mois';
+        } else {
+            $years = round( $interval->days / 365 );
+            return '' . $years . ' ans';
+        }
     }
 
     public function formatHourLisible( \DateTime $date ) : string

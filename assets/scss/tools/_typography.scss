@@ -55,6 +55,14 @@ a {
   @apply text-primary-500 hover:text-primary-900 no-underline hover:no-underline;
 }
 
+.h1 {
+  @apply text-4xl font-semibold;
+}
+
+.h2 {
+  @apply text-3xl font-semibold;
+}
+
 .h3 {
   @apply text-2xl font-semibold;
 }

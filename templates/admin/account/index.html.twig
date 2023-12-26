@@ -12,9 +12,24 @@
         </span>
     </a>
 
-
-
     <div class="stack-large mb-10">
+
+        <div class="stack card card-padding">
+            <div class="flex flex-row justify-start items-center">
+                <div class="mr-4 flex-shrink-0">
+                    <img src="https://www.w3schools.com/howto/img_avatar.png"
+                         alt="Avatar de {{ app.user.fullname }}"
+                         class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 p-0.5">
+                </div>
+                <div>
+                    <h2 class="h3">{{ app.user.fullname }}</h2>
+                    <p class="text-muted text-sm">
+                        Inscrit depuis {{ app.user.createdAt|ago }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
         {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
             <div class="alert-info">
                 <h2 class="alert-heading">Attention !</h2>
