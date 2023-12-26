@@ -18,7 +18,7 @@ class CategoryController extends AbstractController
     #[Route( '/', name: 'category_prestation_index', methods: ['GET'] )]
     public function index( CategoryRepository $categoryPrestationRepository ) : Response
     {
-        return $this->render( 'admin/category-prestation/index.html.twig', [
+        return $this->render( 'admin/category/index.html.twig', [
             'category_prestations' => $categoryPrestationRepository->findAll(),
         ] );
     }
@@ -37,7 +37,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->render( 'admin/category-prestation/new.html.twig', [
+        return $this->render( 'admin/category/new.html.twig', [
             'category_service' => $categoryPrestation,
             'form' => $form,
         ] );
@@ -46,7 +46,7 @@ class CategoryController extends AbstractController
     #[Route( '/{id}', name: 'category_service_show', methods: ['GET'] )]
     public function show( Category $categoryPrestation ) : Response
     {
-        return $this->render( 'admin/category-prestation/show.html.twig', [
+        return $this->render( 'admin/category/show.html.twig', [
             'category_service' => $categoryPrestation,
         ] );
     }
@@ -64,7 +64,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
-        return $this->render( 'admin/category-prestation/edit.html.twig', [
+        return $this->render( 'admin/category/edit.html.twig', [
             'category_service' => $categoryPrestation,
             'form' => $form,
         ] );

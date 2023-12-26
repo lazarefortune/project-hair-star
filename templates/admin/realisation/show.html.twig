@@ -1,38 +1,61 @@
-{% extends 'admin/layouts/card.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block card_title %}
-    Realisation #{{ realisation.id }}
-{% endblock %}
+{% block body %}
 
-{% block card_actions %}
-    <a href="{{ path('app_admin_realisation_edit', {id: realisation.id}) }}" class="btn btn-primary">
-        Éditer
+    <a href="{{ path('app_admin_realisation_index') }}"
+       class="btn-link mb-4">
+        {{ icon('arrow-left', '', 'mr-2') }}
+        <span>
+            Liste des réalisations
+        </span>
     </a>
-{% endblock %}
 
-{% block card_body %}
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Réalisation {{ realisation.id }}
+        </h4>
+    </div>
 
-    <!-- Informations -->
-    <section id="realisation_informations mb-5">
-        <h4 class="text-center mb-4">Informations générales</h4>
-        <p class="text-center">
-            Le tarif de la réalisation est de <strong>{{ realisation.tarif }} €</strong>
-        </p>
-    </section>
-    <!-- Fin Informations -->
+    <div class="stack card card-padding">
 
-    <!-- Galerie -->
-    <section id="realisation_gallery mb-5">
-        <h4 class="text-center mb-4">Galerie de la réalisation</h4>
-        <div class="realisation_gallery row d-flex justify-content-center">
-            {% for image in realisation.images %}
-                <div class="realisation_gallery_item col-md-3">
-                    <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" alt="{{ image.name }}"
-                         width="100" class="js-image-modal realisation_gallery_item_image" id="myImg{{ loop.index }}">
+        <div class="flex flex-wrap">
+            <div class="w-full md:w-1/2">
+                <div class="mb-6">
+                    <h5 class="text-xl font-bold mb-2">
+                        Date de la réalisation
+                    </h5>
+                    <p class="text-lg">
+                        {{ realisation.createdAt|date('d/m/Y') }}
+                    </p>
                 </div>
-            {% endfor %}
+            </div>
+
+            <div class="w-full md:w-1/2">
+                <div class="mb-6">
+                    <h5 class="text-xl font-bold mb-2">
+                        Image(s)
+                    </h5>
+                    {% for image in realisation.images %}
+                        <div class="mb-2">
+                            <img src="{{ asset('uploads/images/realisations/' ~ image.name) }}" alt="{{ image.name }}"
+                                 width="100" class="js-image-modal realisation_gallery_item_image"
+                                 id="myImg{{ loop.index }}">
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
         </div>
-    </section>
-    <!-- Fin Galerie -->
+
+        <div class="flex justify-between items-center mt-6">
+            <a href="{{ path('app_admin_realisation_edit', {id: realisation.id}) }}"
+               class="btn-md btn-primary">
+                {{ icon('pencil', '', 'mr-2') }}
+                <span>
+                        Modifier
+                    </span>
+            </a>
+        </div>
+    </div>
 
 {% endblock %}

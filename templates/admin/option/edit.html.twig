@@ -1,10 +1,6 @@
-{% extends 'admin/layouts/card.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block card_title %}
-
-{% endblock %}
-
-{% block card_body %}
+{% block body %}
     {{ form_start(formOption) }}
     {{ form_end(formOption) }}
 {% endblock %}
