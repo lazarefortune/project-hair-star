@@ -47,6 +47,7 @@ services:
   App\Infrastructure\Mailing\MailService:
     arguments:
       $senderEmail: '%sender_email%'
+      $senderName: '%app.name%'
 
   App\Domain\Prestation\Form\PrestationForm:
     arguments:
@@ -55,11 +56,6 @@ services:
   App\Infrastructure\Payment\Stripe\StripeEventValueResolver:
     arguments:
       $stripeWebhookSecret: '%stripe_webhook_secret%'
-
-  App\Form\Type\SwitchboxType:
-    tags:
-      - { name: 'form.type' }
-
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

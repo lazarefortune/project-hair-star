@@ -6,6 +6,7 @@ use App\Domain\Auth\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -15,14 +16,17 @@ use Twig\Error\SyntaxError;
 class MailService
 {
     private string $senderEmail;
+    private string $senderName;
 
     public function __construct(
-        private readonly MailerInterface        $mailer,
-        private readonly Environment            $twig,
-        string                                  $senderEmail,
+        private readonly MailerInterface $mailer,
+        private readonly Environment     $twig,
+        string                           $senderEmail,
+        string                           $senderName
     )
     {
         $this->senderEmail = $senderEmail;
+        $this->senderName = $senderName;
     }
 
     /**
@@ -42,7 +46,7 @@ class MailService
         $text = $this->twig->render( $template, array_merge( $data, ['layout' => 'mails/base.text.twig'] ) );
 
         return ( new Email() )
-            ->from( $this->senderEmail )
+            ->from( new Address( $this->senderEmail, $this->senderName ) )
             ->html( $html )
             ->text( $text );
     }
