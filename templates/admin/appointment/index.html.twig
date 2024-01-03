@@ -1,0 +1,79 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mes rendez-vous{% endblock %}
+
+{% import 'admin/appointment/macros.twig' as element %}
+
+{% block body %}
+    <div class="mb-6 flex items-center justify-between">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Rendez-vous
+        </h4>
+        <a href="{{ path('app_admin_appointment_new') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
+
+    <div class="stack">
+        <nav-tabs class="nav-tabs">
+            <a href="#today" class="tab-link" data-tab-id="today">Aujourd'hui</a>
+            <a href="#upcoming" class="tab-link" data-tab-id="upcoming">A venir</a>
+            <a href="#past" class="tab-link" data-tab-id="past">Passés</a>
+        </nav-tabs>
+    </div>
+
+    <div class="my-4" id="today">
+        <h3 class="text-2xl font-bold text-slate-900">Aujourd'hui</h3>
+        <p class="text-base text-slate-500 mb-4">Vous avez {{ appointmentsToday|length }} rendez-vous aujourd'hui</p>
+        <div class="flex gap-4 mb-2">
+            <div class="text-5xl text-slate-800">{{ 'now'|date('d') }}</div>
+            <div class="flex flex-col">
+                <div class="text-base text-slate-800 font-bold">{{ 'now'|date('l') }}</div>
+                <div class="text-sm text-slate-500"> {{ 'now'|date('F') }} </div>
+            </div>
+        </div>
+        {% include 'admin/appointment/_list.html.twig' with {'appointments': appointmentsToday} %}
+    </div>
+
+    <div class="mb-4" id="upcoming">
+        <h3 class="text-2xl font-bold text-slate-900">A venir</h3>
+        <p class="text-base text-slate-500 mb-4">Vous avez {{ appointmentsAfterToday|length }} rendez-vous à venir</p>
+        <div class="flex flex-col gap-5 mb-4">
+            {% for date,appointments in appointmentsAfterToday %}
+                <div class="">
+                    <div class="flex gap-4 mb-2">
+                        <div class="text-5xl text-slate-800">{{ date|date('d') }}</div>
+                        <div class="flex flex-col">
+                            <div class="text-base text-slate-800 font-bold">{{ date|date('l') }}</div>
+                            <div class="text-sm text-slate-500"> {{ date|date('F') }} </div>
+                        </div>
+                    </div>
+                    {% include 'admin/appointment/_list.html.twig' with {'appointments': appointments} %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-4" id="past">
+        <h3 class="text-2xl font-bold text-slate-900">Passés</h3>
+        <p class="text-base text-slate-500 mb-4">Vous avez {{ appointmentsBeforeToday|length }} rendez-vous passés</p>
+        <div class="flex flex-col gap-5 mb-4">
+            {% for date,appointments in appointmentsBeforeToday %}
+                <div class="">
+                    <div class="flex gap-4 mb-2">
+                        <div class="text-5xl text-slate-800">{{ date|date('d') }}</div>
+                        <div class="flex flex-col">
+                            <div class="text-base text-slate-800 font-bold">{{ date|date('l') }}</div>
+                            <div class="text-sm text-slate-500"> {{ date|date('F') }} </div>
+                        </div>
+                    </div>
+                    {% include 'admin/appointment/_list.html.twig' with {'appointments': appointments} %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

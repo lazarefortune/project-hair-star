@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="stack-large">
+        <h4 class="text-2xl font-bold md:text-3xl">Jours de fermeture</h4>
+
+        {{ form_start(form, {'attr': {'class': 'stack'}}) }}
+        <div class="card card-padding stack">
+            {{ form_row(form.offdays) }}
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn-md btn-primary">
+                {{ icon('save') }}
+                <span>
+                Enregistrer
+            </span>
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+
+{% endblock %}

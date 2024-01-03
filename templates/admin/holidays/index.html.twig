@@ -1,0 +1,84 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Jours off
+        </h4>
+        <a href="{{ path('app_admin_holidays_new') }}"
+           class="btn btn-md btn-primary">
+            {{ icon('plus') }}
+            <span>
+                Ajouter
+            </span>
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th>
+                        Titre
+                    </th>
+                    <th>
+                        Date de départ
+                    </th>
+                    <th>
+                        Date de retour
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if holidays is empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Pas de vacances en vue
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for holiday in holidays %}
+                    <tr>
+                        <td>
+                            {{ holiday.title }}
+                        </td>
+                        <td>
+                            {{ holiday.startDate|date('d/m/Y') }}
+                        </td>
+                        <td>
+                            {{ holiday.endDate|date('d/m/Y') }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_holidays_edit', {id: holiday.id}) }}"
+                               class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+
+                            <button
+                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ holiday.id }}">
+                                {{ icon('trash') }}
+                            </button>
+
+                            {% include 'components/_delete-modal.html.twig' with {
+                                'id': 'modal-id-' ~ holiday.id,
+                                'title': 'Supprimer les congés',
+                                'content': 'Vous êtes sur le point d\'annuler vos congés : <strong>' ~ holiday.title ~ '</strong>.<br>Cette action est irréversible.',
+                                'form_action': path('app_admin_holidays_delete', {'id': holiday.id}),
+                                'csrf_value': csrf_token('delete' ~ holiday.id),
+                                'btn_label': 'Supprimer'
+                            } %}
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

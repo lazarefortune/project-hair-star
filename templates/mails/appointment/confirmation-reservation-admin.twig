@@ -1,0 +1,17 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        Votre avez confirmé le rendez-vous de {{ appointment.client.fullname }} pour le {{ appointment.date|date('d/m/Y') }} à {{ appointment.time|date('H:i') }}.
+
+    {% endapply %}
+
+    {{ e.button('Voir la réservation', appointment_url) }}
+
+{% endblock %}

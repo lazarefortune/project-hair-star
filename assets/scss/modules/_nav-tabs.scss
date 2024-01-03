@@ -1,0 +1,13 @@
+.nav-tabs {
+  @apply relative flex overflow-x-auto overflow-y-hidden border-0 w-full;
+  padding-left: calc(50% - (calc(100vw - 32px * 2) / 2));
+  padding-right: calc(50% - (calc(100vw - 32px * 2) / 2));
+
+  a {
+    @apply relative z-20 flex items-center whitespace-nowrap px-6 py-4 text-slate-900 border-b-[3px];
+  }
+
+  a[aria-selected="true"] {
+    @apply text-primary-900 border-primary-900 border-b-[3px];
+  }
+}

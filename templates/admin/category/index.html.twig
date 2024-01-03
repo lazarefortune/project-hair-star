@@ -1,0 +1,83 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Catégories de prestations{% endblock %}
+
+{% block body %}
+
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Catégories
+        </h4>
+        <a href="{{ path('app_admin_category_prestation_new') }}"
+           class="btn-md btn-primary">
+            {{ icon('plus') }}
+            <span class="ml-2">
+                Ajouter
+            </span>
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Nom
+                    </th>
+                    <th>
+                        En ligne?
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if category_prestations is empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            Aucune donnée disponible
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for category in category_prestations %}
+                    <tr>
+                        <td class="text-left">
+                            {{ category.id }}
+                        </td>
+                        <td>
+                            {{ category.name }}
+                        </td>
+                        <td>
+                            <div class="empty-circle empty-circle-{% if category.isActive %}success{% else %}danger{% endif %}"></div>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"
+                               class="btn-icon">
+                                {{ icon('pencil') }}
+                            </a>
+                            <button
+                                    class="btn-icon modal-button" data-modal-id="modal-id-{{ category.id }}">
+                                {{ icon('trash') }}
+                            </button>
+
+                            {% include 'components/_delete-modal.html.twig' with {
+                                'id': 'modal-id-' ~ category.id,
+                                'title': 'Supprimer la catégorie',
+                                'content': 'Êtes-vous sûr de vouloir supprimer cette catégorie ?',
+                                'form_action': path('app_admin_category_prestation_delete', {'id': category.id}),
+                                'csrf_value': csrf_token('delete' ~ category.id),
+                                'btn_label': 'Supprimer'
+                            } %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

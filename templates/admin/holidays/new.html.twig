@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div class="text-start mb-4">
+        <a href="{{ path('app_admin_holidays_index') }}" class="btn-link mb-4">
+            {{ icon('arrow-left', '', 'mr-2') }}
+            <span>Retour à la liste</span>
+        </a>
+    </div>
+
+    <div class="flex justify-between items-center">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Partir en vacances
+        </h4>
+    </div>
+
+    <div class="mt-6">
+        {% include 'admin/holidays/_form.html.twig' with {
+            button_label: 'Enregistrer',
+        } %}
+    </div>
+
+
+{% endblock %}
+

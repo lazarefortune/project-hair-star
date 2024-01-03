@@ -1,0 +1,19 @@
+{% extends layout %}
+
+{% import "mails/macros.twig" as e %}
+
+{% block body %}
+
+    {% apply markdown_email %}
+
+        ## Bonjour,
+
+        Un(e) client(e) vient de demander une réservation pour le {{ appointment.date|date('d/m/Y') }} à {{ appointment.time|date('H:i') }}.
+
+        Merci de vous connecter à votre espace client pour consulter les détails de la réservation.
+
+    {% endapply %}
+
+    {{ e.button('Voir la réservation', appointment_url) }}
+
+{% endblock %}

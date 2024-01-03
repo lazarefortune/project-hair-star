@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}Prestations{% endblock %}
+
 {% block body %}
     <div class="flex justify-between items-center mb-6">
         <h4 class="text-2xl font-bold md:text-3xl">
@@ -14,22 +16,14 @@
         </a>
     </div>
 
-    <div class="card-simple">
-        <div class="mb-6 px-4 sm:px-6">
-            <div class="flex justify-between">
-                <div class="flex-1 flex justify-between">
-                    <input type="text" class="form-control" placeholder="Rechercher...">
-                </div>
-            </div>
-        </div>
+    <div class="card">
 
         <div class="block w-full overflow-x-auto">
             <table class="table w-full border-collapse items-center bg-transparent">
                 <thead class="bg-gray-50">
                 <tr>
                     <th>
-                        <input type="checkbox"
-                               class="">
+                        ID
                     </th>
                     <th>
                         Nom
@@ -41,6 +35,9 @@
                         Tarif
                     </th>
                     <th>
+                        En ligne?
+                    </th>
+                    <th>
                         Actions
                     </th>
                 </tr>
@@ -49,16 +46,15 @@
                 {% if prestations is empty %}
                     <tr>
                         <td colspan="5" class="text-center">
-                            Aucune prestations pour le moment.
+                            Aucune donnée disponible
                         </td>
                     </tr>
                 {% endif %}
                 {% for prestation in prestations %}
                     <tr>
-                        <th class="text-left">
-                            <input type="checkbox"
-                                   class="">
-                        </th>
+                        <td class="text-left">
+                            {{ prestation.id }}
+                        </td>
                         <td>
                             {{ prestation.name }}
                         </td>
@@ -67,6 +63,9 @@
                         </td>
                         <td>
                             {{ prestation.price|price_format }}
+                        </td>
+                        <td>
+                            <div class="empty-circle empty-circle-{% if prestation.isActive %}success{% else %}danger{% endif %}"></div>
                         </td>
                         <td>
                             <a href="{{ path('app_admin_prestation_edit', {'id': prestation.id}) }}"
@@ -93,4 +92,8 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}

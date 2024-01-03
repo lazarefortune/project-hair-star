@@ -6,9 +6,8 @@
                 {% set toastTitle = decodedMessage.title ?? '' %}
                 {% set toastMessage = decodedMessage.message ?? '' %}
                 {% set toastType = decodedMessage.type ?? 'info' %}
-                {% set toastDuration = decodedMessage.duration ?? 5000 %}
-                {% set toastPosition = decodedMessage.position ?? 'top-right' %}
-
+                {% set toastDuration = decodedMessage.duration ?? 1000 %}
+                {% set toastPosition = decodedMessage.position ?? 'bottom-right' %}
                 <script>
                     $(document).ready(function () {
                         window.toast.showToastNotification({

@@ -1,4 +1,4 @@
-{% extends 'admin/base-v2.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Dashboard{% endblock %}
 
@@ -414,6 +414,6 @@
             Choisir ce plan
         </button>
 
-        <a href="" class="my-2 btn-outline-primary">Acheter</a>
+        <a href="{{ paymentUrl }}" class="my-2 btn-outline-primary">Acheter</a>
     </div>
 {% endblock %}
