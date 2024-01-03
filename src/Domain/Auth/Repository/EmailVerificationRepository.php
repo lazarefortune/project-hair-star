@@ -14,18 +14,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EmailVerificationRepository extends AbstractRepository implements CleanableRepositoryInterface
 {
-    private const MINUTES_TO_EXPIRE = 15;
-
     public function __construct( ManagerRegistry $registry )
     {
         parent::__construct( $registry, EmailVerification::class );
     }
 
-    public function findLatestEmailVerificationByUser( User $user )
+    public function findEmailVerification( User $user )
     {
         return $this->createQueryBuilder( 'v' )
             ->where( 'v.author = :user' )
             ->setParameter( 'user', $user )
+            ->setMaxResults( 1 )
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findLatestValidEmailVerification( User $user )
+    {
+        $date = new \DateTime();
+        $date->modify( sprintf( '-%d seconds', EmailVerification::TOKEN_EXPIRATION_TIME ) );
+
+        return $this->createQueryBuilder( 'v' )
+            ->where( 'v.author = :user' )
+            ->andWhere( 'v.createdAt > :date' )
+            ->setParameter( 'user', $user )
+            ->setParameter( 'date', $date )
             ->setMaxResults( 1 )
             ->getQuery()
             ->getOneOrNullResult();
@@ -38,7 +51,7 @@ class EmailVerificationRepository extends AbstractRepository implements Cleanabl
     public function deleteExpiredEmailVerifications() : int
     {
         $date = new \DateTime();
-        $date->modify( sprintf( '-%d minutes', self::MINUTES_TO_EXPIRE ) );
+        $date->modify( sprintf( '-%d seconds', EmailVerification::TOKEN_EXPIRATION_TIME ) );
 
         return $this->createQueryBuilder( 'v' )
             ->delete()

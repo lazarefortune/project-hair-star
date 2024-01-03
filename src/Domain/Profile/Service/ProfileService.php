@@ -26,6 +26,9 @@ class ProfileService
     {
     }
 
+    /**
+     * @throws TooManyEmailChangeException
+     */
     public function updateProfile( ProfileUpdateData $data ) : void
     {
         $data->user->setFullname( $data->fullname );
@@ -33,7 +36,7 @@ class ProfileService
         $data->user->setDateOfBirthday( $data->dateOfBirthday );
 
         if ( $data->email !== $data->user->getEmail() ) {
-            $latestEmailVerification = $this->emailVerificationRepository->findLatestEmailVerificationByUser( $data->user );
+            $latestEmailVerification = $this->emailVerificationRepository->findEmailVerification( $data->user );
             if ( $latestEmailVerification && ( !$latestEmailVerification->isExpired() ) ) {
                 throw new TooManyEmailChangeException( $latestEmailVerification );
             } else {
@@ -41,6 +44,9 @@ class ProfileService
                     $this->entityManager->remove( $latestEmailVerification );
                 }
             }
+
+            // TODO: Check if email is already used in another request email change
+
             // store new email
             $emailVerification = ( new EmailVerification() )
                 ->setEmail( $data->email )
@@ -53,17 +59,20 @@ class ProfileService
             // Event de vérification de l'email
             $this->eventDispatcher->dispatch( new RequestEmailChangeEvent( $emailVerification ) );
         }
+
+        $this->entityManager->flush();
     }
 
     public function updateEmail( EmailVerification $emailVerification ) : void
     {
         $emailVerification->getAuthor()->setEmail( $emailVerification->getEmail() );
         $this->entityManager->remove( $emailVerification );
+        $this->entityManager->flush();
     }
 
-    public function getRequestEmailChange( User $user )
+    public function getLatestValidEmailVerification( User $user )
     {
-        return $this->emailVerificationRepository->findLatestEmailVerificationByUser( $user );
+        return $this->emailVerificationRepository->findLatestValidEmailVerification( $user );
     }
 
     public function updatePassword( User $user, string $password ) : void

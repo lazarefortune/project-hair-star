@@ -7,10 +7,8 @@ use App\Domain\Profile\Dto\ProfileUpdateData;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
 use App\Domain\Profile\Form\UserUpdateForm;
 use App\Domain\Profile\Service\ProfileService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -19,15 +17,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AccountController extends AbstractController
 {
     public function __construct(
-        private readonly ProfileService         $profileService,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly ProfileService $profileService,
     )
     {
     }
 
     #[Route( '/', name: 'profile' )]
     #[isGranted( 'IS_AUTHENTICATED_FULLY' )]
-    public function index( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher ) : Response
+    public function index( Request $request ) : Response
     {
         [$formProfile, $response] = $this->createFormProfile( $request );
 
@@ -44,7 +41,7 @@ class AccountController extends AbstractController
         }
 
         // on vérifie si l'utilisateur a déjà demandé un changement d'email
-        $requestEmailChange = $this->profileService->getRequestEmailChange( $user );
+        $requestEmailChange = $this->profileService->getLatestValidEmailVerification( $user );
         return $this->render( 'admin/profile/index.html.twig', [
             'formProfile' => $formProfile->createView(),
             'requestEmailChange' => $requestEmailChange,
@@ -62,7 +59,6 @@ class AccountController extends AbstractController
             if ( $form->isSubmitted() && $form->isValid() ) {
                 $data = $form->getData();
                 $this->profileService->updateProfile( $data );
-                $this->entityManager->flush();
 
                 if ( $data->email !== $user->getEmail() ) {
                     $this->addToast( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
@@ -74,7 +70,7 @@ class AccountController extends AbstractController
                 return [$form, $this->redirectToRoute( 'app_profile' )];
             }
         } catch ( TooManyEmailChangeException ) {
-            $this->addToast( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter 1h avant de pouvoir en faire un nouveau' );
+            $this->addToast( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau' );
         }
 
         return [$form, null];

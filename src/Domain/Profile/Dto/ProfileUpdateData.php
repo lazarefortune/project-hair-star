@@ -4,7 +4,9 @@ namespace App\Domain\Profile\Dto;
 
 use App\Domain\Auth\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\UniqueField;
 
+#[UniqueField( entityClass: User::class, field: 'email', message: 'Cette adresse email est déjà utilisée' )]
 class ProfileUpdateData
 {
     #[Assert\NotBlank( message: 'Veuillez renseigner votre nom complet' )]

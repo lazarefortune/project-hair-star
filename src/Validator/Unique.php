@@ -3,13 +3,14 @@
 namespace App\Validator;
 
 use Attribute;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Contrainte pour vérifier l'unicité d'un enregistrement.
  */
-#[Attribute( Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS )]
+#[Attribute( Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY )]
 class Unique extends Constraint
 {
     public string $message = 'Cette valeur est déjà utilisée';
@@ -37,8 +38,8 @@ class Unique extends Constraint
         ], $groups, $payload );
     }
 
-    public function getTargets() : string|array
+    #[NoReturn] public function getTargets() : string|array
     {
-        return self::CLASS_CONSTRAINT;
+        return [ self::CLASS_CONSTRAINT, self::PROPERTY_CONSTRAINT ];
     }
 }

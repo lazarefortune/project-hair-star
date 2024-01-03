@@ -3,9 +3,7 @@
 namespace App\Http\Controller;
 
 use App\Domain\Auth\Entity\EmailVerification;
-use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Profile\Service\ProfileService;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,8 +12,6 @@ class EmailChangeController extends AbstractController
 {
     public function __construct(
         private readonly ProfileService         $profileService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly UserRepository         $userRepository
     )
     {
     }
@@ -44,15 +40,7 @@ class EmailChangeController extends AbstractController
 
     private function handleValidToken( EmailVerification $emailVerification ) : Response
     {
-        $user = $this->userRepository->findOneBy( ['email' => $emailVerification->getEmail()] );
-
-        if ( $user ) {
-            $this->addToast( 'danger', 'Cet email est déjà utilisé' );
-            return $this->redirectToRoute( 'app_login' );
-        }
-
         $this->profileService->updateEmail( $emailVerification );
-        $this->entityManager->flush();
         $this->addToast( 'success', 'Votre email a été mis à jour avec succès' );
 
         return $this->redirectToRoute( 'app_home' );
