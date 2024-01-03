@@ -83,6 +83,9 @@ class EmailVerification
 
     public function isExpired() : bool
     {
-        return $this->createdAt < new \DateTime( "-$this::TOKEN_EXPIRATION_TIME seconds" );
+        $now = new \DateTimeImmutable();
+        $expirationTime = $this->createdAt->modify( '+' . self::TOKEN_EXPIRATION_TIME . ' seconds' );
+
+        return $now > $expirationTime;
     }
 }
