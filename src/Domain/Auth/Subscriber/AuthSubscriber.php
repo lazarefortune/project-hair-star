@@ -39,13 +39,13 @@ class AuthSubscriber implements EventSubscriberInterface
     {
         $user = $event->getUser();
 
-        $this->authMailService->sendEmailConfirmationRequest( $user );
+        $this->authMailService->sendVerificationEmail( $user );
     }
 
     public function onEmailConfirmSuccess( EmailConfirmationCompletedEvent $event ) : void
     {
         $user = $event->getUser();
 
-        $this->authMailService->sendEmailConfirmationSuccess( $user );
+        $this->authMailService->sendVerificationSuccessEmail( $user );
     }
 }

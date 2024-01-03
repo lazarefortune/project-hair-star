@@ -52,6 +52,23 @@ class MailService
     }
 
     /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function prepareEmail(
+        string $emailTo,
+        string $subject,
+        string $view,
+        array  $data,
+    ) : Email
+    {
+        return $this->createEmail( $view, $data )
+            ->to( $emailTo )
+            ->subject( $subject );
+    }
+
+    /**
      * Send email
      * @param Email $email
      * @return void

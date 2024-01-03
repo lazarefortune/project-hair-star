@@ -28,14 +28,17 @@ class AuthMailService
             'expiresAtMessageData' => $signatureComponents->getExpirationMessageData()
         ];
 
-        $email = $this->mailService->createEmail( 'mails/auth/welcome.twig', $data )
-            ->to( $user->getEmail() )
-            ->subject( 'Bienvenue sur ' . $_ENV['APP_NAME'] );
+        $email = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            'Bienvenue sur ' . $_ENV['APP_NAME'],
+            'mails/auth/welcome.twig',
+            $data
+        );
 
         $this->mailService->send( $email );
     }
 
-    public function sendEmailConfirmationRequest( User $user )
+    public function sendVerificationEmail( User $user ) : void
     {
         $signatureComponents = $this->emailVerifier->generateSignature( $user );
 
@@ -46,21 +49,30 @@ class AuthMailService
             'expiresAtMessageData' => $signatureComponents->getExpirationMessageData()
         ];
 
-        $email = $this->mailService->createEmail( 'mails/auth/confirm-request.twig', $data )
-            ->to( $user->getEmail() )
-            ->subject( 'Confirmez votre adresse email' );
+        $email = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            'Confirmez votre adresse email',
+            'mails/auth/confirm-email.twig',
+            $data
+        );
 
         $this->mailService->send( $email );
     }
 
-    public function sendEmailConfirmationSuccess( User $user )
+    public function sendVerificationSuccessEmail( User $user ) : void
     {
-        $email = $this->mailService->createEmail( 'mails/auth/confirm-success.twig', [
+
+        $data = [
             'user' => $user,
             'loginUrl' => $this->urlGenerator->generate( 'app_login', [], UrlGeneratorInterface::ABSOLUTE_URL )
-        ] )
-            ->to( $user->getEmail() )
-            ->subject( 'Votre adresse email a été confirmée' );
+        ];
+
+        $email = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            'Votre adresse email a été confirmée',
+            'mails/auth/confirm-success.twig',
+            $data
+        );
 
         $this->mailService->send( $email );
     }
