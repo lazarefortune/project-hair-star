@@ -2,10 +2,11 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Auth\Dto\SubscribeClientData;
+use App\Domain\Auth\Dto\NewUserData;
 use App\Domain\Auth\EmailVerifier;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\EmailConfirmSuccessEvent;
+use App\Domain\Auth\Event\EmailConfirmationCompletedEvent;
+use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Form\RegistrationForm;
 use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Auth\Security\AppAuthenticator;
@@ -25,40 +26,21 @@ class RegistrationController extends AbstractController
         private readonly AuthService                $authService,
         private readonly UserAuthenticatorInterface $userAuthenticator,
         private readonly AppAuthenticator           $authenticator,
-        private readonly EmailVerifier              $emailVerifier,
-        private readonly EventDispatcherInterface   $eventDispatcher,
     )
     {
-    }
-
-    private function createSubsciptionForm( Request $request, User $user = new User() ) : array
-    {
-
-        $form = $this->createForm( RegistrationForm::class, new SubscribeClientData( $user ) );
-        $form->handleRequest( $request );
-
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            $data = $form->getData();
-            $this->authService->subscribeClient( $data );
-
-            return [$form, $this->userAuthenticator->authenticateUser(
-                $user,
-                $this->authenticator,
-                $request
-            )];
-        }
-
-        return [$form, null];
     }
 
     #[Route( '/inscription', name: 'register' )]
     public function register( Request $request ) : Response
     {
 
-        [$form, $response] = $this->createSubsciptionForm( $request );
+        $form = $this->createForm( RegistrationForm::class, new NewUserData( new User() ) );
+        $form->handleRequest( $request );
 
-        if ( $response ) {
-            return $response;
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $user = $this->authService->registerNewUser( $form->getData() );
+
+            return $this->authenticateUser( $user, $request );
         }
 
         return $this->render( 'auth/register.html.twig', [
@@ -66,53 +48,41 @@ class RegistrationController extends AbstractController
         ] );
     }
 
-    #[Route( '/email/envoie/re-verification', name: 'account_resend_verification_email' )]
-    public function resendUserEmailVerification( Request $request ) : Response
+    private function authenticateUser( User $user, Request $request ) : Response
     {
+        $authenticationResponse = $this->userAuthenticator->authenticateUser(
+            $user,
+            $this->authenticator,
+            $request
+        );
 
-        $user = $this->getUserOrThrow();
+        if ( !$authenticationResponse instanceof Response ) {
+            throw new \Exception( "L'authentification de l'utilisateur a échoué." );
+        }
 
-        $this->emailVerifier->sendEmailConfirmation( $user );
-
-        $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
-
-        $previousPage = $request->headers->get( 'referer' );
-
-        return $this->redirect( $previousPage );
+        return $authenticationResponse;
     }
 
-    #[Route( '/email/envoie/re-verification/{id}', name: 'account_resend_verification_email_to_user' )]
-    public function resendToOneUserHisEmailVerification( Request $request, UserRepository $userRepository ) : Response
+    #[Route( '/email/verification', name: 'send_verification_email' )]
+    public function sendEmailVerification( Request $request ) : Response
     {
-        $userId = $request->get( 'id' );
-        if ( null === $userId ) {
-            return $this->redirectToRoute( 'app_register' );
+        $user = $this->getUserOrThrow();
+        try {
+            $this->authService->sendAccountConfirmationEmail( $user );
+            $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
+        } catch ( \Exception $e ) {
+            $this->addToast( 'error', 'Erreur lors de l\'envoi de l\'email de confirmation.' );
         }
 
-        $user = $userRepository->find( $userId );
-        if ( null === $user ) {
-            return $this->redirectToRoute( 'app_register' );
-        }
-
-        $this->emailVerifier->sendEmailConfirmation( $user );
-
-        $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
-
-        $previousPage = $request->headers->get( 'referer' );
-
-        return $this->redirect( $previousPage );
+        return $this->redirectBack( 'app_profile' );
     }
 
     #[Route( '/email/validation', name: 'verify_email' )]
-    public function verifyUserEmail( Request $request, TranslatorInterface $translator, UserRepository $userRepository ) : Response
+    public function verifyUserEmail( Request $request, UserRepository $userRepository ) : Response
     {
         $userId = $request->get( 'id' );
-        if ( null === $userId ) {
-            return $this->redirectToRoute( 'app_register' );
-        }
 
-        $user = $userRepository->find( $userId );
-        if ( null === $user ) {
+        if ( !$userId || !( $user = $userRepository->find( $userId ) ) ) {
             return $this->redirectToRoute( 'app_register' );
         }
 
@@ -123,22 +93,13 @@ class RegistrationController extends AbstractController
             ] );
         }
 
-        try {
-            $this->emailVerifier->handleEmailConfirmation( $request, $user );
+        // validate email confirmation link, sets User::isVerified=true and persists
+        $this->authService->confirmAccount( $user, $request->getUri() );
 
-            $emailConfirmSuccessEvent = new EmailConfirmSuccessEvent( $user );
-            $this->eventDispatcher->dispatch( $emailConfirmSuccessEvent, EmailConfirmSuccessEvent::NAME );
-
-            return $this->render( 'auth/verify_email.html.twig', [
-                'title' => 'Adresse email vérifiée',
-                'message' => 'Merci d\'avoir vérifié votre adresse email. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
-            ] );
-
-        } catch ( VerifyEmailExceptionInterface $exception ) {
-            $this->addToast( 'verify_email_error', $translator->trans( $exception->getReason(), [], 'VerifyEmailBundle' ) );
-
-            return $this->redirectToRoute( 'app_register' );
-        }
+        return $this->render( 'auth/verify_email.html.twig', [
+            'title' => 'Adresse email vérifiée',
+            'message' => 'Merci d\'avoir vérifié votre adresse email. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
+        ] );
 
     }
 }

@@ -13,7 +13,7 @@
 
     {% endapply %}
 
-    {{ element.button('Valider mon compte', signedUrl|raw ) }}
+    {{ element.button('Valider mon compte', signedUrl|raw , 'primary') }}
 
     {% apply markdown_email %}
         Si vous n'êtes pas à l'origine de la création de ce compte ne tenez pas compte de cet email, il s'agit probablement d'une erreur.

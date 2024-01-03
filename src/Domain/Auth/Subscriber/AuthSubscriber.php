@@ -2,21 +2,17 @@
 
 namespace App\Domain\Auth\Subscriber;
 
-use App\Domain\Auth\EmailVerifier;
-use App\Domain\Auth\Event\EmailConfirmSuccessEvent;
-use App\Domain\Auth\Event\UserCreatedEvent;
-use App\Domain\Auth\UserEmailEnum;
-use App\Infrastructure\Mailing\MailService;
+use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
+use App\Domain\Auth\Event\EmailConfirmationCompletedEvent;
+use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
+use App\Domain\Auth\Service\AuthMailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AuthSubscriber implements EventSubscriberInterface
 {
 
     public function __construct(
-        private readonly EmailVerifier         $emailVerifier,
-        private readonly MailService           $mailService,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly AuthMailService $authMailService,
     )
     {
     }
@@ -24,28 +20,32 @@ class AuthSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            UserCreatedEvent::NAME => 'onUserCreated',
-            EmailConfirmSuccessEvent::NAME => 'onEmailConfirmSuccess',
+            UserRegistrationCompletedEvent::NAME => 'onUserRegistered',
+            EmailConfirmationRequestedEvent::NAME => 'onEmailConfirmationRequested',
+            EmailConfirmationCompletedEvent::NAME => 'onEmailConfirmSuccess',
         ];
     }
 
-    public function onUserCreated( UserCreatedEvent $event ) : void
+    public function onUserRegistered( UserRegistrationCompletedEvent $event ) : void
     {
         $user = $event->getUser();
 
-        $this->emailVerifier->sendWelcomeEmailConfirmation( $user );
+        $this->authMailService->sendWelcomeEmail( $user );
+
     }
 
-    public function onEmailConfirmSuccess( EmailConfirmSuccessEvent $event ) : void
-    {
-        $email = $this->mailService->createEmail( 'mails/profile/confirm-email-success.twig', [
-            'user' => $event->getUser(),
-            'login_url' => $this->urlGenerator->generate( 'app_login', [], UrlGeneratorInterface::ABSOLUTE_URL ),
-            'contact_url' => $this->urlGenerator->generate( 'app_contact', [], UrlGeneratorInterface::ABSOLUTE_URL )
-        ] )
-            ->to( $event->getUser()->getEmail() )
-            ->subject( 'Votre adresse email a été confirmée' );
 
-        $this->mailService->send( $email );
+    public function onEmailConfirmationRequested( EmailConfirmationRequestedEvent $event ) : void
+    {
+        $user = $event->getUser();
+
+        $this->authMailService->sendEmailConfirmationRequest( $user );
+    }
+
+    public function onEmailConfirmSuccess( EmailConfirmationCompletedEvent $event ) : void
+    {
+        $user = $event->getUser();
+
+        $this->authMailService->sendEmailConfirmationSuccess( $user );
     }
 }

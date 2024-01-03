@@ -5,9 +5,9 @@ namespace App\Domain\Auth\Event;
 use App\Domain\Auth\Entity\User;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class UserCreatedEvent extends Event
+class EmailConfirmationRequestedEvent extends Event
 {
-    const NAME = 'user.created';
+    public const NAME = 'email.confirm.requested';
 
     public function __construct( protected User $user )
     {

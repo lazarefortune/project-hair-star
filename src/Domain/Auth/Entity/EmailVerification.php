@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity( repositoryClass: EmailVerificationRepository::class )]
 class EmailVerification
 {
+    public const TOKEN_EXPIRATION_TIME = 60 * 15;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -81,6 +83,6 @@ class EmailVerification
 
     public function isExpired() : bool
     {
-        return $this->createdAt < new \DateTime( '-1 hour' );
+        return $this->createdAt < new \DateTime( "-$this::TOKEN_EXPIRATION_TIME seconds" );
     }
 }

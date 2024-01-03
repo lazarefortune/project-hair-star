@@ -56,8 +56,8 @@
                     {{ form_row(formProfile.email) }}
                     {% if not app.user.isVerified %}
                         <p class="text-sm text-red-800">Veuillez confirmer votre adresse email.
-                            <a href="{{ path('app_account_resend_verification_email') }}" class="underline">
-                                Renvoyer l'email de confirmation</a>
+                            <a href="{{ path('app_send_verification_email') }}" class="underline">
+                                Envoyer un email de confirmation</a>
                         </p>
                     {% endif %}
                 </div>

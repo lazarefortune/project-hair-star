@@ -3,11 +3,10 @@
 namespace App\Domain\Auth\Event;
 
 use App\Domain\Auth\Entity\User;
-use Symfony\Contracts\EventDispatcher\Event;
 
-class AddUserEvent extends Event
+class EmailConfirmationCompletedEvent
 {
-    public const NAME = 'new.user';
+    const NAME = 'email.confirm.success';
 
     public function __construct( protected User $user )
     {
@@ -17,5 +16,4 @@ class AddUserEvent extends Event
     {
         return $this->user;
     }
-
 }

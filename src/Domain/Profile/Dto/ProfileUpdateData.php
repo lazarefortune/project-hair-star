@@ -5,7 +5,7 @@ namespace App\Domain\Profile\Dto;
 use App\Domain\Auth\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AdminProfileUpdateData
+class ProfileUpdateData
 {
     #[Assert\NotBlank( message: 'Veuillez renseigner votre nom complet' )]
     #[Assert\Length( min: 3, max: 255, minMessage: 'Votre nom complet doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre nom complet doit contenir au maximum {{ limit }} caractères' )]

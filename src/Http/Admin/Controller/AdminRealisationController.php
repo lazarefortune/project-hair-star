@@ -64,7 +64,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'show', methods: ['GET'] )]
+    #[Route( '/{id<\d+>}', name: 'show', methods: ['GET'] )]
     public function show( Realisation $realisation ) : Response
     {
         return $this->render( 'admin/realisation/show.html.twig', [
@@ -72,7 +72,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}/edit', name: 'edit', methods: ['GET', 'POST'] )]
+    #[Route( '/{id<\d+>}/edit', name: 'edit', methods: ['GET', 'POST'] )]
     public function edit( Request $request, Realisation $realisation, RealisationRepository $realisationRepository, EntityManagerInterface $entityManager ) : Response
     {
         $form = $this->createForm( RealisationForm::class, $realisation );
@@ -93,7 +93,7 @@ class AdminRealisationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'delete', methods: ['POST'] )]
+    #[Route( '/{id<\d+>}', name: 'delete', methods: ['POST'] )]
     public function delete( Request $request, Realisation $realisation, RealisationRepository $realisationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $realisation->getId(), $request->request->get( '_token' ) ) ) {
@@ -111,7 +111,7 @@ class AdminRealisationController extends AbstractController
         return $this->redirectToRoute( 'app_admin_realisation_index', [], Response::HTTP_SEE_OTHER );
     }
 
-    #[Route( '/{id}/delete-image', name: 'delete_image', methods: ['DELETE'] )]
+    #[Route( '/{id<\d+>}/delete-image', name: 'delete_image', methods: ['DELETE'] )]
     public function deleteImage( ImageRealisation $imageRealisation, Request $request, EntityManagerInterface $entityManager ) : JsonResponse
     {
         $data = json_decode( $request->getContent(), true );
@@ -127,14 +127,6 @@ class AdminRealisationController extends AbstractController
         } else {
             return new JsonResponse( ['error' => 'Token Invalide'], 400 );
         }
-    }
-
-    #[Route( '/{id}/delete-images', name: 'delete_images', methods: ['POST'] )]
-    public function deleteImagesForRealisation( Realisation $realisation, EntityManagerInterface $entityManager ) : void
-    {
-        // si le formulaire est soumis
-        // on supprime les images
-        // on supprime les entités ImageRealisation
     }
 
     /**

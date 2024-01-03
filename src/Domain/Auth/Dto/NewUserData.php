@@ -5,7 +5,7 @@ namespace App\Domain\Auth\Dto;
 use App\Domain\Auth\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class SubscribeClientData
+class NewUserData
 {
 
     #[Assert\NotBlank( message: 'Veuillez renseigner votre nom complet' )]

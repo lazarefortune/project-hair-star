@@ -20,7 +20,7 @@ class EmailChangeController extends AbstractController
     {
     }
 
-    #[Route( '/changer-mon-email/{token}', name: 'user_email_confirm' )]
+    #[Route( '/email/change/{token}', name: 'user_email_confirm' )]
     #[ParamConverter( 'emailVerification', options: ['mapping' => ['token' => 'token']] )]
     public function confirmEmail( EmailVerification $emailVerification = null ) : Response
     {

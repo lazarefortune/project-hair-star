@@ -4,7 +4,7 @@ namespace App\Domain\Client\Service;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\UserCreatedEvent;
+use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Client\Event\DeleteClientEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -43,8 +43,8 @@ class ClientService
         $user->setCgu( false );
         $this->userRepository->save( $user, true );
 
-        $registrationEvent = new UserCreatedEvent( $user );
-        $this->eventDispatcher->dispatch( $registrationEvent, UserCreatedEvent::NAME );
+        $registrationEvent = new UserRegistrationCompletedEvent( $user );
+        $this->eventDispatcher->dispatch( $registrationEvent, UserRegistrationCompletedEvent::NAME );
     }
 
     /**

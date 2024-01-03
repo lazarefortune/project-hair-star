@@ -13,16 +13,15 @@
 
     {% endapply %}
 
-    {{ element.button('Se connecter', login_url) }}
+    {{ element.button('Go sur le site', loginUrl) }}
 
     {% apply markdown_email %}
-        Si vous n'êtes pas à l'origine de la création de ce compte, merci de nous contacter au plus vite à l'adresse suivante.
+        Si vous n'êtes pas à l'origine de la création de ce compte, merci de nous contacter au plus vite.
     {% endapply %}
 
-    {{ element.button('Nous contacter', contact_url, 'outline-primary') }}
-
     {% apply markdown_email %}
-        Nous vous souhaitons une excellente journée !
+        Cordialement,
+        L'équipe {{ app_name }}
     {% endapply %}
 
 {% endblock %}

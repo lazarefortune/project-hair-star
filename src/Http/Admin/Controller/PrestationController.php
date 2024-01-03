@@ -47,7 +47,7 @@ class PrestationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}/edit', name: 'edit' )]
+    #[Route( '/{id<\d+>}/edit', name: 'edit' )]
     public function edit( Request $request, Prestation $prestation, PrestationService $prestationService ) : Response
     {
         $form = $this->createForm( PrestationForm::class, $prestation );
@@ -67,7 +67,7 @@ class PrestationController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'delete', methods: ['POST'] )]
+    #[Route( '/{id<\d+>}', name: 'delete', methods: ['POST'] )]
     public function delete( Request $request, Prestation $prestation, PrestationRepository $prestationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $prestation->getId(), $request->request->get( '_token' ) ) ) {

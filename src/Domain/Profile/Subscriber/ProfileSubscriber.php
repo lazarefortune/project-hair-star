@@ -2,8 +2,8 @@
 
 namespace App\Domain\Profile\Subscriber;
 
-use App\Domain\Auth\Event\EmailChangeVerificationEvent;
-use App\Domain\Auth\UserEmailEnum;
+use App\Domain\Auth\Event\RequestEmailChangeEvent;
+use App\Domain\Profile\Event\PasswordChangeSuccessEvent;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
@@ -18,11 +18,12 @@ class ProfileSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            EmailChangeVerificationEvent::class => 'onEmailChangeVerification',
+            RequestEmailChangeEvent::class => 'onEmailChangeRequest',
+            PasswordChangeSuccessEvent::class => 'onPasswordChanged',
         ];
     }
 
-    public function onEmailChangeVerification( EmailChangeVerificationEvent $event ) : void
+    public function onEmailChangeRequest( RequestEmailChangeEvent $event ) : void
     {
         $user = $event->emailVerification->getAuthor();
         // On envoie un email de vérification
@@ -32,6 +33,20 @@ class ProfileSubscriber implements EventSubscriberInterface
         ] )
             ->to( $event->emailVerification->getEmail() )
             ->subject( 'Vérification de votre nouvelle adresse email' )
+            ->priority( Email::PRIORITY_HIGH );
+
+        $this->mailService->send( $email );
+    }
+
+    public function onPasswordChanged( PasswordChangeSuccessEvent $event ) : void
+    {
+        $user = $event->getUser();
+
+        $email = $this->mailService->createEmail( 'mails/profile/password-updated.twig', [
+            'user' => $user,
+        ] )
+            ->to( $user->getEmail() )
+            ->subject( 'Votre mot de passe a été modifié' )
             ->priority( Email::PRIORITY_HIGH );
 
         $this->mailService->send( $email );

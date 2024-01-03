@@ -62,11 +62,9 @@ class AppointmentController extends AbstractController
         ] );
     }
 
-    #[Route( '/ajouter', name: 'add' )]
-    public function add( Request $request ) : Response
+    #[Route( '/new', name: 'new', methods: ['GET', 'POST'] )]
+    public function new( Request $request ) : Response
     {
-        $appointment = new Appointment();
-
         [$form, $response] = $this->createFormAppointment( $request );
 
         if ( $response ) {
@@ -74,7 +72,7 @@ class AppointmentController extends AbstractController
             return $response;
         }
 
-        return $this->render( 'admin/appointment/add.html.twig', [
+        return $this->render( 'admin/appointment/new.html.twig', [
             'form' => $form->createView(),
         ] );
     }
@@ -109,7 +107,7 @@ class AppointmentController extends AbstractController
         return [$form, null];
     }
 
-    #[Route( '/{id}', name: 'show' )]
+    #[Route( '/{id<\d+>}', name: 'show', methods: ['GET'] )]
     public function show( Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
@@ -122,7 +120,7 @@ class AppointmentController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}/modifier', name: 'edit' )]
+    #[Route( '/{id<\d+>}/edit', name: 'edit', methods: ['GET', 'POST'] )]
     public function edit( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
@@ -142,8 +140,8 @@ class AppointmentController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}/confirmer', name: 'confirm' )]
-    public function confirmappointment( Request $request, Appointment $appointment = null ) : Response
+    #[Route( '/{id<\d+>}/confirm', name: 'confirm', methods: ['GET', 'POST'] )]
+    public function confirm( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
             $this->addToast( 'danger', 'Rendez-vous introuvable.' );
@@ -160,8 +158,8 @@ class AppointmentController extends AbstractController
         return $this->redirectToRoute( 'app_admin_appointment_index' );
     }
 
-    #[Route( '/{id}/annuler', name: 'cancel' )]
-    public function cancelappointment( Request $request, Appointment $appointment = null ) : Response
+    #[Route( '/{id<\d+>}/cancel', name: 'cancel' )]
+    public function cancel( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
             $this->addToast( 'danger', 'Rendez-vous introuvable.' );
@@ -178,7 +176,7 @@ class AppointmentController extends AbstractController
         return $this->redirectToRoute( 'app_admin_appointment_index' );
     }
 
-    #[Route( '/{id}/supprimer', name: 'delete', methods: ['POST'] )]
+    #[Route( '/{id<\d+>}/delete', name: 'delete', methods: ['POST'] )]
     public function delete( Request $request, Appointment $appointment ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $appointment->getId(), $request->request->get( '_token' ) ) ) {

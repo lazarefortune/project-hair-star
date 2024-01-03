@@ -3,40 +3,17 @@
 namespace App\Domain\Holiday\Repository;
 
 use App\Domain\Holiday\Entity\Holiday;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Infrastructure\Orm\AbstractRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Holiday>
- *
- * @method Holiday|null find( $id, $lockMode = null, $lockVersion = null )
- * @method Holiday|null findOneBy( array $criteria, array $orderBy = null )
- * @method Holiday[]    findAll()
- * @method Holiday[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
+ * @extends AbstractRepository<Holiday>
  */
-class HolidayRepository extends ServiceEntityRepository
+class HolidayRepository extends AbstractRepository
 {
     public function __construct( ManagerRegistry $registry )
     {
         parent::__construct( $registry, Holiday::class );
-    }
-
-    public function save( Holiday $entity, bool $flush = false ) : void
-    {
-        $this->getEntityManager()->persist( $entity );
-
-        if ( $flush ) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove( Holiday $entity, bool $flush = false ) : void
-    {
-        $this->getEntityManager()->remove( $entity );
-
-        if ( $flush ) {
-            $this->getEntityManager()->flush();
-        }
     }
 
     /**
@@ -52,29 +29,4 @@ class HolidayRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-//    /**
-//     * @return Holiday[] Returns an array of Holiday objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('h')
-//            ->andWhere('h.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('h.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Holiday
-//    {
-//        return $this->createQueryBuilder('h')
-//            ->andWhere('h.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

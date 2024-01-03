@@ -4,13 +4,15 @@ namespace App\Domain\Profile\Service;
 
 use App\Domain\Auth\Entity\EmailVerification;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\EmailChangeVerificationEvent;
+use App\Domain\Auth\Event\RequestEmailChangeEvent;
 use App\Domain\Auth\Repository\EmailVerificationRepository;
-use App\Domain\Profile\Dto\AdminProfileUpdateData;
+use App\Domain\Profile\Dto\ProfileUpdateData;
+use App\Domain\Profile\Event\PasswordChangeSuccessEvent;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
 use App\Infrastructure\Security\TokenGeneratorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfileService
 {
@@ -18,12 +20,13 @@ class ProfileService
         private readonly EntityManagerInterface      $entityManager,
         private readonly EventDispatcherInterface    $eventDispatcher,
         private readonly EmailVerificationRepository $emailVerificationRepository,
-        private readonly TokenGeneratorService       $tokenGeneratorService
+        private readonly TokenGeneratorService       $tokenGeneratorService,
+        private readonly UserPasswordHasherInterface $passwordHasher
     )
     {
     }
 
-    public function updateProfile( AdminProfileUpdateData $data ) : void
+    public function updateProfile( ProfileUpdateData $data ) : void
     {
         $data->user->setFullname( $data->fullname );
         $data->user->setPhone( $data->phone );
@@ -31,14 +34,14 @@ class ProfileService
 
         if ( $data->email !== $data->user->getEmail() ) {
             $latestEmailVerification = $this->emailVerificationRepository->findLatestEmailVerificationByUser( $data->user );
-            if ( $latestEmailVerification && $latestEmailVerification->getCreatedAt() > new \DateTimeImmutable( '-1 hour' ) ) {
+            if ( $latestEmailVerification && ( !$latestEmailVerification->isExpired() ) ) {
                 throw new TooManyEmailChangeException( $latestEmailVerification );
             } else {
                 if ( $latestEmailVerification ) {
                     $this->entityManager->remove( $latestEmailVerification );
                 }
             }
-            // stocker en BDD les emails de vérification
+            // store new email
             $emailVerification = ( new EmailVerification() )
                 ->setEmail( $data->email )
                 ->setAuthor( $data->user )
@@ -48,7 +51,7 @@ class ProfileService
             $this->entityManager->persist( $emailVerification );
 
             // Event de vérification de l'email
-            $this->eventDispatcher->dispatch( new EmailChangeVerificationEvent( $emailVerification ) );
+            $this->eventDispatcher->dispatch( new RequestEmailChangeEvent( $emailVerification ) );
         }
     }
 
@@ -58,8 +61,18 @@ class ProfileService
         $this->entityManager->remove( $emailVerification );
     }
 
-    public function getRequestEmailChange( User $getUserOrThrow )
+    public function getRequestEmailChange( User $user )
     {
-        return $this->emailVerificationRepository->findLatestEmailVerificationByUser( $getUserOrThrow );
+        return $this->emailVerificationRepository->findLatestEmailVerificationByUser( $user );
+    }
+
+    public function updatePassword( User $user, string $password ) : void
+    {
+        $user->setPassword( $this->passwordHasher->hashPassword( $user, $password ) );
+        $this->entityManager->persist( $user );
+        $this->entityManager->flush();
+
+        $passwordUpdatedEvent = new PasswordChangeSuccessEvent( $user );
+        $this->eventDispatcher->dispatch( $passwordUpdatedEvent );
     }
 }

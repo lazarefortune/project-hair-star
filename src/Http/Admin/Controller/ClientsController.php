@@ -3,7 +3,7 @@
 namespace App\Http\Admin\Controller;
 
 use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Event\UserCreatedEvent;
+use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Client\Event\DeleteClientEvent;
 use App\Domain\Client\Service\ClientService;
 use App\Http\Admin\Data\Crud\ClientCrudData;
@@ -23,7 +23,7 @@ class ClientsController extends CrudController
     protected string $entity = User::class;
     protected string $routePrefix = 'app_admin_clients';
     protected array $events = [
-        'create' => UserCreatedEvent::class,
+        'create' => UserRegistrationCompletedEvent::class,
         'delete' => DeleteClientEvent::class
     ];
 

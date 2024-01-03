@@ -4,7 +4,7 @@ namespace App\Domain\Appointment\Event;
 
 use App\Domain\Appointment\Entity\Appointment;
 
-class UpdateAppointmentEvent
+class CreatedAppointmentEvent
 {
     public function __construct( private readonly Appointment $appointment )
     {
@@ -14,4 +14,5 @@ class UpdateAppointmentEvent
     {
         return $this->appointment;
     }
+
 }

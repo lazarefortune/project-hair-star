@@ -2,12 +2,10 @@
 
 namespace App\Infrastructure\Orm;
 
-use App\Repository\E;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use function App\Repository\collect;
 
 /**
  * @template E of object
@@ -27,6 +25,24 @@ abstract class AbstractRepository extends ServiceEntityRepository
     public function __construct( ManagerRegistry $registry, string $entityClass )
     {
         parent::__construct( $registry, $entityClass );
+    }
+
+    public function save( object $entity, bool $flush = false ) : void
+    {
+        $this->getEntityManager()->persist( $entity );
+
+        if ( $flush ) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove( object $entity, bool $flush = false ) : void
+    {
+        $this->getEntityManager()->remove( $entity );
+
+        if ( $flush ) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     /**

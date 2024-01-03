@@ -227,11 +227,26 @@ img {
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
+    padding: 8px 16px;
+}
+
+.button-large {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.button-medium {
+    width: 50%;
+    padding: 8px 0;
+}
+
+.button-small {
+    width: 25%;
+    padding: 5px 0;
 }
 
 .button-blue,
 .button-primary {
-    /*  old color: #2d3748 */
     background-color: #843dff;
     border-bottom: 8px solid #843dff;
     border-left: 18px solid #843dff;

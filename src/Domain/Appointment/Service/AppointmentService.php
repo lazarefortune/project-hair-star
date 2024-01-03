@@ -6,8 +6,8 @@ use App\Domain\Appointment\Dto\AppointmentData;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Event\CanceledAppointmentEvent;
 use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
-use App\Domain\Appointment\Event\NewAppointmentEvent;
-use App\Domain\Appointment\Event\UpdateAppointmentEvent;
+use App\Domain\Appointment\Event\CreatedAppointmentEvent;
+use App\Domain\Appointment\Event\UpdatedAppointmentEvent;
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Infrastructure\Security\TokenGeneratorService;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -41,7 +41,7 @@ class AppointmentService
 
         $this->appointmentRepository->save( $appointment, true );
 
-        $newAppointmentEvent = new NewAppointmentEvent( $appointment );
+        $newAppointmentEvent = new CreatedAppointmentEvent( $appointment );
 
         $this->eventDispatcher->dispatch( $newAppointmentEvent );
     }
@@ -56,7 +56,7 @@ class AppointmentService
 
         $this->appointmentRepository->save( $appointment, true );
 
-        $this->eventDispatcher->dispatch( new UpdateAppointmentEvent( $appointment ) );
+        $this->eventDispatcher->dispatch( new UpdatedAppointmentEvent( $appointment ) );
     }
 
     public function deleteAppointment( Appointment $appointment ) : void

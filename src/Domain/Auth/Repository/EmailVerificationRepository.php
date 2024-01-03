@@ -6,43 +6,19 @@ use App\Domain\Auth\Entity\EmailVerification;
 use App\Domain\Auth\Entity\User;
 use App\Infrastructure\Orm\AbstractRepository;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
- * @extends ServiceEntityRepository<EmailVerification>
- *
- * @method EmailVerification|null find( $id, $lockMode = null, $lockVersion = null )
- * @method EmailVerification|null findOneBy( array $criteria, array $orderBy = null )
- * @method EmailVerification[]    findAll()
- * @method EmailVerification[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
+ * @extends AbstractRepository<EmailVerification>
  */
 class EmailVerificationRepository extends AbstractRepository implements CleanableRepositoryInterface
 {
-
-    private const HOURS_TO_EXPIRE = 1;
+    private const MINUTES_TO_EXPIRE = 15;
 
     public function __construct( ManagerRegistry $registry )
     {
         parent::__construct( $registry, EmailVerification::class );
-    }
-
-    public function save( EmailVerification $entity, bool $flush = false ) : void
-    {
-        $this->getEntityManager()->persist( $entity );
-
-        if ( $flush ) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove( EmailVerification $entity, bool $flush = false ) : void
-    {
-        $this->getEntityManager()->remove( $entity );
-
-        if ( $flush ) {
-            $this->getEntityManager()->flush();
-        }
     }
 
     public function findLatestEmailVerificationByUser( User $user )
@@ -62,7 +38,7 @@ class EmailVerificationRepository extends AbstractRepository implements Cleanabl
     public function deleteExpiredEmailVerifications() : int
     {
         $date = new \DateTime();
-        $date->modify( sprintf( '-%d hours', self::HOURS_TO_EXPIRE ) );
+        $date->modify( sprintf( '-%d minutes', self::MINUTES_TO_EXPIRE ) );
 
         return $this->createQueryBuilder( 'v' )
             ->delete()

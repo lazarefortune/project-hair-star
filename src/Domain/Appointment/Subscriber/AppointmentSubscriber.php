@@ -4,8 +4,8 @@ namespace App\Domain\Appointment\Subscriber;
 
 use App\Domain\Appointment\Event\CanceledAppointmentEvent;
 use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
-use App\Domain\Appointment\Event\NewAppointmentEvent;
-use App\Domain\Appointment\Event\UpdateAppointmentEvent;
+use App\Domain\Appointment\Event\CreatedAppointmentEvent;
+use App\Domain\Appointment\Event\UpdatedAppointmentEvent;
 use App\Infrastructure\AppConfigService;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -25,14 +25,14 @@ class AppointmentSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents() : array
     {
         return [
-            NewAppointmentEvent::class => 'onNewAppointment',
-            UpdateAppointmentEvent::class => 'onUpdateAppointment',
+            CreatedAppointmentEvent::class => 'onNewAppointment',
+            UpdatedAppointmentEvent::class => 'onUpdateAppointment',
             ConfirmedAppointmentEvent::class => 'onConfirmAppointment',
             CanceledAppointmentEvent::class => 'onCanceledAppointment',
         ];
     }
 
-    public function onNewAppointment( NewAppointmentEvent $event ) : void
+    public function onNewAppointment( CreatedAppointmentEvent $event ) : void
     {
 
         $client = $event->getAppointment()->getClient();
@@ -60,7 +60,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $this->mailService->send( $email );
     }
 
-    public function onUpdateAppointment( UpdateAppointmentEvent $event ) : void
+    public function onUpdateAppointment( UpdatedAppointmentEvent $event ) : void
     {
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();

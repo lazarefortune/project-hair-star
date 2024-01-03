@@ -2,7 +2,7 @@
 
 namespace App\Domain\Auth\Form;
 
-use App\Domain\Auth\Dto\SubscribeClientData;
+use App\Domain\Auth\Dto\NewUserData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -38,7 +38,7 @@ class RegistrationForm extends AbstractType
     public function configureOptions( OptionsResolver $resolver ) : void
     {
         $resolver->setDefaults( [
-            'data_class' => SubscribeClientData::class,
+            'data_class' => NewUserData::class,
         ] );
     }
 }

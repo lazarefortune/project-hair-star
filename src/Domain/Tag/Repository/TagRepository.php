@@ -3,39 +3,38 @@
 namespace App\Domain\Tag\Repository;
 
 use App\Domain\Tag\Entity\Tag;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Infrastructure\Orm\AbstractRepository;
+use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
- * @extends ServiceEntityRepository<Tag>
- *
- * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
- * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tag[]    findAll()
- * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends AbstractRepository<Tag>
  */
-class TagRepository extends ServiceEntityRepository
+class TagRepository extends AbstractRepository implements CleanableRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct( ManagerRegistry $registry )
     {
-        parent::__construct($registry, Tag::class);
+        parent::__construct( $registry, Tag::class );
+
     }
 
-    public function save(Tag $entity, bool $flush = false): void
+    /**
+     * Delete all unused tags and return the number of deleted rows
+     * @return int
+     */
+    public function deleteAllUnusedTags() : int
     {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $this->createQueryBuilder( 't' )
+            ->delete()
+            ->where( 't.prestations IS EMPTY' )
+            ->getQuery()
+            ->execute();
     }
 
-    public function remove(Tag $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+    public function clean() : int
+    {
+        return $this->deleteAllUnusedTags();
     }
 }

@@ -19,106 +19,21 @@ use Twig\Error\SyntaxError;
 
 class EmailVerifier
 {
+    private const APP_VERIFY_EMAIL_ROUTE = 'app_verify_email';
+
     public function __construct(
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
-        private readonly MailerInterface            $mailer,
-        private readonly EntityManagerInterface     $entityManager,
-        private readonly MailService                $mailService,
-        private readonly AppConfigService           $appConfigService
     )
     {
     }
 
-    public function getVerifyEmailSignature( string $verifyEmailRouteName, User $user ) : VerifyEmailSignatureComponents
+    public function generateSignature( UserInterface $user ) : VerifyEmailSignatureComponents
     {
         return $this->verifyEmailHelper->generateSignature(
-            $verifyEmailRouteName,
+            self::APP_VERIFY_EMAIL_ROUTE,
             $user->getId(),
             $user->getEmail(),
             ['id' => $user->getId()]
         );
-    }
-
-    public function sendEmailConfirmation( User $user ) : void
-    {
-        $signature = $this->getVerifyEmailSignature(
-            'app_verify_email',
-            $user
-        );
-
-        $data = [
-            'user' => $user,
-            'signedUrl' => $signature->getSignedUrl(),
-            'expiresAtMessageKey' => $signature->getExpirationMessageKey(),
-            'expiresAtMessageData' => $signature->getExpirationMessageData()
-        ];
-
-        $email = $this->mailService->createEmail( 'mails/profile/confirm-email.twig', $data )
-            ->to( $user->getEmail() )
-            ->subject( 'Confirmation de votre adresse email' );
-
-        $this->mailService->send( $email );
-    }
-
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
-    public function sendWelcomeEmailConfirmation( User $user ) : void
-    {
-        $signature = $this->getVerifyEmailSignature(
-            'app_verify_email',
-            $user
-        );
-
-        $data = [
-            'user' => $user,
-            'signedUrl' => $signature->getSignedUrl(),
-            'expiresAtMessageKey' => $signature->getExpirationMessageKey(),
-            'expiresAtMessageData' => $signature->getExpirationMessageData()
-        ];
-
-        $appName = $this->appConfigService->getAppName();
-        $mailObject = "Bienvenue sur $appName, " . $user->getFullname() . " !";
-
-        $email = $this->mailService->createEmail( 'mails/auth/register.twig', $data )
-            ->to( $user->getEmail() )
-            ->subject( $mailObject );
-
-        $this->mailService->send( $email );
-    }
-
-    public function sendEmailConfirmationWithTemplated( string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email ) : void
-    {
-        $signatureComponents = $this->verifyEmailHelper->generateSignature(
-            $verifyEmailRouteName,
-            $user->getId(),
-            $user->getEmail(),
-            ['id' => $user->getId()]
-        );
-
-        $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
-        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
-
-        $email->context( $context );
-
-        // TODO: Utiliser plus tard le service MailService
-        $this->mailer->send( $email );
-    }
-
-    /**
-     * @throws VerifyEmailExceptionInterface
-     */
-    public function handleEmailConfirmation( Request $request, User $user ) : void
-    {
-        $this->verifyEmailHelper->validateEmailConfirmation( $request->getUri(), $user->getId(), $user->getEmail() );
-
-        $user->setIsVerified( true );
-
-        $this->entityManager->persist( $user );
-        $this->entityManager->flush();
     }
 }

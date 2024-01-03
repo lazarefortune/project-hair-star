@@ -43,15 +43,7 @@ class CategoryController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'category_service_show', methods: ['GET'] )]
-    public function show( Category $categoryPrestation ) : Response
-    {
-        return $this->render( 'admin/category/show.html.twig', [
-            'category_service' => $categoryPrestation,
-        ] );
-    }
-
-    #[Route( '/{id}/edit', name: 'category_service_edit', methods: ['GET', 'POST'] )]
+    #[Route( '/{id<\d+>}/edit', name: 'category_service_edit', methods: ['GET', 'POST'] )]
     public function edit( Request $request, Category $categoryPrestation, CategoryRepository $categoryPrestationRepository ) : Response
     {
         $form = $this->createForm( NewCategoryForm::class, $categoryPrestation );
@@ -70,7 +62,7 @@ class CategoryController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id}', name: 'category_prestation_delete', methods: ['POST'] )]
+    #[Route( '/{id<\d+>}', name: 'category_prestation_delete', methods: ['POST'] )]
     public function delete( Request $request, Category $categoryPrestation, CategoryRepository $categoryPrestationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $categoryPrestation->getId(), $request->request->get( '_token' ) ) ) {

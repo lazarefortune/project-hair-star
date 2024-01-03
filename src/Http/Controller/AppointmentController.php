@@ -74,17 +74,17 @@ class AppointmentController extends AbstractController
         return false;
     }
 
-    #[Route( '/paiement/demarrer/{id}', name: 'payment_start' )]
+    #[Route( '/paiement/demarrer/{id<\d+>}', name: 'payment_start' )]
     #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
-    public function startPayment( Request $request, Appointment $appointment ) : Response
+    public function startPayment( Appointment $appointment ) : Response
     {
         $url = $this->stripePaymentService->payAppointment( $appointment );
         return $this->redirect( $url );
     }
 
-    #[Route( '/paiement/acompte/demarrer/{id}', name: 'payment_acompte_start' )]
+    #[Route( '/paiement/acompte/demarrer/{id<\d+>}', name: 'payment_acompte_start' )]
     #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
-    public function startAcomptePayment( Request $request, Appointment $appointment ) : Response
+    public function startAcomptePayment( Appointment $appointment ) : Response
     {
         $this->stripePaymentService->payAppointmentAcompte( $appointment );
         $this->addToast( 'danger', 'Le paiement n\'est pas encore disponible' );
@@ -92,7 +92,7 @@ class AppointmentController extends AbstractController
     }
 
 
-    #[Route( '/paiement/resultat/{id}', name: 'payment_result' )]
+    #[Route( '/paiement/resultat/{id<\d+>}', name: 'payment_result' )]
     public function paymentResult( Request $request, Appointment $appointment ) : Response
     {
         $paymentSuccess = $request->query->get( 'success' ) === '1';

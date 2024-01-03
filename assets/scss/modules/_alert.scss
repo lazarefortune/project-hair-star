@@ -29,18 +29,7 @@
 }
 
 .alert-danger {
-  @apply border-rose-800 bg-rose-50;
-  & > i {
-    @apply text-rose-500;
-  }
-
-  & .alert-heading {
-    @apply text-rose-900;
-  }
-
-  & .alert-content, & .alert-text {
-    @apply text-rose-800;
-  }
+  @apply border-rose-800 bg-rose-50 text-rose-800;
 }
 
 .alert-warning {
