@@ -12,6 +12,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction( 'icon', $this->showIcon( ... ), ['is_safe' => ['html']] ),
+            new TwigFunction( 'header_menu_active', $this->headerMenuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'menu_active', $this->menuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'pluralize', [$this, 'pluralize'] ),
         ];
@@ -232,6 +233,25 @@ class TwigExtension extends AbstractExtension
 
         if ( str_starts_with( $currentRoute, $route ) ) {
             $active = 'active';
+        }
+
+        return $active;
+    }
+
+    /**
+     * Ajout une class active pour les éléments actifs du menu.
+     * @param array<string, mixed> $context
+     * @param string $route
+     * @return string
+     */
+    public function headerMenuActive( array $context, string $route ) : string
+    {
+        $active = '';
+        $request = $context['app']->getRequest();
+        $currentRoute = $request->get( '_route' );
+
+        if ( str_starts_with( $currentRoute, $route ) ) {
+            $active = 'aria-current="page"';
         }
 
         return $active;
