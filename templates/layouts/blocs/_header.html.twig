@@ -15,8 +15,8 @@
     <ul class="header-side">
         <li class="header-side-auth">
             {% if app.user %}
-                <a href="{{ path('app_admin_home') }}">Admin</a>
-                <a href="{{ path('app_logout') }}">Logout</a>
+                <a href="{{ path('app_admin_home') }}">Dashboard</a>
+                <a href="{{ path('app_logout') }}">Se déconnecter</a>
             {% else %}
                 <a href="{{ path('app_register') }}">S'inscrire</a>
                 <span class="text-muted">·</span>
