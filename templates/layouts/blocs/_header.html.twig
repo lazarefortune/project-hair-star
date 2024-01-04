@@ -16,11 +16,12 @@
         <li class="header-side-auth">
             {% if app.user %}
                 <a href="{{ path('app_admin_home') }}">Dashboard</a>
-                <a href="{{ path('app_logout') }}">Se déconnecter</a>
-            {% else %}
-                <a href="{{ path('app_register') }}">S'inscrire</a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}">Se connecter</a>
+                <a href="{{ path('app_logout') }}" class="text-muted">Se déconnecter</a>
+            {% else %}
+                <a href="{{ path('app_register') }}" {{ header_menu_active('app_register') }}>S'inscrire</a>
+                <span class="text-muted">·</span>
+                <a href="{{ path('app_login') }}" {{ header_menu_active('app_login') }}>Se connecter</a>
             {% endif %}
         </li>
         <li class="header-burger">
