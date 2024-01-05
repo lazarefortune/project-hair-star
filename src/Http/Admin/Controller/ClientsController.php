@@ -5,6 +5,7 @@ namespace App\Http\Admin\Controller;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Client\Event\DeleteClientEvent;
+use App\Domain\Client\Form\EmailActionForm;
 use App\Domain\Client\Service\ClientService;
 use App\Http\Admin\Data\Crud\ClientCrudData;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,38 +70,26 @@ class ClientsController extends CrudController
     /**
      * @throws \Exception
      */
-    #[Route( path: '/{id<\d+>}/show', name: 'show', methods: ['GET'] )]
-    public function show( User $client, ClientService $clientService ) : Response
+    #[Route( path: '/{id<\d+>}/show', name: 'show', methods: ['GET', 'POST'] )]
+    public function show( Request $request, User $client, ClientService $clientService ) : Response
     {
         $client = $clientService->getClient( $client->getId() );
         $clientAppointments = $clientService->getClientAppointments( $client, 4 );
 
+        $emailActionsForm = $this->createForm( EmailActionForm::class );
+        $emailActionsForm->handleRequest( $request );
+
+        if ( $emailActionsForm->isSubmitted() && $emailActionsForm->isValid() ) {
+            $clientService->sendEmailAction( $client, $emailActionsForm->get( 'action' )->getData() );
+            $this->addToast( 'success', 'L\'email a bien été envoyé' );
+            return $this->redirectToRoute( 'app_admin_clients_show', ['id' => $client->getId()] );
+        }
 
         return $this->render( 'admin/clients/show.html.twig', [
             'client' => $client,
             'clientAppointments' => $clientAppointments,
+            'emailActionsForm' => $emailActionsForm->createView(),
         ] );
     }
-
-//    #[Route( '/{id<\d+>}/details', name: 'show', methods: ['GET'] )]
-//    public function showClient( int $id ) : Response
-//    {
-//        $EMAILS_LOG_LIMIT = 4;
-//
-//        try {
-//            $client = $this->clientService->getClient( $id );
-//            $clientEmailsLogs = $this->clientService->getClientMailsLog( $client, $EMAILS_LOG_LIMIT );
-//        } catch ( \Exception $e ) {
-//            $this->addToast( 'danger', $e->getMessage() );
-//
-//            return $this->redirectToRoute( 'app_admin_clients_index' );
-//        }
-//
-//        return $this->render( 'admin/clients/show-client.html.twig', [
-//            'client' => $client,
-//            'clientEmailsLogs' => $clientEmailsLogs,
-//            'EMAILS_LOG_LIMIT' => $EMAILS_LOG_LIMIT,
-//        ] );
-//    }
 
 }

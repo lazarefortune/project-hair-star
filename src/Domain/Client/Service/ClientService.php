@@ -4,6 +4,7 @@ namespace App\Domain\Client\Service;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
+use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Client\Event\DeleteClientEvent;
@@ -88,5 +89,34 @@ class ClientService
             ->setMaxResults( $limit )
             ->getQuery()
             ->getResult();
+    }
+
+    public function sendEmailAction( User $client, string $action )
+    {
+        // TODO: check if action is available for client before sending and refactor actions
+
+        switch ( $action ) {
+            case 'last_invoice':
+//                $this->sendLastInvoice( $client );
+                break;
+            case 'payment_reminder':
+//                $this->sendPaymentReminder( $client );
+                break;
+            case 'appointment_reminder':
+//                $this->sendAppointmentReminder( $client );
+                break;
+            case 'password_reset':
+//                $this->sendPasswordReset( $client );
+                break;
+            case 'account_confirmation':
+                $this->sendAccountConfirmation( $client );
+                break;
+        }
+    }
+
+    private function sendAccountConfirmation( User $client )
+    {
+        $emailConfirmationRequestedEvent = new EmailConfirmationRequestedEvent( $client );
+        $this->eventDispatcher->dispatch( $emailConfirmationRequestedEvent, EmailConfirmationRequestedEvent::NAME );
     }
 }

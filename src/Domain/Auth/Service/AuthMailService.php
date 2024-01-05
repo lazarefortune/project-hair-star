@@ -52,7 +52,7 @@ class AuthMailService
         $email = $this->mailService->prepareEmail(
             $user->getEmail(),
             'Confirmez votre adresse email',
-            'mails/auth/confirm-email.twig',
+            'mails/auth/confirm-request.twig',
             $data
         );
 

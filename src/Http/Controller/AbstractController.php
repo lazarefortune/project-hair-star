@@ -79,7 +79,8 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
 
     protected function addToast( string $type, string $message, string $title = "", int $duration = 5000, string $position = 'top-right' ) : void
     {
-        $this->addToastMessage( new FlashMessage( $message, $title, $type, $duration, $position ) );
+        $this->addFlash( $type, $message );
+//        $this->addToastMessage( new FlashMessage( $message, $title, $type, $duration, $position ) );
     }
 
 

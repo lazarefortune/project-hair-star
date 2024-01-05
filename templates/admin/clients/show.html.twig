@@ -84,24 +84,24 @@
 
             <div class="col-span-3 sm:col-span-2">
                 <div class="card card-padding mb-6">
+                    {{ form_start(emailActionsForm) }}
                     <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Emails</h2>
 
                     <label>
-                        <select class="form-input-md w-full">
-                            <option>Renvoyer la dernière facture</option>
-                            <option>Envoyer un rappel de paiement</option>
-                            <option>Envoyer un rappel de rendez-vous</option>
-                            <option>Envoyer un email de réinitialisation de mot de passe</option>
-                            <option>Envoyer un email de confirmation de compte</option>
-                        </select>
+                        {{ form_widget(emailActionsForm.action, {
+                            'attr': {
+                                'class': 'form-input-md'
+                            }
+                        }) }}
                     </label>
 
                     <div class="mt-6">
-                        <button class="btn btn-md btn-primary">
+                        <button class="btn btn-md btn-primary" type="submit">
                             {{ icon('send', '', 'mr-2') }}
                             Envoyer
                         </button>
                     </div>
+                    {{ form_end(emailActionsForm) }}
                 </div>
 
                 <div class="card card-padding">
