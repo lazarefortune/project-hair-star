@@ -208,6 +208,9 @@
     <main class="min-h-screen bg-[#f7fafb] px-3 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
         {{ include('partials/flash.html.twig') }}
         {% block body %}{% endblock %}
+        <scroll-top class="scroll-top" hidden="hidden">
+            {{ icon('chevron-up', '', 'text-white') }}
+        </scroll-top>
     </main>
 </div>
 
