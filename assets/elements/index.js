@@ -1,5 +1,5 @@
 import {NavTabs, ScrollTop} from 'headless-elements'
-import {Spotlight} from './admin/spotlight'
+import {Spotlight} from './admin/Spotlight'
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
