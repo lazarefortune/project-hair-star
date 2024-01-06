@@ -151,6 +151,15 @@
   z-index: 3000;
 }
 
+@media (max-width: 767px) {
+  .is-floating .alert,
+  .alert.is-floating {
+    top: 5px;
+    right: 5px;
+    max-width: 350px;
+  }
+}
+
 .alert {
   @apply border-t-[#e6e6e6] border-x-[#e6e6e6];
 }
