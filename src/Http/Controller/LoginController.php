@@ -38,7 +38,7 @@ class LoginController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-            $this->addToast( 'success', 'Si votre adresse email est valide, vous allez recevoir un email vous permettant de réinitialiser votre mot de passe' );
+            $this->addFlash( 'success', 'Si votre adresse email est valide, vous allez recevoir un email vous permettant de réinitialiser votre mot de passe' );
             $this->redirectBack( 'app_forgot_password' );
         }
 

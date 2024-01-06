@@ -69,9 +69,9 @@ class RegistrationController extends AbstractController
         $user = $this->getUserOrThrow();
         try {
             $this->authService->sendAccountConfirmationEmail( $user );
-            $this->addToast( 'success', 'Un email de confirmation vous a été envoyé.' );
+            $this->addFlash( 'success', 'Un email de confirmation vous a été envoyé.' );
         } catch ( \Exception $e ) {
-            $this->addToast( 'error', 'Erreur lors de l\'envoi de l\'email de confirmation.' );
+            $this->addFlash( 'error', 'Erreur lors de l\'envoi de l\'email de confirmation.' );
         }
 
         return $this->redirectBack( 'app_profile' );

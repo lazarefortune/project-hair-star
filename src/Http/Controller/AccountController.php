@@ -61,16 +61,16 @@ class AccountController extends AbstractController
                 $this->profileService->updateProfile( $data );
 
                 if ( $data->email !== $user->getEmail() ) {
-                    $this->addToast( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
+                    $this->addFlash( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
                     return [$form, $this->redirectToRoute( 'app_profile' )];
                 } else {
-                    $this->addToast( 'success', 'Informations mises à jour avec succès' );
+                    $this->addFlash( 'success', 'Informations mises à jour avec succès' );
                 }
 
                 return [$form, $this->redirectToRoute( 'app_profile' )];
             }
         } catch ( TooManyEmailChangeException ) {
-            $this->addToast( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau' );
+            $this->addFlash( 'danger', 'Vous avez déjà demandé un changement d\'email, veuillez patienter avant de pouvoir en faire un nouveau' );
         }
 
         return [$form, null];
@@ -85,7 +85,7 @@ class AccountController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->profileService->updatePassword( $user, $form->get( 'password' )->getData() );
 
-            $this->addToast( 'success', 'Mot de passe mis à jour avec succès' );
+            $this->addFlash( 'success', 'Mot de passe mis à jour avec succès' );
             return [$form, $this->redirectToRoute( 'app_profile' )];
         }
 

@@ -73,7 +73,7 @@ class AppointmentController extends AbstractController
         [$form, $response] = $this->createFormAppointment( $request );
 
         if ( $response ) {
-            $this->addToast( 'success', 'Votre rendez-vous a bien été enregistré.' );
+            $this->addFlash( 'success', 'Votre rendez-vous a bien été enregistré.' );
             return $response;
         }
 
@@ -116,7 +116,7 @@ class AppointmentController extends AbstractController
     public function show( Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
-            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
+            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_appointment_index' );
         }
 
@@ -129,14 +129,14 @@ class AppointmentController extends AbstractController
     public function edit( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
-            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
+            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_appointment_index' );
         }
 
         [$form, $response] = $this->createUpdateFormappointment( $request, $appointment );
 
         if ( $response ) {
-            $this->addToast( 'success', 'Votre rendez-vous a bien été modifié.' );
+            $this->addFlash( 'success', 'Votre rendez-vous a bien été modifié.' );
             return $response;
         }
 
@@ -149,14 +149,14 @@ class AppointmentController extends AbstractController
     public function confirm( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
-            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
+            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_appointment_index' );
         }
 
         if ( $this->isCsrfTokenValid( 'confirm_appointment' . $appointment->getId(), $request->request->get( '_token' ) ) ) {
             $this->appointmentService->confirmAppointment( $appointment );
 
-            $this->addToast( 'success', 'Rendez-vous confirmé avec succès.' );
+            $this->addFlash( 'success', 'Rendez-vous confirmé avec succès.' );
             return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
@@ -167,14 +167,14 @@ class AppointmentController extends AbstractController
     public function cancel( Request $request, Appointment $appointment = null ) : Response
     {
         if ( !$appointment ) {
-            $this->addToast( 'danger', 'Rendez-vous introuvable.' );
+            $this->addFlash( 'danger', 'Rendez-vous introuvable.' );
             return $this->redirectToRoute( 'app_admin_appointment_index' );
         }
 
         if ( $this->isCsrfTokenValid( 'cancel_appointment' . $appointment->getId(), $request->request->get( '_token' ) ) ) {
             $this->appointmentService->cancelAppointment( $appointment );
 
-            $this->addToast( 'success', 'Rendez-vous annulé avec succès.' );
+            $this->addFlash( 'success', 'Rendez-vous annulé avec succès.' );
             return $this->redirectToRoute( 'app_admin_appointment_show', ['id' => $appointment->getId()] );
         }
 
@@ -187,7 +187,7 @@ class AppointmentController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $appointment->getId(), $request->request->get( '_token' ) ) ) {
             $this->appointmentService->deleteAppointment( $appointment );
 
-            $this->addToast( 'success', 'Rendez-vous supprimé avec succès.' );
+            $this->addFlash( 'success', 'Rendez-vous supprimé avec succès.' );
         }
 
         return $this->redirectToRoute( 'app_admin_appointment_index', [], Response::HTTP_SEE_OTHER );

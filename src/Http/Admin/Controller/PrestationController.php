@@ -37,7 +37,7 @@ class PrestationController extends AbstractController
 
             $prestationService->save( $prestation, true );
 
-            $this->addToast( 'success', 'Prestation créée avec succès' );
+            $this->addFlash( 'success', 'Prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -57,7 +57,7 @@ class PrestationController extends AbstractController
 
             $prestationService->save( $prestation, true );
 
-            $this->addToast( 'success', 'Prestation modifiée avec succès' );
+            $this->addFlash( 'success', 'Prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -73,7 +73,7 @@ class PrestationController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $prestation->getId(), $request->request->get( '_token' ) ) ) {
             $prestationRepository->remove( $prestation, true );
 
-            $this->addToast( 'success', 'Prestation supprimée avec succès' );
+            $this->addFlash( 'success', 'Prestation supprimée avec succès' );
         }
 
         return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );

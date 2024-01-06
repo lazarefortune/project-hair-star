@@ -64,7 +64,7 @@ class HomeController extends AbstractController
             $entityManager->persist( $user );
             $entityManager->flush();
 
-            $this->addToast( 'success', 'Bienvenue sur votre nouveau site !' );
+            $this->addFlash( 'success', 'Bienvenue sur votre nouveau site !' );
             return $this->redirectToRoute( 'app_success_installed' );
         }
 

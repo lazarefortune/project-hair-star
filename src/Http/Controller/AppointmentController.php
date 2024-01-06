@@ -42,7 +42,7 @@ class AppointmentController extends AbstractController
         $form->handleRequest( $request );
 
         if ( $this->handleAppointmentUpdateForm( $form, $appointment ) ) {
-            $this->addToast( 'success', 'La réservation a bien été modifiée' );
+            $this->addFlash( 'success', 'La réservation a bien été modifiée' );
             return $this->redirectToRoute( 'app_appointment_manage', ['token' => $token] );
         }
 
@@ -87,7 +87,7 @@ class AppointmentController extends AbstractController
     public function startAcomptePayment( Appointment $appointment ) : Response
     {
         $this->stripePaymentService->payAppointmentAcompte( $appointment );
-        $this->addToast( 'danger', 'Le paiement n\'est pas encore disponible' );
+        $this->addFlash( 'danger', 'Le paiement n\'est pas encore disponible' );
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }
 
@@ -98,11 +98,11 @@ class AppointmentController extends AbstractController
         $paymentSuccess = $request->query->get( 'success' ) === '1';
         $status = $request->query->get( 'success' ) === '1' ? 'success' : 'failure';
         if ( !$paymentSuccess ) {
-            $this->addToast( 'danger', 'Le paiement a échoué' );
+            $this->addFlash( 'danger', 'Le paiement a échoué' );
             return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
         }
 
-        $this->addToast( 'success', 'Le paiement a bien été effectué' );
+        $this->addFlash( 'success', 'Le paiement a bien été effectué' );
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }
 }

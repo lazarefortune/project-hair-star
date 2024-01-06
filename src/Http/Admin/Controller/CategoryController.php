@@ -33,7 +33,7 @@ class CategoryController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $categoryPrestationRepository->save( $categoryPrestation, true );
 
-            $this->addToast( 'success', 'Catégorie de prestation créée avec succès' );
+            $this->addFlash( 'success', 'Catégorie de prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -52,7 +52,7 @@ class CategoryController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $categoryPrestationRepository->save( $categoryPrestation, true );
 
-            $this->addToast( 'success', 'Catégorie de prestation modifiée avec succès' );
+            $this->addFlash( 'success', 'Catégorie de prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_category_prestation_index', [], Response::HTTP_SEE_OTHER );
         }
 
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
     public function delete( Request $request, Category $categoryPrestation, CategoryRepository $categoryPrestationRepository ) : Response
     {
         if ( $this->isCsrfTokenValid( 'delete' . $categoryPrestation->getId(), $request->request->get( '_token' ) ) ) {
-            $this->addToast( 'success', 'Catégorie de prestation supprimée avec succès' );
+            $this->addFlash( 'success', 'Catégorie de prestation supprimée avec succès' );
             $categoryPrestationRepository->remove( $categoryPrestation, true );
         }
 
