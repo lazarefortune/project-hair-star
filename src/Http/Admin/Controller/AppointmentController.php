@@ -54,6 +54,11 @@ class AppointmentController extends AbstractController
         krsort( $appointmentsBeforeToday );
         ksort( $appointmentsAfterToday );
 
+        // remove today in past appointments
+        if ( isset( $appointmentsBeforeToday[date( 'Y-m-d' )] ) ) {
+            unset( $appointmentsBeforeToday[date( 'Y-m-d' )] );
+        }
+
         return $this->render( 'admin/appointment/index.html.twig', [
             'appointments' => $this->appointmentService->getAppointments(),
             'appointmentsToday' => $appointmentsToday,
