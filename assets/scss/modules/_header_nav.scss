@@ -37,6 +37,10 @@
   }
 }
 
+.header_home + li {
+  margin-left: 0;
+}
+
 .header::after {
   content: "";
   position: absolute;
