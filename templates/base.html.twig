@@ -42,6 +42,7 @@
 
 
 <div class="page-wrapper">
+    {{ include('partials/flash.html.twig') }}
     {{ include('layouts/blocs/_header.html.twig') }}
     {% block body %}{% endblock %}
     <footer></footer>
@@ -50,35 +51,6 @@
     </scroll-top>
 </div>
 
-{% block javascripts__footer %}
-    {#    <script type="text/javascript"> #}
-    {#        window.onload = function () { #}
-    {#            let toggleBtn = document.querySelector("#navbar-toggle"); #}
-    {#            let toggleBtnIcon = document.querySelector("#navbar-toggle-icon"); #}
-    {#            let collapse = document.querySelector("#navbar-collapse"); #}
-    {#            let navbar = document.querySelector("#navbar"); #}
+{% block javascripts__footer %}{% endblock %}
 
-    {#            toggleBtn.onclick = () => { #}
-    {#                collapse.classList.toggle("hidden"); #}
-    {#                collapse.classList.toggle("flex"); #}
-    {#                // collapse.classList.toggle("opacity-0"); #}
-    {#                // collapse.classList.toggle("opacity-100"); #}
-    {#                // collapse.classList.toggle("invisible"); #}
-    {#                // collapse.classList.toggle("visible"); #}
-    {#                // collapse.classList.toggle("h-0"); #}
-    {#                // collapse.classList.toggle("h-auto"); #}
-
-    {#                if (toggleBtnIcon.classList.contains("fa-bars")) { #}
-    {#                    toggleBtnIcon.classList.remove("fa-bars"); #}
-    {#                    toggleBtnIcon.classList.add("fa-times"); #}
-    {#                    toggleBtnIcon.style.transform = "rotate(180deg)"; #}
-    {#                } else { #}
-    {#                    toggleBtnIcon.classList.remove("fa-times"); #}
-    {#                    toggleBtnIcon.classList.add("fa-bars"); #}
-    {#                    toggleBtnIcon.style.transform = "rotate(0deg)"; #}
-    {#                } #}
-    {#            }; #}
-    {#        } #}
-    {#    </script> #}
-{% endblock %}
 </body>
