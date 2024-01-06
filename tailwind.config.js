@@ -41,19 +41,6 @@ module.exports = {
             boxShadow: {
                 'custom': '0 2px 4px #d8e1e8',
                 'md': '0 2px 4px #d8e1e8',
-                // 'soft': 'rgba(0, 0, 0, 0.03) 0px 0px 0px 0.5px',
-                'soft': '0 2px 4px #d8e1e8',
-                'soft-md': '0 2px 4px #d8e1e8',
-                // 'soft-md': 'rgba(0, 0, 0, 0.04) 0px 10px 32px',
-                // 'soft-md': 'rgba(0, 0, 0, 0.04) 0px 5px 22px',
-                // 'soft': '0 0 10px rgba(0, 0, 0, 0.05)',
-                'soft-xs': '0 0 2px rgba(0, 0, 0, 0.05)',
-                'soft-sm': '0 0 5px rgba(0, 0, 0, 0.05)',
-                'soft-lg': '0 0 20px rgba(0, 0, 0, 0.05)',
-                'soft-xl': '0 0 25px rgba(0, 0, 0, 0.05)',
-                'soft-2xl': '0 0 30px rgba(0, 0, 0, 0.05)',
-                'outline-primary': '0 0 0 3px rgba(132, 61, 255, 0.5)',
-                'outline-secondary': '0 0 0 3px rgba(0, 0, 0, 0.5)',
             },
             fontSize: {
                 'md': '0.938rem', // 15px

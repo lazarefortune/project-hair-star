@@ -6,8 +6,11 @@ createIcons({icons});
 
 /* Elements */
 import {ScrollTop} from 'headless-elements'
+import {Alert, FloatingAlert} from './elements/Alert'
 
 customElements.define('scroll-top', ScrollTop)
+customElements.define('alert-message', Alert)
+customElements.define('alert-floating', FloatingAlert)
 
 /* Modules */
 import './modules/header.js'

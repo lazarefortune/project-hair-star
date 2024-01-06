@@ -15,7 +15,11 @@
     <ul class="header-side">
         <li class="header-side-auth">
             {% if app.user %}
-                <a href="{{ path('app_admin_home') }}">Dashboard</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_home') }}">Dashboard</a>
+                {% else %}
+                    <a href="{{ path('app_profile') }}">Mon compte</a>
+                {% endif %}
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_logout') }}" class="text-muted">Se déconnecter</a>
             {% else %}

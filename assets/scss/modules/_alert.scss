@@ -1,37 +1,25 @@
 :root {
-  --card-bg: #fff;
-  --background-light: #fff;
-  --border: #e6e6e6;
-  --shadow: rgba(0, 0, 0, 0.1);
-  --color: #000;
+  --red: #f25353;
+  --yellow: #feb32b;
+  --green: #41cf7c;
+  --blue: #4869ee;
 }
 
 @function space($factor) {
-  // Définissez la valeur de base pour space(1)
   $base-value: 4px;
-
-  // Calculez la valeur d'espacement
   @return $base-value * $factor;
 }
 
 // Alerts
 // ==================
 .alert {
-  background: var(--card-bg, var(--background-light));
-  border: 1px solid var(--border);
-  box-shadow: 0 2px 4px var(--shadow);
-  border-radius: 3px;
+  @apply bg-white border border-[#e6e6e6] shadow-custom rounded flex items-center relative border-b-[3px] border-b-[#e6e6e6] text-slate-900;
   transition: 0.3s;
-  margin: space(3) auto;
-  padding: space(2);
+  margin: space(5) auto;
+  padding: space(4);
   width: 100%;
-  display: flex;
-  align-items: center;
   animation: alertIn 0.5s both;
   line-height: 1.2;
-  position: relative;
-  border-bottom: 3px solid var(--border);
-  color: var(--color);
 
   a {
     text-decoration: underline;
@@ -52,17 +40,17 @@
 
 .alert > svg:first-child {
   flex: none;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   margin-right: space(2);
 }
 
 .alert .alert-close {
+  @apply text-slate-900;
   width: 30px;
   flex: none;
   margin-left: auto;
   margin-right: 0;
-  color: var(--color);
   opacity: 0.3;
   cursor: pointer;
   transition: opacity 0.3s;
@@ -73,9 +61,9 @@
 }
 
 .alert-close svg {
-  width: 12px;
-  height: 12px;
-  color: var(--color) !important;
+  width: 20px;
+  height: 20px;
+  color: #000 !important;
 }
 
 .alert-danger {
@@ -95,10 +83,10 @@
 }
 
 .alert-info {
-  border-bottom-color: var(--contrast);
+  border-bottom-color: var(--blue);
 
   svg:first-child {
-    color: var(--contrast);
+    color: var(--blue);
   }
 }
 
@@ -110,9 +98,9 @@
   }
 }
 
-.alert__progress {
+.alert-progress {
+  @apply bg-white;
   height: 3px;
-  background: var(--background-light);
   position: absolute;
   bottom: -3px;
   right: 0;
@@ -153,10 +141,9 @@
   }
 }
 
-.alert,
 .is-floating .alert,
 .alert.is-floating {
-  box-shadow: 0 2px 20px var(--shadow);
+  @apply shadow-custom;
   position: fixed;
   top: 20px;
   right: 20px;
@@ -165,12 +152,10 @@
 }
 
 .alert {
-  border-top: var(--border) solid 1px;
-  border-right: var(--border) solid 1px;
-  border-left: var(--border) solid 1px;
+  @apply border-t-[#e6e6e6] border-x-[#e6e6e6];
 }
 
-//
+// Notifications
 
 .notification {
   @apply relative rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;

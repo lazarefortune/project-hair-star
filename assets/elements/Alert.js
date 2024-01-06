@@ -22,21 +22,34 @@ export class Alert extends HTMLElement {
         const duration = this.getAttribute('duration')
         let progressBar = ''
         if (duration !== null) {
-            progressBar = `<div class="alert__progress" style="animation-duration: ${duration}s">`
+            progressBar = `<div class="alert-progress" style="animation-duration: ${duration}s">`
             window.setTimeout(this.close, duration * 1000)
         }
         this.classList.add('alert')
         this.classList.add(`alert-${this.type}`)
-        this.innerHTML = `<svg class="icon icon-${this.icon}">
-          <use href="/sprite.svg#${this.icon}"></use>
-        </svg>
+        this.innerHTML = `
+        <svg class="icon icon-${this.icon}"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.75"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#${this.icon}"></use>
+            </svg>
         <div>
           ${this.message || text}
         </div>
         <button class="alert-close">
-          <svg class="icon">
-            <use href="/sprite.svg#cross"></use>
-          </svg>
+          <svg class="icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.75"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#x"></use>
+            </svg>
         </button>
         ${progressBar}`
         this.querySelector('.alert-close').addEventListener('click', e => {

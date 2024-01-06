@@ -205,7 +205,7 @@
         </div>
     </div>
     <main class="min-h-screen bg-[#f7fafb] px-3 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
-        {{ include('partials/flash.html.twig') }}
+        {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
         {% block body %}{% endblock %}
         <scroll-top class="scroll-top" hidden="hidden">
             {{ icon('chevron-up') }}

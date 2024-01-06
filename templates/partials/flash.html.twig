@@ -8,10 +8,9 @@
         {% endfor %}
     {% else %}
         {% for message in messages %}
-            <alert-floating type="{{ type }}"
-                            duration="3">
+            <alert-message type="{{ type }}">
                 {{ message | nl2br }}
-            </alert-floating>
+            </alert-message>
         {% endfor %}
     {% endif %}
 {% endfor %}
