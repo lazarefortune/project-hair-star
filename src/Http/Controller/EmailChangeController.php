@@ -34,7 +34,7 @@ class EmailChangeController extends AbstractController
     private function handleInvalidOrExpiredToken( string $message ) : Response
     {
         $this->addFlash( 'danger', $message );
-        return $this->redirectToRoute( 'app_home' );
+        return $this->render( 'pages/message.html.twig' );
     }
 
 
@@ -43,6 +43,6 @@ class EmailChangeController extends AbstractController
         $this->profileService->updateEmail( $emailVerification );
         $this->addFlash( 'success', 'Votre email a été mis à jour avec succès' );
 
-        return $this->redirectToRoute( 'app_home' );
+        return $this->render( 'pages/message.html.twig' );
     }
 }

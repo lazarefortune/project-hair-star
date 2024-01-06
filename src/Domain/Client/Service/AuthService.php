@@ -18,9 +18,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class AuthService
 {
     public function __construct(
-        private readonly MailService                 $mailService,
         private readonly VerifyEmailHelperInterface  $verifyEmailHelper,
-        private readonly EmailVerifier               $emailVerifier,
         private readonly EntityManagerInterface      $entityManager,
         private readonly EventDispatcherInterface    $eventDispatcher,
         private readonly UserPasswordHasherInterface $userPasswordHasher

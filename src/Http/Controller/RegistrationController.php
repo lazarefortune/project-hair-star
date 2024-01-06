@@ -82,25 +82,26 @@ class RegistrationController extends AbstractController
     {
         $userId = $request->get( 'id' );
 
+        // Redirection si l'utilisateur n'est pas trouvé
         if ( !$userId || !( $user = $userRepository->find( $userId ) ) ) {
             return $this->redirectToRoute( 'app_register' );
         }
 
+        // Si l'utilisateur est déjà vérifié, affiche un message
         if ( $user->isVerified() ) {
-            return $this->render( 'auth/verify_email.html.twig', [
-                'title' => 'Adresse email déjà vérifiée',
-                'message' => 'Votre adresse email a déjà été vérifiée. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
-            ] );
+            $flashType = 'info';
+            $flashMessage = 'Votre adresse email a déjà été vérifiée.';
+        } else {
+            // Sinon, valide le lien et marque l'utilisateur comme vérifié
+            $this->authService->confirmAccount( $user, $request->getUri() );
+            $flashType = 'success';
+            $flashMessage = 'Votre adresse email a été vérifiée.';
         }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        $this->authService->confirmAccount( $user, $request->getUri() );
-
-        return $this->render( 'auth/verify_email.html.twig', [
-            'title' => 'Adresse email vérifiée',
-            'message' => 'Merci d\'avoir vérifié votre adresse email. Vous pouvez maintenant profiter pleinement des avantages de votre compte.'
-        ] );
-
+        // Ajoute un message flash et affiche la page
+        $this->addFlash( $flashType, $flashMessage );
+        return $this->render( 'pages/message.html.twig' );
     }
+
 }
 
