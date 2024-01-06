@@ -68,12 +68,18 @@ export class Alert extends HTMLElement {
     }
 
     get icon() {
-        if (this.type === 'danger') {
-            return 'warning'
-        } else if (this.type === 'success') {
-            return 'check'
+        switch (this.type) {
+            case 'danger':
+                return 'alert-octagon'
+            case 'success':
+                return 'check'
+            case 'warning':
+                return 'alert-triangle'
+            case 'info':
+                return 'info'
+            default:
+                return 'info'
         }
-        return this.type
     }
 }
 

@@ -61,7 +61,7 @@ class AccountController extends AbstractController
                 $this->profileService->updateProfile( $data );
 
                 if ( $data->email !== $user->getEmail() ) {
-                    $this->addFlash( 'success', 'Informations mises à jour avec succès, un email de vérification vous a été envoyé à l\'adresse ' . $data->email );
+                    $this->addFlash( 'success', 'Vous allez recevoir un email pour confirmer votre nouvelle adresse email' );
                     return [$form, $this->redirectToRoute( 'app_profile' )];
                 } else {
                     $this->addFlash( 'success', 'Informations mises à jour avec succès' );
