@@ -98,15 +98,19 @@ class ClientService
         switch ( $action ) {
             case 'last_invoice':
 //                $this->sendLastInvoice( $client );
+                throw new \Exception( 'Non disponible pour le moment' );
                 break;
             case 'payment_reminder':
 //                $this->sendPaymentReminder( $client );
+                throw new \Exception( 'Non disponible pour le moment' );
                 break;
             case 'appointment_reminder':
 //                $this->sendAppointmentReminder( $client );
+                throw new \Exception( 'Non disponible pour le moment' );
                 break;
             case 'password_reset':
 //                $this->sendPasswordReset( $client );
+                throw new \Exception( 'Non disponible pour le moment' );
                 break;
             case 'account_confirmation':
                 $this->sendAccountConfirmation( $client );

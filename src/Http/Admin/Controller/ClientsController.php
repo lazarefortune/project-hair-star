@@ -80,7 +80,12 @@ class ClientsController extends CrudController
         $emailActionsForm->handleRequest( $request );
 
         if ( $emailActionsForm->isSubmitted() && $emailActionsForm->isValid() ) {
-            $clientService->sendEmailAction( $client, $emailActionsForm->get( 'action' )->getData() );
+            try {
+                $clientService->sendEmailAction( $client, $emailActionsForm->get( 'action' )->getData() );
+            } catch ( \Exception $e ) {
+                $this->addFlash( 'danger', $e->getMessage() );
+                return $this->redirectToRoute( 'app_admin_clients_show', ['id' => $client->getId()] );
+            }
             $this->addFlash( 'success', 'L\'email a bien été envoyé' );
             return $this->redirectToRoute( 'app_admin_clients_show', ['id' => $client->getId()] );
         }
