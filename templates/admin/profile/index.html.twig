@@ -30,8 +30,8 @@
         </div>
 
         {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
-            <div class="alert-info">
-                <h2 class="alert-heading">Attention !</h2>
+            <div class="notification-info">
+                <h2 class="notification-heading">Attention !</h2>
                 <p>
                     Vous avez demandé un changement d'adresse email.
                     <br>

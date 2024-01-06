@@ -153,7 +153,7 @@
   }
 }
 
-.dashboard .alert,
+.alert,
 .is-floating .alert,
 .alert.is-floating {
   box-shadow: 0 2px 20px var(--shadow);
@@ -164,24 +164,81 @@
   z-index: 3000;
 }
 
-.formatted .alert {
+.alert {
   border-top: var(--border) solid 1px;
   border-right: var(--border) solid 1px;
   border-left: var(--border) solid 1px;
 }
 
-// Bullets
-// ==================
-.bullet {
-  display: block;
-  width: 6px;
-  border-radius: 6px;
-  height: 6px;
-  margin-left: auto;
-  margin-right: auto;
-  background: #23db72;
+//
+
+.notification {
+  @apply relative rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
+  & .notification-heading {
+    @apply font-bold;
+  }
+
+  & .notification-content {
+    @apply text-sm;
+  }
+
+  & .notification-text {
+    @apply text-base;
+  }
 }
 
-.bullet--danger {
-  background: #fb4635;
+.notification-success {
+  @apply border-b-green-500 bg-white;
+  & > i {
+    @apply text-slate-900;
+  }
+
+  & .notification-heading {
+    @apply text-green-900;
+  }
+
+  & .notification-content, & .notification-text {
+    @apply text-green-800;
+  }
+}
+
+.notification-danger {
+  @apply border-rose-800 bg-rose-50 text-rose-800;
+}
+
+.notification-warning {
+  @apply border-yellow-500 bg-yellow-50;
+  & > i {
+    @apply text-yellow-500;
+  }
+
+  & .notification-heading {
+    @apply text-yellow-900;
+  }
+
+  & .notification-content, & .notification-text {
+    @apply text-yellow-800;
+  }
+}
+
+.notification-info {
+  @apply bg-white shadow-custom p-3 text-slate-900 border-l-[3px] border-primary-900;
+  & .alert-heading, h1, h2, h3, h4, h5, h6 {
+    @apply text-primary-900 font-bold text-xl mb-2;
+  }
+}
+
+.notification-primary {
+  @apply border-primary-500 bg-primary-50;
+  & > i {
+    @apply text-primary-500;
+  }
+
+  & .notification-heading {
+    @apply text-primary-900;
+  }
+
+  & .notification-content, & .notification-text {
+    @apply text-primary-800;
+  }
 }
