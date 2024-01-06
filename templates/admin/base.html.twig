@@ -53,26 +53,26 @@
 
             <div class="space-y-1">
                 <a href="{{ path('app_home') }}" class="sidebar-nav-item">
-                    {{ icon('undo-2', 'sm' ) }}
+                    {{ icon('undo-2' ) }}
                     <span class="ml-1">Retour au site</span>
                 </a>
                 <a href="{{ path('app_admin_home') }}" class="sidebar-nav-item {{ menu_active('app_admin_home') }}">
-                    {{ icon('home', 'sm' ) }}
+                    {{ icon('home' ) }}
                     <span class="ml-1">Accueil</span>
                 </a>
                 <a href="{{ path('app_admin_realisation_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_realisation') }}">
-                    {{ icon('scissors', 'sm' ) }}
+                    {{ icon('scissors' ) }}
                     <span class="ml-1">Réalisations</span>
                 </a>
                 <a href="{{ path('app_admin_clients_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_clients') }}">
-                    {{ icon('users-2', 'sm' ) }}
+                    {{ icon('users' ) }}
                     <span class="ml-1">Clients</span>
                 </a>
                 <a href="{{ path('app_admin_appointment_index') }}"
                    class="sidebar-nav-item {{ menu_active('app_admin_appointment_') }}">
-                    {{ icon('calendar', 'sm' ) }}
+                    {{ icon('calendar' ) }}
                     <span class="ml-1">Rendez-vous</span>
                 </a>
             </div>
@@ -88,10 +88,10 @@
                 </a>
 
                 <button class="sidebar-nav-item sidebar-dropdown-toggle {{ menu_active('app_admin_prestation') }} {{ menu_active('app_admin_category_prestation') }}">
-                    {{ icon('store', 'sm' ) }}
+                    {{ icon('store' ) }}
                     <span class="ml-1">Services</span>
                     <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
-                    {{ icon('chevron-right', 'sm' ) }}
+                    {{ icon('chevron-right' ) }}
                 </span>
                 </button>
                 <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
@@ -107,7 +107,7 @@
 
                 <a href="{{ path('app_admin_maintenance') }}"
                    class="sidebar-nav-item sidebar-nav-item-disabled">
-                    {{ icon('badge-percent', 'sm' ) }}
+                    {{ icon('badge-percent' ) }}
                     <span class="ml-1">Promotions</span>
                 </a>
 
@@ -115,10 +115,10 @@
                 {{ menu_active('app_admin_shop_settings_') }}
                 {{ menu_active('app_admin_offdays_') }}
                 {{ menu_active('app_admin_holidays_') }}">
-                    {{ icon('settings', 'sm' ) }}
+                    {{ icon('settings' ) }}
                     <span class="ml-1">Réglages</span>
                     <span class="float-right flex items-center justify-center sidebar-dropdown-toggle-icon">
-                        {{ icon('chevron-right', 'sm' ) }}
+                        {{ icon('chevron-right' ) }}
                     </span>
                 </button>
                 <div class="hidden w-full origin-top-right bg-white sidebar-dropdown-menu">
@@ -152,10 +152,10 @@
                                     focus:ring-opacity-0 focus:ring-0 focus:ring-offset-0
                                     ">
                 <div id="btnSidebarOpen">
-                    {{ icon('menu','md') }}
+                    {{ icon('menu') }}
                 </div>
                 <div id="btnSidebarClose" class="hidden">
-                    {{ icon('x','md') }}
+                    {{ icon('x') }}
                 </div>
             </button>
 
@@ -187,7 +187,7 @@
                 <div class="px-2 py-2">
                     <a href="{{ path('app_profile') }}"
                        class="user-dropdown-menu-item {{ menu_active('app_admin_account') }}">
-                        {{ icon('user', 'sm' ) }}
+                        {{ icon('user' ) }}
                         <span>Mon compte</span>
                     </a>
                 </div>
@@ -197,19 +197,18 @@
                 <div class="px-2 py-2">
                     <a href="{{ path('app_logout') }}"
                        class="user-dropdown-menu-item">
-                        {{ icon('log-out', 'sm' ) }}
+                        {{ icon('log-out' ) }}
                         <span>Déconnexion</span>
                     </a>
                 </div>
             </div>
         </div>
-
     </div>
     <main class="min-h-screen bg-[#f7fafb] px-3 py-4 pt-20 dark:bg-gray-600 dark:text-gray-50 sm:px-9 lg:ml-64">
         {{ include('partials/flash.html.twig') }}
         {% block body %}{% endblock %}
         <scroll-top class="scroll-top" hidden="hidden">
-            {{ icon('chevron-up', '', 'text-white') }}
+            {{ icon('chevron-up') }}
         </scroll-top>
     </main>
 </div>
@@ -331,7 +330,7 @@
     });
 
 
-    // Si vous voulez cacher le dropdown lorsque vous cliquez en dehors:
+    // Si on veut cacher le dropdown lorsque l'on clique en dehors:
     // document.addEventListener('click', e => {
     //     if (!e.target.closest('.sidebar-dropdown-toggle') && !e.target.closest('.sidebar-dropdown-menu')) {
     //         document.querySelectorAll('.sidebar-dropdown-menu').forEach(dropdown => {

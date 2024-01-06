@@ -4,10 +4,10 @@
 
     <a href="{{ path('app_admin_clients_index') }}"
        class="btn-link mb-4">
-        {{ icon('arrow-left', '', 'mr-2') }}
-        <span>
-        Liste des clients
-    </span>
+        {{ icon('arrow-left') }}
+        <span class="ml-1">
+            Liste des clients
+        </span>
     </a>
 
     <div class="flex justify-between items-center mb-6">
@@ -16,10 +16,10 @@
         </h4>
         <a href="{{ path('app_admin_clients_edit', {id: client.id}) }}"
            class="btn-md btn-primary">
-            {{ icon('pencil', '', 'mr-2') }}
-            <span>
-            Modifier
-        </span>
+            {{ icon('pencil') }}
+            <span class="ml-2">
+                Modifier
+            </span>
         </a>
     </div>
 
@@ -27,20 +27,20 @@
         <a href="#profile"
            class="tab-link"
            data-tab-id="profile">
-            {{ icon('user', '', 'mr-2') }}
-            Profile
+            {{ icon('user') }}
+            <span class="ml-2">Profile</span>
         </a>
         <a href="#appointments"
            class="tab-link"
            data-tab-id="appointments">
-            {{ icon('calendar', '', 'mr-2') }}
-            Rendez-vous
+            {{ icon('calendar') }}
+            <span class="ml-2">Rendez-vous</span>
         </a>
         <a href="#invoices"
            class="tab-link"
            data-tab-id="invoices">
-            {{ icon('files', '', 'mr-2') }}
-            Factures & Emails
+            {{ icon('files') }}
+            <span class="ml-2">Factures & Emails</span>
         </a>
     </nav-tabs>
 
@@ -97,7 +97,6 @@
 
                     <div class="mt-6">
                         <button class="btn btn-md btn-primary" type="submit">
-                            {{ icon('send', '', 'mr-2') }}
                             Envoyer
                         </button>
                     </div>
@@ -112,7 +111,6 @@
 
                     <div class="text-left">
                         <button class="btn-md btn-danger modal-button" data-modal-id="modal-id-{{ client.id }}">
-                            {{ icon('trash', '', 'mr-2') }}
                             Supprimer le compte
                         </button>
                     </div>
@@ -133,8 +131,8 @@
         <div class="stack-large">
             <div class="stack">
                 <h1 class="text-lg md:text-xl font-bold flex items-center">
-                    {{ icon('files', 'sm', 'mr-2') }}
-                    Factures
+                    {{ icon('files') }}
+                    <span class="ml-2">Factures</span>
                 </h1>
 
                 <div class="shadow-custom card card-padding">
@@ -144,8 +142,8 @@
 
             <div class="stack">
                 <h1 class="text-lg md:text-xl font-bold flex items-center">
-                    {{ icon('mail', 'sm', 'mr-2') }}
-                    Emails
+                    {{ icon('mail') }}
+                    <span class="ml-2">Emails</span>
                 </h1>
 
                 <div class="shadow-custom card card-padding">
@@ -158,8 +156,8 @@
     <div id="appointments">
         <div class="">
             <h1 class="text-lg md:text-xl font-bold mb-6 flex items-center">
-                {{ icon('calendar', 'sm', 'mr-2') }}
-                Historique des rendez-vous
+                {{ icon('calendar') }}
+                <span class="ml-2">Historique des rendez-vous</span>
             </h1>
 
             {% include 'admin/appointment/_list.html.twig' with {

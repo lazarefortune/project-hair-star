@@ -4,7 +4,7 @@
 
     <a href="{{ path('app_admin_realisation_index') }}"
        class="btn-link mb-4">
-        {{ icon('arrow-left', '', 'mr-2') }}
+        {{ icon('arrow-left') }}
         <span>
             Liste des réalisations
         </span>
@@ -50,10 +50,9 @@
         <div class="flex justify-between items-center mt-6">
             <a href="{{ path('app_admin_realisation_edit', {id: realisation.id}) }}"
                class="btn-md btn-primary">
-                {{ icon('pencil', '', 'mr-2') }}
                 <span>
-                        Modifier
-                    </span>
+                    Modifier
+                </span>
             </a>
         </div>
     </div>

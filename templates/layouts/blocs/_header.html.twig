@@ -1,7 +1,7 @@
 <nav id="header" class="header">
     <ul class="header_nav">
         <li class="header_home">
-            <a href="{{ path('app_home') }}" {{ header_menu_active('app_home') }}>
+            <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }}>
                 {{ icon('home') }}
             </a>
         </li>
@@ -9,7 +9,7 @@
             <a href="">A propos</a>
         </li>
         <li>
-            <a href="{{ path('app_contact') }}" {{ header_menu_active('app_contact') }}>Contact</a>
+            <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>Contact</a>
         </li>
     </ul>
     <ul class="header-side">
@@ -19,9 +19,9 @@
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_logout') }}" class="text-muted">Se déconnecter</a>
             {% else %}
-                <a href="{{ path('app_register') }}" {{ header_menu_active('app_register') }}>S'inscrire</a>
+                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>S'inscrire</a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_login') }}" {{ header_menu_active('app_login') }}>Se connecter</a>
+                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }}>Se connecter</a>
             {% endif %}
         </li>
         <li class="header-burger">

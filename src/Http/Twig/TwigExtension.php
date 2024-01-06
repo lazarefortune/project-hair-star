@@ -12,7 +12,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction( 'icon', $this->showIcon( ... ), ['is_safe' => ['html']] ),
-            new TwigFunction( 'header_menu_active', $this->headerMenuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
+            new TwigFunction( 'menu_active_aria', $this->menuActiveAria( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'menu_active', $this->menuActive( ... ), ['is_safe' => ['html'], 'needs_context' => true] ),
             new TwigFunction( 'pluralize', [$this, 'pluralize'] ),
         ];
@@ -138,89 +138,48 @@ class TwigExtension extends AbstractExtension
         return $minutes . ' min';
     }
 
-    public function showIcon( string $iconName, ?string $iconSize = null, ?string $additionalClass = null, ?string $iconType = '' ) : string
+    public function showIcon( string $iconName, ?int $iconSize = null, ?string $additionalClass = null ) : string
     {
-//        return $this->showLucideIconSvg( $iconName, $iconSize, $additionalClass );
-        return $this->showIconWithLucideIcons( $iconName, $iconSize, $additionalClass );
+        return $this->svgIcon( $iconName, $iconSize, $additionalClass );
     }
 
     /**
-     * Show an icon with lucid icons from public folder
-     * @return void
+     * Show an svg icon from the sprite.
+     * @param string $name
+     * @param int|null $size
+     * @param string|null $additionalClass
+     * @return string
      */
-    public function showLucideIconSvg( string $iconName, ?string $iconSize = null, ?string $additionalClass = null ) : string
-    {
-        $width = '17';
-        $height = '17';
-
-        // Map icon sizes to width and height
-        $lucidIconSizes = [
-            'xs' => ['width' => '12', 'height' => '12'],
-            '3sm' => ['width' => '16', 'height' => '16'],
-            '2sm' => ['width' => '18', 'height' => '18'],
-            'sm' => ['width' => '20', 'height' => '20'],
-            'md' => ['width' => '24', 'height' => '24'],
-            'lg' => ['width' => '32', 'height' => '32'],
-            'xl' => ['width' => '48', 'height' => '48'],
-        ];
-
-        if ( $iconSize && array_key_exists( $iconSize, $lucidIconSizes ) ) {
-            $width = $lucidIconSizes[$iconSize]['width'];
-            $height = $lucidIconSizes[$iconSize]['height'];
-        }
-
-        return <<<HTML
-                <img src="/icons/lucide/{$iconName}.svg" width="{$width}" height="{$height}"  alt="{$iconName}">
-        HTML;
-    }
-
-    /**
-     * Génère le code HTML pour une icone SVG.
-     */
-    public function svgIcon( string $name, ?int $size = null ) : string
+    public function svgIcon( string $name, ?int $size = null, ?string $additionalClass = null ) : string
     {
         $attrs = '';
+
+        $size = $size ?? '20';
+
         if ( $size ) {
             $attrs = " width=\"{$size}px\" height=\"{$size}px\"";
         }
 
-        return <<<HTML
-        <svg class="icon icon-{$name}"{$attrs}>
-          <use href="/sprite.svg?logo#{$name}"></use>
-        </svg>
-        HTML;
-    }
-
-    private function showIconWithLucideIcons( string $iconName, ?string $iconSize = null, ?string $classNames = '' ) : string
-    {
-        $width = '17';
-        $height = '17';
-
-        // Map icon sizes to width and height
-        $lucidIconSizes = [
-            'xs' => ['width' => '12', 'height' => '12'],
-            '3sm' => ['width' => '16', 'height' => '16'],
-            '2sm' => ['width' => '18', 'height' => '18'],
-            'sm' => ['width' => '20', 'height' => '20'],
-            'md' => ['width' => '24', 'height' => '24'],
-            'lg' => ['width' => '32', 'height' => '32'],
-            'xl' => ['width' => '48', 'height' => '48'],
-        ];
-
-        if ( $iconSize && array_key_exists( $iconSize, $lucidIconSizes ) ) {
-            $width = $lucidIconSizes[$iconSize]['width'];
-            $height = $lucidIconSizes[$iconSize]['height'];
+        if ( $additionalClass ) {
+            $attrs .= " class=\"{$additionalClass}\"";
         }
 
         return <<<HTML
-            <div style="width: {$width}px; height: {$height}px; line-height: {$height}px;" class="{$classNames}">
-                <i data-lucide="{$iconName}"  width="{$width}" height="{$height}"></i>
-            </div>
+            <svg class="icon"
+                 {$attrs}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.75"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <use href="/icons/sprite.svg?#{$name}"></use>
+            </svg>
         HTML;
     }
 
     /**
-     * Ajout une class active pour les éléments actifs du menu.
+     * Add an active class for active menu items.
      * @param array<string, mixed> $context
      * @param string $route
      * @return string
@@ -239,12 +198,12 @@ class TwigExtension extends AbstractExtension
     }
 
     /**
-     * Ajout une class active pour les éléments actifs du menu.
+     * Add an aria-current="page" attribute for active menu items.
      * @param array<string, mixed> $context
      * @param string $route
      * @return string
      */
-    public function headerMenuActive( array $context, string $route ) : string
+    public function menuActiveAria( array $context, string $route ) : string
     {
         $active = '';
         $request = $context['app']->getRequest();
