@@ -86,6 +86,7 @@ class LoginController extends AbstractController
         }
 
         return $this->render( 'auth/reset-password.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ] );
     }

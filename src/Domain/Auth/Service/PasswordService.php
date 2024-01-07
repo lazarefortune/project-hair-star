@@ -62,7 +62,7 @@ class PasswordService
         return null;
     }
 
-    public function resetPassword( User $user, string $newPassword )
+    public function resetPassword( User $user, string $newPassword ) : void
     {
         $user->setPassword( $this->userPasswordHasher->hashPassword( $user, $newPassword ) );
         $this->entityManager->flush();
@@ -74,7 +74,7 @@ class PasswordService
             $this->entityManager->flush();
         }
 
-        $passwordChangeEvent = new PasswordChangeSuccessEvent( $user );
-        $this->eventDispatcher->dispatch( $passwordChangeEvent, PasswordChangeSuccessEvent::NAME );
+        $passwordUpdatedEvent = new PasswordChangeSuccessEvent( $user );
+        $this->eventDispatcher->dispatch( $passwordUpdatedEvent );
     }
 }
