@@ -1,70 +1,165 @@
+:root {
+  --red: #f25353;
+  --yellow: #feb32b;
+  --green: #41cf7c;
+  --blue: #4869ee;
+}
+
+@function space($factor) {
+  $base-value: 4px;
+  @return $base-value * $factor;
+}
+
+// Alerts
+// ==================
 .alert {
-  @apply relative rounded-md border-2 border-gray-300 px-4 py-3 text-left text-base text-gray-600;
-  & .alert-heading {
-    @apply font-bold;
+  @apply bg-white border border-[#e6e6e6] shadow-custom rounded flex items-center relative border-b-[3px] border-b-[#e6e6e6] text-slate-900;
+  transition: 0.3s;
+  margin: space(5) auto;
+  padding: space(4);
+  width: 100%;
+  animation: alertIn 0.5s both;
+  line-height: 1.2;
+
+  a {
+    text-decoration: underline;
   }
 
-  & .alert-content {
-    @apply text-sm;
+  a:hover {
+    text-decoration: none;
   }
+}
 
-  & .alert-text {
-    @apply text-base;
+.alert strong {
+  font-weight: bold;
+}
+
+.alert.out {
+  animation: alertOut 0.5s both;
+}
+
+.alert > svg:first-child {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-right: space(2);
+}
+
+.alert .alert-close {
+  @apply text-slate-900;
+  width: 30px;
+  flex: none;
+  margin-left: auto;
+  margin-right: 0;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.alert-close svg {
+  width: 20px;
+  height: 20px;
+  color: #000 !important;
+}
+
+.alert-danger {
+  border-bottom-color: var(--red);
+
+  svg:first-child {
+    color: var(--red);
   }
 }
 
 .alert-success {
-  @apply border-b-green-500 bg-white;
-  & > i {
-    @apply text-slate-900;
-  }
+  border-bottom-color: var(--green);
 
-  & .alert-heading {
-    @apply text-green-900;
-  }
-
-  & .alert-content, & .alert-text {
-    @apply text-green-800;
-  }
-}
-
-.alert-danger {
-  @apply border-rose-800 bg-rose-50 text-rose-800;
-}
-
-.alert-warning {
-  @apply border-yellow-500 bg-yellow-50;
-  & > i {
-    @apply text-yellow-500;
-  }
-
-  & .alert-heading {
-    @apply text-yellow-900;
-  }
-
-  & .alert-content, & .alert-text {
-    @apply text-yellow-800;
+  svg:first-child {
+    color: var(--green);
   }
 }
 
 .alert-info {
-  @apply bg-white shadow-custom p-3 text-slate-900 border-l-[3px] border-primary-900;
-  & .alert-heading, h1, h2, h3, h4, h5, h6 {
-    @apply text-primary-900 font-bold text-xl mb-2;
+  border-bottom-color: var(--blue);
+
+  svg:first-child {
+    color: var(--blue);
   }
 }
 
-.alert-primary {
-  @apply border-primary-500 bg-primary-50;
-  & > i {
-    @apply text-primary-500;
-  }
+.alert-warning {
+  border-bottom-color: var(--yellow);
 
-  & .alert-heading {
-    @apply text-primary-900;
+  svg:first-child {
+    color: var(--yellow);
   }
+}
 
-  & .alert-content, & .alert-text {
-    @apply text-primary-800;
+.alert-progress {
+  @apply bg-white;
+  height: 3px;
+  position: absolute;
+  bottom: -3px;
+  right: 0;
+  width: 100%;
+  z-index: 3;
+  transform-origin: 0 100%;
+  animation: alertDuration 2s linear both;
+}
+
+@keyframes alertIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes alertOut {
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes alertDuration {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.is-floating .alert,
+.alert.is-floating {
+  @apply shadow-custom;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 370px;
+  z-index: 3000;
+}
+
+@media (max-width: 767px) {
+  .is-floating .alert,
+  .alert.is-floating {
+    top: 5px;
+    right: 5px;
+    max-width: 350px;
+  }
+}
+
+.alert {
+  @apply border-t-[#e6e6e6] border-x-[#e6e6e6];
 }

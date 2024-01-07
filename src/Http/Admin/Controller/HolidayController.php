@@ -43,7 +43,7 @@ class HolidayController extends AbstractController
 
         if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
             $holidayService->addHoliday( $holiday );
-            $this->addToast( 'success', 'Période de fermeture ajoutée' );
+            $this->addFlash( 'success', 'Période de fermeture ajoutée' );
 
             return $this->redirectToRoute( 'app_admin_holidays_index' );
         }
@@ -53,7 +53,7 @@ class HolidayController extends AbstractController
         ] );
     }
 
-    #[Route( '/{id<\d+>}/edit' , name: 'edit', methods: [ 'GET', 'POST' ] )]
+    #[Route( '/{id<\d+>}/edit', name: 'edit', methods: ['GET', 'POST'] )]
     public function editHolidays( Request $request, Holiday $holiday ) : Response
     {
 
@@ -63,7 +63,7 @@ class HolidayController extends AbstractController
 
         if ( $formHoliday->isSubmitted() && $formHoliday->isValid() ) {
             $this->holidayService->updateHoliday( $holiday );
-            $this->addToast( 'success', 'Période de fermeture modifiée' );
+            $this->addFlash( 'success', 'Période de fermeture modifiée' );
 
             return $this->redirectToRoute( 'app_admin_holidays_index' );
         }
@@ -79,7 +79,7 @@ class HolidayController extends AbstractController
         if ( $this->isCsrfTokenValid( 'delete' . $holiday->getId(), $request->request->get( '_token' ) ) ) {
             $this->holidayService->delete( $holiday, true );
 
-            $this->addToast( 'success', 'Période de fermeture supprimée' );
+            $this->addFlash( 'success', 'Période de fermeture supprimée' );
         }
 
         return $this->redirectToRoute( 'app_admin_holidays_index', [], Response::HTTP_SEE_OTHER );

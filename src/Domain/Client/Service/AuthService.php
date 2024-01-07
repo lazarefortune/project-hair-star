@@ -3,12 +3,10 @@
 namespace App\Domain\Client\Service;
 
 use App\Domain\Auth\Dto\NewUserData;
-use App\Domain\Auth\EmailVerifier;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Auth\Event\EmailConfirmationCompletedEvent;
 use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
-use App\Infrastructure\Mailing\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -18,12 +16,10 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class AuthService
 {
     public function __construct(
-        private readonly MailService                 $mailService,
         private readonly VerifyEmailHelperInterface  $verifyEmailHelper,
-        private readonly EmailVerifier               $emailVerifier,
         private readonly EntityManagerInterface      $entityManager,
         private readonly EventDispatcherInterface    $eventDispatcher,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     )
     {
     }
@@ -73,7 +69,7 @@ class AuthService
      * @param User $user
      * @return void
      */
-    public function sendAccountConfirmationEmail( User $user )
+    public function sendAccountConfirmationEmail( User $user ) : void
     {
         $emailConfirmationRequestedEvent = new EmailConfirmationRequestedEvent( $user );
         $this->eventDispatcher->dispatch( $emailConfirmationRequestedEvent, EmailConfirmationRequestedEvent::NAME );

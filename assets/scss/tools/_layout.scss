@@ -1,3 +1,15 @@
+:root {
+  --container-padding: 20px;
+  --container-width: calc(100vw - var(--container-padding) * 2);
+}
+
+@media only screen and (min-width: 1370px) {
+  :root {
+    --container-padding: 20px;
+    --container-width: 1330px;
+  }
+}
+
 .stack-large {
   display: grid !important;
   grid-template-columns: 1fr;
@@ -25,7 +37,7 @@
 
 @media (min-width: 730px) {
   .grid2 {
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 }
@@ -39,11 +51,10 @@
 }
 
 .container {
+  box-sizing: border-box;
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 1.3rem;
-  padding-left: 1.3rem;
+  padding-left: calc(50% - var(--container-width) / 2);
+  padding-right: calc(50% - var(--container-width) / 2);
 }
 
 @media (min-width: 1400px) {
@@ -55,4 +66,11 @@
 .form-switch {
   position: relative;
   cursor: pointer;
+}
+
+.auth-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: calc(100% - 40px);
+  max-width: 400px;
 }

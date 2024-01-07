@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Domain\Auth\Entity\EmailVerification;
+use App\Domain\Auth\Entity\PasswordReset;
 use App\Domain\Tag\Entity\Tag;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +37,7 @@ class CleanCommand extends Command
     {
 
         $io = new SymfonyStyle( $input, $output );
+        $this->clean( $io, PasswordReset::class, 'password reset requests' );
         $this->clean( $io, EmailVerification::class, 'email verification requests' );
         $this->clean( $io, Tag::class, 'unused tags' );
 

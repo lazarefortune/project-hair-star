@@ -82,7 +82,7 @@ abstract class CrudController extends BaseController
             if ( $this->events['update'] ?? null ) {
                 $this->dispatcher->dispatch( new $this->events['update']( $entity, $old ), $this->events['update']::NAME );
             }
-            $this->addToast( 'success', 'Le contenu a bien été modifié' );
+            $this->addFlash( 'success', 'Le contenu a bien été modifié' );
 
             return $this->redirectAfterSave( $entity );
         }
@@ -109,7 +109,7 @@ abstract class CrudController extends BaseController
             if ( $this->events['create'] ?? null ) {
                 $this->dispatcher->dispatch( new $this->events['create']( $data->getEntity() ), $this->events['create']::NAME );
             }
-            $this->addToast( 'success', 'Le contenu a bien été créé' );
+            $this->addFlash( 'success', 'Le contenu a bien été créé' );
 
             return $this->redirectAfterSave( $entity );
         }
@@ -128,7 +128,7 @@ abstract class CrudController extends BaseController
             $this->dispatcher->dispatch( new $this->events['delete']( $entity ), $this->events['delete']::NAME );
         }
         $this->em->flush();
-        $this->addToast( 'success', 'Le contenu a bien été supprimé' );
+        $this->addFlash( 'success', 'Le contenu a bien été supprimé' );
 
         return $this->redirectToRoute( $redirectRoute ? : ( $this->routePrefix . '_index' ) );
     }

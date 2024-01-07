@@ -13,6 +13,7 @@
 @import "modules/admin/menu";
 @import "modules/admin/spotlight";
 @import "modules/alert";
+@import "modules/notification";
 @import "modules/button";
 @import "modules/form";
 @import "modules/badge";
@@ -22,7 +23,12 @@
 @import "modules/pagination";
 @import "modules/nav-tabs";
 @import "modules/reveal";
-
+@import "modules/scroll_top";
+//.icon {
+//  width: 25px;
+//  height: 25px;
+//}
 /* Libs */
+
 @import "libs/flatpickr";
 @import "libs/select2";

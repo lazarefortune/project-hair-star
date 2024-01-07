@@ -52,7 +52,7 @@ class AuthMailService
         $email = $this->mailService->prepareEmail(
             $user->getEmail(),
             'Confirmez votre adresse email',
-            'mails/auth/confirm-email.twig',
+            'mails/auth/confirm-request.twig',
             $data
         );
 
@@ -71,6 +71,23 @@ class AuthMailService
             $user->getEmail(),
             'Votre adresse email a été confirmée',
             'mails/auth/confirm-success.twig',
+            $data
+        );
+
+        $this->mailService->send( $email );
+    }
+
+    public function sendResetPasswordEmail( User $user, string $token ) : void
+    {
+        $data = [
+            'user' => $user,
+            'resetUrl' => $this->urlGenerator->generate( 'app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL )
+        ];
+
+        $email = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            'Réinitialisez votre mot de passe',
+            'mails/auth/reset-password.twig',
             $data
         );
 

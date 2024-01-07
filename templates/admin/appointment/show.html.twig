@@ -6,7 +6,7 @@
 
     <a href="{{ path('app_admin_appointment_index') }}"
        class="btn-link mb-4">
-        {{ icon('arrow-left', '', 'mr-2') }}
+        {{ icon('arrow-left') }}
         <span>
             Liste des rendez-vous
         </span>
@@ -19,7 +19,7 @@
         {% if  not appointment.statusCanceled and not appointment.passed %}
             <a href="{{ path('app_admin_appointment_edit', {'id': appointment.id}) }}"
                class="btn-md btn-primary">
-                {{ icon('pencil', '', 'mr-2') }}
+                {{ icon('pencil') }}
                 <span>
                     Modifier
                 </span>
@@ -115,7 +115,7 @@
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('confirm_appointment' ~ appointment.id) }}">
                             <button class="btn-md btn-primary">
-                                {{ icon('check', '', 'mr-2') }}
+                                {{ icon('check') }}
                                 Confirmer
                             </button>
                         </form>
@@ -125,7 +125,7 @@
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('cancel_appointment' ~ appointment.id) }}">
                             <button class="btn-md btn-outline-primary">
-                                {{ icon('x', '', 'mr-2') }}
+                                {{ icon('x') }}
                                 Annuler
                             </button>
                         </form>

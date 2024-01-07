@@ -1,35 +1,39 @@
 <nav id="header" class="header">
     <ul class="header_nav">
         <li class="header_home">
-            <a href="">
-                <img src="{{ asset('images/app-logo.svg') }}" alt="logo" height="20px" width="20px">
+            <a href="{{ path('app_home') }}" {{ menu_active_aria('app_home') }}>
+                {{ icon('home') }}
             </a>
         </li>
         <li>
-            <a href="{{ path('app_home') }}">Home</a>
+            <a href="" class="flex items-center">A propos</a>
         </li>
         <li>
-            <a href="">About Us</a>
-        </li>
-        <li>
-            <a href="{{ path('app_contact') }}">Contact Us</a>
+            <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>Contact</a>
         </li>
     </ul>
     <ul class="header-side">
-        {% if app.user %}
-            <li>
-                <a href="{{ path('app_admin_home') }}">Admin</a>
-            </li>
-            <li>
-                <a href="{{ path('app_logout') }}">Logout</a>
-            </li>
-        {% else %}
-            <li>
-                <a href="{{ path('app_login') }}">Login</a>
-            </li>
-            <li>
-                <a href="{{ path('app_register') }}">Register</a>
-            </li>
-        {% endif %}
+        <li class="header-side-auth">
+            {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_home') }}">Dashboard</a>
+                {% else %}
+                    <a href="{{ path('app_profile') }}">Mon compte</a>
+                {% endif %}
+                <span class="text-muted">·</span>
+                <a href="{{ path('app_logout') }}" class="text-muted">Se déconnecter</a>
+            {% else %}
+                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>S'inscrire</a>
+                <span class="text-muted">·</span>
+                <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }}>Se connecter</a>
+            {% endif %}
+        </li>
+        <li class="header-burger">
+            <button id="header-hamburger">
+                <span>
+                Afficher le menu
+                </span>
+            </button>
+        </li>
     </ul>
 </nav>

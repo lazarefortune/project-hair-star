@@ -41,7 +41,7 @@ class ContactController extends AbstractController
         if ( $form->isSubmitted() && $form->isValid() ) {
             $data = $form->getData();
             $this->contactService->sendContactMessage( $data );
-            $this->addToast( 'success', 'Votre message a bien été envoyé.' );
+            $this->addFlash( 'success', 'Votre message a bien été envoyé.' );
 
             return [$form, $this->redirectToRoute( 'app_contact' )];
         }

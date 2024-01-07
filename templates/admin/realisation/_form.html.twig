@@ -29,13 +29,13 @@
                                 <div class="hidden absolute inset-0 bg-black bg-opacity-50 group-hover:block group-hover:opacity-100 opacity-0 transition-opacity"></div>
 
                                 <a class="absolute top-4 right-4 sm:group-hover:opacity-100 opacity-100 lg:opacity-0 transition-opacity
-                    bg-slate-900 p-2 rounded-full"
+                    bg-slate-900 p-2 rounded-full text-white hover:text-white hover:bg-slate-800"
                                    href="{{ path('app_admin_realisation_delete_image', {'id': image.id}) }}"
                                    data-delete-image-realisation
                                    data-token={{ csrf_token('delete' ~ image.id) }}
                                    data-id="{{ image.id }}"
                                 >
-                                    {{ icon('trash', '2sm', 'text-white') }}
+                                    {{ icon('trash') }}
                                 </a>
                             </div>
                         {% endfor %}

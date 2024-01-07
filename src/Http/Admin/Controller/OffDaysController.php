@@ -45,7 +45,7 @@ class OffDaysController extends AbstractController
             $this->entityManager->persist( $option );
             $this->entityManager->flush();
 
-            $this->addToast( 'success', 'Les jours de fermeture ont été mis à jour.' );
+            $this->addFlash( 'success', 'Les jours de fermeture ont été mis à jour.' );
 
             return $this->redirectToRoute( 'app_admin_offdays_index' );
         }

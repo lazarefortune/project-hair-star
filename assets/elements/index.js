@@ -1,5 +1,9 @@
-import {NavTabs} from 'headless-elements'
-import {Spotlight} from './admin/spotlight'
+import {NavTabs, ScrollTop} from 'headless-elements'
+import {Spotlight} from './admin/Spotlight'
+import {Alert, FloatingAlert} from "./Alert";
 
 customElements.define('spotlight-bar', Spotlight)
 customElements.define('nav-tabs', NavTabs)
+customElements.define('scroll-top', ScrollTop)
+customElements.define('alert-message', Alert)
+customElements.define('alert-floating', FloatingAlert)

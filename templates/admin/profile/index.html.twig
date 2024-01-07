@@ -6,14 +6,13 @@
 
     <a href="{{ path('app_admin_home') }}"
        class="btn-link mb-4 block md:hidden">
-        {{ icon('arrow-left', '', 'mr-2') }}
+        {{ icon('arrow-left') }}
         <span>
             Accueil
         </span>
     </a>
 
     <div class="stack-large mb-10">
-
         <div class="stack card card-padding">
             <div class="flex flex-row justify-start items-center">
                 <div class="mr-4 flex-shrink-0">
@@ -31,8 +30,8 @@
         </div>
 
         {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
-            <div class="alert-info">
-                <h2 class="alert-heading">Attention !</h2>
+            <div class="notification-info">
+                <h2 class="notification-heading">Attention !</h2>
                 <p>
                     Vous avez demandé un changement d'adresse email.
                     <br>
@@ -45,7 +44,7 @@
         {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
         <h6 class="h3">Mes informations</h6>
 
-        <div class="card stack card-padding">
+        <div class="stack card card-padding">
             <div class="grid2">
                 {{ form_row(formProfile.fullname) }}
                 {{ form_row(formProfile.phone) }}
@@ -72,7 +71,7 @@
         </div>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-md btn-primary">
+            <button type="submit" class="btn-md btn-primary">
                 {{ icon('save') }}
                 <span>Enregistrer</span>
             </button>
@@ -98,9 +97,9 @@
         {{ form_end(formPassword) }}
 
         <div class="stack">
-            <h3 class="h3">Supprimer mon compte</h3>
+            <h3 class="h3 text-red-800">Supprimer mon compte</h3>
 
-            <p class="text-lg">
+            <p class="text-base">
                 Vous pouvez demander la suppression de votre compte. Vous disposerez d'un délai de 30 jours pour
                 annuler votre demande.
             </p>

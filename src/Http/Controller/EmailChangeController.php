@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmailChangeController extends AbstractController
 {
     public function __construct(
-        private readonly ProfileService         $profileService,
+        private readonly ProfileService $profileService,
     )
     {
     }
@@ -33,16 +33,16 @@ class EmailChangeController extends AbstractController
 
     private function handleInvalidOrExpiredToken( string $message ) : Response
     {
-        $this->addToast( 'danger', $message );
-        return $this->redirectToRoute( 'app_home' );
+        $this->addFlash( 'danger', $message );
+        return $this->render( 'pages/message.html.twig' );
     }
 
 
     private function handleValidToken( EmailVerification $emailVerification ) : Response
     {
         $this->profileService->updateEmail( $emailVerification );
-        $this->addToast( 'success', 'Votre email a été mis à jour avec succès' );
+        $this->addFlash( 'success', 'Votre email a été mis à jour avec succès' );
 
-        return $this->redirectToRoute( 'app_home' );
+        return $this->render( 'pages/message.html.twig' );
     }
 }
