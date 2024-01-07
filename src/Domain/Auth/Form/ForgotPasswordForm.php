@@ -16,6 +16,9 @@ class ForgotPasswordForm extends AbstractType
         $builder
             ->add( 'email', EmailType::class, [
                 'label' => 'Email',
+                'label_attr' => [
+                    'class' => 'label',
+                ],
                 'constraints' => [
                     new NotBlank( [
                         'message' => 'Veuillez saisir votre adresse email',

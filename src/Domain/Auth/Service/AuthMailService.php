@@ -76,4 +76,21 @@ class AuthMailService
 
         $this->mailService->send( $email );
     }
+
+    public function sendResetPasswordEmail( User $user, string $token ) : void
+    {
+        $data = [
+            'user' => $user,
+            'resetUrl' => $this->urlGenerator->generate( 'app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL )
+        ];
+
+        $email = $this->mailService->prepareEmail(
+            $user->getEmail(),
+            'Réinitialisez votre mot de passe',
+            'mails/auth/reset-password.twig',
+            $data
+        );
+
+        $this->mailService->send( $email );
+    }
 }
