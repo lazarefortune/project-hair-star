@@ -13,6 +13,9 @@
                 Problème technique ? As-tu une question ? Une suggestion ? <br>
                 Laisse-moi un message.
             </p>
+
+            {{ include('partials/flash.html.twig') }}
+
             {{ form_start(form,
                 {'attr': {'class': 'stack'}}
             ) }}
