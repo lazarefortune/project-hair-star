@@ -252,18 +252,18 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: var(--primary);
-    /*border-bottom: 8px solid var(--primary);*/
-    /*border-left: 18px solid var(--primary);*/
-    /*border-right: 18px solid var(--primary);*/
-    /*border-top: 8px solid var(--primary);*/
+    background-color: #361f5d;
+    /*border-bottom: 8px solid #361f5d;*/
+    /*border-left: 18px solid #361f5d;*/
+    /*border-right: 18px solid #361f5d;*/
+    /*border-top: 8px solid #361f5d;*/
 }
 
 .button-outline-primary {
     background-color: #fff;
-    border: 1px solid var(--primary);
+    border: 1px solid #361f5d;
     padding: 8px 16px;
-    color: var(--primary);
+    color: #361f5d;
 }
 
 .button-green,
