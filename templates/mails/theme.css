@@ -1,4 +1,8 @@
 /* Base */
+:root {
+    --primary: #361f5d;
+    /*--primary: #843dff;*/
+}
 
 body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
@@ -222,12 +226,13 @@ img {
 
 .button {
     -webkit-text-size-adjust: none;
-    border-radius: 4px;
+    border-radius: 6px;
     color: #fff;
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
-    padding: 8px 16px;
+    padding: 10px 20px;
+    /*font-size: 16px;*/
 }
 
 .button-large {
@@ -247,18 +252,18 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #843dff;
-    border-bottom: 8px solid #843dff;
-    border-left: 18px solid #843dff;
-    border-right: 18px solid #843dff;
-    border-top: 8px solid #843dff;
+    background-color: var(--primary);
+    /*border-bottom: 8px solid var(--primary);*/
+    /*border-left: 18px solid var(--primary);*/
+    /*border-right: 18px solid var(--primary);*/
+    /*border-top: 8px solid var(--primary);*/
 }
 
 .button-outline-primary {
     background-color: #fff;
-    border: 1px solid #843dff;
+    border: 1px solid var(--primary);
     padding: 8px 16px;
-    color: #843dff;
+    color: var(--primary);
 }
 
 .button-green,
