@@ -10,18 +10,15 @@ use App\Domain\Realisation\Service\RealisationService;
 use App\Http\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Twig\Environment;
 
 #[IsGranted( 'ROLE_ADMIN' )]
 class PageController extends AbstractController
 {
-
-    public function __construct(
-        private readonly StripePayment $stripePayment
-    )
-    {
-    }
 
     #[Route( '/dashboard', name: 'home', methods: ['GET'] )]
     public function index(
@@ -77,5 +74,29 @@ class PageController extends AbstractController
     public function maintenance() : Response
     {
         return $this->render( 'admin/layouts/maintenance.html.twig' );
+    }
+
+    #[Route( '/test/mail', name: 'admin', methods: ['GET'] )]
+    public function testMail( Environment $twig ) : Response
+    {
+        $template = 'mails/layout-test.html.twig';
+        $data = array();
+
+        $twig->addGlobal( 'format', 'html' );
+        $html = $twig->render( $template, array_merge( $data, ['layout' => 'mails/base.html.twig'] ) );
+        $twig->addGlobal( 'format', 'txt' );
+        $text = $twig->render( $template, array_merge( $data, ['layout' => 'mails/base.text.twig'] ) );
+
+//        return ( new Email() )
+//            ->from( new Address( $this->senderEmail, $this->senderName ) )
+//            ->html( $html )
+//            ->text( $text );
+//        return $this->render( 'mails/layout-test.html.twig' );
+
+        return $this->render( 'mails/layout-test.html.twig', [
+            'layout' => 'mails/base.html.twig',
+            'format' => 'html',
+            'content' => $html,
+        ] );
     }
 }
