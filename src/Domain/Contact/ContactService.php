@@ -29,6 +29,7 @@ class ContactService
             throw new \Exception( 'Invalid email' );
         }
 
+        // Send email to admin
         $contactEmail = $this->mailService->prepareEmail(
             $this->contactEmail,
             'Demande de contact: ' . $contactDto->subject,
@@ -38,6 +39,16 @@ class ContactService
         ] );
 
         $this->mailService->send( $contactEmail );
+
+        // Send email to user
+        $userEmail = $this->mailService->prepareEmail(
+            $contactDto->email,
+            'Demande de contact reçue',
+            'mails/contact/message-received.twig', [
+            'name' => $contactDto->name,
+        ] );
+
+        $this->mailService->send( $userEmail );
     }
 
 }
