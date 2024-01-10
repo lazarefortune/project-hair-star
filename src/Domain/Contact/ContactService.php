@@ -57,7 +57,9 @@ class ContactService
             ->setName( $contactDto->name )
             ->setEmail( $contactDto->email )
             ->setSubject( $contactDto->subject )
-            ->setMessage( $contactDto->message );
+            ->setMessage( $contactDto->message )
+            ->setCreatedAt( new \DateTimeImmutable() );
+
         $this->contactRepository->save( $contact, true );
     }
 

@@ -1,0 +1,64 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Prestations{% endblock %}
+
+{% block body %}
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="text-2xl font-bold md:text-3xl">
+            Contacts
+        </h4>
+    </div>
+
+    <div class="card">
+
+        <div class="block w-full overflow-x-auto">
+            <table class="table w-full border-collapse items-center bg-transparent">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Objet
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if contacts is empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Aucune donnée disponible
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for contact in contacts %}
+                    <tr>
+                        <td class="text-left">
+                            {{ contact.id }}
+                        </td>
+                        <td>
+                            {{ contact.email }}
+                        </td>
+                        <td>
+                            {{ contact.createdAt|date('d/m/Y') }} à {{ contact.createdAt|date('H:i') }}
+                        </td>
+                        <td>
+                            {{ contact.subject }}
+                        </td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
