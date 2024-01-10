@@ -35,7 +35,7 @@ class PrestationController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
 
-            $prestationService->save( $prestation, true );
+            $prestationService->save( $prestation );
 
             $this->addFlash( 'success', 'Prestation créée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );
@@ -55,7 +55,7 @@ class PrestationController extends AbstractController
 
         if ( $form->isSubmitted() && $form->isValid() ) {
 
-            $prestationService->save( $prestation, true );
+            $prestationService->save( $prestation );
 
             $this->addFlash( 'success', 'Prestation modifiée avec succès' );
             return $this->redirectToRoute( 'app_admin_prestation_index', [], Response::HTTP_SEE_OTHER );

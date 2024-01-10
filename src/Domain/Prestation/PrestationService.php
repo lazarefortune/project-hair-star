@@ -12,7 +12,7 @@ class PrestationService
     }
 
 
-    public function save( Prestation $prestation, bool $flush = false ) : void
+    public function save( Prestation $prestation ) : void
     {
 
         foreach ( $prestation->getTags() as $tag ) {
@@ -26,7 +26,7 @@ class PrestationService
             $prestation->setChildrenPricePercentage( null );
         }
 
-        $this->prestationRepository->save( $prestation, $flush );
+        $this->prestationRepository->save( $prestation );
     }
 
     /**
