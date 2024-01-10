@@ -10,6 +10,7 @@ class ContactService
 
     public function __construct(
         private readonly MailService $mailService,
+        private readonly string      $contactEmail
     )
     {
     }
@@ -24,8 +25,12 @@ class ContactService
      */
     public function sendContactMessage( ContactData $contactDto ) : void
     {
+        if ( !$this->contactEmail ) {
+            throw new \Exception( 'Invalid email' );
+        }
+
         $contactEmail = $this->mailService->prepareEmail(
-            $contactDto->email,
+            $this->contactEmail,
             'Demande de contact: ' . $contactDto->subject,
             'mails/contact/contact-message.twig', [
             'name' => $contactDto->name,
