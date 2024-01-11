@@ -27,7 +27,7 @@ class Contact
     #[ORM\Column( type: Types::TEXT )]
     private ?string $message = null;
 
-    #[ORM\Column( type: Types::DATE_MUTABLE )]
+    #[ORM\Column( type: Types::DATETIME_IMMUTABLE  )]
     private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
