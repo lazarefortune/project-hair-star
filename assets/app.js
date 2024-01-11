@@ -7,6 +7,8 @@ createIcons({icons});
 /* Elements */
 import {ScrollTop} from 'headless-elements'
 import {Alert, FloatingAlert} from './elements/Alert'
+/* Libs */
+import './libs/faltpickr'
 
 customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
