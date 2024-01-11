@@ -11,9 +11,9 @@
 
         <div class="grid2">
             {{ form_row(form.tarif) }}
-
-            {{ form_row(form.isTarifPublic) }}
         </div>
+
+        {{ form_row(form.isTarifPublic) }}
 
         {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
             {% if realisation.images|length > 0 %}
