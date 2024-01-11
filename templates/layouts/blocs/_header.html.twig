@@ -9,19 +9,28 @@
             <a href="" class="flex items-center">A propos</a>
         </li>
         <li>
+            <a href="" class="flex items-center">Services</a>
+        </li>
+        <li>
+            <a href="" class="flex items-center">Réalisations</a>
+        </li>
+        <li>
             <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>Contact</a>
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="text-orange-600">
+            <a href="{{ path('app_admin_home') }}">Dashboard</a>
+        </li>
+        {% endif %}
     </ul>
     <ul class="header-side">
         <li class="header-side-auth">
             {% if app.user %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_admin_home') }}">Dashboard</a>
-                {% else %}
-                    <a href="{{ path('app_profile') }}">Mon compte</a>
-                {% endif %}
+                <a href="{{ path('app_profile') }}">Mon compte</a>
                 <span class="text-muted">·</span>
-                <a href="{{ path('app_logout') }}" class="text-muted">Se déconnecter</a>
+                <a href="{{ path('app_logout') }}" class="text-red-900 inline-block">
+                    {{ icon('log-out', 12) }}
+                </a>
             {% else %}
                 <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>S'inscrire</a>
                 <span class="text-muted">·</span>

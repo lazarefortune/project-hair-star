@@ -5,7 +5,6 @@
 
 @media only screen and (min-width: 1370px) {
   :root {
-    --container-padding: 20px;
     --container-width: 1330px;
   }
 }
@@ -57,9 +56,11 @@
   padding-right: calc(50% - var(--container-width) / 2);
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1370px) {
   .container {
     max-width: 1400px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
 
