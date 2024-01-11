@@ -26,88 +26,125 @@
 
     {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-    <div class="container-box mx-auto py-10 stack-large mb-10">
+    <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box bg-white">
+        <a href="#profil" data-tab-id="profil">
+            {{ icon('user') }}
+            Profil</a>
+        <a href="#appointments" data-tab-id="appointments">
+            {{ icon('calendar') }}
+            Rendez-vous</a>
+        <a href="#invoices" data-tab-id="invoices">
+            {{ icon('inbox') }}
+            Factures</a>
+    </nav-tabs>
 
-        {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
-            <div class="notification-info">
-                <h2 class="notification-heading">Attention !</h2>
-                <p>
-                    Vous avez demandé un changement d'adresse email.
-                    <br>
-                    Veuillez vérifier votre
-                    nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
-                </p>
-            </div>
-        {% endif %}
+    <div class="container-box mt-5 mb-10 stack-large">
 
-        {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
-        <h6 class="h3">Mes informations</h6>
-
-        <div class="stack card card-padding">
-            <div class="grid2">
-                {{ form_row(formProfile.fullname) }}
-                {{ form_row(formProfile.phone) }}
-            </div>
-
-            <div class="grid2">
-                <div>
-                    {{ form_row(formProfile.email) }}
-                    {% if not app.user.isVerified %}
-                        <p class="text-sm text-red-800">Veuillez confirmer votre adresse email.
-                            <a href="{{ path('app_send_verification_email') }}" class="underline">
-                                Envoyer un email de confirmation</a>
+        <div id="profil">
+            <div class="stack">
+                {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
+                    <div class="notification-info">
+                        <h2 class="notification-heading">Attention !</h2>
+                        <p>
+                            Vous avez demandé un changement d'adresse email.
+                            <br>
+                            Veuillez vérifier votre
+                            nouvelle boîte {{ requestEmailChange.email }} pour confirmer.
                         </p>
-                    {% endif %}
+                    </div>
+                {% endif %}
+
+                {{ form_start(formProfile, {'attr': {'class': 'stack'}}) }}
+                <h3 class="h3">Mes informations</h3>
+
+                <div class="stack card card-padding">
+                    <div class="grid2">
+                        {{ form_row(formProfile.fullname) }}
+                        {{ form_row(formProfile.phone) }}
+                    </div>
+
+                    <div class="grid2">
+                        <div>
+                            {{ form_row(formProfile.email) }}
+                            {% if not app.user.isVerified %}
+                                <p class="text-sm text-red-800">Veuillez confirmer votre adresse email.
+                                    <a href="{{ path('app_send_verification_email') }}" class="underline">
+                                        Envoyer un email de confirmation</a>
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            {{ form_row(formProfile.dateOfBirthday) }}
+                            {% if not app.user.dateOfBirthday %}
+                                <p class="text-sm text-primary-800">Des réductions s'appliquent en fonction de votre
+                                    âge.</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    {{ form_row(formProfile.dateOfBirthday) }}
-                    {% if not app.user.dateOfBirthday %}
-                        <p class="text-sm text-primary-800">Des réductions s'appliquent en fonction de votre âge.</p>
-                    {% endif %}
+                <div class="text-end">
+                    <button type="submit" class="btn-md btn-primary">
+                        {{ icon('save') }}
+                        <span>Enregistrer</span>
+                    </button>
+                </div>
+                {{ form_end(formProfile) }}
+
+                {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
+                <h3 class="h3">Mot de passe</h3>
+
+                <div class="card card-padding">
+                    <div class="grid2">
+                        {{ form_row(formPassword.password.first) }}
+                        {{ form_row(formPassword.password.second) }}
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn-md btn-primary">
+                        {{ icon('key') }}
+                        <span>Modifier mon mot de passe</span>
+                    </button>
+                </div>
+                {{ form_end(formPassword) }}
+
+                <div class="stack">
+                    <h3 class="h3 text-red-800">Supprimer mon compte</h3>
+
+                    <p class="text-base">
+                        Vous pouvez demander la suppression de votre compte. Vous disposerez d'un délai de 30 jours pour
+                        annuler votre demande.
+                    </p>
+
+                    <div class="text-end">
+                        <a href="" class="btn btn-md btn-danger">
+                            {{ icon('trash') }}
+                            <span>Demander la suppression</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-end">
-            <button type="submit" class="btn-md btn-primary">
-                {{ icon('save') }}
-                <span>Enregistrer</span>
-            </button>
-        </div>
-        {{ form_end(formProfile) }}
+        <div id="appointments">
+            <div class="stack">
+                <h3 class="h3">Mes rendez-vous</h3>
 
-        {{ form_start(formPassword, {'attr': {'class': 'stack'}}) }}
-        <h3 class="h3">Mot de passe</h3>
-
-        <div class="card card-padding">
-            <div class="grid2">
-                {{ form_row(formPassword.password.first) }}
-                {{ form_row(formPassword.password.second) }}
+                <div class="stack card card-padding">
+                    Les rendez-vous s'afficheront ici.
+                </div>
             </div>
         </div>
 
-        <div class="text-end">
-            <button type="submit" class="btn-md btn-primary">
-                {{ icon('key') }}
-                <span>Modifier mon mot de passe</span>
-            </button>
-        </div>
-        {{ form_end(formPassword) }}
+        <div id="invoices">
+            <div class="stack">
+                <h3 class="h3">Mes Factures</h3>
 
-        <div class="stack">
-            <h3 class="h3 text-red-800">Supprimer mon compte</h3>
-
-            <p class="text-base">
-                Vous pouvez demander la suppression de votre compte. Vous disposerez d'un délai de 30 jours pour
-                annuler votre demande.
-            </p>
-
-            <div class="text-end">
-                <a href="" class="btn btn-md btn-danger">
-                    {{ icon('trash') }}
-                    <span>Demander la suppression</span>
-                </a>
+                <div class="stack card card-padding">
+                    Les factures s'afficheront ici.
+                </div>
             </div>
         </div>
     </div>

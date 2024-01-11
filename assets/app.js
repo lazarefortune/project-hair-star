@@ -5,11 +5,12 @@ import {createIcons, icons} from 'lucide';
 createIcons({icons});
 
 /* Elements */
-import {ScrollTop} from 'headless-elements'
+import {NavTabs, ScrollTop} from 'headless-elements'
 import {Alert, FloatingAlert} from './elements/Alert'
 /* Libs */
 import './libs/flatpickr'
 
+customElements.define('nav-tabs', NavTabs)
 customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
