@@ -4,7 +4,8 @@
 
 {% block body %}
 
-    <main class="container py-10 mx-auto stack-large">
+    <div class="page-header">
+        <div class="container-box">
             <div class="stack">
                 <div class="stack max-w-[980px]">
                     <h1 class="text-3xl text-slate-900 font-medium leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
@@ -21,8 +22,8 @@
                        class="btn-md btn-primary">
                         {{ icon('calendar') }}
                         <span class="ml-2">
-                            Prendre rendez-vous
-                        </span>
+                        Prendre rendez-vous
+                    </span>
                     </a>
                     <a href=""
                        class="btn-md btn-secondary">
@@ -30,8 +31,10 @@
                     </a>
                 </div>
             </div>
+        </div>
+    </div>
 
-
+    <main class="container-box py-10 stack-large">
         <div class="my-8 flex flex-col items-center gap-8">
             <h2 class="font-inter text-2xl sm:text-4xl font-medium leading-tight tracking-tighter">
                 Découvrez <span class="text-primary-500">mes services</span>

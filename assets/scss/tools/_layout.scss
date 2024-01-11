@@ -5,6 +5,7 @@
 
 @media only screen and (min-width: 1370px) {
   :root {
+    --container-padding: 20px;
     --container-width: 1330px;
   }
 }
@@ -49,7 +50,7 @@
   overflow: hidden;
 }
 
-.container {
+.container-box {
   box-sizing: border-box;
   width: 100%;
   padding-left: calc(50% - var(--container-width) / 2);
@@ -57,11 +58,19 @@
 }
 
 @media (min-width: 1370px) {
-  .container {
-    max-width: 1400px;
-    padding-left: 30px;
-    padding-right: 30px;
+  .container-box {
+    //max-width: 1400px;
+    //padding-left: 30px;
+    //padding-right: 30px;
   }
+}
+
+.page-header
+{
+  background: #fff;
+  border-bottom: 1px solid #d5e3ec;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 .form-switch {

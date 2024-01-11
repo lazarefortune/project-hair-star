@@ -42,7 +42,7 @@ class AccountController extends AbstractController
 
         // on vérifie si l'utilisateur a déjà demandé un changement d'email
         $requestEmailChange = $this->profileService->getLatestValidEmailVerification( $user );
-        return $this->render( 'admin/profile/index.html.twig', [
+        return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
             'requestEmailChange' => $requestEmailChange,
             'formPassword' => $formPassword->createView(),
