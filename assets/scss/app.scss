@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "libs/flatpickr";
+
 @import "tools/reset";
 @import "tools/layout";
 @import "tools/animations";
@@ -18,4 +20,3 @@
 @import "modules/scroll_top";
 
 /* Libs */
-@import "libs/flatpickr";
