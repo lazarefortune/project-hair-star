@@ -26,7 +26,7 @@ class PrestationService
             $prestation->setChildrenPricePercentage( null );
         }
 
-        $this->prestationRepository->save( $prestation );
+        $this->prestationRepository->save( $prestation , true);
     }
 
     /**
