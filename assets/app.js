@@ -19,6 +19,8 @@ customElements.define('modal-dialog', ModalDialog)
 /* Modules */
 import './modules/header.js'
 import './modules/scrollreveal.js'
+import './modules/modal.js'
+
 // start the Stimulus application
 // import './bootstrap';
 

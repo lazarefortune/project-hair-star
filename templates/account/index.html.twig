@@ -122,11 +122,22 @@
                     </p>
 
                     <div class="text-end">
-                        <a href="" class="btn btn-md btn-danger">
+                        <button class="btn btn-md btn-danger" data-modal-id="deleteAccountModal">
                             {{ icon('trash') }}
                             <span>Demander la suppression</span>
-                        </a>
+                        </button>
                     </div>
+
+                    <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                        <section class="modal-box">
+                            <header>Supprimer mon compte ?</header>
+                            <button data-dismiss aria-label="Close" class="modal-close">
+                                {{ icon('x') }}
+                            </button>
+
+                            Souhaites-tu vraiment supprimer ton compte ?
+                        </section>
+                    </modal-dialog>
                 </div>
             </div>
         </div>
