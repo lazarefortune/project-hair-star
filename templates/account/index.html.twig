@@ -14,7 +14,7 @@
                              class="rounded-full w-24 h-24 object-cover border-2 border-primary-900 p-0.5">
                     </div>
                     <div>
-                        <h2 class="h3">{{ app.user.fullname }}</h2>
+                        <h2 class="h2">{{ app.user.fullname }}</h2>
                         <p class="text-muted text-sm">
                             Inscrit depuis {{ app.user.createdAt|ago }}
                         </p>
@@ -29,13 +29,16 @@
     <nav-tabs class="nav-tabs-bar nav-tabs-bar-icons container-box bg-white">
         <a href="#profil" data-tab-id="profil">
             {{ icon('user') }}
-            Profil</a>
+            Profil
+        </a>
         <a href="#appointments" data-tab-id="appointments">
             {{ icon('calendar') }}
-            Rendez-vous</a>
+            Rendez-vous
+        </a>
         <a href="#invoices" data-tab-id="invoices">
             {{ icon('inbox') }}
-            Factures</a>
+            Factures
+        </a>
     </nav-tabs>
 
     <div class="container-box mt-5 mb-10 stack-large">

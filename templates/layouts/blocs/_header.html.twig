@@ -6,30 +6,50 @@
             </a>
         </li>
         <li>
-            <a href="" class="flex items-center">A propos</a>
+            <a href="{{ path('app_prestation_list') }}"
+                    {{ menu_active_aria('app_prestation_list') }}
+            >
+                {{ icon('helping-hand', 15) }}
+                Services
+            </a>
         </li>
         <li>
-            <a href="" class="flex items-center">Services</a>
+            <a href="">
+                {{ icon('briefcase', 15) }}
+                Réalisations
+            </a>
         </li>
         <li>
-            <a href="" class="flex items-center">Réalisations</a>
+            <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>
+                {{ icon('mail', 15) }}
+                Contact
+            </a>
         </li>
         <li>
-            <a href="{{ path('app_contact') }}" {{ menu_active_aria('app_contact') }}>Contact</a>
+            <a href="">
+                {{ icon('info', 15) }}
+                A propos
+            </a>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
         <li class="text-orange-600">
-            <a href="{{ path('app_admin_home') }}">Dashboard</a>
+            <a href="{{ path('app_admin_home') }}">
+                {{ icon('gauge', 15) }}
+                Dashboard
+            </a>
         </li>
         {% endif %}
     </ul>
     <ul class="header-side">
         <li class="header-side-auth">
             {% if app.user %}
-                <a href="{{ path('app_profile') }}">Mon compte</a>
+                <a href="{{ path('app_profile') }}">
+                    {{ icon('user', 15) }}
+                    Mon compte
+                </a>
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_logout') }}" class="text-red-900 inline-block">
-                    {{ icon('log-out', 12) }}
+                    {{ icon('log-out', 14) }}
                 </a>
             {% else %}
                 <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>S'inscrire</a>
