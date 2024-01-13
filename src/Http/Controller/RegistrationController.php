@@ -33,7 +33,10 @@ class RegistrationController extends AbstractController
     #[Route( '/inscription', name: 'register' )]
     public function register( Request $request ) : Response
     {
-
+        if ( $this->getUser() ) {
+            return $this->redirectToRoute( 'app_home' );
+        }
+        
         $form = $this->createForm( RegistrationForm::class, new NewUserData( new User() ) );
         $form->handleRequest( $request );
 

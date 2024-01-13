@@ -65,8 +65,8 @@ class AppointmentController extends AbstractController
     {
         if ( $form->isSubmitted() && $form->isValid() ) {
             $appointmentDto = new AppointmentData( $appointment );
-            $appointmentDto->appointmentDate = $form->getData()->appointmentDate;
-            $appointmentDto->appointmentTime = $form->getData()->appointmentTime;
+            $appointmentDto->date = $form->getData()->date;
+            $appointmentDto->time = $form->getData()->time;
             $this->appointmentService->updateAppointmentWithDto( $appointmentDto );
 
             return true;

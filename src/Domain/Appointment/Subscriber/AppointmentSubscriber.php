@@ -38,11 +38,14 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();
 
+        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $event->getAppointment()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
+
 
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/appointment/nouvelle-reservation.twig', [
             'appointment' => $appointment,
+            'appointment_url' => $appointmentUrlClient,
         ] )
             ->to( $client->getEmail() )
             ->subject( 'Nouvelle réservation' );

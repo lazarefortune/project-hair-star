@@ -8,18 +8,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AppointmentManageUpdateData
 {
     #[Assert\NotBlank( message: 'Veuillez renseigner la date de la réservation' )]
-    public ?\DateTimeInterface $appointmentDate = null;
+    public ?\DateTimeInterface $date = null;
 
     #[Assert\NotBlank( message: 'Veuillez renseigner l\'heure de la réservation' )]
-    public ?\DateTimeInterface $appointmentTime = null;
+    public ?\DateTimeInterface $time = null;
 
     public Appointment $appointment;
 
     public function __construct( Appointment $appointment )
     {
         $this->appointment = $appointment;
-        $this->appointmentDate = $appointment->getDate();
-        $this->appointmentTime = $appointment->getTime();
+        $this->date = $appointment->getDate();
+        $this->time = $appointment->getTime();
     }
 
 
