@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-box">
+    <div class="page-header">
 
         {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-        <div class="grid3 stack-large my-10">
+        <div class="container-box grid3 stack-large">
             <div class="stack col-span-2">
                 <div class="flex items-center space-x-4">
                     {% if appointment.statusConfirmed %}
@@ -32,8 +32,53 @@
 
                 <h2 class="h3">{{ appointment.date|date('l j F') }} à {{ appointment.time|date('H:i') }}</h2>
 
-                <div class="stack card card-padding">
+                <div class="stack-large">
+                    <div>
+                        <h4 class="h6 text-primary-900 mb-4">Informations personnelles</h4>
+
+                        <div class="stack">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    {{ icon('user') }}
+                                    <div class="text-sm md:text-base">
+                                        Nom
+                                    </div>
+                                </div>
+
+                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                    {{ appointment.client.fullName }}
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    {{ icon('mail') }}
+                                    <div class="text-sm md:text-base">
+                                        Email
+                                    </div>
+                                </div>
+
+                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                    {{ appointment.client.email }}
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    {{ icon('phone') }}
+                                    <div class="text-sm md:text-base">
+                                        Contact
+                                    </div>
+                                </div>
+
+                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                    {{ appointment.client.phone }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <div class="mt-8 md:mt-0">
                 <h3 class="h3">Résumé du paiement</h3>

@@ -75,6 +75,10 @@ a {
   @apply text-lg font-semibold;
 }
 
+.h6 {
+  @apply text-base font-semibold;
+}
+
 .text-muted {
   @apply text-gray-400;
 }
