@@ -8,6 +8,7 @@ use App\Domain\Auth\Event\EmailConfirmationCompletedEvent;
 use App\Domain\Auth\Event\EmailConfirmationRequestedEvent;
 use App\Domain\Auth\Event\UserRegistrationCompletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -73,5 +74,11 @@ class AuthService
     {
         $emailConfirmationRequestedEvent = new EmailConfirmationRequestedEvent( $user );
         $this->eventDispatcher->dispatch( $emailConfirmationRequestedEvent, EmailConfirmationRequestedEvent::NAME );
+    }
+
+    public function logout( Request $request = null ) : void
+    {
+        $request = $request ?: new Request();
+        $request->getSession()->invalidate();
     }
 }

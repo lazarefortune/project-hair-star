@@ -45,6 +45,16 @@
 
         <div id="profil">
             <div class="stack">
+                {% if app.user.deletedAt %}
+                    <div class="notification-info">
+                        <h2 class="notification-heading">Attention !</h2>
+                        <p>
+                            Vous avez demandé un la suppression de votre compte. <br>
+                            Votre compte sera supprimé {{ app.user.deletedAt|date_diff }}.
+                        </p>
+                    </div>
+                {% endif %}
+
                 {% if requestEmailChange and not requestEmailChange.createdAt|is_older_than_hours(1) %}
                     <div class="notification-info">
                         <h2 class="notification-heading">Attention !</h2>
@@ -117,10 +127,21 @@
                     <h3 class="h3 text-red-800">Supprimer mon compte</h3>
 
                     <p class="text-base">
-                        Vous pouvez demander la suppression de votre compte. Vous disposerez d'un délai de 30 jours pour
-                        annuler votre demande.
+                        {% if app.user.deletedAt %} Votre compte sera supprimé automatiquement {{ app.user.deletedAt|date_diff }}.
+                        {% else %}
+                            Vous n'êtes pas satisfait de nos services ? Vous pouvez demander la suppression de votre compte.
+                            Vous aurez 7 jours pour changer d'avis. Passé ce délai, votre compte sera supprimé définitivement.
+                        {% endif %}
                     </p>
 
+                    {% if app.user.deletedAt %}
+                        <div class="text-end">
+                            <a href="{{ path('app_cancel_account_deletion') }}" class="btn btn-md btn-light">
+                                {{ icon('trash') }}
+                                <span>Annuler la suppression</span>
+                            </a>
+                        </div>
+                    {% else %}
                     <div class="text-end">
                         <button class="btn btn-md btn-danger" data-modal-id="deleteAccountModal">
                             {{ icon('trash') }}
@@ -130,14 +151,33 @@
 
                     <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
                         <section class="modal-box">
-                            <header>Supprimer mon compte ?</header>
+                            <header>Confirmer la suppression</header>
                             <button data-dismiss aria-label="Close" class="modal-close">
                                 {{ icon('x') }}
                             </button>
 
-                            Souhaites-tu vraiment supprimer ton compte ?
+                            <div class="stack">
+                                <p class="text-muted">
+                                    Vous êtes sur le point de supprimer votre compte. <br>
+                                    Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera automatiquement supprimé au bout de 7 jours.
+                                </p>
+
+                                {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+
+                                {{ form_row(formDeleteAccount.password) }}
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-md btn-danger">
+                                        {{ icon('trash') }}
+                                        <span>Confirmer la suppression</span>
+                                    </button>
+                                </div>
+                                {{ form_end(formDeleteAccount) }}
+                            </div>
+
                         </section>
                     </modal-dialog>
+                    {% endif %}
                 </div>
             </div>
         </div>

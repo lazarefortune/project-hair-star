@@ -33,13 +33,12 @@ modal-dialog[hidden] {
 }
 
 .modal-box header {
-  @apply text-xl font-semibold;
-  text-align: center;
+  @apply text-3xl font-semibold mt-2 mb-4;
 }
 
 .modal-close {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   background-color: transparent;
   position: absolute;
   top: var(--modal-padding);

@@ -56,42 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( length: 255, nullable: true )]
     private ?string $avatar = null;
 
-    #[ORM\Column( type: 'datetime', nullable: true )]
+    #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt() : ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt() : ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setCreatedAt( ?\DateTimeInterface $createdAt ) : self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-
-    #[ORM\Column( type: 'datetime', nullable: true )]
+    #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column( type: Types::DATE_MUTABLE, nullable: true )]
+    private ?\DateTimeInterface $deletedAt = null;
 
     #[ORM\OneToMany( mappedBy: 'client', targetEntity: Appointment::class, orphanRemoval: true )]
     private Collection $bookings;
@@ -226,6 +198,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone( ?string $phone ) : self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCreatedAt() : ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDeletedAt() : ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setCreatedAt( ?\DateTimeInterface $createdAt ) : self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function setDeletedAt( ?\DateTimeInterface $deletedAt ) : self
+    {
+        $this->deletedAt = $deletedAt;
 
         return $this;
     }
