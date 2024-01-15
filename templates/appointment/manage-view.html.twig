@@ -9,131 +9,147 @@
 
         {% include 'partials/flash.html.twig' with {floating: true, duration: 3} %}
 
-        <div class="container-box grid3 stack-large">
-            <div class="stack col-span-2">
-                <div class="flex items-center space-x-4">
-                    {% if appointment.statusConfirmed %}
-                        <div class="bg-green-100 text-green-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
-                            {{ icon('calendar-check-2') }}
-                        </div>
-                        <div class="text-sm font-medium text-green-900">Rendez-vous confirmé</div>
-                    {% elseif appointment.statusPending %}
-                        <div class="bg-orange-100 text-orange-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
-                            {{ icon('calendar-clock') }}
-                        </div>
-                        <div class="text-sm font-medium text-orange-900">En attente de confirmation</div>
-                    {% elseif appointment.statusCanceled %}
-                        <div class="bg-red-100 text-red-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
-                            {{ icon('calendar-x-2') }}
-                        </div>
-                        <div class="text-sm font-medium text-red-900">Rendez-vous annulé</div>
-                    {% endif %}
-                </div>
-
-                <h2 class="h3">{{ appointment.date|date('l j F') }} à {{ appointment.time|date('H:i') }}</h2>
-
-                <div class="stack-large">
-                    <div>
-                        <h4 class="h6 text-primary-900 mb-4">Informations personnelles</h4>
-
-                        <div class="stack">
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                                <div class="flex items-center space-x-2 text-slate-600">
-                                    {{ icon('user') }}
-                                    <div class="text-sm md:text-base">
-                                        Nom
-                                    </div>
-                                </div>
-
-                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
-                                    {{ appointment.client.fullName }}
-                                </div>
+        {% if appointment %}
+            <div class="container-box grid3 stack-large">
+                <div class="stack col-span-2">
+                    <div class="flex items-center space-x-4">
+                        {% if appointment.statusConfirmed %}
+                            <div class="bg-green-100 text-green-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                                {{ icon('calendar-check-2') }}
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                                <div class="flex items-center space-x-2 text-slate-600">
-                                    {{ icon('mail') }}
-                                    <div class="text-sm md:text-base">
-                                        Email
-                                    </div>
-                                </div>
-
-                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
-                                    {{ appointment.client.email }}
-                                </div>
+                            <div class="text-sm font-medium text-green-900">Rendez-vous confirmé</div>
+                        {% elseif appointment.statusPending %}
+                            <div class="bg-orange-100 text-orange-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                                {{ icon('calendar-clock') }}
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                                <div class="flex items-center space-x-2 text-slate-600">
-                                    {{ icon('phone') }}
-                                    <div class="text-sm md:text-base">
-                                        Contact
-                                    </div>
-                                </div>
-
-                                <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
-                                    {{ appointment.client.phone }}
-                                </div>
+                            <div class="text-sm font-medium text-orange-900">En attente de confirmation</div>
+                        {% elseif appointment.statusCanceled %}
+                            <div class="bg-red-100 text-red-900 p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                                {{ icon('calendar-x-2') }}
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="mt-8 md:mt-0">
-                <h3 class="h3">Résumé du paiement</h3>
-                <hr class="my-4">
-                <div class="stack text-muted">
-                    <div class="flex justify-between">
-                        <span class="text-sm">Prix du rendez-vous</span>
-                        <span class="text-sm">{{ appointment.amount }} €</span>
-                    </div>
-
-                    <div class="flex justify-between">
-                        <span class="text-sm">Taxes</span>
-                        <span class="text-sm">0 €</span>
-                    </div>
-                </div>
-                <hr class="my-4">
-                <div class="flex justify-between">
-                    <span class="text-base text-muted">Total</span>
-                    <span class="text-lg font-semibold">{{ appointment.amount }} €</span>
-                </div>
-                <div class="mt-6 stack">
-                    {% if appointment.statusConfirmed %}
-                        {% if appointment.isPaid %}
-                            <div class="alert alert-success">
-                                {{ icon('check', 25) }}
-                                Votre rendez-vous a été payé.
-                            </div>
-
-                            <a href="" class="btn-md btn-light w-full">
-                                {{ icon('download', 20) }}
-                                Télécharger la facture
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_appointment_payment_start', {id: appointment.id}) }}"
-                               class="btn-md btn-primary w-full">Payer
-                                maintenant
-                            </a>
-                            <a href="" class="btn-md btn-light w-full">
-                                Annuler le rendez-vous
-                            </a>
+                            <div class="text-sm font-medium text-red-900">Rendez-vous annulé</div>
                         {% endif %}
-                    {% elseif appointment.statusPending %}
-                        <div class="alert alert-warning">
-                            {{ icon('clock', 25) }}
-                            Votre rendez-vous est en attente de confirmation.
-                        </div>
-                    {% elseif appointment.statusCanceled %}
-                        <div class="alert alert-danger">
-                            {{ icon('x', 25) }}
-                            Votre rendez-vous a été annulé.
-                        </div>
-                    {% endif %}
-                </div>
+                    </div>
 
+                    <h2 class="h3">{{ appointment.date|date('l j F') }} à {{ appointment.time|date('H:i') }}</h2>
+
+                    <div class="stack-large">
+                        <div>
+                            <h4 class="h6 text-primary-900 mb-4">Informations personnelles</h4>
+
+                            <div class="stack">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                    <div class="flex items-center space-x-2 text-slate-600">
+                                        {{ icon('user') }}
+                                        <div class="text-sm md:text-base">
+                                            Nom
+                                        </div>
+                                    </div>
+
+                                    <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                        {{ appointment.client.fullName }}
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                    <div class="flex items-center space-x-2 text-slate-600">
+                                        {{ icon('mail') }}
+                                        <div class="text-sm md:text-base">
+                                            Email
+                                        </div>
+                                    </div>
+
+                                    <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                        {{ appointment.client.email }}
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                    <div class="flex items-center space-x-2 text-slate-600">
+                                        {{ icon('phone') }}
+                                        <div class="text-sm md:text-base">
+                                            Contact
+                                        </div>
+                                    </div>
+
+                                    <div class="ml-7 md:ml-0 col-span-3 text-sm md:text-base uppercase font-medium">
+                                        {{ appointment.client.phone }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <h3 class="h3">Résumé du paiement</h3>
+                    <hr class="my-4">
+                    <div class="stack text-muted">
+                        <div class="flex justify-between">
+                            <span class="text-sm">Prix du rendez-vous</span>
+                            <span class="text-sm">{{ appointment.amount }} €</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-sm">Taxes</span>
+                            <span class="text-sm">0 €</span>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="flex justify-between">
+                        <span class="text-base text-muted">Total</span>
+                        <span class="text-lg font-semibold">{{ appointment.amount }} €</span>
+                    </div>
+                    <div class="mt-6 stack">
+                        {% if appointment.statusConfirmed %}
+                            {% if appointment.isPaid %}
+                                <div class="alert alert-success">
+                                    {{ icon('check', 25) }}
+                                    Votre rendez-vous a été payé.
+                                </div>
+
+                                <a href="" class="btn-md btn-light w-full">
+                                    {{ icon('download', 20) }}
+                                    Télécharger la facture
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_appointment_payment_start', {id: appointment.id}) }}"
+                                   class="btn-md btn-primary w-full">Payer
+                                    maintenant
+                                </a>
+                                <a href="" class="btn-md btn-light w-full">
+                                    Annuler le rendez-vous
+                                </a>
+                            {% endif %}
+                        {% elseif appointment.statusPending %}
+                            <div class="alert alert-warning">
+                                {{ icon('clock', 25) }}
+                                Votre rendez-vous est en attente de confirmation.
+                            </div>
+                        {% elseif appointment.statusCanceled %}
+                            <div class="alert alert-danger">
+                                {{ icon('x', 25) }}
+                                Votre rendez-vous a été annulé.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="container-box">
+                <img src="{{ asset('images/illustrations/woman-on-desktop.svg') }}" alt="" height="300px" width="300px"
+                     class="mx-auto">
+                <h1 class="h3 text-center">Aucun rendez-vous trouvé</h1>
+                <p class="text-center text-muted">Vous n'avez pas de rendez-vous à gérer pour le moment.</p>
+
+                <div class="mt-6 text-center">
+                    <a href="" class="btn-md btn-primary flex gap-3">
+                        {{ icon('calendar-plus', 20) }}
+                        Prendre un rendez-vous
+                    </a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

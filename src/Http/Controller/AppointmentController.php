@@ -28,10 +28,10 @@ class AppointmentController extends AbstractController
     {
         $appointment = $this->getAppointmentOrNull( $token );
 
-        if ( !$appointment ) {
-            $this->addFlash( 'danger', 'La réservation n\'existe pas' );
-            return $this->render( 'pages/message.html.twig' );
-        }
+//        if ( !$appointment ) {
+//            $this->addFlash( 'danger', 'La réservation n\'existe pas' );
+//            return $this->render( 'pages/message.html.twig' );
+//        }
 
         return $this->render( 'appointment/manage-view.html.twig', [
             'appointment' => $appointment,
