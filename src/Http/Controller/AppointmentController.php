@@ -26,7 +26,12 @@ class AppointmentController extends AbstractController
     #[Route( '/gestion/{token}', name: 'manage' )]
     public function viewManagement( string $token ) : Response
     {
-        $appointment = $this->getAppointmentOrThrowNotFound( $token );
+        $appointment = $this->getAppointmentOrNull( $token );
+
+        if ( !$appointment ) {
+            $this->addFlash( 'danger', 'La réservation n\'existe pas' );
+            return $this->render( 'pages/message.html.twig' );
+        }
 
         return $this->render( 'appointment/manage-view.html.twig', [
             'appointment' => $appointment,
@@ -36,7 +41,7 @@ class AppointmentController extends AbstractController
     #[Route( '/gestion/{token}/modification', name: 'manage_edit', methods: ['GET', 'POST'] )]
     public function editManagement( string $token, Request $request ) : Response
     {
-        $appointment = $this->getAppointmentOrThrowNotFound( $token );
+        $appointment = $this->getAppointmentOrNull( $token );
         $appointmentUpdateDto = new AppointmentManageUpdateData( $appointment );
         $form = $this->createForm( AppointmentManageUpdateForm::class, $appointmentUpdateDto );
         $form->handleRequest( $request );
@@ -52,11 +57,11 @@ class AppointmentController extends AbstractController
         ] );
     }
 
-    private function getAppointmentOrThrowNotFound( string $token ) : Appointment
+    private function getAppointmentOrNull( string $token ) : ?Appointment
     {
         $appointment = $this->appointmentService->getAppointmentByToken( $token );
         if ( !$appointment ) {
-            throw $this->createNotFoundException( 'La réservation n\'existe pas' );
+            return null;
         }
         return $appointment;
     }
