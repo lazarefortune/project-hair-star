@@ -32,12 +32,12 @@
             </a>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
-        <li class="text-orange-600">
-            <a href="{{ path('app_admin_home') }}">
-                {{ icon('gauge', 15) }}
-                Dashboard
-            </a>
-        </li>
+            <li class="text-orange-600">
+                <a href="{{ path('app_admin_home') }}">
+                    {{ icon('gauge', 15) }}
+                    Dashboard
+                </a>
+            </li>
         {% endif %}
     </ul>
     <ul class="header-side">
@@ -52,7 +52,9 @@
                     {{ icon('log-out', 14) }}
                 </a>
             {% else %}
-                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>S'inscrire</a>
+                <a href="{{ path('app_register') }}" {{ menu_active_aria('app_register') }}>
+                    {{ icon('user-plus', 15) }}
+                    S'inscrire</a>
                 <span class="text-muted">·</span>
                 <a href="{{ path('app_login') }}" {{ menu_active_aria('app_login') }}>Se connecter</a>
             {% endif %}

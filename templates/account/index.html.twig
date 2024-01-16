@@ -142,65 +142,50 @@
                             </a>
                         </div>
                     {% else %}
-                    <div class="text-end">
-                        <button class="btn btn-md btn-danger" data-modal-id="deleteAccountModal">
-                            {{ icon('trash') }}
-                            <span>Demander la suppression</span>
-                        </button>
-                    </div>
-
-                    <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
-                        <section class="modal-box">
-                            <header>Confirmer la suppression</header>
-                            <button data-dismiss aria-label="Close" class="modal-close">
-                                {{ icon('x') }}
+                        <div class="text-end">
+                            <button class="btn btn-md btn-danger" data-modal-id="deleteAccountModal">
+                                {{ icon('trash') }}
+                                <span>Demander la suppression</span>
                             </button>
+                        </div>
 
-                            <div class="stack">
-                                <p class="text-muted">
-                                    Vous êtes sur le point de supprimer votre compte. <br>
-                                    Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera automatiquement supprimé au bout de 7 jours.
-                                </p>
+                        <modal-dialog id="deleteAccountModal" hidden="hidden" overlay-close>
+                            <section class="modal-box">
+                                <header>Confirmer la suppression</header>
+                                <button data-dismiss aria-label="Close" class="modal-close">
+                                    {{ icon('x') }}
+                                </button>
 
-                                {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
+                                <div class="stack">
+                                    <p class="text-muted">
+                                        Vous êtes sur le point de supprimer votre compte. <br>
+                                        Pour confirmer cette demande merci de rentrer votre mot de passe. Le compte sera
+                                        automatiquement supprimé au bout de 7 jours.
+                                    </p>
 
-                                {{ form_row(formDeleteAccount.password) }}
+                                    {{ form_start(formDeleteAccount, {'attr': {'class': 'stack'}}) }}
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-md btn-danger">
-                                        {{ icon('trash') }}
-                                        <span>Confirmer la suppression</span>
-                                    </button>
+                                    {{ form_row(formDeleteAccount.password) }}
+
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-md btn-danger">
+                                            {{ icon('trash') }}
+                                            <span>Confirmer la suppression</span>
+                                        </button>
+                                    </div>
+                                    {{ form_end(formDeleteAccount) }}
                                 </div>
-                                {{ form_end(formDeleteAccount) }}
-                            </div>
 
-                        </section>
-                    </modal-dialog>
+                            </section>
+                        </modal-dialog>
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        <div id="appointments">
-            <div class="stack">
-                <h3 class="h3">Mes rendez-vous</h3>
+        {% include 'account/_appointments.html.twig' with {appointments: appointments} %}
 
-                <div class="stack card card-padding">
-                    Les rendez-vous s'afficheront ici.
-                </div>
-            </div>
-        </div>
-
-        <div id="invoices">
-            <div class="stack">
-                <h3 class="h3">Mes Factures</h3>
-
-                <div class="stack card card-padding">
-                    Les factures s'afficheront ici.
-                </div>
-            </div>
-        </div>
+        {% include 'account/_invoices.html.twig' with {invoices: invoices} %}
     </div>
 
 {% endblock %}

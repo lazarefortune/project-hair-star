@@ -9,6 +9,7 @@ use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
 use App\Domain\Appointment\Event\CreatedAppointmentEvent;
 use App\Domain\Appointment\Event\UpdatedAppointmentEvent;
 use App\Domain\Appointment\Repository\AppointmentRepository;
+use App\Domain\Auth\Entity\User;
 use App\Infrastructure\Security\TokenGeneratorService;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -101,5 +102,10 @@ class AppointmentService
     public function getAppointmentById( ?int $getId )
     {
         return $this->appointmentRepository->findOneBy( ['id' => $getId] );
+    }
+
+    public function getUserAppointments( User $user )
+    {
+        return $this->appointmentRepository->findBy( ['client' => $user] );
     }
 }

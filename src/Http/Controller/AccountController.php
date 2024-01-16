@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
@@ -22,9 +23,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AccountController extends AbstractController
 {
     public function __construct(
-        private readonly ProfileService $profileService,
-        private readonly DeleteAccountService $deleteAccountService,
-        private readonly  UserPasswordHasherInterface $passwordHasher
+        private readonly ProfileService              $profileService,
+        private readonly DeleteAccountService        $deleteAccountService,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly AppointmentService          $appointmentService
     )
     {
     }
@@ -55,12 +57,17 @@ class AccountController extends AbstractController
 
         // Check if user request email change
         $requestEmailChange = $this->profileService->getLatestValidEmailVerification( $user );
-        // check if user request account deletion
+
+        // get user's appointments
+        $appointments = $this->appointmentService->getUserAppointments( $user );
+
         return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
-            'requestEmailChange' => $requestEmailChange,
             'formPassword' => $formPassword->createView(),
             'formDeleteAccount' => $formDeleteAccount->createView(),
+            'requestEmailChange' => $requestEmailChange,
+            'appointments' => $appointments,
+            'invoices' => array()
         ] );
     }
 
@@ -110,19 +117,19 @@ class AccountController extends AbstractController
     private function createFormDeleteAccount( Request $request ) : array
     {
         $user = $this->getUserOrThrow();
-        $form = $this->createForm(DeleteAccountForm::class);
+        $form = $this->createForm( DeleteAccountForm::class );
 
         $form->handleRequest( $request );
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $data = $form->getData();
-            if ( !$this->passwordHasher->isPasswordValid($user, $data['password']) ) {
-                $this->addFlash('error', 'Impossible de supprimer votre compte, mot de passe invalide');
+            if ( !$this->passwordHasher->isPasswordValid( $user, $data['password'] ) ) {
+                $this->addFlash( 'error', 'Impossible de supprimer votre compte, mot de passe invalide' );
                 return [$form, $this->redirectToRoute( 'app_profile' )];
             }
 
             try {
-                $this->deleteAccountService->deleteUser( $user , $request );
+                $this->deleteAccountService->deleteUser( $user, $request );
             } catch ( \LogicException $e ) {
                 $this->addFlash( 'error', $e->getMessage() );
                 return [$form, $this->redirectToRoute( 'app_profile' )];
