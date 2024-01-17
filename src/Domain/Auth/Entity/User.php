@@ -288,11 +288,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __sleep() : array
-    {
-        // Exclure l'attribut avatarFile de la sérialisation
-        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile'] );
-    }
+//    public function __sleep() : array
+//    {
+//        // Exclure l'attribut avatarFile de la sérialisation
+//        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile', 'avatar'] );
+//    }
 
     /**
      * @return Collection<int, Appointment>
