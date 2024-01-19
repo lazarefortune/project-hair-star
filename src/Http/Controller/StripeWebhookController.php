@@ -4,22 +4,25 @@ namespace App\Http\Controller;
 
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Repository\AppointmentRepository;
+use App\Domain\Payment\Event\PaymentSuccessEvent;
 use App\Domain\Payment\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class StripeWebhookController extends AbstractController
 {
     private string $stripeWebhookSecret;
 
     public function __construct(
-        readonly private PaymentRepository      $paymentRepository,
-        readonly private EntityManagerInterface $entityManager,
-        readonly private AppointmentRepository  $appointmentRepository,
-        ParameterBagInterface                   $parameterBag,
+        readonly private PaymentRepository        $paymentRepository,
+        readonly private EntityManagerInterface   $entityManager,
+        readonly private AppointmentRepository    $appointmentRepository,
+        readonly private EventDispatcherInterface $eventDispatcher,
+        ParameterBagInterface                     $parameterBag,
     )
     {
         $this->stripeWebhookSecret = $parameterBag->get( 'stripe_webhook_secret' );
@@ -73,9 +76,14 @@ class StripeWebhookController extends AbstractController
                     $this->entityManager->persist( $payment );
                     $this->entityManager->flush();
                 }
+                // TODO: dispatch event to send email to user with invoice
+                $this->eventDispatcher->dispatch( new PaymentSuccessEvent( $appointmentId ) );
                 break;
 
-            // TODO: dispatch event to send email to user with invoice
+            case 'invoice.paid':
+                $invoice = $event->data->object; // contains a StripeInvoice
+                // Votre logique pour le paiement réussi
+                break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object; // contains a StripePaymentIntent
                 // Votre logique pour le paiement échoué
