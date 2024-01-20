@@ -10,7 +10,8 @@ class Payment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    private int $id;
+    #[ORM\Column( type: Types::INTEGER )]
+    private ?int $id = null;
 
     #[ORM\Column( type: Types::FLOAT )]
     private float $amount;
