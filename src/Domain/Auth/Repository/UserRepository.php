@@ -3,6 +3,7 @@
 namespace App\Domain\Auth\Repository;
 
 use App\Domain\Auth\Entity\User;
+use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, CleanableRepositoryInterface
 {
     public function __construct( ManagerRegistry $registry )
     {
@@ -78,5 +79,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter( 'query', '%' . $query . '%' )
             ->getQuery()
             ->getResult();
+    }
+
+    public function removeAllUnverifiedAccount() : int
+    {
+        $date = new \DateTime();
+        $date->modify( '-' . User::DAYS_BEFORE_DELETE_UNVERIFIED_USER . ' days' );
+
+        return $this->createQueryBuilder( 'u' )
+            ->delete()
+            ->where( 'u.roles LIKE :role' )
+            ->andWhere( 'u.createdAt < :date' )
+            ->andWhere( 'u.isVerified = false' )
+            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'date', $date )
+            ->getQuery()
+            ->execute();
+    }
+
+    public function clean() : int
+    {
+        return $this->removeAllUnverifiedAccount();
     }
 }

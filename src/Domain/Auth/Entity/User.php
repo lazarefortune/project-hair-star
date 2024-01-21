@@ -21,6 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[UniqueEntity( fields: ['email'], message: 'There is already an account with this email' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
