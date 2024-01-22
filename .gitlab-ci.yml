@@ -35,6 +35,7 @@ deploy_dev:
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/phpunit"
   only:
     - dev
 
@@ -54,5 +55,6 @@ deploy:
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && php bin/phpunit"
   only:
     - main
