@@ -3,12 +3,14 @@
 namespace App\Domain\Auth\Repository;
 
 use App\Domain\Auth\Entity\User;
+use App\Domain\Profile\Event\UserUnverifiedRemoveEvent;
 use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -20,7 +22,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, CleanableRepositoryInterface
 {
-    public function __construct( ManagerRegistry $registry )
+    public function __construct( ManagerRegistry $registry, private readonly EventDispatcherInterface $dispatcher )
     {
         parent::__construct( $registry, User::class );
     }
@@ -85,6 +87,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $date = new \DateTime();
         $date->modify( '-' . User::DAYS_BEFORE_DELETE_UNVERIFIED_USER . ' days' );
+
+        // get all unverified user
+        $users = $this->createQueryBuilder( 'u' )
+            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.createdAt < :date' )
+            ->andWhere( 'u.isVerified = false' )
+            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'date', $date )
+            ->getQuery()
+            ->getResult();
+
+        foreach ( $users as $user ) {
+            $this->dispatcher->dispatch( new UserUnverifiedRemoveEvent( $user ) );
+        }
 
         return $this->createQueryBuilder( 'u' )
             ->delete()
