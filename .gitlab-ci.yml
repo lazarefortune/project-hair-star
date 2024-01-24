@@ -19,9 +19,6 @@ setup:
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
     - docker-php-ext-install pdo pdo_pgsql
-    - apt-get install -y nodejs npm
-    - npm install -g npm@latest
-    - export PATH=$PATH:$(npm bin -g)
 
 test:
   stage: test
@@ -31,6 +28,9 @@ test:
 deploy_dev:
   stage: deploy_dev
   script:
+    - apt-get install -y nodejs npm
+    - npm install -g npm@latest
+    - export PATH=$PATH:$(npm bin -g)
     - apt-get update -yqq
     - apt-get install -yqq openssh-client
     - apt-get update && apt-get install -y libssl-dev
