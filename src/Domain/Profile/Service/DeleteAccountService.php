@@ -14,24 +14,30 @@ class DeleteAccountService
     final public const DAYS_BEFORE_DELETION = 7;
 
     public function __construct(
-        private readonly AuthService $authService,
+        private readonly AuthService              $authService,
         private readonly EventDispatcherInterface $dispatcher,
-        private readonly EntityManagerInterface $em,
+        private readonly EntityManagerInterface   $em,
     )
     {
     }
 
-    public function deleteUser( User $user , Request $request ) : void
+    public function deleteAccount( User $user ) : void
     {
-        if ($user->getDeletedAt() !== null) {
-            throw new \LogicException('La suppression de ce compte est déjà programmée pour le ' . $user->getDeletedAt()->format('d/m/Y'));
+        $this->em->remove( $user );
+        $this->em->flush();
+    }
+
+    public function deleteAccountRequest( User $user, Request $request ) : void
+    {
+        if ( $user->getDeletedAt() !== null ) {
+            throw new \LogicException( 'La suppression de ce compte est déjà programmée pour le ' . $user->getDeletedAt()->format( 'd/m/Y' ) );
         }
 
         $unavailableRolesForDeletion = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
 
-        foreach ($unavailableRolesForDeletion as $role) {
-            if (in_array($role, $user->getRoles())) {
-                throw new \LogicException('Impossible de supprimer un compte administrateur');
+        foreach ( $unavailableRolesForDeletion as $role ) {
+            if ( in_array( $role, $user->getRoles() ) ) {
+                throw new \LogicException( 'Impossible de supprimer un compte administrateur' );
             }
         }
 
@@ -41,7 +47,7 @@ class DeleteAccountService
         $this->em->flush();
     }
 
-    public function cancelAccountDeletion( User $user ) : void
+    public function cancelAccountDeletionRequest( User $user ) : void
     {
         $user->setDeletedAt( null );
         $this->em->flush();

@@ -129,7 +129,7 @@ class AccountController extends AbstractController
             }
 
             try {
-                $this->deleteAccountService->deleteUser( $user, $request );
+                $this->deleteAccountService->deleteAccountRequest( $user, $request );
             } catch ( \LogicException $e ) {
                 $this->addFlash( 'error', $e->getMessage() );
                 return [$form, $this->redirectToRoute( 'app_profile' )];
@@ -147,7 +147,7 @@ class AccountController extends AbstractController
     public function cancelAccountDeletion( Request $request ) : Response
     {
         $user = $this->getUserOrThrow();
-        $this->deleteAccountService->cancelAccountDeletion( $user );
+        $this->deleteAccountService->cancelAccountDeletionRequest( $user );
         $this->addFlash( 'success', 'Votre demande de suppression de compte a bien été annulée' );
         return $this->redirectToRoute( 'app_profile' );
     }
