@@ -28,10 +28,11 @@ test:
 deploy_dev:
   stage: deploy_dev
   script:
-    - apt-get install -y nodejs npm
+    - apt-get update -yqq
+    - apt-get update && apt-get install -y nodejs
+    - apt-get update && apt-get install -y npm
     - npm install -g npm@latest
     - export PATH=$PATH:$(npm bin -g)
-    - apt-get update -yqq
     - apt-get install -yqq openssh-client
     - apt-get update && apt-get install -y libssl-dev
     - mkdir -p ~/.ssh
