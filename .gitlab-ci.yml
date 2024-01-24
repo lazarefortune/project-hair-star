@@ -20,6 +20,8 @@ setup:
     - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
     - docker-php-ext-install pdo pdo_pgsql
     - apt-get install -y nodejs npm
+    - npm install -g npm@latest
+    - export PATH=$PATH:$(npm bin -g)
 
 test:
   stage: test
@@ -43,7 +45,6 @@ deploy_dev:
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console cache:clear"
-    - export PATH=$PATH:/.nvm/versions/node/v16.20.0/bin/npm
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && npm install"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && npm run build"
   only:
