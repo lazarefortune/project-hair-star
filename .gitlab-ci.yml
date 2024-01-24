@@ -19,12 +19,6 @@ setup:
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
     - docker-php-ext-install pdo pdo_pgsql
-    # install node and npm
-    - apt-get install -y nodejs npm
-    - npm install -g npm@latest
-    - export PATH=$PATH:$(npm bin -g)
-    - npm install
-    - npm run build
 
 test:
   stage: test
@@ -35,10 +29,6 @@ deploy_dev:
   stage: deploy_dev
   script:
     - apt-get update -yqq
-    - apt-get update && apt-get install -y nodejs
-    - apt-get update && apt-get install -y npm
-    - npm install -g npm@latest
-    - export PATH=$PATH:$(npm bin -g)
     - apt-get install -yqq openssh-client
     - apt-get update && apt-get install -y libssl-dev
     - mkdir -p ~/.ssh
@@ -52,8 +42,8 @@ deploy_dev:
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console cache:clear"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && /home/u830672668/.nvm/versions/node/v16.20.0/bin/npm install"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && /home/u830672668/.nvm/versions/node/v16.20.0/bin/npm run build"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && npm install"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && npm run build"
   only:
     - dev
 
