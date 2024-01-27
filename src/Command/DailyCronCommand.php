@@ -24,8 +24,13 @@ class DailyCronCommand extends Command
     protected function execute( InputInterface $input, OutputInterface $output ) : int
     {
         $io = new SymfonyStyle( $input, $output );
-        $io->success( 'Daily cron executed' );
+        $this->cron( $io, $input, $output );
         return Command::SUCCESS;
+    }
+
+    public function cron( SymfonyStyle $io, InputInterface $input, OutputInterface $output ) : void
+    {
+        $io->success( 'Daily cron executed' );
     }
 
 }
