@@ -64,16 +64,15 @@
                                     class="btn-icon modal-button" data-modal-id="modal-id-{{ category.id }}">
                                 {{ icon('trash') }}
                             </button>
-
-                            {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ category.id,
-                                'title': 'Supprimer la catégorie',
-                                'content': 'Êtes-vous sûr de vouloir supprimer cette catégorie ?',
-                                'form_action': path('app_admin_category_prestation_delete', {'id': category.id}),
-                                'csrf_value': csrf_token('delete' ~ category.id),
-                                'btn_label': 'Supprimer'
-                            } %}
                         </td>
+                        {% include 'components/_delete-modal.html.twig' with {
+                            'id': 'modal-id-' ~ category.id,
+                            'title': 'Supprimer la catégorie',
+                            'content': 'Vous êtes sur le point de supprimer la catégorie <strong>' ~ category.name ~ '</strong>.<br>Cette action est irréversible.',
+                            'form_action': path('app_admin_category_prestation_delete', {'id': category.id}),
+                            'csrf_value': csrf_token('delete' ~ category.id),
+                            'btn_label': 'Supprimer'
+                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>

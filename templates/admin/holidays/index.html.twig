@@ -14,7 +14,7 @@
             </span>
         </a>
     </div>
-    
+
     <div class="card">
         <div class="block w-full overflow-x-auto">
             <table class="table w-full border-collapse items-center bg-transparent">
@@ -63,17 +63,15 @@
                                     class="btn-icon modal-button" data-modal-id="modal-id-{{ holiday.id }}">
                                 {{ icon('trash') }}
                             </button>
-
-                            {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ holiday.id,
-                                'title': 'Supprimer les congés',
-                                'content': 'Vous êtes sur le point d\'annuler vos congés : <strong>' ~ holiday.title ~ '</strong>.<br>Cette action est irréversible.',
-                                'form_action': path('app_admin_holidays_delete', {'id': holiday.id}),
-                                'csrf_value': csrf_token('delete' ~ holiday.id),
-                                'btn_label': 'Supprimer'
-                            } %}
-
                         </td>
+                        {% include 'components/_delete-modal.html.twig' with {
+                            'id': 'modal-id-' ~ holiday.id,
+                            'title': 'Supprimer les congés',
+                            'content': 'Vous êtes sur le point d\'annuler vos congés :du ' ~ holiday.startDate|date('d/m/Y') ~ ' au ' ~ holiday.endDate|date('d/m/Y') ~ '.',
+                            'form_action': path('app_admin_holidays_delete', {'id': holiday.id}),
+                            'csrf_value': csrf_token('delete' ~ holiday.id),
+                            'btn_label': 'Supprimer'
+                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>
