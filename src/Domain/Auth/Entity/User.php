@@ -21,6 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[UniqueEntity( fields: ['email'], message: 'There is already an account with this email' )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -56,42 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( length: 255, nullable: true )]
     private ?string $avatar = null;
 
-    #[ORM\Column( type: 'datetime', nullable: true )]
+    #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getCreatedAt() : ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTimeInterface|null
-     */
-    public function getUpdatedAt() : ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setCreatedAt( ?\DateTimeInterface $createdAt ) : self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-
-    #[ORM\Column( type: 'datetime', nullable: true )]
+    #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column( type: Types::DATE_MUTABLE, nullable: true )]
+    private ?\DateTimeInterface $deletedAt = null;
 
     #[ORM\OneToMany( mappedBy: 'client', targetEntity: Appointment::class, orphanRemoval: true )]
     private Collection $bookings;
@@ -230,6 +204,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getCreatedAt() : ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDeletedAt() : ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setCreatedAt( ?\DateTimeInterface $createdAt ) : self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function setDeletedAt( ?\DateTimeInterface $deletedAt ) : self
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
     public function getDateOfBirthday() : ?\DateTimeInterface
     {
         return $this->date_of_birthday;
@@ -271,11 +290,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __sleep() : array
-    {
-        // Exclure l'attribut avatarFile de la sérialisation
-        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile'] );
-    }
+//    public function __sleep() : array
+//    {
+//        // Exclure l'attribut avatarFile de la sérialisation
+//        return array_diff( array_keys( get_object_vars( $this ) ), ['avatarFile', 'avatar'] );
+//    }
 
     /**
      * @return Collection<int, Appointment>

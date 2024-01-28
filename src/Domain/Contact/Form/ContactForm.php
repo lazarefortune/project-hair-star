@@ -22,6 +22,9 @@ class ContactForm extends AbstractType
                         'placeholder' => 'John Doe',
                         'class' => 'form-input-md',
                     ],
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
                 ] )
             ->add( 'email', EmailType::class,
                 [
@@ -29,6 +32,9 @@ class ContactForm extends AbstractType
                     'attr' => [
                         'placeholder' => 'johndoe@gmail.com',
                         'class' => 'form-input-md',
+                    ],
+                    'label_attr' => [
+                        'class' => 'label',
                     ],
                 ] )
             ->add( 'subject', TextType::class,
@@ -38,6 +44,9 @@ class ContactForm extends AbstractType
                         'placeholder' => 'Ex: Problème de connexion',
                         'class' => 'form-input-md',
                     ],
+                    'label_attr' => [
+                        'class' => 'label',
+                    ],
                 ] )
             ->add( 'message', TextareaType::class,
                 [
@@ -45,6 +54,9 @@ class ContactForm extends AbstractType
                     'attr' => [
                         'placeholder' => 'Votre message',
                         'class' => 'form-input-md',
+                    ],
+                    'label_attr' => [
+                        'class' => 'label',
                     ],
                 ] );
     }

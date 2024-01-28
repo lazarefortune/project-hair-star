@@ -5,7 +5,6 @@ namespace App\Http\Controller;
 use App\Domain\Auth\Form\ChangePasswordForm;
 use App\Domain\Auth\Form\ForgotPasswordForm;
 use App\Domain\Auth\Service\PasswordService;
-use App\Domain\Client\Service\AuthService;
 use App\Domain\Profile\Exception\TooManyPasswordResetRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,6 @@ class LoginController extends AbstractController
 {
 
     public function __construct(
-        private AuthService     $authService,
         private PasswordService $passwordService
     )
     {
@@ -46,6 +44,10 @@ class LoginController extends AbstractController
     #[Route( path: '/mot-de-passe-oublie', name: 'forgot_password', methods: ['GET', 'POST'] )]
     public function forgotPassword( Request $request ) : Response
     {
+        if ( $this->getUser() ) {
+            return $this->redirectToRoute( 'app_home' );
+        }
+
         $form = $this->createForm( ForgotPasswordForm::class );
         $form->handleRequest( $request );
 
@@ -68,6 +70,10 @@ class LoginController extends AbstractController
     #[Route( path: '/mot-de-passe-oublie/{token}', name: 'reset_password', methods: ['GET', 'POST'] )]
     public function resetPassword( Request $request, string $token ) : Response
     {
+        if ( $this->getUser() ) {
+            return $this->redirectToRoute( 'app_home' );
+        }
+
         $user = $this->passwordService->getUserByPasswordResetToken( $token );
         if ( !$user ) {
             $this->addFlash( 'danger', 'Token invalide' );

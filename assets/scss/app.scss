@@ -4,14 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "libs/flatpickr";
+
+/* Tools */
 @import "tools/reset";
 @import "tools/layout";
+@import "tools/animations";
 
 /* Modules */
 @import "modules/alert";
+@import "modules/card";
 @import "modules/button";
 @import "modules/form";
 @import "modules/reveal";
 @import "modules/header_nav";
 @import "modules/scroll_top";
+@import "modules/notification";
+@import "modules/nav-tabs";
+@import "modules/modal";
+@import "modules/scrollbar";
 
+/* Libs */

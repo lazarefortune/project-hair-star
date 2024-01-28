@@ -3,6 +3,7 @@
 namespace App\Domain\Contact\Entity;
 
 use App\Domain\Contact\Repository\ContactRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +26,14 @@ class Contact
 
     #[ORM\Column( type: Types::TEXT )]
     private ?string $message = null;
+
+    #[ORM\Column( type: Types::DATETIME_IMMUTABLE  )]
+    private ?\DateTimeInterface $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     public function getId() : ?int
     {
@@ -75,6 +84,18 @@ class Contact
     public function setMessage( string $message ) : static
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getCreatedAt() : ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt( \DateTimeInterface $createdAt ) : static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

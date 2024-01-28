@@ -3,7 +3,7 @@
 namespace App\Domain\Category\Form;
 
 use App\Domain\Category\Entity\Category;
-use App\Http\Type\SwitchboxType;
+use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,8 +34,8 @@ class NewCategoryForm extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'isActive', SwitchboxType::class, [
-                'label' => 'Actif',
+            ->add( 'isActive', SwitchType::class, [
+                'label' => 'En ligne ?',
             ] );
     }
 

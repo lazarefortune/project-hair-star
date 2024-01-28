@@ -77,15 +77,15 @@
                                 {{ icon('trash') }}
                             </button>
 
-                            {% include 'components/_delete-modal.html.twig' with {
-                                'id': 'modal-id-' ~ realisation.id,
-                                'title': 'Supprimer la réalisation',
-                                'content': 'Vous êtes sur le point de supprimer la réalisation <br>Cette action est irréversible.',
-                                'form_action': path('app_admin_realisation_delete', {'id': realisation.id}),
-                                'csrf_value': csrf_token('delete' ~ realisation.id),
-                                'btn_label': 'Supprimer'
-                            } %}
                         </td>
+                        {% include 'components/_delete-modal.html.twig' with {
+                            'id': 'modal-id-' ~ realisation.id,
+                            'title': 'Supprimer la réalisation',
+                            'content': 'Vous êtes sur le point de supprimer la réalisation n°' ~ realisation.id ~ ' du ' ~ realisation.dateRealisation|human_date ~ '.',
+                            'form_action': path('app_admin_realisation_delete', {'id': realisation.id}),
+                            'csrf_value': csrf_token('delete' ~ realisation.id),
+                            'btn_label': 'Supprimer'
+                        } %}
                     </tr>
                 {% endfor %}
                 </tbody>

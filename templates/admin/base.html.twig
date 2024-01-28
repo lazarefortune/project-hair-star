@@ -75,6 +75,11 @@
                     {{ icon('calendar' ) }}
                     <span class="ml-1">Rendez-vous</span>
                 </a>
+                <a href="{{ path('app_admin_contact_index') }}"
+                   class="sidebar-nav-item {{ menu_active('app_admin_contact_') }}">
+                    {{ icon('messages-square' ) }}
+                    <span class="ml-1">Contacts</span>
+                </a>
             </div>
 
             <div class="sidebar-section-title">
@@ -215,7 +220,7 @@
 
 <!-- Cookie consent -->
 <section class="z-50 fixed bottom-0 w-full bg-gray-50 dark:bg-gray-800 hidden" id="cookie-consent">
-    <div class="container px-4 py-8 mx-auto lg:flex lg:items-center lg:gap-x-16">
+    <div class="container-box px-4 py-8 mx-auto lg:flex lg:items-center lg:gap-x-16">
         <p class="text-gray-600 dark:text-gray-300">
             En cliquant sur "Accepter tous les cookies", vous acceptez le stockage de cookies sur votre appareil pour
             améliorer la navigation sur le site, analyser son utilisation et contribuer à nos efforts de marketing.

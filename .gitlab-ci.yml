@@ -1,22 +1,29 @@
 image: php:8.1-cli
 
+stages:
+  - setup
+  - test
+  - deploy_dev
+  - deploy
+
 cache:
   paths:
     - vendor/
+    - node_modules/
 
-before_script:
-  - apt-get update -yqq
-  - apt-get install git unzip -yqq
-  - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
-  - apt-get install -yqq libpq-dev
-  - docker-php-ext-install pdo pdo_pgsql
-  # install psql
-  - apt-get install -yqq postgresql-client
+setup:
+  stage: setup
+  script:
+    - apt-get update -yqq
+    - apt-get install git unzip libpq-dev postgresql-client -yqq
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install --prefer-dist --no-ansi --no-interaction --no-scripts
+    - docker-php-ext-install pdo pdo_pgsql
 
-stages:
-  - deploy_dev
-  - deploy
+test:
+  stage: test
+  script:
+    - php bin/phpunit
 
 deploy_dev:
   stage: deploy_dev
@@ -32,9 +39,11 @@ deploy_dev:
     - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/dev-hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/dev-hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/dev-hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/dev-hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "export PATH=\$PATH:~/bin && cd public_html/dev-hairstar && npm install"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "export PATH=\$PATH:~/bin && cd public_html/dev-hairstar && npm run build"
   only:
     - dev
 
@@ -51,8 +60,10 @@ deploy:
     - ssh-keyscan -p $SSH_PORT -H $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST pwd
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
-    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /home/$SSH_USER/public_html/hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/hairstar && composer2 u --prefer-dist --no-ansi --no-interaction --no-scripts"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/hairstar && php bin/console doctrine:migrations:migrate --no-interaction"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd public_html/hairstar && php bin/console cache:clear"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "export PATH=\$PATH:~/bin && cd public_html/hairstar && npm install"
+    - ssh -p $SSH_PORT -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "export PATH=\$PATH:~/bin && cd public_html/hairstar && npm run build"
   only:
     - main

@@ -1,9 +1,8 @@
-{# components/_switch.html.twig #}
-<label class="relative inline-flex cursor-pointer items-center form-switch" for="{{ form.vars.id }}">
-    <input type="hidden" name="{{ form.vars.full_name }}" value="0">
-    <input type="checkbox" name="{{ form.vars.full_name }}"
-           id="{{ form.vars.id }}"
-           class="sr-only peer form-switch-input" {% if checked %} checked {% endif %}>
-    <div class="w-11 h-6 bg-primary-100 peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-primary-300 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-900"></div>
-    <span class="ml-3 text-base text-slate-900 form-switch-label dark:text-slate-300">{{ label }}</span>
+<label for="{{ form.vars.id }}" class="relative flex justify-start items-center p-2 cursor-pointer">
+    <span class="sr-only">Basculer</span>
+    <input type="checkbox" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" {% if checked %}checked{% endif %}
+           class="absolute top-0 left-0 w-full h-full peer hidden">
+    <span class="bg-gray-300 w-11 h-7 rounded-full flex flex-shrink-0 items-center after:bg-white after:w-5 after:h-5
+    after:rounded-full p-1 peer-checked:bg-primary-900 peer-checked:after:translate-x-4 ease-in-out duration-300 after:duration-300 mr-4"></span>
+    {{ label }}
 </label>

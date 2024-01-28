@@ -26,7 +26,7 @@ class AppointmentController extends AbstractController
     #[Route( '/gestion/{token}', name: 'manage' )]
     public function viewManagement( string $token ) : Response
     {
-        $appointment = $this->getAppointmentOrThrowNotFound( $token );
+        $appointment = $this->getAppointmentOrNull( $token );
 
         return $this->render( 'appointment/manage-view.html.twig', [
             'appointment' => $appointment,
@@ -36,7 +36,7 @@ class AppointmentController extends AbstractController
     #[Route( '/gestion/{token}/modification', name: 'manage_edit', methods: ['GET', 'POST'] )]
     public function editManagement( string $token, Request $request ) : Response
     {
-        $appointment = $this->getAppointmentOrThrowNotFound( $token );
+        $appointment = $this->getAppointmentOrNull( $token );
         $appointmentUpdateDto = new AppointmentManageUpdateData( $appointment );
         $form = $this->createForm( AppointmentManageUpdateForm::class, $appointmentUpdateDto );
         $form->handleRequest( $request );
@@ -52,11 +52,11 @@ class AppointmentController extends AbstractController
         ] );
     }
 
-    private function getAppointmentOrThrowNotFound( string $token ) : Appointment
+    private function getAppointmentOrNull( string $token ) : ?Appointment
     {
         $appointment = $this->appointmentService->getAppointmentByToken( $token );
         if ( !$appointment ) {
-            throw $this->createNotFoundException( 'La réservation n\'existe pas' );
+            return null;
         }
         return $appointment;
     }
@@ -65,8 +65,8 @@ class AppointmentController extends AbstractController
     {
         if ( $form->isSubmitted() && $form->isValid() ) {
             $appointmentDto = new AppointmentData( $appointment );
-            $appointmentDto->appointmentDate = $form->getData()->appointmentDate;
-            $appointmentDto->appointmentTime = $form->getData()->appointmentTime;
+            $appointmentDto->date = $form->getData()->date;
+            $appointmentDto->time = $form->getData()->time;
             $this->appointmentService->updateAppointmentWithDto( $appointmentDto );
 
             return true;

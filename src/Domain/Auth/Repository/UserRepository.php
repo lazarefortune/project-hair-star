@@ -3,11 +3,15 @@
 namespace App\Domain\Auth\Repository;
 
 use App\Domain\Auth\Entity\User;
+use App\Domain\Profile\Event\UserUnverifiedRemoveEvent;
+use App\Domain\Profile\Service\DeleteAccountService;
+use App\Infrastructure\Orm\CleanableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -17,9 +21,13 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy( array $criteria, array $orderBy = null, $limit = null, $offset = null )
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, CleanableRepositoryInterface
 {
-    public function __construct( ManagerRegistry $registry )
+    public function __construct(
+        ManagerRegistry                           $registry,
+        private readonly EventDispatcherInterface $dispatcher,
+        private readonly DeleteAccountService     $deleteAccountService
+    )
     {
         parent::__construct( $registry, User::class );
     }
@@ -78,5 +86,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter( 'query', '%' . $query . '%' )
             ->getQuery()
             ->getResult();
+    }
+
+    public function removeAllUnverifiedAccount() : int
+    {
+        $date = new \DateTime();
+        $date->modify( '-' . User::DAYS_BEFORE_DELETE_UNVERIFIED_USER . ' days' );
+
+        // get all user with unverified email and created before few days
+        $users = $this->createQueryBuilder( 'u' )
+            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.createdAt < :date' )
+            ->andWhere( 'u.isVerified = false' )
+            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'date', $date )
+            ->getQuery()
+            ->getResult();
+
+        $count = 0;
+        foreach ( $users as $user ) {
+            $this->deleteAccountService->deleteAccount( $user );
+            $this->dispatcher->dispatch( new UserUnverifiedRemoveEvent( $user ) );
+            $count++;
+        }
+
+        return $count;
+    }
+
+    public function clean() : int
+    {
+        return $this->removeAllUnverifiedAccount();
     }
 }

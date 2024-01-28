@@ -3,7 +3,6 @@
 namespace App\Domain\Realisation\Form;
 
 use App\Domain\Realisation\Entity\Realisation;
-use App\Http\Type\SwitchboxType;
 use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -32,7 +31,7 @@ class RealisationForm extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'isTarifPublic', SwitchboxType::class, [
+            ->add( 'isTarifPublic', SwitchType::class, [
                 'label' => 'Prix public ?',
             ] )
             ->add( 'dateRealisation', DateType::class, [

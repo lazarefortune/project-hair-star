@@ -67,6 +67,18 @@ a {
   @apply text-2xl font-semibold;
 }
 
+.h4 {
+  @apply text-xl font-semibold;
+}
+
+.h5 {
+  @apply text-lg font-semibold;
+}
+
+.h6 {
+  @apply text-base font-semibold;
+}
+
 .text-muted {
-  @apply text-gray-400;
+  @apply text-gray-500;
 }

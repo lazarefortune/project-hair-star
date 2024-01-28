@@ -6,7 +6,7 @@ use App\Domain\Category\Entity\Category;
 use App\Domain\Prestation\Entity\Prestation;
 use App\Domain\Tag\Entity\Tag;
 use App\Helper\MinutesToTimeHelper;
-use App\Http\Type\SwitchboxType;
+use App\Http\Type\SwitchType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -175,15 +175,15 @@ class PrestationForm extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ] )
-            ->add( 'isActive', SwitchboxType::class, [
-                'label' => 'Activer le service',
+            ->add( 'isActive', SwitchType::class, [
+                'label' => 'Activer le service ?',
                 'label_attr' => [
                     'class' => 'label',
                 ],
                 'required' => true,
             ] )
-            ->add( 'considerChildrenForPrice', SwitchboxType::class, [
-                'label' => 'Prendre en compte les enfants pour le prix',
+            ->add( 'considerChildrenForPrice', SwitchType::class, [
+                'label' => 'Prendre en compte les enfants pour le prix ?',
                 'label_attr' => [
                     'class' => 'label children-price',
                 ],

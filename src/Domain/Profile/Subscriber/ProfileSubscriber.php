@@ -4,6 +4,7 @@ namespace App\Domain\Profile\Subscriber;
 
 use App\Domain\Auth\Event\RequestEmailChangeEvent;
 use App\Domain\Profile\Event\PasswordChangeSuccessEvent;
+use App\Domain\Profile\Event\UserUnverifiedRemoveEvent;
 use App\Infrastructure\Mailing\MailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
@@ -20,6 +21,7 @@ class ProfileSubscriber implements EventSubscriberInterface
         return [
             RequestEmailChangeEvent::class => 'onEmailChangeRequest',
             PasswordChangeSuccessEvent::class => 'onPasswordChanged',
+            UserUnverifiedRemoveEvent::class => 'onUserUnverifiedRemove',
         ];
     }
 
@@ -47,6 +49,20 @@ class ProfileSubscriber implements EventSubscriberInterface
         ] )
             ->to( $user->getEmail() )
             ->subject( 'Votre mot de passe a été modifié' )
+            ->priority( Email::PRIORITY_HIGH );
+
+        $this->mailService->send( $email );
+    }
+
+    public function onUserUnverifiedRemove( UserUnverifiedRemoveEvent $event ) : void
+    {
+        $user = $event->getUser();
+
+        $email = $this->mailService->createEmail( 'mails/profile/unverified-removed.twig', [
+            'user' => $user,
+        ] )
+            ->to( $user->getEmail() )
+            ->subject( 'Votre compte a été supprimé' )
             ->priority( Email::PRIORITY_HIGH );
 
         $this->mailService->send( $email );

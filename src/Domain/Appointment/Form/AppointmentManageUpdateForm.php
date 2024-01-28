@@ -14,7 +14,7 @@ class AppointmentManageUpdateForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'bookingDate', DateType::class, [
+            ->add( 'date', DateType::class, [
                 'label' => 'Date du rendez-vous',
                 'widget' => 'single_text',
                 'attr' => [
@@ -24,7 +24,7 @@ class AppointmentManageUpdateForm extends AbstractType
                     'class' => 'label'
                 ],
             ] )
-            ->add( 'bookingTime', TimeType::class, [
+            ->add( 'time', TimeType::class, [
                 'label' => 'Heure du rendez-vous',
                 'widget' => 'single_text',
                 'attr' => [

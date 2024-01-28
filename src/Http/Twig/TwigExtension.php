@@ -29,6 +29,7 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'human_date', [$this, 'formatHumanDate'] ),
             new TwigFilter( 'hour_lisible', [$this, 'formatHourLisible'] ),
             new TwigFilter( 'ago', [$this, 'formatAgo'] ),
+            new TwigFilter( 'date_diff', [$this, 'dateDiff'] ),
         ];
     }
 
@@ -77,8 +78,6 @@ class TwigExtension extends AbstractExtension
         $interval = $now->diff( $date );
 
         if ( $interval->days == 0 ) {
-//            return 'aujourd\'hui';
-            // return il y a x heures ou il y a x minutes selon le cas (si plus de 1h) ou il y a x secondes (si moins de 1h) utilisant pluralize
             if ( $interval->h == 0 ) {
                 return 'il y a ' . $interval->i . ' ' . $this->pluralize( $interval->i, 'minute' );
             } else {
@@ -94,6 +93,43 @@ class TwigExtension extends AbstractExtension
         } else {
             $years = round( $interval->days / 365 );
             return 'il y a ' . $years . ' ' . $this->pluralize( $years, 'an' );
+        }
+    }
+
+    public function dateDiff($date): string
+    {
+        if (!$date instanceof \DateTime && !$date instanceof \DateTimeImmutable) {
+            return 'Invalid date';
+        }
+
+        $now = new \DateTime();
+        $interval = $now->diff($date);
+
+        return $this->formatDateDiff($interval, $date < $now);
+    }
+
+    private function formatDateDiff(\DateInterval $interval, bool $isPast): string
+    {
+        $format = '';
+
+        if ($interval->y > 0) {
+            $format .= $interval->y . ' ' . $this->pluralize($interval->y, 'an');
+        } elseif ($interval->m > 0) {
+            $format .= $interval->m . ' ' . $this->pluralize($interval->m, 'mois', 'mois');
+        } elseif ($interval->d > 0) {
+            $format .= $interval->d . ' ' . $this->pluralize($interval->d, 'jour');
+        } elseif ($interval->h > 0) {
+            $format .= $interval->h . ' ' . $this->pluralize($interval->h, 'heure');
+        } elseif ($interval->i > 0) {
+            $format .= $interval->i . ' ' . $this->pluralize($interval->i, 'minute');
+        } else {
+            $format .= $interval->s . ' ' . $this->pluralize($interval->s, 'seconde');
+        }
+
+        if ($isPast) {
+            return 'il y a ' . $format;
+        } else {
+            return 'dans ' . $format;
         }
     }
 

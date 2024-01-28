@@ -1,0 +1,24 @@
+<div id="appointments">
+    <div class="stack">
+        <h3 class="h3">Mes rendez-vous</h3>
+
+        {% if appointments is empty %}
+            <div class="card card-padding">
+                <img src="{{ asset('images/illustrations/woman-calendar.svg') }}" alt="" height="300px"
+                     width="300px"
+                     class="mx-auto">
+                <h1 class="h3 text-center">Aucun rendez-vous trouvé</h1>
+                <p class="text-center text-muted">Vous n'avez pas de rendez-vous à gérer pour le moment.</p>
+
+                <div class="mt-6 text-center">
+                    <a href="" class="btn-md btn-primary flex gap-3">
+                        {{ icon('calendar-plus', 20) }}
+                        Prendre un rendez-vous
+                    </a>
+                </div>
+            </div>
+        {% else %}
+
+        {% endif %}
+    </div>
+</div>

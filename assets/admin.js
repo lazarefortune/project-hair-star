@@ -7,7 +7,7 @@ createIcons({icons});
 import './elements/index'
 import '@grafikart/drop-files-element'
 /* Libs */
-import './libs/faltpickr'
+import './libs/flatpickr'
 import './libs/select2'
 /* Modules */
 import './modules/modal.js'

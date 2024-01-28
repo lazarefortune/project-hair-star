@@ -2,8 +2,6 @@
 
 namespace App\Infrastructure\Mailing;
 
-use App\Domain\Auth\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -15,18 +13,14 @@ use Twig\Error\SyntaxError;
 
 class MailService
 {
-    private string $senderEmail;
-    private string $senderName;
 
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly Environment     $twig,
-        string                           $senderEmail,
-        string                           $senderName
+        private string                   $senderEmail,
+        private string                   $senderName,
     )
     {
-        $this->senderEmail = $senderEmail;
-        $this->senderName = $senderName;
     }
 
     /**

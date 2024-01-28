@@ -2,13 +2,19 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Appointment\Service\AppointmentService;
 use App\Domain\Password\Form\UpdatePasswordForm;
 use App\Domain\Profile\Dto\ProfileUpdateData;
 use App\Domain\Profile\Exception\TooManyEmailChangeException;
+use App\Domain\Profile\Form\DeleteAccountForm;
 use App\Domain\Profile\Form\UserUpdateForm;
+use App\Domain\Profile\Service\DeleteAccountService;
 use App\Domain\Profile\Service\ProfileService;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -17,7 +23,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AccountController extends AbstractController
 {
     public function __construct(
-        private readonly ProfileService $profileService,
+        private readonly ProfileService              $profileService,
+        private readonly DeleteAccountService        $deleteAccountService,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly AppointmentService          $appointmentService
     )
     {
     }
@@ -40,12 +49,25 @@ class AccountController extends AbstractController
             return $response;
         }
 
-        // on vérifie si l'utilisateur a déjà demandé un changement d'email
+        [$formDeleteAccount, $response] = $this->createFormDeleteAccount( $request );
+
+        if ( $response ) {
+            return $response;
+        }
+
+        // Check if user request email change
         $requestEmailChange = $this->profileService->getLatestValidEmailVerification( $user );
-        return $this->render( 'admin/profile/index.html.twig', [
+
+        // get user's appointments
+        $appointments = $this->appointmentService->getUserAppointments( $user );
+
+        return $this->render( 'account/index.html.twig', [
             'formProfile' => $formProfile->createView(),
-            'requestEmailChange' => $requestEmailChange,
             'formPassword' => $formPassword->createView(),
+            'formDeleteAccount' => $formDeleteAccount->createView(),
+            'requestEmailChange' => $requestEmailChange,
+            'appointments' => $appointments,
+            'invoices' => array()
         ] );
     }
 
@@ -90,5 +112,43 @@ class AccountController extends AbstractController
         }
 
         return [$form, null];
+    }
+
+    private function createFormDeleteAccount( Request $request ) : array
+    {
+        $user = $this->getUserOrThrow();
+        $form = $this->createForm( DeleteAccountForm::class );
+
+        $form->handleRequest( $request );
+        if ( $form->isSubmitted() && $form->isValid() ) {
+
+            $data = $form->getData();
+            if ( !$this->passwordHasher->isPasswordValid( $user, $data['password'] ) ) {
+                $this->addFlash( 'error', 'Impossible de supprimer votre compte, mot de passe invalide' );
+                return [$form, $this->redirectToRoute( 'app_profile' )];
+            }
+
+            try {
+                $this->deleteAccountService->deleteAccountRequest( $user, $request );
+            } catch ( \LogicException $e ) {
+                $this->addFlash( 'error', $e->getMessage() );
+                return [$form, $this->redirectToRoute( 'app_profile' )];
+            }
+
+            $this->addFlash( 'info', 'Votre demande de suppression de compte a bien été prise en compte' );
+            return [$form, $this->redirectToRoute( 'app_profile' )];
+        }
+
+        return [$form, null];
+    }
+
+
+    #[Route( '/annuler-suppression-compte', name: 'cancel_account_deletion' )]
+    public function cancelAccountDeletion( Request $request ) : Response
+    {
+        $user = $this->getUserOrThrow();
+        $this->deleteAccountService->cancelAccountDeletionRequest( $user );
+        $this->addFlash( 'success', 'Votre demande de suppression de compte a bien été annulée' );
+        return $this->redirectToRoute( 'app_profile' );
     }
 }
