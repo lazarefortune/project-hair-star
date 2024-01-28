@@ -1,6 +1,6 @@
-# Hair Star
+# Booking App
 
-Projet de création d'une application de gestion d'un salon de coiffure
+Projet de création d'une application de gestion de prise de rendez-vous moderne et responsive.
 
 ## Installation
 
@@ -31,9 +31,7 @@ Projet de création d'une application de gestion d'un salon de coiffure
 - [Node.js](https://nodejs.org/en/)
 - [PHP](https://www.php.net/)
 - [Composer](https://getcomposer.org/)
-- [Symfony](https://symfony.com/)
 - [MySQL](https://www.mysql.com/fr/)
-- [Yarn](https://yarnpkg.com/)
 - [Git](https://git-scm.com/)
 
 #### Installation
@@ -42,18 +40,8 @@ Projet de création d'une application de gestion d'un salon de coiffure
 - Installer les dépendances avec `composer install` et `npm install`
 - Créer la base de données avec `php bin/console doctrine:database:create`
 - Créer les tables avec `php bin/console doctrine:migrations:migrate`
-- Lancer le serveur avec `symfony server:start`
+- Lancer le serveur avec `php bin/console server:start`
 - Créer un le premier utilisateur avec `php bin/console app:create-first-user`
-
-#### Utilisation
-
-- Lancer le serveur avec `symfony server:start`
-
-### Avec Docker
-
-Il vous suffit de lancer la commande :
-
-`docker-composer up -d`
 
 ## Auteurs
 
@@ -62,14 +50,3 @@ Il vous suffit de lancer la commande :
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-## Remerciements
-
-- [OpenClassrooms](https://openclassrooms.com/fr/)
-- [Symfony](https://symfony.com/)
-- [Bootstrap](https://getbootstrap.com/)
-- [Font Awesome](https://fontawesome.com/)
-- [Google Fonts](https://fonts.google.com/)
-- [jQuery](https://jquery.com/)
-- [Chart.js](https://www.chartjs.org/)
-- [Select2](https://select2.org/)

@@ -27,5 +27,7 @@ class ContactData
         private readonly Contact $contact
     )
     {
+        $this->name = (string)$contact->getName();
+        $this->email = (string)$contact->getEmail();
     }
 }

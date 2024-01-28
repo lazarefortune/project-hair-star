@@ -2,6 +2,7 @@
 
 namespace App\Http\Controller;
 
+use App\Domain\Auth\Entity\User;
 use App\Domain\Contact\ContactService;
 use App\Domain\Contact\Dto\ContactData;
 use App\Domain\Contact\Entity\Contact;
@@ -22,7 +23,9 @@ class ContactController extends AbstractController
     #[Route( '/contact', name: 'contact' )]
     public function index( Request $request ) : Response
     {
-        [$form, $response] = $this->createContactForm( $request );
+        $user = $this->getUser();
+
+        [$form, $response] = $this->createContactForm( $request, $user );
 
         if ( $response ) {
             return $response;
@@ -33,9 +36,15 @@ class ContactController extends AbstractController
         ] );
     }
 
-    private function createContactForm( Request $request ) : array
+    private function createContactForm( Request $request, User $user = null ) : array
     {
-        $form = $this->createForm( ContactForm::class, new ContactData( new Contact() ) );
+        $contact = new Contact();
+        if ( $user ) {
+            $contact->setEmail( $user->getEmail() );
+            $contact->setName( $user->getFullname() );
+        }
+
+        $form = $this->createForm( ContactForm::class, new ContactData( $contact ) );
         $form->handleRequest( $request );
 
         if ( $form->isSubmitted() && $form->isValid() ) {
