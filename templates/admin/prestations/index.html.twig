@@ -76,36 +76,39 @@
                                     class="btn-icon modal-button" data-modal-id="modal-id-{{ prestation.id }}">
                                 {{ icon('trash') }}
                             </button>
-
-                            <modal-dialog id="modal-id-{{ prestation.id }}" hidden="hidden" overlay-close>
-                                <section class="modal-box">
-                                    <header>Confirmer la suppression</header>
-                                    <button data-dismiss aria-label="Close" class="modal-close">
-                                        {{ icon('x') }}
-                                    </button>
-                                    <p class="text-muted my-4">
-                                        Vous êtes sur le point de supprimer la prestation.
-                                    </p>
-
-                                    <form method="post"
-                                          action="{{ path('app_admin_prestation_delete', {'id': prestation.id}) }}"
-                                          class="text-end">
-                                        <input type="hidden" name="_token"
-                                               value="{{ csrf_token('delete' ~ prestation.id) }}">
-                                        <button type="submit" class="btn btn-md btn-danger">
-                                            {{ icon('trash') }}
-                                            <span>Confirmer la suppression</span>
-                                        </button>
-                                    </form>
-                                </section>
-                            </modal-dialog>
                         </td>
                     </tr>
+                    <modal-dialog id="modal-id-{{ prestation.id }}" hidden="hidden" overlay-close>
+                        <section class="modal-box">
+                            <header>Confirmer la suppression</header>
+                            <button data-dismiss aria-label="Close" class="modal-close">
+                                {{ icon('x') }}
+                            </button>
+                            <p class="text-muted my-4">
+                                Vous êtes sur le point de supprimer la prestation <strong>{{ prestation.name }}</strong>.
+                            </p>
+
+                            <form method="post"
+                                  action="{{ path('app_admin_prestation_delete', {'id': prestation.id}) }}">
+                                <input type="hidden" name="_token"
+                                       value="{{ csrf_token('delete' ~ prestation.id) }}">
+                                <div class="text-end">
+                                    <button type="button" class="btn-md btn-primary mr-2" data-dismiss>
+                                        <span>Annuler</span>
+                                    </button>
+                                    <button type="submit" class="btn-md btn-secondary">
+                                        <span>Supprimer</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </modal-dialog>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+
 {% endblock %}
 
 {% block javascripts %}
