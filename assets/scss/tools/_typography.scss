@@ -47,9 +47,48 @@
   font-weight: 200;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  @apply font-plusJakartaSans;
+// ------------------------------ IBM Plex Sans ------------------------------
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
 }
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-Thin.ttf');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-Light.ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('../../fonts/IBM_Plex_Sans/IBMPlexSans-ExtraLight.ttf');
+  font-weight: 200;
+}
+
 
 a {
   @apply text-primary-500 hover:text-primary-900 no-underline hover:no-underline;
@@ -81,4 +120,11 @@ a {
 
 .text-muted {
   @apply text-gray-500;
+}
+
+h1, h2, h3, h4, h5, h6,
+h1 *, h2 *, h3 *, h4 *, h5 *, h6 *,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.h1 *, .h2 *, .h3 *, .h4 *, .h5 *, .h6 * {
+  @apply font-ibmPlexSans;
 }
