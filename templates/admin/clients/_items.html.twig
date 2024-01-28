@@ -71,33 +71,16 @@
                             class="btn-icon modal-button" data-modal-id="modal-id-{{ row.id }}">
                         {{ icon('trash') }}
                     </button>
-
-                    {% include 'components/_delete-modal.html.twig' with {
-                        'id': 'modal-id-' ~ row.id,
-                        'title': 'Supprimer la prestation',
-                        'content': 'Vous êtes sur le point de supprimer cet item.<br>Cette action est irréversible.',
-                        'form_html_element': '<input type="hidden" name="_method" value="DELETE">',
-                        'form_action': path(prefix ~ '_edit', {id: row.id}),
-                        'csrf_value': csrf_token('delete' ~ row.id),
-                        'btn_label': 'Supprimer'
-                    } %}
-
-                    {#                    <div class="inline-block"> #}
-                    {#                        <form action="{{ path(prefix ~ '_edit', {id: row.id}) }}" method="post" #}
-                    {#                              onsubmit="return confirm('Voulez-vous vraiment supprimer ce contenu')"> #}
-                    {#                            <input type="hidden" name="_method" value="DELETE"> #}
-                    {#                            <button type="submit" class="btn-icon"> #}
-                    {#                                {{ icon('trash') }} #}
-                    {#                            </button> #}
-                    {#                        </form> #}
-                    {#                    </div> #}
-                    {#
-                    <a href="{{ path('app_admin_clients_show', {id: client.id}) }}"
-                       class="btn-icon">
-                        {{ icon('arrow-right') }}
-                    </a>
-                    #}
                 </td>
+                {% include 'components/_delete-modal.html.twig' with {
+                    'id': 'modal-id-' ~ row.id,
+                    'title': 'Supprimer la prestation',
+                    'content': 'Vous êtes sur le point de supprimer cet item.<br>Cette action est irréversible.',
+                    'form_html_element': '<input type="hidden" name="_method" value="DELETE">',
+                    'form_action': path(prefix ~ '_edit', {id: row.id}),
+                    'csrf_value': csrf_token('delete' ~ row.id),
+                    'btn_label': 'Supprimer'
+                } %}
             </tr>
         {% endfor %}
         </tbody>
