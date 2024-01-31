@@ -39,6 +39,7 @@ class CleanCommand extends Command
 
         $io = new SymfonyStyle( $input, $output );
         $this->clean( $io, User::class, 'unverified users' );
+        $this->clean( $io, User::class, 'users who requested deletion', 'cleanUsersDeleted' );
         $this->clean( $io, PasswordReset::class, 'password reset requests' );
         $this->clean( $io, EmailVerification::class, 'email verification requests' );
         $this->clean( $io, Tag::class, 'unused tags' );
@@ -50,13 +51,13 @@ class CleanCommand extends Command
     /**
      * @throws Exception
      */
-    private function clean( SymfonyStyle $io, string $entity, string $noun ) : void
+    private function clean( SymfonyStyle $io, string $entity, string $noun, string $cleanMethod = 'clean' ) : void
     {
         $repository = $this->em->getRepository( $entity );
         if ( !$repository instanceof CleanableRepositoryInterface ) {
             throw new Exception( sprintf( 'Le repository %s n\'implémente pas l\'interface CleanableRepositoryInterface', $entity ) );
         }
-        $count = $repository->clean();
+        $count = $repository->$cleanMethod();
         $io->success( sprintf( 'Delete %d %s', $count, $noun ) );
     }
 }

@@ -117,4 +117,27 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->removeAllUnverifiedAccount();
     }
+
+    public function cleanUsersDeleted() : int
+    {
+        $date = new \DateTime();
+
+        $users = $this->createQueryBuilder( 'u' )
+            ->andWhere( 'u.roles LIKE :role' )
+            ->andWhere( 'u.deletedAt IS NOT NULL' )
+            ->andWhere( 'u.deletedAt <= :date' )
+            ->setParameter( 'role', '%ROLE_CLIENT%' )
+            ->setParameter( 'date', $date )
+            ->getQuery()
+            ->getResult();
+
+        $count = 0;
+        foreach ( $users as $user ) {
+            $this->deleteAccountService->deleteAccount( $user );
+            // Dispatch event
+            $count++;
+        }
+
+        return $count;
+    }
 }
