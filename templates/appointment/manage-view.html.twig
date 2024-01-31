@@ -113,9 +113,45 @@
                                     Télécharger la facture
                                 </a>
                             {% else %}
+
+
+                                <h3 class=" text-lg font-medium text-gray-900 dark:text-white">Quand souhaitez-vous
+                                    payer?</h3>
+
+                                <ul class="grid w-full gap-6 md:grid-cols-2">
+                                    <li>
+                                        <input type="radio" id="payment-now" name="payment-time" value="payment-now"
+                                               class="hidden peer" required>
+                                        <label for="payment-now"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">Maintenant</div>
+                                                <div class="w-full text-xs text-muted">En payant
+                                                    maintenant, vous
+                                                    garantissez votre place.
+                                                </div>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="payment-later" name="payment-time" value="payment-later"
+                                               class="hidden peer">
+                                        <label for="payment-later"
+                                               class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                            <div class="block">
+                                                <div class="w-full text-lg font-semibold">Plus tard</div>
+                                                <div class="w-full text-xs text-muted">Vous pouvez payer plus tard, mais
+                                                    votre
+                                                    place n'est pas garantie.
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                </ul>
+
                                 <a href="{{ path('app_appointment_payment_start', {id: appointment.id}) }}"
-                                   class="btn-md btn-primary w-full">Payer
-                                    maintenant
+                                   class="btn-md btn-primary w-full" id="payment-button" style="display: none;">
+                                    {{ icon('credit-card', 20) }}
+                                    <span class="ml-2">Payer</span>
                                 </a>
                                 <a href="" class="btn-md btn-light w-full">
                                     Annuler le rendez-vous
@@ -153,4 +189,65 @@
             </div>
         {% endif %}
     </div>
+{% endblock %}
+
+
+{% block javascripts__footer %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentNow = document.getElementById('payment-now');
+            const paymentLater = document.getElementById('payment-later');
+            const paymentButton = document.getElementById('payment-button');
+
+            // Initial check to display or hide the payment button based on the selected option
+            togglePaymentButton();
+
+            paymentNow.addEventListener('change', function () {
+                fadeIn(paymentButton);
+            });
+
+            paymentLater.addEventListener('change', function () {
+                fadeOut(paymentButton);
+            });
+
+            function fadeIn(element, duration = 400) {
+                element.style.display = 'flex';
+                element.style.opacity = 0;
+                let last = +new Date();
+                let tick = function () {
+                    element.style.opacity = +element.style.opacity + (new Date() - last) / duration;
+                    last = +new Date();
+
+                    if (+element.style.opacity < 1) {
+                        (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+                    }
+                };
+                tick();
+            }
+
+            function fadeOut(element, duration = 400) {
+                element.style.opacity = 1;
+                let last = +new Date();
+                let tick = function () {
+                    element.style.opacity = +element.style.opacity - (new Date() - last) / duration;
+                    last = +new Date();
+
+                    if (+element.style.opacity > 0) {
+                        (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+                    } else {
+                        element.style.display = 'none';
+                    }
+                };
+                tick();
+            }
+
+            function togglePaymentButton() {
+                if (paymentNow.checked) {
+                    fadeIn(paymentButton);
+                } else if (paymentLater.checked) {
+                    fadeOut(paymentButton);
+                }
+            }
+        });
+    </script>
 {% endblock %}

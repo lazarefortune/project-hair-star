@@ -1,3 +1,5 @@
+{% import 'admin/appointment/macros.twig' as element %}
+
 <div id="appointments">
     <div class="stack">
         <h3 class="h3">Mes rendez-vous</h3>
@@ -62,7 +64,7 @@
                             </div>
                         </div>
                         <div class="px-4 py-5 w-full">
-                            <a href="{{ path('appointment_manage', {'token': appointment.token}) }}"
+                            <a href="{{ path('app_appointment_manage', {'token': appointment.token}) }}"
                                class="text-slate-900 border border-slate-300 focus:ring-2 focus:ring-offset-2 focus:scale-95 focus:outline-none focus:ring-primary-900 hover:text-primary-900 hover:bg-primary-100 hover:border-primary-900 shadow-custom font-medium rounded-md text-sm px-5 py-2.5 inline-flex justify-center text-center w-full sm:w-auto"
                             >
                                 Voir les détails
