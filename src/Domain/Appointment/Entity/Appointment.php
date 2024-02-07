@@ -5,6 +5,7 @@ namespace App\Domain\Appointment\Entity;
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Payment\Entity\Payment;
+use App\Domain\Payment\TransactionItemInterface;
 use App\Domain\Prestation\Entity\Prestation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity( repositoryClass: AppointmentRepository::class )]
-class Appointment
+class Appointment implements TransactionItemInterface
 {
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
@@ -72,7 +73,7 @@ class Appointment
     #[ORM\Column( type: Types::STRING, length: 50 )]
     private string $status = self::STATUS_PENDING;
 
-    #[ORM\Column( type: "decimal", precision: 10, scale: 2, nullable: true )]
+    #[ORM\Column( type: Types::FLOAT, nullable: true )]
     private ?float $amount = null;
 
     #[ORM\Column( type: Types::STRING, length: 50, nullable: true )]
@@ -250,5 +251,15 @@ class Appointment
         $this->token = $token;
 
         return $this;
+    }
+
+    public function getItemName() : ?string
+    {
+        return 'Rendez-vous n°' . $this->getId();
+    }
+
+    public function getItemDescription() : ?string
+    {
+        return $this->getPrestation()->getName();
     }
 }

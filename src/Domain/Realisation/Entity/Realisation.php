@@ -19,7 +19,7 @@ class Realisation
     #[ORM\Column]
     private ?bool $isPublic = null;
 
-    #[ORM\Column( type: "decimal", precision: 10, scale: 2, nullable: true )]
+    #[ORM\Column( type: Types::FLOAT, nullable: true )]
     private ?float $tarif = null;
 
     #[ORM\Column( nullable: true )]

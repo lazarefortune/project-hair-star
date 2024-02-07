@@ -4,8 +4,12 @@ namespace App\Http\Controller;
 
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Repository\AppointmentRepository;
+
+//use App\Domain\Payment\Event\PaymentSuccessEvent;
+//use App\Domain\Payment\Repository\PaymentRepository;
+use App\Domain\Payment\Entity\Transaction;
+use App\Domain\Payment\Event\PaymentFailedEvent;
 use App\Domain\Payment\Event\PaymentSuccessEvent;
-use App\Domain\Payment\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +22,7 @@ class StripeWebhookController extends AbstractController
     private string $stripeWebhookSecret;
 
     public function __construct(
-        readonly private PaymentRepository        $paymentRepository,
         readonly private EntityManagerInterface   $entityManager,
-        readonly private AppointmentRepository    $appointmentRepository,
         readonly private EventDispatcherInterface $eventDispatcher,
         ParameterBagInterface                     $parameterBag,
     )
@@ -55,38 +57,29 @@ class StripeWebhookController extends AbstractController
                 $data = $event->data['object'];
                 $sessionId = $data->id;
 
-                $appointmentId = $data->metadata->appointment_id;
-                // find appointment
-                $appointment = $this->appointmentRepository->find( $appointmentId );
-                if ( $appointment ) {
-                    // update appointment status
-                    $appointment->setPaymentStatus( Appointment::PAYMENT_STATUS_SUCCESS );
-                    // save appointment
-                    $this->entityManager->persist( $appointment );
-                    $this->entityManager->flush();
-                }
-                // Recherchez l'enregistrement de paiement correspondant dans votre base de données
-                $payment = $this->paymentRepository->findOneBy( ['sessionId' => $sessionId] );
-
+                // TODO: dispatch event to send email to user with invoice and change appointment status
+                $paymentId = $data->metadata->payment_id;
+                // find the payment by id and update the status to success
+                $payment = $this->entityManager->getRepository( Transaction::class )->find( $paymentId );
                 if ( $payment ) {
-                    // Mettez à jour le statut du paiement
-                    $payment->setStatus( 'succeeded' );
-
-                    // Enregistrez les modifications dans la base de données
+                    $payment->setStatus( 'success' );
                     $this->entityManager->persist( $payment );
                     $this->entityManager->flush();
                 }
-                // TODO: dispatch event to send email to user with invoice
-                $this->eventDispatcher->dispatch( new PaymentSuccessEvent( $appointmentId ) );
+                $this->eventDispatcher->dispatch( new PaymentSuccessEvent( $paymentId ) );
                 break;
-
+            case 'payment_intent.succeeded':
+                $paymentIntent = $event->data->object; // contains a StripePaymentIntent
+                $paymentId = $paymentIntent->metadata->payment_id;
+                break;
             case 'invoice.paid':
                 $invoice = $event->data->object; // contains a StripeInvoice
                 // Votre logique pour le paiement réussi
                 break;
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object; // contains a StripePaymentIntent
-                // Votre logique pour le paiement échoué
+                $paymentId = $paymentIntent->metadata->payment_id;
+                $this->eventDispatcher->dispatch( new PaymentFailedEvent( $paymentId ) );
                 break;
             // ... autres cas d'événements
         }

@@ -2,8 +2,9 @@
 
 namespace App\Infrastructure\Payment\Stripe;
 
-use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Entity\User;
+use App\Domain\Payment\Entity\Payment;
+use App\Domain\Payment\TransactionItemInterface;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
@@ -28,57 +29,75 @@ class StripeApi
 
     /**
      * Crée un customer stripe et sauvegarde l'id dans l'utilisateur.
+     * @param array $customerData
+     * @return string Client Stripe ID
+     * @throws ApiErrorException
      */
-    public function createCustomer( User $user ) : User
+    public function createCustomer( array $customerData ) : string
     {
-        if ( $user->getStripeId() && !$this->isCustomerDeleted( $user->getStripeId() ) ) {
-            return $user;
-        }
-
         $client = $this->stripe->customers->create( [
             'metadata' => [
-                'user_id' => (string)$user->getId(),
+                'user_id' => (string)$customerData['userId'],
             ],
-            'email' => $user->getEmail(),
-            'name' => $user->getFullname(),
+            'email' => $customerData['email'],
+            'name' => $customerData['name'],
         ] );
 
-        $user->setStripeId( $client->id );
-
-        return $user;
+        return $client->id;
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function isCustomerDeleted( string $customerId ) : bool
     {
         $customer = $this->stripe->customers->retrieve( $customerId );
         return $customer->isDeleted();
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getCustomer( string $customerId ) : Customer
     {
         return $this->stripe->customers->retrieve( $customerId );
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getPaymentIntent( string $id ) : PaymentIntent
     {
         return $this->stripe->paymentIntents->retrieve( $id );
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getSession( string $id ) : Session
     {
         return $this->stripe->checkout->sessions->retrieve( $id );
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getInvoice( string $invoice ) : Invoice
     {
         return $this->stripe->invoices->retrieve( $invoice );
     }
 
-    public function getSubcription( string $subcription ) : Subscription
+    /**
+     * @throws ApiErrorException
+     */
+    public function getSubscription( string $subscription ) : Subscription
     {
-        return $this->stripe->subscriptions->retrieve( $subcription );
+        return $this->stripe->subscriptions->retrieve( $subscription );
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getPlan( string $plan ) : Plan
     {
         return $this->stripe->plans->retrieve( $plan );
@@ -97,7 +116,7 @@ class StripeApi
      * Crée une session de paiement et renvoie l'URL de paiement.
      * @throws ApiErrorException
      */
-    public function createAppointmentPaymentSession( Appointment $appointment, string $url ) : string
+    public function createPaymentSession( Payment $payment, TransactionItemInterface $transactionItem, string $url ) : string
     {
         $session = $this->stripe->checkout->sessions->create( [
             'cancel_url' => $url,
@@ -106,15 +125,15 @@ class StripeApi
             'payment_method_types' => [
                 'card',
             ],
-            'customer' => $appointment->getClient()->getStripeId(),
+            'customer' => $payment->getTransaction()->getClient()->getStripeId(),
             'metadata' => [
-                'appointment_id' => $appointment->getId(),
-                'client_id' => $appointment->getClient()->getId(),
+                'payment_id' => $payment->getId(),
+                'client_id' => $payment->getTransaction()->getClient()->getId(),
             ],
             'payment_intent_data' => [
                 'metadata' => [
-                    'appointment_id' => $appointment->getId(),
-                    'client_id' => $appointment->getClient()->getId(),
+                    'payment_id' => $payment->getId(),
+                    'client_id' => $payment->getTransaction()->getClient()->getId(),
                 ],
             ],
             'line_items' => [
@@ -122,9 +141,9 @@ class StripeApi
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => 'Réservation n°' . $appointment->getId(),
+                            'name' => $transactionItem->getItemName(),
                         ],
-                        'unit_amount' => $appointment->getAmount() * 100,
+                        'unit_amount' => $payment->getAmount() * 100,
                     ],
                     'quantity' => 1,
                 ],
@@ -134,6 +153,9 @@ class StripeApi
         return $session->id;
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getBillingUrl( User $user, string $returnUrl ) : string
     {
         $session = $this->stripe->billingPortal->sessions->create( [

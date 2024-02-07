@@ -4,7 +4,7 @@ namespace App\Domain\Payment\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class PaymentSuccessEvent extends Event
+class PaymentFailedEvent extends Event
 {
     public function __construct(
         private readonly string $paymentId,

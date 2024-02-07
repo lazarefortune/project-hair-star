@@ -7,6 +7,7 @@ use App\Domain\Appointment\Dto\AppointmentManageUpdateData;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Appointment\Form\AppointmentManageUpdateForm;
 use App\Domain\Appointment\Service\AppointmentService;
+use App\Domain\Payment\PaymentService;
 use App\Domain\Payment\Service\StripePayment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AppointmentController extends AbstractController
 {
     public function __construct(
+        private readonly PaymentService     $paymentService,
         private readonly AppointmentService $appointmentService,
-        private readonly StripePayment      $stripePaymentService,
     )
     {
     }
@@ -78,15 +79,21 @@ class AppointmentController extends AbstractController
     #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
     public function startPayment( Appointment $appointment ) : Response
     {
-        $url = $this->stripePaymentService->payAppointment( $appointment );
-        return $this->redirect( $url );
+        $paymentMethod = 'stripe';
+        try {
+            $url = $this->paymentService->pay( $appointment->getAmount(), $appointment, $paymentMethod );
+            return $this->redirect( $url );
+        } catch ( \Exception $e ) {
+            $this->addFlash( 'danger', $e->getMessage() );
+            return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
+        }
     }
 
     #[Route( '/paiement/acompte/demarrer/{id<\d+>}', name: 'payment_acompte_start' )]
     #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
     public function startAcomptePayment( Appointment $appointment ) : Response
     {
-        $this->stripePaymentService->payAppointmentAcompte( $appointment );
+//        $this->stripePaymentService->payAppointmentAcompte( $appointment );
         $this->addFlash( 'danger', 'Le paiement n\'est pas encore disponible' );
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }
@@ -97,12 +104,8 @@ class AppointmentController extends AbstractController
     {
         $paymentSuccess = $request->query->get( 'success' ) === '1';
         $status = $request->query->get( 'success' ) === '1' ? 'success' : 'failure';
-        if ( !$paymentSuccess ) {
-            $this->addFlash( 'danger', 'Le paiement a échoué' );
-            return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
-        }
 
-        $this->addFlash( 'success', 'Le paiement a bien été effectué' );
+        ( $paymentSuccess ) ? $this->addFlash( 'success', 'Le paiement a bien été effectué' ) : $this->addFlash( 'danger', 'Le paiement a échoué' );
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }
 }

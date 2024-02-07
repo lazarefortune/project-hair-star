@@ -26,7 +26,7 @@ class Prestation
     private ?string $description = null;
 
 
-    #[ORM\Column( type: "decimal", precision: 10, scale: 2, nullable: true )]
+    #[ORM\Column( type: Types::FLOAT, nullable: true )]
     private ?float $price = null;
 
     #[ORM\Column( type: Types::TIME_MUTABLE, nullable: true )]

@@ -9,11 +9,14 @@ parameters:
   sender_email: '%env(SENDER_EMAIL)%'
   contact_email: '%env(CONTACT_EMAIL)%'
   app.name: '%env(APP_NAME)%'
-  stripe_webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
   timezone: 'Europe/Paris'
   realisation_img_dir: '%kernel.project_dir%/public/uploads/images/realisations'
   upload_images_directory: '%kernel.project_dir%/public/uploads/images'
   avatar_images: '/uploads/avatars'
+
+  stripe_webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
+  stripe_public_key: '%env(STRIPE_PUBLISHABLE_KEY)%'
+  stripe_secret_key: '%env(STRIPE_SECRET_KEY)%'
 
 services:
   # default configuration for services in *this* file
@@ -58,10 +61,6 @@ services:
     arguments:
       $transformer: '@App\Helper\MinutesToTimeHelper'
 
-  App\Infrastructure\Payment\Stripe\StripeEventValueResolver:
-    arguments:
-      $stripeWebhookSecret: '%stripe_webhook_secret%'
-
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
 
@@ -70,13 +69,21 @@ services:
       $appName: '%app.name%'
       $adminEmail: '%admin_email%'
 
-  App\Domain\Payment\Stripe\StripeApi:
-    arguments:
-      $privateKey: '%env(STRIPE_SECRET_KEY)%'
-
   App\Domain\Application\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
+
+  App\Infrastructure\Payment\Stripe\StripeApi:
+    arguments: [ '%stripe_secret_key%' ]
+
+  App\Infrastructure\Payment\Stripe\StripeEventValueResolver:
+    arguments: [ '%stripe_webhook_secret%' ]
+    tags:
+      - { name: controller.argument_value_resolver, priority: 50 }
+
+  App\Domain\Payment\PaymentService:
+    arguments:
+      $processors: [ '@App\Infrastructure\Payment\Stripe\StripePaymentProcessor', '@App\Infrastructure\Payment\Cash\CashPaymentProcessor' ]
 
 # TODO: Si besoin d'utiliser le nom de l'application en BDD dans les templates, décommenter les lignes ci-dessous
 #  App\Domain\Application\EventListener\ConfigListener:

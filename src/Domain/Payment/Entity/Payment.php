@@ -2,47 +2,48 @@
 
 namespace App\Domain\Payment\Entity;
 
-use App\Domain\Appointment\Entity\Appointment;
-use App\Domain\Auth\Entity\User;
-use App\Domain\Payment\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity( repositoryClass: PaymentRepository::class )]
+#[ORM\Entity]
 class Payment
 {
-
     public const STATUS_SUCCESS = 'success';
     public const STATUS_PENDING = 'pending';
     public const STATUS_FAILED = 'failed';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column( type: Types::INTEGER )]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?float $amount = null;
+    #[ORM\Column( type: Types::FLOAT )]
+    private float $amount;
 
-    #[ORM\ManyToOne( inversedBy: 'payments' )]
-    #[ORM\JoinColumn( nullable: false )]
-    private ?Appointment $appointment = null;
+    #[ORM\Column( type: Types::STRING, length: 50 )]
+    private string $status = 'pending';
 
-    #[ORM\ManyToOne( inversedBy: 'payments' )]
-    #[ORM\JoinColumn( nullable: false )]
-    private ?User $client = null;
-
-    #[ORM\Column( length: 255, nullable: true )]
+    #[ORM\Column( type: Types::STRING, length: 255, nullable: true )]
     private ?string $sessionId = null;
 
-    #[ORM\Column( length: 50, nullable: true )]
-    private ?string $status = null;
+    #[ORM\Column( type: Types::STRING, length: 255 )]
+    private string $paymentMethod;
 
-    #[ORM\Column( nullable: true )]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\ManyToOne( inversedBy: 'payments' )]
+    #[ORM\JoinColumn( nullable: false )]
+    private ?Transaction $transaction = null;
 
-    #[ORM\Column( type: Types::DATETIME_MUTABLE, nullable: true )]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\Column( type: Types::DATETIME_IMMUTABLE )]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column( type: Types::DATETIME_MUTABLE )]
+    private \DateTimeInterface $updatedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId() : ?int
     {
@@ -61,26 +62,62 @@ class Payment
         return $this;
     }
 
-    public function getAppointment() : ?Appointment
+    public function getStatus() : ?string
     {
-        return $this->appointment;
+        return $this->status;
     }
 
-    public function setAppointment( ?Appointment $appointment ) : static
+    public function setStatus( string $status ) : static
     {
-        $this->appointment = $appointment;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getClient() : ?User
+    public function getPaymentMethod() : ?string
     {
-        return $this->client;
+        return $this->paymentMethod;
     }
 
-    public function setClient( ?User $client ) : static
+    public function setPaymentMethod( string $paymentMethod ) : static
     {
-        $this->client = $client;
+        $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    public function getCreatedAt() : ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt( \DateTimeImmutable $createdAt ) : static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt( \DateTimeInterface $updatedAt ) : static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTransaction() : ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    public function setTransaction( ?Transaction $transaction ) : static
+    {
+        $this->transaction = $transaction;
 
         return $this;
     }
@@ -93,42 +130,6 @@ class Payment
     public function setSessionId( ?string $sessionId ) : static
     {
         $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    public function getStatus() : ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus( ?string $status ) : static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getCreatedAt() : ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt( ?\DateTimeImmutable $createdAt ) : static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt() : ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt( ?\DateTimeInterface $updatedAt ) : static
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
