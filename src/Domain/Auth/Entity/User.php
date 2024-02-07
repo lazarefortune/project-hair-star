@@ -5,6 +5,7 @@ namespace App\Domain\Auth\Entity;
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Repository\UserRepository;
 use App\Domain\Payment\Entity\Payment;
+use App\Domain\Payment\Entity\Transaction;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -72,6 +73,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
     private Collection $emailVerifications;
+
+    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Transaction::class, orphanRemoval: true )]
+    private Collection $transactions;
 
     #[ORM\Column]
     private ?bool $cgu = null;

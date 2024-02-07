@@ -134,7 +134,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $count = 0;
         foreach ( $users as $user ) {
             $this->deleteAccountService->deleteAccount( $user );
-            // Dispatch event
+            // TODO: Dispatch event
             $count++;
         }
 
