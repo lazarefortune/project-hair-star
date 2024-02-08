@@ -93,7 +93,6 @@ class AppointmentController extends AbstractController
     #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
     public function startAcomptePayment( Appointment $appointment ) : Response
     {
-//        $this->stripePaymentService->payAppointmentAcompte( $appointment );
         $this->addFlash( 'danger', 'Le paiement n\'est pas encore disponible' );
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }

@@ -26,8 +26,8 @@
                             class="rounded-md border-thin border-slate-300 bg-white shadow-custom relative">
                         <div class="px-4 py-3 border-b border-slate-200 rounded-t-md flex justify-between items-center">
                             <!-- Mettre en avant le nom du client -->
-                            <h3 class="text-base font-medium text-slate-800 flex items-center">
-                                {{ appointment.time|date('H:i') }}
+                            <h3 class="text-base font-medium text-slate-800 flex items-center ">
+                                {{ appointment.date|date('d/m/Y') }} à {{ appointment.time|date('H:i') }}
                             </h3>
                             <div>
                                 {{ element.status_badge(appointment) }}
