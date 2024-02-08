@@ -44,3 +44,17 @@
   justify-content: center;
   gap: 8px;
 }
+
+
+.nav-tabs-pill {
+  @apply mb-4 flex space-x-2 p-1.5 bg-primary-50 rounded-lg;
+
+  a {
+    @apply py-2 px-4 rounded-md focus:outline-none transition-all duration-300 ease-in-out border-2 border-transparent bg-primary-50;
+  }
+
+  a[aria-selected="true"] {
+    @apply bg-white shadow-custom;
+  }
+}
+
