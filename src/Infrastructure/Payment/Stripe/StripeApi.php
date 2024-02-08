@@ -119,8 +119,8 @@ class StripeApi
     public function createPaymentSession( Payment $payment, TransactionItemInterface $transactionItem, string $url ) : string
     {
         $session = $this->stripe->checkout->sessions->create( [
-            'cancel_url' => $url,
-            'success_url' => $url . '?success=1',
+            'cancel_url' => $url . '?success=0&item_id=' . $transactionItem->getId(),
+            'success_url' => $url . '?success=1&item_id=' . $transactionItem->getId(),
             'mode' => 'payment',
             'payment_method_types' => [
                 'card',

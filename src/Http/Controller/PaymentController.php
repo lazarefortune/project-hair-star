@@ -43,6 +43,10 @@ class PaymentController extends AbstractController
     #[Route( '/payment/result/{id<\d+>}', name: 'payment_result' )]
     public function paymentResult( Request $request ) : Response
     {
-        return $this->render( 'payment/result.html.twig', [] );
+        $isPaid = ( $request->get( 'success' ) === '1' ) ? true : false;
+
+        return $this->render( 'payment/result.html.twig', [
+            'isPaid' => $isPaid,
+        ] );
     }
 }
