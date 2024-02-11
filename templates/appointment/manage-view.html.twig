@@ -132,12 +132,16 @@
                                                class="hidden peer" required>
                                         <label for="payment-now"
                                                class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                            <div class="block">
-                                                <h1 class="w-full text-lg font-semibold">Carte bancaire</h1>
-                                                <div class="w-full text-xs text-muted">En payant
-                                                    maintenant, vous
-                                                    garantissez votre place.
+                                            <div class="block w-full">
+                                                <div class="w-full text-xs text-muted">
+                                                    <div class="flex justify-center items-center">
+                                                        <img src="{{ asset('images/stripe-logo.svg.png') }}"
+                                                             alt="Stripe"
+                                                             height="80px" width="80px">
+                                                    </div>
                                                 </div>
+                                                <h1 class="w-full text-lg text-center font-semibold">Carte bancaire</h1>
+                                            </div>
                                         </label>
                                     </li>
                                     <li>
@@ -145,12 +149,13 @@
                                                class="hidden peer">
                                         <label for="payment-later"
                                                class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-primary-500 peer-checked:border-primary-600 peer-checked:text-primary-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                            <div class="block">
-                                                <h1 class="w-full text-lg font-semibold">En espèces</h1>
-                                                <div class="w-full text-xs text-muted">Vous pouvez payer plus tard, mais
-                                                    votre
-                                                    place n'est pas garantie.
+                                            <div class="block w-full">
+                                                <div class="w-full text-xs text-muted">
+                                                    <div class="flex justify-center items-center">
+                                                        {{ icon('banknote', 40) }}
+                                                    </div>
                                                 </div>
+                                                <h1 class="w-full text-lg text-center font-semibold">En espèces</h1>
                                             </div>
                                         </label>
                                     </li>
@@ -159,11 +164,22 @@
                                 <a href="{{ path('app_appointment_payment_start', {id: appointment.id}) }}"
                                    class="btn-md btn-primary w-full" id="payment-button" style="display: none;">
                                     {{ icon('credit-card', 20) }}
-                                    <span class="ml-2">Payer</span>
+                                    <span class="ml-2">
+                                        Payer {{ appointment.amount }} €
+                                    </span>
                                 </a>
-                                <a href="" class="btn-md btn-light w-full">
-                                    Annuler le rendez-vous
+
+                                <a href="{{ path('app_appointment_save_for_later', {id: appointment.id}) }}"
+                                   class="btn-md btn-light w-full" id="save-for-later">
+                                    {{ icon('bookmark', 20) }}
+                                    <span class="ml-2">
+                                        Enregistrer pour plus tard
+                                    </span>
                                 </a>
+
+                                {#                                <a href="" class="btn-md btn-light w-full"> #}
+                                {#                                    Annuler le rendez-vous #}
+                                {#                                </a> #}
                             {% endif %}
                         {% elseif appointment.statusPending %}
                             <div class="alert alert-warning">
@@ -205,7 +221,7 @@
             const paymentNow = document.getElementById('payment-now');
             const paymentLater = document.getElementById('payment-later');
             const paymentButton = document.getElementById('payment-button');
-
+            const saveForLater = document.getElementById('save-for-later');
             // Initial check to display or hide the payment button based on the selected option
             togglePaymentButton();
 
@@ -251,8 +267,10 @@
             function togglePaymentButton() {
                 if (paymentNow.checked) {
                     fadeIn(paymentButton);
+                    fadeOut(saveForLater);
                 } else if (paymentLater.checked) {
                     fadeOut(paymentButton);
+                    fadeIn(saveForLater);
                 }
             }
         });

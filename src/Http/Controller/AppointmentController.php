@@ -97,6 +97,15 @@ class AppointmentController extends AbstractController
         return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
     }
 
+    //app_appointment_save_for_later
+    #[Route( '/paiement/sauvegarder-pour-plus-tard/{id<\d+>}', name: 'save_for_later' )]
+    #[ParamConverter( 'appointment', options: ['mapping' => ['id' => 'id']] )]
+    public function saveForLater( Appointment $appointment ) : Response
+    {
+        $this->addFlash( 'danger', 'La sauvegarde pour plus tard n\'est pas encore disponible' );
+        return $this->redirectToRoute( 'app_appointment_manage', ['token' => $appointment->getToken()] );
+    }
+
 
     #[Route( '/paiement/resultat/{id<\d+>}', name: 'payment_result' )]
     public function paymentResult( Request $request, Appointment $appointment ) : Response
