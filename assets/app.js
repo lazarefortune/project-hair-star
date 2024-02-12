@@ -7,7 +7,7 @@ createIcons({icons});
 /* Elements */
 import {NavTabs, ScrollTop, ModalDialog} from 'headless-elements'
 import {Alert, FloatingAlert} from './elements/Alert'
-import {Accordion} from './elements/Accordion'
+import {AccordionGroup} from './elements/Accordion'
 /* Libs */
 import './libs/flatpickr'
 
@@ -16,7 +16,7 @@ customElements.define('scroll-top', ScrollTop)
 customElements.define('alert-message', Alert)
 customElements.define('alert-floating', FloatingAlert)
 customElements.define('modal-dialog', ModalDialog)
-customElements.define('accordion-group', Accordion)
+customElements.define('accordion-group', AccordionGroup)
 
 
 /* Modules */

@@ -1,7 +1,7 @@
-class AccordionGroup extends HTMLElement {
+export class AccordionGroup extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({mode: 'open'});
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
