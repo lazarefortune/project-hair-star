@@ -4,75 +4,107 @@
 
 {% block body %}
 
-    <div class="page-header">
-        <div class="container-box">
-            <div class="stack">
-                <div class="stack max-w-[980px]">
-                    <h1 class="text-3xl text-slate-900 font-medium leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
-                        Je suis <span class="text-primary-900">Sophie</span>,<br>
-                    </h1>
-                    <p class="text-xl text-slate-500 max-w-[700px] dark:text-slate-400 sm:text-xl">
-                        Pour vous, votre famille ou vos proches, je me déplace à domicile pour vous offrir une prestation de
-                        qualité.
-                    </p>
+    <div class="relative" id="home">
+        <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 opacity-40 -space-x-52 dark:opacity-20">
+            <div class="h-56 bg-gradient-to-br to-purple-400 blur-[106px] from-primary dark:from-blue-700"></div>
+            <div class="h-32 bg-gradient-to-r from-cyan-400 to-sky-300 blur-[106px] dark:to-indigo-600"></div>
+        </div>
+        <div class="mx-auto max-w-7xl px-6 md:px-12 xl:px-6">
+            <div class="relative ml-auto pt-36">
+                <div class="mx-auto text-center lg:w-2/3">
+                    <h1 class="text-5xl font-bold text-gray-900 dark:text-white md:text-6xl xl:text-7xl">Shaping a world
+                        with <span class="text-primary dark:text-white">reimagination.</span></h1>
+                    <p class="mt-8 text-gray-700 dark:text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Odio incidunt nam itaque sed eius modi error totam sit illum. Voluptas doloribus
+                        asperiores quaerat aperiam. Quidem harum omnis beatae ipsum soluta!</p>
+                    <div class="mt-16 flex flex-col sm:flex-row flex-wrap justify-center gap-x-6 gap-y-4">
+                        <a href="#" class="btn-md btn-primary">
+                            {{ icon('calendar-plus') }}
+                            <span class="ml-2">Prendre rendez-vous</span>
+                        </a>
+                        <a href="#" class="btn-md btn-link">
+                            <span class="">En savoir plus</span>
+                        </a>
+                    </div>
+                    <div class="mt-16 hidden justify-between border-y border-gray-100 py-8 dark:border-gray-800 sm:flex">
+                        <div class="text-left">
+                            <h6 class="text-lg font-semibold text-gray-700 dark:text-white">The lowest price</h6>
+                            <p class="mt-2 text-gray-500">Some text here</p>
+                        </div>
+                        <div class="text-left">
+                            <h6 class="text-lg font-semibold text-gray-700 dark:text-white">The fastest on the
+                                market</h6>
+                            <p class="mt-2 text-gray-500">Some text here</p>
+                        </div>
+                        <div class="text-left">
+                            <h6 class="text-lg font-semibold text-gray-700 dark:text-white">The most loved</h6>
+                            <p class="mt-2 text-gray-500">Some text here</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="mt-4 flex flex-col space-y-4 sm:space-x-4 sm:space-y-0 sm:flex-row md:flex-row">
-                    <a href="{{ path('app_login') }}"
-                       class="btn-md btn-primary">
-                        {{ icon('calendar') }}
-                        <span class="ml-2">
-                        Prendre rendez-vous
-                    </span>
-                    </a>
-                    <a href=""
-                       class="btn-md btn-secondary">
-                        Voir mes réalisations
-                    </a>
+                <div class="mt-12 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+                    <div class="p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/microsoft.svg" class="mx-auto h-12 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
+                    <div class="p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/airbnb.svg" class="mx-auto h-12 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
+                    <div class="flex p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/google.svg" class="m-auto h-9 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
+                    <div class="p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/ge.svg" class="mx-auto h-12 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
+                    <div class="flex p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/netflix.svg" class="m-auto h-8 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
+                    <div class="p-4 grayscale transition duration-200 hover:grayscale-0">
+                        {#                    <img src="./images/clients/google-cloud.svg" class="mx-auto h-12 w-auto" loading="lazy" alt="client logo" width="" height="" /> #}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <main class="container-box py-10 stack-large">
-        <div class="my-8 flex flex-col items-center gap-8">
-            <h2 class="font-inter text-2xl sm:text-4xl font-medium leading-tight tracking-tighter">
-                Découvrez <span class="text-primary-500">mes services</span>
-            </h2>
+    {#    <div class="page-header"> #}
+    {#        <div class="container-box"> #}
+    {#            <div class="stack"> #}
+    {#                <div class="stack max-w-[980px]"> #}
+    {#                    <h1 class="text-3xl font-medium leading-tight tracking-tighter text-slate-900 sm:text-3xl md:text-5xl lg:text-6xl"> #}
+    {#                        Je suis <span class="text-primary-900">Sophie</span>,<br> #}
+    {#                    </h1> #}
+    {#                    <p class="text-xl text-slate-500 max-w-[700px] dark:text-slate-400 sm:text-xl"> #}
+    {#                        Pour vous, votre famille ou vos proches, je me déplace à domicile pour vous offrir une #}
+    {#                        prestation de #}
+    {#                        qualité. #}
+    {#                    </p> #}
+    {#                </div> #}
 
-            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full">
-                {% for story in [1,2,3,4, 6, 7, 8, 9 ,10, 11, 12, 13, 14, 15, 16] %}
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg reveal">
-                        <img src="https://picsum.photos/seed/{{ story }}/500/500"
-                             alt="image"
-                             class="w-full h-64 object-cover rounded-md group-hover:opacity-75 transition-opacity duration-500">
-                        <div class="px-6 py-4">
-                            <div class="text-slate-900 font-bold text-xl mb-2">Service {{ story }}</div>
-                            <p class="text-slate-500 text-base">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla!
-                                Maiores
-                                et perferendis eaque, exercitationem praesentium nihil.
-                            </p>
-                        </div>
-                    </div>
-                {% endfor %}
+    {#                <div class="mt-4 flex flex-col space-y-4 sm:space-x-4 sm:space-y-0 sm:flex-row md:flex-row"> #}
+    {#                    <a href="{{ path('app_login') }}" #}
+    {#                       class="btn-md btn-primary"> #}
+    {#                        {{ icon('calendar') }} #}
+    {#                        <span class="ml-2"> #}
+    {#                        Prendre rendez-vous #}
+    {#                    </span> #}
+    {#                    </a> #}
+    {#                    <a href="" #}
+    {#                       class="btn-md btn-secondary"> #}
+    {#                        Voir mes réalisations #}
+    {#                    </a> #}
+    {#                </div> #}
+    {#            </div> #}
+    {#        </div> #}
+    {#    </div> #}
 
-            </div>
+    {#    <main class="py-10 container-box stack-large"> #}
+    {#        <div class="my-8 flex flex-col items-center gap-8"> #}
+    {#            <h2 class="text-2xl font-medium leading-tight tracking-tighter font-inter sm:text-4xl"> #}
+    {#                Découvrez <span class="text-primary-500">mes services</span> #}
+    {#            </h2> #}
 
-
-            <!-- show more -->
-            <div class="mt-8 flex justify-center">
-                <a href=""
-                   class="btn-md btn-primary">
-                    <span class="mr-2">
-                        Je découvre
-                    </span>
-                    {{ icon('arrow-right') }}
-                </a>
-            </div>
-
-        </div>
-        <!-- End Section stories -->
-    </main>
+    {#        </div> #}
+    {#        <!-- End Section stories --> #}
+    {#    </main> #}
 
 {% endblock %}
