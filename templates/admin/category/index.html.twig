@@ -17,19 +17,16 @@
         </a>
     </div>
 
-    <div class="card">
+    <div class="">
         <div class="block w-full overflow-x-auto">
             <table class="table w-full border-collapse items-center bg-transparent">
                 <thead class="bg-gray-50">
                 <tr>
                     <th>
-                        ID
-                    </th>
-                    <th>
                         Nom
                     </th>
                     <th>
-                        En ligne?
+                        Statut
                     </th>
                     <th>
                         Actions
@@ -46,14 +43,17 @@
                 {% endif %}
                 {% for category in category_prestations %}
                     <tr>
-                        <td class="text-left">
-                            {{ category.id }}
-                        </td>
                         <td>
                             {{ category.name }}
                         </td>
                         <td>
-                            <div class="empty-circle empty-circle-{% if category.isActive %}success{% else %}danger{% endif %}"></div>
+                            <div class="badge badge-{% if category.isActive %}success{% else %}danger{% endif %}">
+                                {% if category.isActive %}
+                                    En ligne
+                                {% else %}
+                                    Hors ligne
+                                {% endif %}
+                            </div>
                         </td>
                         <td>
                             <a href="{{ path('app_admin_category_service_edit', {'id': category.id}) }}"

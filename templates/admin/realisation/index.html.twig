@@ -58,9 +58,9 @@
                         <td>{{ realisation.tarif|price_format }}</td>
                         <td>
                             {% if realisation.isPublic %}
-                                <span class="badge badge-success">Publié</span>
+                                <span class="badge badge-success">En ligne</span>
                             {% else %}
-                                <span class="badge badge-danger">Non publié</span>
+                                <span class="badge badge-danger">Hors ligne</span>
                             {% endif %}
                         </td>
                         <td>

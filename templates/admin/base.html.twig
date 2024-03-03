@@ -165,8 +165,9 @@
             </button>
 
             <a href="{{ path('app_admin_home') }}"
-               class="ml-2 flex items-center gap-2 text-xl font-bold text-orange-600 dark:text-orange-600 sm:ml-9">
-                <img src="{{ asset('images/app-logo.svg') }}" alt="{{ app_name }} Logo" class="h-12 w-12">
+               class="ml-2 flex items-center gap-2 text-xl font-bold text-primary-600 dark:text-primary-600 sm:ml-9">
+                {{ icon('scissors') }}
+                <span>{{ app_name }}</span>
             </a>
         </div>
 

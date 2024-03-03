@@ -1,5 +1,5 @@
 table.table {
-  @apply rounded-sm;
+  //@apply rounded-sm;
 }
 
 table.table thead th {
@@ -21,7 +21,7 @@ table.table tbody td:last-child {
 }
 
 table.table tbody tr {
-  @apply border-b border-gray-200 hover:bg-gray-100;
+  @apply border-b border-gray-200 hover:bg-gray-50;
 }
 
 table.table .table-active {
