@@ -4,7 +4,6 @@ namespace App\Domain\Auth\Entity;
 
 use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Repository\UserRepository;
-use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Entity\Transaction;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,6 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const DAYS_BEFORE_DELETE_UNVERIFIED_USER = 7;
+    public const DAYS_BEFORE_DELETION = 5;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $fullname = null;
 
     #[ORM\Column( type: 'boolean' )]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     #[ORM\Column( length: 255, nullable: true )]
     private ?string $phone = null;
@@ -69,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $deletedAt = null;
 
     #[ORM\OneToMany( mappedBy: 'client', targetEntity: Appointment::class, orphanRemoval: true )]
-    private Collection $bookings;
+    private Collection $appointments;
 
     #[ORM\OneToMany( mappedBy: 'author', targetEntity: EmailVerification::class, orphanRemoval: true )]
     private Collection $emailVerifications;
@@ -83,9 +83,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column( nullable: true )]
     private ?bool $isRequestDelete = null;
 
-    #[ORM\OneToMany( mappedBy: 'client', targetEntity: Payment::class, orphanRemoval: true )]
-    private Collection $payments;
-
     #[ORM\Column( type: Types::TEXT, nullable: true )]
     private ?string $stripeId = null;
 
@@ -96,9 +93,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = '';
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->bookings = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
         $this->emailVerifications = new ArrayCollection();
-        $this->payments = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -303,27 +299,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Appointment>
      */
-    public function getBookings() : Collection
+    public function getAppointment() : Collection
     {
-        return $this->bookings;
+        return $this->appointments;
     }
 
-    public function addBooking( Appointment $booking ) : self
+    public function addAppointment( Appointment $appointment ) : self
     {
-        if ( !$this->bookings->contains( $booking ) ) {
-            $this->bookings->add( $booking );
-            $booking->setClient( $this );
+        if ( !$this->appointments->contains( $appointment ) ) {
+            $this->appointments->add( $appointment );
+            $appointment->setClient( $this );
         }
 
         return $this;
     }
 
-    public function removeBooking( Appointment $booking ) : self
+    public function removeAppointment( Appointment $appointment ) : self
     {
-        if ( $this->bookings->removeElement( $booking ) ) {
+        if ( $this->appointments->removeElement( $appointment ) ) {
             // set the owning side to null (unless already changed)
-            if ( $booking->getClient() === $this ) {
-                $booking->setClient( null );
+            if ( $appointment->getClient() === $this ) {
+                $appointment->setClient( null );
             }
         }
 
@@ -372,6 +368,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getTransactions() : Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction( Transaction $transaction ) : static
+    {
+        if ( !$this->transactions->contains( $transaction ) ) {
+            $this->transactions[] = $transaction;
+            $transaction->setClient( $this );
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction( Transaction $transaction ) : static
+    {
+        if ( $this->transactions->removeElement( $transaction ) ) {
+            // set the owning side to null (unless already changed)
+            if ( $transaction->getClient() === $this ) {
+                $transaction->setClient( null );
+            }
+        }
+
+        return $this;
+    }
+
     public function isIsRequestDelete() : ?bool
     {
         return $this->isRequestDelete;
@@ -380,36 +403,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsRequestDelete( ?bool $isRequestDelete ) : static
     {
         $this->isRequestDelete = $isRequestDelete;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Payment>
-     */
-    public function getPayments() : Collection
-    {
-        return $this->payments;
-    }
-
-    public function addPayment( Payment $payment ) : static
-    {
-        if ( !$this->payments->contains( $payment ) ) {
-            $this->payments->add( $payment );
-            $payment->setClient( $this );
-        }
-
-        return $this;
-    }
-
-    public function removePayment( Payment $payment ) : static
-    {
-        if ( $this->payments->removeElement( $payment ) ) {
-            // set the owning side to null (unless already changed)
-            if ( $payment->getClient() === $this ) {
-                $payment->setClient( null );
-            }
-        }
 
         return $this;
     }

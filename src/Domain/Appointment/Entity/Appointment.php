@@ -4,16 +4,13 @@ namespace App\Domain\Appointment\Entity;
 
 use App\Domain\Appointment\Repository\AppointmentRepository;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Payment\Entity\Payment;
-use App\Domain\Payment\TransactionItemInterface;
+use App\Domain\Payment\Entity\Transaction;
 use App\Domain\Prestation\Entity\Prestation;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity( repositoryClass: AppointmentRepository::class )]
-class Appointment implements TransactionItemInterface
+class Appointment
 {
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
@@ -24,11 +21,8 @@ class Appointment implements TransactionItemInterface
         self::STATUS_PENDING,
         self::STATUS_CONFIRMED,
         self::STATUS_CANCELED,
+        self::STATUS_END,
     ];
-
-    public const PAYMENT_STATUS_SUCCESS = 'success';
-    public const PAYMENT_STATUS_PENDING = 'pending';
-    public const PAYMENT_STATUS_FAILED = 'failed';
 
     public function isStatusPending() : bool
     {
@@ -45,12 +39,6 @@ class Appointment implements TransactionItemInterface
         return $this->getStatus() === self::STATUS_CANCELED;
     }
 
-    public static array $paymentStatusList = [
-        self::PAYMENT_STATUS_SUCCESS,
-        self::PAYMENT_STATUS_PENDING,
-        self::PAYMENT_STATUS_FAILED,
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -59,6 +47,19 @@ class Appointment implements TransactionItemInterface
     #[ORM\ManyToOne( inversedBy: 'appointments' )]
     #[ORM\JoinColumn( nullable: false )]
     private ?User $client = null;
+
+    #[ORM\Column( type: Types::TEXT, nullable: true )]
+    private ?string $comment = null;
+
+    #[ORM\Column( type: Types::INTEGER )]
+    private int $nbAdults = 1;
+
+    #[ORM\Column( type: Types::INTEGER )]
+    private ?int $nbChildren = 0;
+
+    #[ORM\ManyToOne( targetEntity: Transaction::class, inversedBy: 'appointments' )]
+    #[ORM\JoinColumn( nullable: true )]
+    private ?Transaction $transaction = null;
 
     #[ORM\ManyToOne( inversedBy: 'appointments' )]
     #[ORM\JoinColumn( nullable: false )]
@@ -73,22 +74,36 @@ class Appointment implements TransactionItemInterface
     #[ORM\Column( type: Types::STRING, length: 50 )]
     private string $status = self::STATUS_PENDING;
 
-    #[ORM\Column( type: Types::FLOAT, nullable: true )]
-    private ?float $amount = null;
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $subTotal = 0;
+
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $total = 0;
+
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $amountPaid = 0;
+
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $appliedDiscount = 0;
 
     #[ORM\Column( type: Types::STRING, length: 50, nullable: true )]
-    private ?string $paymentStatus = self::PAYMENT_STATUS_PENDING;
+    private ?string $accessToken = null;
 
-    #[ORM\OneToMany( mappedBy: 'appointment', targetEntity: Payment::class, orphanRemoval: true )]
-    private Collection $payments;
+    #[ORM\Column( type: Types::BOOLEAN )]
+    private ?bool $isPaid = false;
 
-    #[ORM\Column( type: Types::STRING, length: 50, nullable: true )]
-    private ?string $token = null;
+    #[ORM\Column( type: Types::DATETIME_IMMUTABLE )]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column( type: Types::DATETIME_MUTABLE )]
+    private \DateTimeInterface $updatedAt;
 
     public function __construct()
     {
-        $this->payments = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
+
 
     public function getId() : ?int
     {
@@ -159,10 +174,142 @@ class Appointment implements TransactionItemInterface
         return $this;
     }
 
-    public function setIsConfirmed( bool $value ) : self
+    public function getSubTotal() : ?int
     {
-        $this->setStatus( $value ? self::STATUS_CONFIRMED : self::STATUS_CANCELED );
+        return $this->subTotal;
+    }
 
+    public function setSubTotal( ?int $subTotal ) : self
+    {
+        $this->subTotal = $subTotal;
+
+        return $this;
+    }
+
+    public function getTotal() : ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal( ?int $total ) : self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getAmountPaid() : ?int
+    {
+        return $this->amountPaid;
+    }
+
+    public function setAmountPaid( ?int $amountPaid ) : self
+    {
+        $this->amountPaid = $amountPaid;
+
+        return $this;
+    }
+
+    public function getAccessToken() : ?string
+    {
+        return $this->accessToken;
+    }
+
+    public function setAccessToken( string $accessToken ) : self
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    public function getCreatedAt() : ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt( \DateTimeImmutable $createdAt ) : static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt() : ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt( \DateTimeInterface $updatedAt ) : static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getAppliedDiscount() : ?int
+    {
+        return $this->appliedDiscount;
+    }
+
+    public function setAppliedDiscount( ?int $appliedDiscount ) : self
+    {
+        $this->appliedDiscount = $appliedDiscount;
+        return $this;
+    }
+
+    public function getTransaction() : ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    public function setTransaction( ?Transaction $transaction ) : self
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    public function getComment() : ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment( ?string $comment ) : self
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+
+    public function getNbAdults() : int
+    {
+        return $this->nbAdults;
+    }
+
+    public function setNbAdults( int $nbAdults ) : self
+    {
+        $this->nbAdults = $nbAdults;
+        return $this;
+    }
+
+    public function getNbChildren() : ?int
+    {
+        return $this->nbChildren;
+    }
+
+    public function setNbChildren( ?int $nbChildren ) : self
+    {
+        $this->nbChildren = $nbChildren;
+        return $this;
+    }
+
+    public function isPaid() : ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid( ?bool $isPaid ) : self
+    {
+        $this->isPaid = $isPaid;
         return $this;
     }
 
@@ -182,84 +329,45 @@ class Appointment implements TransactionItemInterface
         return false;
     }
 
-    public function getAmount() : ?float
+    public function setIsConfirmed( bool $value ) : self
     {
-        return $this->amount;
-    }
-
-    public function setAmount( ?float $amount ) : static
-    {
-        $this->amount = $amount;
+        $this->setStatus( $value ? self::STATUS_CONFIRMED : self::STATUS_CANCELED );
 
         return $this;
-    }
-
-    public function getPaymentStatus() : ?string
-    {
-        return $this->paymentStatus;
-    }
-
-    public function setPaymentStatus( ?string $paymentStatus ) : static
-    {
-        $this->paymentStatus = $paymentStatus;
-
-        return $this;
-    }
-
-    public function isPaid() : bool
-    {
-        return $this->getPaymentStatus() === self::PAYMENT_STATUS_SUCCESS;
     }
 
     /**
-     * @return Collection<int, Payment>
+     * Met à jour le sous-total et le total de la réservation
+     * @param int $discountValue
+     * @param bool $isPercentage
+     * @return $this
      */
-    public function getPayments() : Collection
+    public function applyDiscount( int $discountValue, bool $isPercentage = false ) : self
     {
-        return $this->payments;
-    }
-
-    public function addPayment( Payment $payment ) : static
-    {
-        if ( !$this->payments->contains( $payment ) ) {
-            $this->payments->add( $payment );
-            $payment->setAppointment( $this );
+        if ( $isPercentage ) {
+            // Calculez la réduction en tant que pourcentage du total
+            $this->appliedDiscount = ( $this->total * $discountValue ) / 100;
+        } else {
+            // Appliquez directement le montant de la réduction
+            $this->appliedDiscount = $discountValue;
         }
 
-        return $this;
-    }
-
-    public function removePayment( Payment $payment ) : static
-    {
-        if ( $this->payments->removeElement( $payment ) ) {
-            // set the owning side to null (unless already changed)
-            if ( $payment->getAppointment() === $this ) {
-                $payment->setAppointment( null );
-            }
-        }
+        // Ajustez le total après réduction
+        $this->total -= $this->appliedDiscount;
 
         return $this;
     }
 
-    public function getToken() : ?string
+    public function unapplyDiscount() : self
     {
-        return $this->token;
-    }
-
-    public function setToken( ?string $token ) : static
-    {
-        $this->token = $token;
+        $this->total += $this->appliedDiscount;
+        $this->appliedDiscount = 0;
 
         return $this;
     }
 
-    public function getItemName() : ?string
+    public function getRemainingAmount() : int
     {
-        return 'Rendez-vous n°' . $this->getId();
-    }
-
-    public function getItemDescription() : ?string
-    {
-        return $this->getPrestation()->getName();
+        return $this->total - $this->amountPaid;
     }
 }

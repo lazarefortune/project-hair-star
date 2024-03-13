@@ -2,6 +2,7 @@
 
 namespace App\Domain\Payment\Subscriber;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Event\PaymentFailedEvent;
 use App\Domain\Payment\Event\PaymentSuccessEvent;
@@ -34,12 +35,19 @@ class PaymentSubscriber implements EventSubscriberInterface
         // find the payment by id and update the status to success
         $payment = $this->em->getRepository( Payment::class )->find( $paymentId );
         if ( $payment ) {
-            $payment->setStatus( 'success' );
+            $payment->setStatus( Payment::STATUS_SUCCESS );
             $payment->setUpdatedAt( new \DateTime() );
             $payment->setSessionId( null );
             $this->em->persist( $payment );
             $this->em->flush();
         }
+
+        // TODO: refactor this (update amount paid in appointment)
+        /** @var Appointment $appointment */
+        $appointment = $payment->getTransaction()->getAppointments()->first();
+        $appointment->setAmountPaid( $appointment->getAmountPaid() + $payment->getAmount() );
+        $this->em->persist( $appointment );
+        $this->em->flush();
 
         // Dispatch an event to check if the transaction was successful
         $this->eventDispatcher->dispatch( new TransactionStatusCheckEvent( $payment->getTransaction()->getId() ) );

@@ -17,13 +17,13 @@ class Realisation
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?bool $isPublic = null;
+    private ?bool $isOnline = null;
 
-    #[ORM\Column( type: Types::FLOAT, nullable: true )]
-    private ?float $tarif = null;
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $amount = null;
 
-    #[ORM\Column( nullable: true )]
-    private ?bool $isTarifPublic = null;
+    #[ORM\Column( Types::BOOLEAN, nullable: true )]
+    private ?bool $isAmountPublic = null;
 
     #[ORM\Column( nullable: true )]
     private ?\DateTime $dateRealisation = null;
@@ -47,38 +47,38 @@ class Realisation
         return $this->id;
     }
 
-    public function isIsPublic() : ?bool
+    public function isOnline() : ?bool
     {
-        return $this->isPublic;
+        return $this->isOnline;
     }
 
-    public function setIsPublic( bool $isPublic ) : self
+    public function setIsOnline( ?bool $isOnline ) : self
     {
-        $this->isPublic = $isPublic;
+        $this->isOnline = $isOnline;
 
         return $this;
     }
 
-    public function getTarif() : ?float
+    public function getAmount() : ?int
     {
-        return $this->tarif;
+        return $this->amount;
     }
 
-    public function setTarif( ?float $tarif ) : self
+    public function setAmount( ?int $amount ) : self
     {
-        $this->tarif = $tarif;
+        $this->amount = $amount;
 
         return $this;
     }
 
-    public function isIsTarifPublic() : ?bool
+    public function isAmountPublic() : ?bool
     {
-        return $this->isTarifPublic;
+        return $this->isAmountPublic;
     }
 
-    public function setIsTarifPublic( ?bool $isTarifPublic ) : self
+    public function setIsAmountPublic( ?bool $isAmountPublic ) : self
     {
-        $this->isTarifPublic = $isTarifPublic;
+        $this->isAmountPublic = $isAmountPublic;
 
         return $this;
     }

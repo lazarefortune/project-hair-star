@@ -2,15 +2,15 @@
 
 namespace App\Domain\Application\Form;
 
+use App\Http\Type\ChoiceMultipleType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class OffDaysForm extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
-        $builder->add( 'offdays', ChoiceType::class, [
+        $builder->add( 'offdays', ChoiceMultipleType::class, [
             'label' => 'Jours de fermeture',
             'choices' => [
                 'Lundi' => '1',
@@ -23,7 +23,7 @@ class OffDaysForm extends AbstractType
             ],
             'multiple' => true,
             'expanded' => true,
-            'required' => true,
+            'required' => false,
             'label_attr' => [
                 'class' => 'label',
             ],

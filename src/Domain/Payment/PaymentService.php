@@ -2,18 +2,22 @@
 
 namespace App\Domain\Payment;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Entity\Transaction;
+use App\Domain\Payment\Event\PaymentSuccessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PaymentService
 {
-    private array $processors = [];
+    private array $processors;
 
     public function __construct(
-        array                                   $processors,
-        private readonly EntityManagerInterface $entityManager
+        array                                     $processors,
+        private readonly EntityManagerInterface   $entityManager,
+        private readonly EventDispatcherInterface $eventDispatcher,
     )
     {
         $this->processors = $processors;
@@ -22,92 +26,108 @@ class PaymentService
     /**
      * @throws Exception
      */
-    public function pay( float $amount, TransactionItemInterface $transactionItem, string $paymentMethod ) : mixed
+    public function pay( float $amount, Appointment $appointment, string $paymentMethod ) : mixed
     {
         $payment = new Payment();
         $payment->setPaymentMethod( $paymentMethod );
         $payment->setAmount( $amount );
 
-        return $this->processPayment( $payment, $transactionItem );
+        return $this->handlePaymentProcessing( $payment, $appointment );
     }
 
-    public function processPayment( Payment $payment, TransactionItemInterface $item ) : mixed
+    /**
+     * @throws Exception
+     */
+    private function handlePaymentProcessing( Payment $payment, Appointment $appointment ) : mixed
     {
         foreach ( $this->processors as $processor ) {
             if ( $processor->supports( $payment ) ) {
+                $transaction = $this->ensureTransaction( $appointment );
 
-                // Gestion de la transaction
-                $transaction = $this->entityManager->getRepository( Transaction::class )->findOneBy( [
-                    'transactionItemId' => $item->getId(),
-                    'transactionItemType' => $item::class
-                ] );
+                $this->validatePayment( $payment, $appointment, $transaction );
 
-                if ( !$transaction ) {
-                    $transaction = new Transaction();
+                $payment = $this->persistPayment( $payment, $transaction );
+
+                $paymentResult = $processor->processPayment( $payment, $appointment );
+                if ( $paymentResult instanceof PaymentResultDone ) {
+                    $this->eventDispatcher->dispatch( new PaymentSuccessEvent( $payment->getId() ) );
                 }
 
-                $transaction->setTotalAmount( $item->getAmount() );
-                $transaction->setTransactionItem( $item );
-                $transaction->setClient( $item->getClient() );
-
-                $this->entityManager->persist( $transaction );
-                $this->entityManager->flush();
-
-                // check if the transaction has already been paid
-                if ( $transaction->getStatus() === 'success' ) {
-                    throw new Exception( "La transaction a déjà été complétée" );
-                }
-
-                // Gestion du paiement
-                // On vérifie si la transaction a déjà été payée
-                if ( $transaction->getStatus() === 'paid' ) {
-                    throw new Exception( "La transaction a déjà été complétée" );
-                }
-
-                // On vérifie si le montant du paiement ne dépasse pas le montant de l'article
-                if ( $payment->getAmount() > $item->getAmount() ) {
-                    throw new Exception( "Le montant du paiement dépasse le montant de l'article" );
-                }
-
-                // On récupère tous les paiements VALIDES déjà effectués pour cette transaction
-                $payments = $this->entityManager->getRepository( Payment::class )->findBy( [
-                    'transaction' => $transaction,
-                    'status' => 'success'
-                ] );
-
-                // On calcule le montant total déjà payé
-                $totalPaid = 0;
-                foreach ( $payments as $p ) {
-                    $totalPaid += $p->getAmount();
-                }
-
-                $totalPaid = round( $totalPaid * 100 );
-                $paymentAmount = round( $payment->getAmount() * 100 );
-                $itemPrice = round( $item->getAmount() * 100 );
-
-                if ( $totalPaid + $paymentAmount > $itemPrice ) {
-                    throw new Exception( "Le montant du paiement est trop élevé" );
-                }
-
-                // On vérifie si il y a déjà un paiement en attente pour cette transaction
-                $pendingPayment = $this->entityManager->getRepository( Payment::class )->findOneBy( [
-                    'transaction' => $transaction,
-                    'paymentMethod' => $payment->getPaymentMethod(),
-                    'amount' => $payment->getAmount(),
-                    'status' => 'pending'
-                ] );
-
-                if ( !$pendingPayment ) {
-                    $payment->setTransaction( $transaction );
-                    $this->entityManager->persist( $payment );
-                    $this->entityManager->flush();
-                } else {
-                    $payment = $pendingPayment;
-                }
-
-                return $processor->processPayment( $payment, $item );
+                return $paymentResult;
             }
         }
+
         throw new Exception( "Méthode de paiement non supportée" );
+    }
+
+    private function ensureTransaction( Appointment $appointment ) : Transaction
+    {
+        $transaction = $appointment->getTransaction();
+        if ( !$transaction ) {
+            $transaction = new Transaction();
+            $transaction->setAmount( $appointment->getTotal() );
+            $transaction->setClient( $appointment->getClient() );
+            $transaction->setStatus( Transaction::STATUS_PENDING );
+            $transaction->addAppointment( $appointment );
+
+            $this->entityManager->persist( $transaction );
+            $this->entityManager->flush();
+        }
+
+        return $transaction;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function validatePayment( Payment $payment, Appointment $appointment, Transaction $transaction ) : void
+    {
+        if ( $transaction->getStatus() === Transaction::STATUS_COMPLETED ) {
+            throw new Exception( "La transaction a déjà été complétée" );
+        }
+
+        if ( $payment->getAmount() > $appointment->getTotal() ) {
+            throw new Exception( "Le montant du paiement dépasse le montant de l'article" );
+        }
+
+        $totalPaid = $this->getAmountPaid( $appointment );
+        if ( $totalPaid + $payment->getAmount() > $appointment->getTotal() ) {
+            throw new Exception( "Le montant du paiement est trop élevé" );
+        }
+    }
+
+    private function persistPayment( Payment $payment, Transaction $transaction ) : Payment
+    {
+        $existingPayment = $this->entityManager->getRepository( Payment::class )->findOneBy( [
+            'transaction' => $transaction,
+            'paymentMethod' => $payment->getPaymentMethod(),
+            'amount' => $payment->getAmount(),
+            'status' => Payment::STATUS_PENDING,
+        ] );
+
+        if ( !$existingPayment ) {
+            $payment->setTransaction( $transaction );
+            $this->entityManager->persist( $payment );
+        } else {
+            $payment = $existingPayment;
+        }
+
+        $this->entityManager->flush();
+        return $payment;
+    }
+
+    private function getAmountPaid( Appointment $appointment ) : float
+    {
+        $transaction = $appointment->getTransaction();
+        if ( !$transaction ) {
+            return 0;
+        }
+
+        $payments = $this->entityManager->getRepository( Payment::class )->findBy( [
+            'transaction' => $transaction,
+            'status' => Payment::STATUS_SUCCESS,
+        ] );
+
+        return array_sum( array_map( static fn( Payment $p ) => $p->getAmount(), $payments ) );
     }
 }

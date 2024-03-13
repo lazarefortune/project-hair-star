@@ -11,8 +11,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class DeleteAccountService
 {
-    final public const DAYS_BEFORE_DELETION = 7;
-
     public function __construct(
         private readonly AuthService              $authService,
         private readonly EventDispatcherInterface $dispatcher,
@@ -29,23 +27,33 @@ class DeleteAccountService
 
     public function deleteAccountRequest( User $user, Request $request ) : void
     {
-        if ( $user->getDeletedAt() !== null ) {
-            throw new \LogicException( 'La suppression de ce compte est déjà programmée pour le ' . $user->getDeletedAt()->format( 'd/m/Y' ) );
-        }
-
-        $unavailableRolesForDeletion = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
-
-        foreach ( $unavailableRolesForDeletion as $role ) {
-            if ( in_array( $role, $user->getRoles() ) ) {
-                throw new \LogicException( 'Impossible de supprimer un compte administrateur' );
-            }
-        }
+        $this->ensureAccountCanBeDeleted( $user );
 
         $this->authService->logout( $request );
         $this->dispatcher->dispatch( new UserDeleteRequestEvent( $user ) );
-        $user->setDeletedAt( new \DateTimeImmutable( sprintf( '+%d days', self::DAYS_BEFORE_DELETION ) ) );
+
+        $user->setDeletedAt( new \DateTimeImmutable( sprintf( '+%d days', User::DAYS_BEFORE_DELETION ) ) );
         $this->em->flush();
     }
+
+    /**
+     * Ensure the user account can be deleted.
+     *
+     * @param User $user
+     * @throws \LogicException If the account deletion is not allowed.
+     */
+    protected function ensureAccountCanBeDeleted( User $user ) : void
+    {
+        if ( null !== $user->getDeletedAt() ) {
+            throw new \LogicException( sprintf( 'La suppression de ce compte est déjà programmée pour le %s.', $user->getDeletedAt()->format( 'd/m/Y' ) ) );
+        }
+
+        $unavailableRolesForDeletion = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
+        if ( array_intersect( $unavailableRolesForDeletion, $user->getRoles() ) ) {
+            throw new \LogicException( 'Impossible de supprimer ce compte car vous avez un rôle interdisant la suppression.' );
+        }
+    }
+
 
     public function cancelAccountDeletionRequest( User $user ) : void
     {

@@ -3,6 +3,7 @@
 namespace App\Domain\Realisation\Form;
 
 use App\Domain\Realisation\Entity\Realisation;
+use App\Http\Type\PriceType;
 use App\Http\Type\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -17,10 +18,10 @@ class RealisationForm extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options ) : void
     {
         $builder
-            ->add( 'isPublic', SwitchType::class, [
+            ->add( 'isOnline', SwitchType::class, [
                 'label' => 'En ligne ?',
             ] )
-            ->add( 'tarif', MoneyType::class, [
+            ->add( 'amount', PriceType::class, [
                 'attr' => [
                     'class' => 'form-input-md',
                 ],
@@ -31,7 +32,7 @@ class RealisationForm extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'isTarifPublic', SwitchType::class, [
+            ->add( 'isAmountPublic', SwitchType::class, [
                 'label' => 'Prix public ?',
             ] )
             ->add( 'dateRealisation', DateType::class, [

@@ -5,7 +5,9 @@ namespace App\Domain\Prestation\Form;
 use App\Domain\Category\Entity\Category;
 use App\Domain\Prestation\Entity\Prestation;
 use App\Domain\Tag\Entity\Tag;
+use App\Helper\CentToEuroTransformer;
 use App\Helper\MinutesToTimeHelper;
+use App\Http\Type\PriceType;
 use App\Http\Type\SwitchType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,7 +24,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrestationForm extends AbstractType
 {
 
-    public function __construct( private readonly MinutesToTimeHelper $transformer )
+    public function __construct(
+        private readonly MinutesToTimeHelper $minutesToTimeHelper,
+    )
     {
     }
 
@@ -49,7 +53,7 @@ class PrestationForm extends AbstractType
                     'class' => 'label',
                 ],
             ] )
-            ->add( 'price', MoneyType::class, [
+            ->add( 'price', PriceType::class, [
                 'label' => 'Prix du service',
                 'currency' => 'EUR',
                 'required' => true,
@@ -229,7 +233,7 @@ class PrestationForm extends AbstractType
             ] );
 
 
-        $builder->get( 'bufferTime' )->addModelTransformer( $this->transformer );
+        $builder->get( 'bufferTime' )->addModelTransformer( $this->minutesToTimeHelper );
     }
 
     public function configureOptions( OptionsResolver $resolver ) : void

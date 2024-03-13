@@ -26,8 +26,8 @@ class Prestation
     private ?string $description = null;
 
 
-    #[ORM\Column( type: Types::FLOAT, nullable: true )]
-    private ?float $price = null;
+    #[ORM\Column( type: Types::INTEGER, nullable: true )]
+    private ?int $price = null;
 
     #[ORM\Column( type: Types::TIME_MUTABLE, nullable: true )]
     private ?\DateTimeInterface $duration = null;
@@ -72,7 +72,7 @@ class Prestation
     private ?float $childrenPricePercentage = null;
 
     #[ORM\OneToMany( mappedBy: 'prestation', targetEntity: Appointment::class, orphanRemoval: true )]
-    private Collection $bookings;
+    private Collection $appointments;
 
     public function __construct()
     {
@@ -109,12 +109,12 @@ class Prestation
         return $this;
     }
 
-    public function getPrice() : ?float
+    public function getPrice() : ?int
     {
         return $this->price;
     }
 
-    public function setPrice( ?float $price ) : self
+    public function setPrice( ?int $price ) : self
     {
         $this->price = $price;
 
@@ -309,27 +309,27 @@ class Prestation
     /**
      * @return Collection<int, Appointment>
      */
-    public function getBookings() : Collection
+    public function getAppointments() : Collection
     {
-        return $this->bookings;
+        return $this->appointments;
     }
 
-    public function addBooking( Appointment $booking ) : self
+    public function addAppointment( Appointment $appointment ) : self
     {
-        if ( !$this->bookings->contains( $booking ) ) {
-            $this->bookings->add( $booking );
-            $booking->setPrestation( $this );
+        if ( !$this->appointments->contains( $appointment ) ) {
+            $this->bookings->add( $appointment );
+            $appointment->setPrestation( $this );
         }
 
         return $this;
     }
 
-    public function removeBooking( Appointment $booking ) : self
+    public function removeAppointment( Appointment $appointment ) : self
     {
-        if ( $this->bookings->removeElement( $booking ) ) {
+        if ( $this->appointments->removeElement( $appointment ) ) {
             // set the owning side to null (unless already changed)
-            if ( $booking->getPrestation() === $this ) {
-                $booking->setPrestation( null );
+            if ( $appointment->getPrestation() === $this ) {
+                $appointment->setPrestation( null );
             }
         }
 

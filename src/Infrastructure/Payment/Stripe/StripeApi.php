@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Payment\Stripe;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\TransactionItemInterface;
@@ -116,11 +117,11 @@ class StripeApi
      * Crée une session de paiement et renvoie l'URL de paiement.
      * @throws ApiErrorException
      */
-    public function createPaymentSession( Payment $payment, TransactionItemInterface $transactionItem, string $url ) : string
+    public function createPaymentSession( Payment $payment, Appointment $appointment, string $url ) : string
     {
         $session = $this->stripe->checkout->sessions->create( [
-            'cancel_url' => $url . '?success=0&item_id=' . $transactionItem->getId(),
-            'success_url' => $url . '?success=1&item_id=' . $transactionItem->getId(),
+            'cancel_url' => $url . '?success=0&appointment_id=' . $appointment->getId(),
+            'success_url' => $url . '?success=1&appointment_id=' . $appointment->getId(),
             'mode' => 'payment',
             'payment_method_types' => [
                 'card',
@@ -128,12 +129,12 @@ class StripeApi
             'customer' => $payment->getTransaction()->getClient()->getStripeId(),
             'metadata' => [
                 'payment_id' => $payment->getId(),
-                'client_id' => $payment->getTransaction()->getClient()->getId(),
+                'client_id' => $appointment->getClient()->getId(),
             ],
             'payment_intent_data' => [
                 'metadata' => [
                     'payment_id' => $payment->getId(),
-                    'client_id' => $payment->getTransaction()->getClient()->getId(),
+                    'client_id' => $appointment->getClient()->getId(),
                 ],
             ],
             'line_items' => [
@@ -141,9 +142,9 @@ class StripeApi
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => $transactionItem->getItemName(),
+                            'name' => 'Réservation de rendez-vous du ' . $appointment->getDate()->format( 'd/m/Y' ) . ' à ' . $appointment->getTime()->format( 'H:i' ),
                         ],
-                        'unit_amount' => $payment->getAmount() * 100,
+                        'unit_amount' => $payment->getAmount(),
                     ],
                     'quantity' => 1,
                 ],

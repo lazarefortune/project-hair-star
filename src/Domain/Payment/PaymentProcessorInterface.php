@@ -2,6 +2,7 @@
 
 namespace App\Domain\Payment;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Payment\Entity\Payment;
 
 interface PaymentProcessorInterface
@@ -16,8 +17,8 @@ interface PaymentProcessorInterface
     /**
      * Process the payment
      * @param Payment $payment
-     * @param TransactionItemInterface $transactionItem
-     * @return void
+     * @param Appointment $appointment
+     * @return PaymentResult
      */
-    public function processPayment( Payment $payment, TransactionItemInterface $transactionItem ) : mixed;
+    public function processPayment( Payment $payment, Appointment $appointment ) : PaymentResult;
 }

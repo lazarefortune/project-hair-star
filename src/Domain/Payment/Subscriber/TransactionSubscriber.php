@@ -2,6 +2,7 @@
 
 namespace App\Domain\Payment\Subscriber;
 
+use App\Domain\Appointment\Event\AppointmentPaymentSuccessEvent;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Entity\Transaction;
 use App\Domain\Payment\Event\TransactionCompletedEvent;
@@ -33,22 +34,13 @@ class TransactionSubscriber implements EventSubscriberInterface
         // find the transaction by id and update the status to success
         $transaction = $this->em->getRepository( Transaction::class )->find( $transactionId );
         if ( $transaction ) {
-            $transaction->setStatus( 'completed' );
+            $transaction->setStatus( Transaction::STATUS_COMPLETED );
             $this->em->persist( $transaction );
             $this->em->flush();
+
+            $this->eventDispatcher->dispatch( new AppointmentPaymentSuccessEvent( $transaction->getAppointments() ) );
         }
 
-        // get the transactionItem
-        $transactionItemId = $transaction->getTransactionItemId();
-        $transactionItemType = $transaction->getTransactionItemType();
-
-        // get the transactionItem by id and update the status to success
-        $transactionItem = $this->em->getRepository( $transactionItemType )->find( $transactionItemId );
-        if ( $transactionItem ) {
-            $transactionItem->setPaymentStatus( 'success' );
-            $this->em->persist( $transactionItem );
-            $this->em->flush();
-        }
     }
 
     public function onTransactionStatusCheck( TransactionStatusCheckEvent $event ) : void
@@ -61,7 +53,7 @@ class TransactionSubscriber implements EventSubscriberInterface
             // get all payments with status success and check the transaction status
             $payments = $this->em->getRepository( Payment::class )->findBy( [
                 'transaction' => $transaction,
-                'status' => 'success',
+                'status' => Payment::STATUS_SUCCESS,
             ] );
             // Check total payments
             $totalPaid = 0;
@@ -69,7 +61,7 @@ class TransactionSubscriber implements EventSubscriberInterface
                 $totalPaid += $payment->getAmount();
             }
 
-            if ( $totalPaid == $transaction->getTotalAmount() ) {
+            if ( $totalPaid == $transaction->getAmount() ) {
                 // dispatch an event to mark the transaction as completed
                 $this->eventDispatcher->dispatch( new TransactionCompletedEvent( $transactionId ) );
             }

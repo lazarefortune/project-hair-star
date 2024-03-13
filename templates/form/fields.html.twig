@@ -32,13 +32,34 @@
     </div>
 {% endblock %}
 
-{% block choice_widget_expanded %}
-    <div {{ block('widget_container_attributes') }}>
-        {% for child in form %}
-            <div class="flex items-center space-x-2">
-                {{ form_widget(child) }}
-                {{ form_label(child) }}
-            </div>
-        {% endfor %}
+ {% block choice_widget_expanded %}
+     <div {{ block('widget_container_attributes') }}>
+         {% for child in form %}
+             <div class="flex items-center space-x-2">
+                 {{ form_widget(child) }}
+                 {{ form_label(child) }}
+             </div>
+         {% endfor %}
+     </div>
+ {% endblock %}
+
+{% block choice_multiple_row %}
+    <div {{ block('widget_container_attributes') }} class="w-full">
+        <ul class="flex flex-wrap gap-3">
+            {% for child in form %}
+                <li>
+                    <input type="checkbox" id="{{ child.vars.id }}" value="{{ child.vars.value }}" class="hidden peer"
+                           {% if child.vars.checked %}checked{% endif %}
+                           name="{{ full_name ~ '[]' }}"
+                            {{ block('widget_attributes') }}
+                    >
+                    <label for="{{ child.vars.id }}"
+                           class="flex items-center justify-between w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded cursor-pointer peer-checked:border-primary-600 hover:text-gray-600 peer-checked:text-primary-600 hover:bg-gray-50">
+                        <span class="text-base">{{ child.vars.label }}</span>
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
+

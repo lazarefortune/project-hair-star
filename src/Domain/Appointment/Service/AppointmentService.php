@@ -31,14 +31,20 @@ class AppointmentService
         return $this->appointmentRepository->findAllOrderedByDate();
     }
 
-    public function addAppointment( AppointmentData $appointmentDto ) : void
+    public function addAppointment( AppointmentData $appointmentDto, bool $autoConfirm = false ) : void
     {
         $appointment = ( new Appointment() )->setClient( $appointmentDto->client )
             ->setPrestation( $appointmentDto->prestation )
             ->setDate( $appointmentDto->date )
             ->setTime( $appointmentDto->time )
-            ->setToken( $this->tokenGeneratorService->generate() )
-            ->setAmount( $appointmentDto->prestation->getPrice() );
+            ->setAccessToken( $this->tokenGeneratorService->generate() )
+            ->setSubTotal( $appointmentDto->prestation->getPrice() )
+            ->setTotal( $appointmentDto->prestation->getPrice() );
+
+        // TODO: refactor this
+        if ( $autoConfirm ) {
+            $appointment->setIsConfirmed( true );
+        }
 
         $this->appointmentRepository->save( $appointment, true );
 
@@ -52,8 +58,7 @@ class AppointmentService
         $appointment = $appointmentDto->appointment->setClient( $appointmentDto->client )
             ->setPrestation( $appointmentDto->prestation )
             ->setDate( $appointmentDto->date )
-            ->setTime( $appointmentDto->time )
-            ->setAmount( $appointmentDto->prestation->getPrice() );
+            ->setTime( $appointmentDto->time );
 
         $this->appointmentRepository->save( $appointment, true );
 
@@ -94,9 +99,9 @@ class AppointmentService
         return $this->appointmentRepository->findReservedAppointments();
     }
 
-    public function getAppointmentByToken( string $token )
+    public function getAppointmentByAccessToken( string $accessToken )
     {
-        return $this->appointmentRepository->findOneBy( ['token' => $token] );
+        return $this->appointmentRepository->findOneBy( ['accessToken' => $accessToken] );
     }
 
     public function getAppointmentById( ?int $getId )

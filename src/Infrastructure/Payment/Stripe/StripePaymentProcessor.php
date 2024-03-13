@@ -6,6 +6,7 @@ use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Entity\User;
 use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\PaymentProcessorInterface;
+use App\Domain\Payment\PaymentResultUrl;
 use App\Infrastructure\Payment\Stripe\StripeApi;
 use App\Domain\Payment\TransactionItemInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StripePaymentProcessor implements PaymentProcessorInterface
 {
+
+    const PAYMENT_METHOD = 'stripe';
+
     public function __construct(
         private readonly StripeApi              $stripeApi,
         private readonly EntityManagerInterface $entityManager,
@@ -21,17 +25,16 @@ class StripePaymentProcessor implements PaymentProcessorInterface
     )
     {
     }
-
-
+    
     public function supports( Payment $payment ) : bool
     {
-        return $payment->getPaymentMethod() === 'stripe';
+        return $payment->getPaymentMethod() === self::PAYMENT_METHOD;
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function processPayment( Payment $payment, TransactionItemInterface $transactionItem ) : string
+    public function processPayment( Payment $payment, Appointment $appointment ) : PaymentResultUrl
     {
         // Si le montant est inférieur à 0.50€ on bloque le paiement
         if ( $payment->getAmount() < 0.50 ) {
@@ -41,13 +44,13 @@ class StripePaymentProcessor implements PaymentProcessorInterface
         // On s'assure que le client existe dans Stripe
         $this->ensureCustomerExists( $payment->getTransaction()->getClient() );
 
-        // Si la session est null on la crée
+        // Si la session est null, on la crée
         if ( !$payment->getSessionId() ) {
             $url = $this->urlGenerator->generate( 'app_payment_result', [
                 'id' => $payment->getId(),
             ], UrlGeneratorInterface::ABSOLUTE_URL );
 
-            $sessionId = $this->stripeApi->createPaymentSession( $payment, $transactionItem, $url );
+            $sessionId = $this->stripeApi->createPaymentSession( $payment, $appointment, $url );
 
             $payment->setSessionId( $sessionId )
                 ->setUpdatedAt( new \DateTimeImmutable() );
@@ -65,7 +68,7 @@ class StripePaymentProcessor implements PaymentProcessorInterface
                 'id' => $payment->getId(),
             ], UrlGeneratorInterface::ABSOLUTE_URL );
 
-            $sessionId = $this->stripeApi->createPaymentSession( $payment, $transactionItem, $url );
+            $sessionId = $this->stripeApi->createPaymentSession( $payment, $appointment, $url );
 
             $payment->setSessionId( $sessionId )
                 ->setUpdatedAt( new \DateTimeImmutable() );
@@ -76,24 +79,7 @@ class StripePaymentProcessor implements PaymentProcessorInterface
             $session = $this->stripeApi->getSession( $payment->getSessionId() );
         }
 
-        return $session->url;
-    }
-
-    private function deleteExistingSessions( Appointment $appointment ) : void
-    {
-        // Add logic to delete sessions here, if applicable.
-    }
-
-    private function processPaymentSession( Payment $payment ) : ?string
-    {
-        $session = $this->stripeApi->getSession( $payment->getSessionId() );
-
-        if ( $this->isSessionInvalid( $session ) ) {
-            $this->updateSessionForPayment( $payment );
-            $session = $this->stripeApi->getSession( $payment->getSessionId() );
-        }
-
-        return $session->url;
+        return new PaymentResultUrl( false, 'Payment redirected to Stripe', $session->url );
     }
 
     private function isSessionInvalid( $session ) : bool
@@ -134,6 +120,5 @@ class StripePaymentProcessor implements PaymentProcessorInterface
         $customerStripe = $this->stripeApi->getCustomer( $clientStripeId );
         return $customerStripe->isDeleted();
     }
-
 
 }

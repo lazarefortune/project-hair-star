@@ -17,11 +17,11 @@ class Payment
     #[ORM\Column( type: Types::INTEGER )]
     private ?int $id = null;
 
-    #[ORM\Column( type: Types::FLOAT )]
+    #[ORM\Column( type: Types::INTEGER )]
     private float $amount;
 
     #[ORM\Column( type: Types::STRING, length: 50 )]
-    private string $status = 'pending';
+    private string $status = self::STATUS_PENDING;
 
     #[ORM\Column( type: Types::STRING, length: 255, nullable: true )]
     private ?string $sessionId = null;
@@ -50,12 +50,12 @@ class Payment
         return $this->id;
     }
 
-    public function getAmount() : ?float
+    public function getAmount() : ?int
     {
         return $this->amount;
     }
 
-    public function setAmount( float $amount ) : static
+    public function setAmount( int $amount ) : static
     {
         $this->amount = $amount;
 

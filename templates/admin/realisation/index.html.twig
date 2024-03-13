@@ -55,9 +55,9 @@
                         <td class="uppercase">{{ realisation.id }}</td>
                         <td>{{ realisation.dateRealisation|human_date }}</td>
                         <td>{{ realisation.duration|duration_format }}</td>
-                        <td>{{ realisation.tarif|price_format }}</td>
+                        <td>{{ realisation.amount|price_format }}</td>
                         <td>
-                            {% if realisation.isPublic %}
+                            {% if realisation.isOnline %}
                                 <span class="badge badge-success">En ligne</span>
                             {% else %}
                                 <span class="badge badge-danger">Hors ligne</span>

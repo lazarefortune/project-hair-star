@@ -1,7 +1,7 @@
 {{ form_start(form) }}
 <div class="stack">
     <div class="card card-padding stack">
-        {{ form_row(form.isPublic) }}
+        {{ form_row(form.isOnline) }}
 
         <div class="grid2">
             {{ form_row(form.dateRealisation) }}
@@ -10,10 +10,10 @@
         </div>
 
         <div class="grid2">
-            {{ form_row(form.tarif) }}
+            {{ form_row(form.amount) }}
         </div>
 
-        {{ form_row(form.isTarifPublic) }}
+        {{ form_row(form.isAmountPublic) }}
 
         {% if app.request.attributes.get('_route') == 'app_admin_realisation_edit' %}
             {% if realisation.images|length > 0 %}

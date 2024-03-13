@@ -2,12 +2,15 @@
 
 namespace App\Domain\Appointment\Subscriber;
 
+use App\Domain\Appointment\Entity\Appointment;
+use App\Domain\Appointment\Event\AppointmentPaymentSuccessEvent;
 use App\Domain\Appointment\Event\CanceledAppointmentEvent;
 use App\Domain\Appointment\Event\ConfirmedAppointmentEvent;
 use App\Domain\Appointment\Event\CreatedAppointmentEvent;
 use App\Domain\Appointment\Event\UpdatedAppointmentEvent;
 use App\Infrastructure\AppConfigService;
 use App\Infrastructure\Mailing\MailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -15,9 +18,10 @@ class AppointmentSubscriber implements EventSubscriberInterface
 {
 
     public function __construct(
-        private readonly MailService           $mailService,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly AppConfigService      $appConfigService,
+        private readonly MailService            $mailService,
+        private readonly UrlGeneratorInterface  $urlGenerator,
+        private readonly AppConfigService       $appConfigService,
+        private readonly EntityManagerInterface $em,
     )
     {
     }
@@ -29,7 +33,19 @@ class AppointmentSubscriber implements EventSubscriberInterface
             UpdatedAppointmentEvent::class => 'onUpdateAppointment',
             ConfirmedAppointmentEvent::class => 'onConfirmAppointment',
             CanceledAppointmentEvent::class => 'onCanceledAppointment',
+            AppointmentPaymentSuccessEvent::class => 'onAppointmentPaymentSuccess',
         ];
+    }
+
+    public function onAppointmentPaymentSuccess( AppointmentPaymentSuccessEvent $event ) : void
+    {
+        $appointments = $event->getAppointments();
+        // set appointment status to confirmed
+        foreach ( $appointments as $appointment ) {
+            $appointment->setIsPaid( true );
+            $this->em->persist( $appointment );
+        }
+        $this->em->flush();
     }
 
     public function onNewAppointment( CreatedAppointmentEvent $event ) : void
@@ -38,7 +54,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $client = $event->getAppointment()->getClient();
         $appointment = $event->getAppointment();
 
-        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $event->getAppointment()->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
 
 
@@ -69,7 +85,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $appointment = $event->getAppointment();
 
         $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
 
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/appointment/modification-reservation.twig', [
@@ -98,7 +114,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $appointment = $event->getAppointment();
 
         $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/appointment/confirmation-reservation.twig', [
             'appointment' => $appointment,
@@ -126,7 +142,7 @@ class AppointmentSubscriber implements EventSubscriberInterface
         $appointment = $event->getAppointment();
 
         $appointmentUrlAdmin = $this->urlGenerator->generate( 'app_admin_appointment_show', ['id' => $appointment->getId()], UrlGeneratorInterface::ABSOLUTE_URL );
-        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getToken()], UrlGeneratorInterface::ABSOLUTE_URL );
+        $appointmentUrlClient = $this->urlGenerator->generate( 'app_appointment_manage', ['token' => $appointment->getAccessToken()], UrlGeneratorInterface::ABSOLUTE_URL );
         // Envoi de l'email de confirmation au client
         $email = $this->mailService->createEmail( 'mails/appointment/annulation-reservation.twig', [
             'appointment' => $appointment,

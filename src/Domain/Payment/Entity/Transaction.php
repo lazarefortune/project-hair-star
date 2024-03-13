@@ -2,8 +2,8 @@
 
 namespace App\Domain\Payment\Entity;
 
+use App\Domain\Appointment\Entity\Appointment;
 use App\Domain\Auth\Entity\User;
-use App\Domain\Payment\TransactionItemInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,29 +12,30 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Transaction
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_CANCELED = 'canceled';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column( type: Types::INTEGER )]
     private ?int $id = null;
 
-    #[ORM\Column( type: Types::FLOAT )]
-    private float $totalAmount;
+    #[ORM\Column( type: Types::INTEGER )]
+    private float $amount;
 
     #[ORM\Column( type: Types::STRING, length: 255 )]
-    private string $status = 'pending';
+    private string $status;
 
     #[ORM\ManyToOne( inversedBy: 'transactions' )]
     #[ORM\JoinColumn( nullable: false )]
     private ?User $client = null;
 
+    #[ORM\OneToMany( mappedBy: 'transaction', targetEntity: Appointment::class )]
+    private Collection $appointments;
+
     #[ORM\OneToMany( mappedBy: 'transaction', targetEntity: Payment::class, orphanRemoval: true )]
     private Collection $payments;
-
-    #[ORM\Column( type: Types::INTEGER )]
-    private int $transactionItemId;
-
-    #[ORM\Column( type: Types::STRING, length: 255 )]
-    private string $transactionItemType;
 
     #[ORM\Column( type: Types::DATETIME_IMMUTABLE )]
     private \DateTimeImmutable $createdAt;
@@ -44,9 +45,10 @@ class Transaction
 
     public function __construct()
     {
+        $this->payments = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->payments = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
     }
 
     public function getId() : ?int
@@ -54,14 +56,14 @@ class Transaction
         return $this->id;
     }
 
-    public function getTotalAmount() : ?float
+    public function getAmount() : ?float
     {
-        return $this->totalAmount;
+        return $this->amount;
     }
 
-    public function setTotalAmount( float $totalAmount ) : static
+    public function setAmount( int $amount ) : static
     {
-        $this->totalAmount = $totalAmount;
+        $this->amount = $amount;
 
         return $this;
     }
@@ -117,22 +119,31 @@ class Transaction
         return $this;
     }
 
-    public function setTransactionItem( TransactionItemInterface $transactionItem ) : self
+    public function addAppointment( Appointment $appointment ) : self
     {
-        $this->transactionItemId = $transactionItem->getId();
-        $this->transactionItemType = get_class( $transactionItem );
+        if ( !$this->appointments->contains( $appointment ) ) {
+            $this->appointments[] = $appointment;
+            $appointment->setTransaction( $this );
+        }
 
         return $this;
     }
 
-    public function getTransactionItemType() : string
+    public function removeAppointment( Appointment $appointment ) : self
     {
-        return $this->transactionItemType;
+        if ( $this->appointments->removeElement( $appointment ) ) {
+            // set the owning side to null (unless already changed)
+            if ( $appointment->getTransaction() === $this ) {
+                $appointment->setTransaction( null );
+            }
+        }
+
+        return $this;
     }
 
-    public function getTransactionItemId() : int
+    public function getAppointments() : Collection
     {
-        return $this->transactionItemId;
+        return $this->appointments;
     }
 
     public function getCreatedAt() : \DateTimeImmutable

@@ -2,12 +2,18 @@
 
 namespace App\Http\Twig;
 
+use App\Helper\CentToEuroTransformer;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class TwigExtension extends AbstractExtension
 {
+    public function __construct( private readonly CentToEuroTransformer $centToEuroTransformer )
+    {
+    }
+
+
     public function getFunctions() : array
     {
         return [
@@ -22,7 +28,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFilter( 'duration_format', [$this, 'durationFormat'] ),
-            new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
+            new TwigFilter( 'money', [$this, 'priceFormat'] ),
             new TwigFilter( 'is_older_than_hours', [$this, 'isOlderThanHours'] ),
             new TwigFilter( 'json_decode', [$this, 'jsonDecode'] ),
             new TwigFilter( 'date_age', [$this, 'formatDateAge'] ),
@@ -30,7 +36,13 @@ class TwigExtension extends AbstractExtension
             new TwigFilter( 'hour_lisible', [$this, 'formatHourLisible'] ),
             new TwigFilter( 'ago', [$this, 'formatAgo'] ),
             new TwigFilter( 'date_diff', [$this, 'dateDiff'] ),
+            new TwigFilter( 'price_format', [$this, 'priceFormat'] ),
         ];
+    }
+
+    public function formatPrice( $value ) : string
+    {
+        return $this->centToEuroTransformer->transform( $value ) . ' €';
     }
 
     public function formatAgo( \DateTime $date ) : string
@@ -96,37 +108,37 @@ class TwigExtension extends AbstractExtension
         }
     }
 
-    public function dateDiff($date): string
+    public function dateDiff( $date ) : string
     {
-        if (!$date instanceof \DateTime && !$date instanceof \DateTimeImmutable) {
+        if ( !$date instanceof \DateTime && !$date instanceof \DateTimeImmutable ) {
             return 'Invalid date';
         }
 
         $now = new \DateTime();
-        $interval = $now->diff($date);
+        $interval = $now->diff( $date );
 
-        return $this->formatDateDiff($interval, $date < $now);
+        return $this->formatDateDiff( $interval, $date < $now );
     }
 
-    private function formatDateDiff(\DateInterval $interval, bool $isPast): string
+    private function formatDateDiff( \DateInterval $interval, bool $isPast ) : string
     {
         $format = '';
 
-        if ($interval->y > 0) {
-            $format .= $interval->y . ' ' . $this->pluralize($interval->y, 'an');
-        } elseif ($interval->m > 0) {
-            $format .= $interval->m . ' ' . $this->pluralize($interval->m, 'mois', 'mois');
-        } elseif ($interval->d > 0) {
-            $format .= $interval->d . ' ' . $this->pluralize($interval->d, 'jour');
-        } elseif ($interval->h > 0) {
-            $format .= $interval->h . ' ' . $this->pluralize($interval->h, 'heure');
-        } elseif ($interval->i > 0) {
-            $format .= $interval->i . ' ' . $this->pluralize($interval->i, 'minute');
+        if ( $interval->y > 0 ) {
+            $format .= $interval->y . ' ' . $this->pluralize( $interval->y, 'an' );
+        } elseif ( $interval->m > 0 ) {
+            $format .= $interval->m . ' ' . $this->pluralize( $interval->m, 'mois', 'mois' );
+        } elseif ( $interval->d > 0 ) {
+            $format .= $interval->d . ' ' . $this->pluralize( $interval->d, 'jour' );
+        } elseif ( $interval->h > 0 ) {
+            $format .= $interval->h . ' ' . $this->pluralize( $interval->h, 'heure' );
+        } elseif ( $interval->i > 0 ) {
+            $format .= $interval->i . ' ' . $this->pluralize( $interval->i, 'minute' );
         } else {
-            $format .= $interval->s . ' ' . $this->pluralize($interval->s, 'seconde');
+            $format .= $interval->s . ' ' . $this->pluralize( $interval->s, 'seconde' );
         }
 
-        if ($isPast) {
+        if ( $isPast ) {
             return 'il y a ' . $format;
         } else {
             return 'dans ' . $format;
@@ -153,9 +165,10 @@ class TwigExtension extends AbstractExtension
         return $totalHours >= $hours;
     }
 
-    public function priceFormat( float $price ) : string
+    public function priceFormat( $value ) : string
     {
-        return number_format( $price, 2, ',', ' ' ) . ' €';
+        return $this->centToEuroTransformer->transform( $value ) . ' €';
+//        return number_format( $price, 2, ',', ' ' ) . ' €';
     }
 
     public function durationFormat( ?\DateTime $dateTime ) : string

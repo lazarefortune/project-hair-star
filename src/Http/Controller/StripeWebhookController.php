@@ -7,6 +7,7 @@ use App\Domain\Appointment\Repository\AppointmentRepository;
 
 //use App\Domain\Payment\Event\PaymentSuccessEvent;
 //use App\Domain\Payment\Repository\PaymentRepository;
+use App\Domain\Payment\Entity\Payment;
 use App\Domain\Payment\Entity\Transaction;
 use App\Domain\Payment\Event\PaymentFailedEvent;
 use App\Domain\Payment\Event\PaymentSuccessEvent;
@@ -59,13 +60,6 @@ class StripeWebhookController extends AbstractController
 
                 // TODO: dispatch event to send email to user with invoice and change appointment status
                 $paymentId = $data->metadata->payment_id;
-                // find the payment by id and update the status to success
-                $payment = $this->entityManager->getRepository( Transaction::class )->find( $paymentId );
-                if ( $payment ) {
-                    $payment->setStatus( 'success' );
-                    $this->entityManager->persist( $payment );
-                    $this->entityManager->flush();
-                }
                 $this->eventDispatcher->dispatch( new PaymentSuccessEvent( $paymentId ) );
                 break;
             case 'payment_intent.succeeded':
